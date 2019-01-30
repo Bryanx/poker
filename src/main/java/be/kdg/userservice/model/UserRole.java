@@ -7,22 +7,14 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "tb_user")
-public class User {
+@Table(name = "tb_user_role")
+public class UserRole {
     @Id
     @GeneratedValue(generator = "uuid-gen")
     @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
     private String id;
-
-    @Column(name = "username")
-    private String userName;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "enabled")
-    private int enabled;
+    @Column(name = "user_id")
+    private String userId;
+    @Column(name = "role")
+    private String role;
 }

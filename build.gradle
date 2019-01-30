@@ -30,4 +30,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.4.RELEASE'
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+
+
 }

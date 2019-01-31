@@ -19,8 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @ComponentScan(basePackageClasses = CustomUserDetails.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserServiceImpl userService;
+
     @Autowired
-    private UserServiceImpl userService;
+    public SecurityConfig(UserServiceImpl userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void globalUserDetails(final AuthenticationManagerBuilder auth) throws Exception {

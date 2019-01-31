@@ -1,5 +1,6 @@
-package be.kdg.userservice.security.config;
+package be.kdg.userservice.config;
 
+import be.kdg.userservice.security.config.JWTTokenEnhancerConfig;
 import be.kdg.userservice.user.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -62,10 +63,19 @@ public class JWTConfig {
     }
 
     @Bean
-    public AuthorizationServerTokenServices defaultTokenServices() {
+    public AuthorizationServerTokenServices authorizationServerTokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(tokenStore());
         defaultTokenServices.setClientDetailsService(clientDetailsService);
+        defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
+        defaultTokenServices.setSupportRefreshToken(true);
+        return defaultTokenServices;
+    }
+
+    @Bean
+    public ResourceServerTokenServices resourceTokenServices() {
+        DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
+        defaultTokenServices.setTokenStore(tokenStore());
         defaultTokenServices.setTokenEnhancer(tokenEnhancerChain());
         defaultTokenServices.setSupportRefreshToken(true);
         return defaultTokenServices;

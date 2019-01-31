@@ -1,5 +1,6 @@
 package be.kdg.userservice.security.config;
 
+import be.kdg.userservice.config.JWTConfig;
 import be.kdg.userservice.user.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -48,7 +49,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenServices(jwtConfig.defaultTokenServices())
+                .tokenServices(jwtConfig.authorizationServerTokenServices())
                 .userDetailsService(userService)
                 .authenticationManager(authenticationManager);
     }

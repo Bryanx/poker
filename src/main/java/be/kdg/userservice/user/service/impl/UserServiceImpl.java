@@ -1,9 +1,9 @@
-package be.kdg.userservice.service.impl;
+package be.kdg.userservice.user.service.impl;
 
-import be.kdg.userservice.model.User;
-import be.kdg.userservice.persistence.UserRolesRepository;
-import be.kdg.userservice.persistence.UserRepository;
-import be.kdg.userservice.security.oauth2.CustomUserDetails;
+import be.kdg.userservice.user.model.User;
+import be.kdg.userservice.user.persistence.UserRolesRepository;
+import be.kdg.userservice.user.persistence.UserRepository;
+import be.kdg.userservice.security.model.CustomUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

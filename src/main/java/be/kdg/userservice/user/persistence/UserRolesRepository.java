@@ -1,6 +1,6 @@
-package be.kdg.userservice.persistence;
+package be.kdg.userservice.user.persistence;
 
-import be.kdg.userservice.model.UserRole;
+import be.kdg.userservice.user.model.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

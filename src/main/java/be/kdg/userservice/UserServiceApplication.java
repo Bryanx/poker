@@ -1,6 +1,6 @@
 package be.kdg.userservice;
 
-import be.kdg.userservice.boot.CreateDefaultUserListener;
+import be.kdg.userservice.user.boot.CreateDefaultUserListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

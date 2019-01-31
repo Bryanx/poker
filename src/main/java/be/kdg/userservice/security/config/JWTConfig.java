@@ -1,6 +1,6 @@
-package be.kdg.userservice.security.oauth2;
+package be.kdg.userservice.security.config;
 
-import be.kdg.userservice.service.impl.UserServiceImpl;
+import be.kdg.userservice.user.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class JWTConfiguration {
+public class JWTConfig {
     private final ClientDetailsService clientDetailsService;
     private final UserServiceImpl userService;
 
     @Autowired
-    public JWTConfiguration(ClientDetailsService clientDetailsService, UserServiceImpl userService) {
+    public JWTConfig(ClientDetailsService clientDetailsService, UserServiceImpl userService) {
         this.clientDetailsService = clientDetailsService;
         this.userService = userService;
     }
@@ -32,7 +32,7 @@ public class JWTConfiguration {
     public TokenEnhancerChain tokenEnhancerChain() {
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         List tokenEnhancerList = new ArrayList();
-        tokenEnhancerList.add(new JWTTokenEnhancer());
+        tokenEnhancerList.add(new JWTTokenEnhancerConfig());
         tokenEnhancerList.add(tokenEnhancer());
 
         tokenEnhancerChain.setTokenEnhancers(tokenEnhancerList);

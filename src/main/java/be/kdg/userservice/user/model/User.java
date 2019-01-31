@@ -1,4 +1,4 @@
-package be.kdg.userservice.model;
+package be.kdg.userservice.user.model;
 
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;

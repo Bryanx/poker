@@ -1,9 +1,9 @@
-package be.kdg.userservice.boot;
+package be.kdg.userservice.user.boot;
 
-import be.kdg.userservice.model.User;
-import be.kdg.userservice.model.UserRole;
-import be.kdg.userservice.persistence.UserRolesRepository;
-import be.kdg.userservice.persistence.UserRepository;
+import be.kdg.userservice.user.model.User;
+import be.kdg.userservice.user.model.UserRole;
+import be.kdg.userservice.user.persistence.UserRolesRepository;
+import be.kdg.userservice.user.persistence.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

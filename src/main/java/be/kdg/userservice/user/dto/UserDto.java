@@ -1,4 +1,4 @@
-package be.kdg.userservice.dto;
+package be.kdg.userservice.user.dto;
 
 import lombok.Data;
 

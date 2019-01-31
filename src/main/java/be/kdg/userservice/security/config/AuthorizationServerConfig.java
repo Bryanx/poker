@@ -1,6 +1,6 @@
-package be.kdg.userservice.security.oauth2;
+package be.kdg.userservice.security.config;
 
-import be.kdg.userservice.service.impl.UserServiceImpl;
+import be.kdg.userservice.user.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -16,14 +16,14 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
     private final UserServiceImpl userService;
-    private final JWTConfiguration jwtConfiguration;
+    private final JWTConfig jwtConfig;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthorizationServerConfig(UserServiceImpl userService, JWTConfiguration jwtConfiguration, @Qualifier("authenticationManagerBean") AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+    public AuthorizationServerConfig(UserServiceImpl userService, JWTConfig jwtConfig, @Qualifier("authenticationManagerBean") AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
         this.userService = userService;
-        this.jwtConfiguration = jwtConfiguration;
+        this.jwtConfig = jwtConfig;
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
     }
@@ -48,7 +48,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenServices(jwtConfiguration.defaultTokenServices())
+                .tokenServices(jwtConfig.defaultTokenServices())
                 .userDetailsService(userService)
                 .authenticationManager(authenticationManager);
     }

@@ -1,4 +1,4 @@
-package be.kdg.userservice.controller;
+package be.kdg.userservice.user.controller;
 
 
 import org.springframework.web.bind.annotation.*;

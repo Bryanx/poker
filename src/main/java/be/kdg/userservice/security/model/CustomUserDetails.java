@@ -1,6 +1,6 @@
-package be.kdg.userservice.security.oauth2;
+package be.kdg.userservice.security.model;
 
-import be.kdg.userservice.model.User;
+import be.kdg.userservice.user.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;

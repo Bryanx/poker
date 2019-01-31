@@ -1,5 +1,6 @@
-package be.kdg.userservice.security.oauth2;
+package be.kdg.userservice.security.config;
 
+import be.kdg.userservice.security.model.CustomUserDetails;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-public class JWTTokenEnhancer implements TokenEnhancer {
+public class JWTTokenEnhancerConfig implements TokenEnhancer {
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();

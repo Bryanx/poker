@@ -1,0 +1,38 @@
+build:
+  stage: build
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm install --quiet
+    - npm run build-prod
+  artifacts:
+    paths:
+      - dist/
+
+test:
+  stage: test
+  cache:
+    policy: pull
+    paths:
+      - node_modules/
+  script:
+    - npm run test-ci
+    - npm run e2e-ci
+
+deploy_prod:
+  stage: deploy
+  only:
+    - master
+  dependencies:
+    - build
+  cache:
+    policy: pull
+    paths:
+      - node_modules/
+  script:
+    - npm run deploy
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=poker-web-client --api-key=$HEROKU_PRODUCTION_API_KEY

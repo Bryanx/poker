@@ -19,10 +19,6 @@ build:
 test:
   image: weltn24/up-docker-node-chrome-headless
   stage: test
-  cache:
-    policy: pull
-    paths:
-      - node_modules/
   script:
     - npm run ng test
 

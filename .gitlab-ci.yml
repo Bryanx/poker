@@ -24,8 +24,10 @@ test:
       - node_modules/
   script:
     - npm run ng test
-deploy_prod:
+
+production:
   stage: deploy
+  image: ruby:latest
   only:
     - master
   dependencies:
@@ -35,7 +37,6 @@ deploy_prod:
     paths:
       - node_modules/
   script:
-    - npm run deploy
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl

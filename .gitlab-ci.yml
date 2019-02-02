@@ -1,4 +1,8 @@
-image: shell
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
 build:
   stage: build
   cache:

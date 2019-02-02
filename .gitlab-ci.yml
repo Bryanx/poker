@@ -17,7 +17,7 @@ build:
       - dist/
 
 test:
-  image: weltn24/up-docker-node-chrome-headless
+  image: springmedia/rbbt-docker-node-chrome-headless
   stage: test
   script:
     - npm run ng test

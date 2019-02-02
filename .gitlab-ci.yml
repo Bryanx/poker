@@ -20,7 +20,7 @@ test:
   image: juristr/angular-ci-build:1.0.0
   stage: test
   script:
-    - npm run ng test
+    - npm run ng test --no-sandbox
 
 production:
   stage: deploy

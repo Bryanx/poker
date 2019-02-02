@@ -3,6 +3,7 @@ image: node:latest
 cache:
   paths:
     - node_modules/
+
 build:
   stage: build
   cache:
@@ -10,7 +11,7 @@ build:
       - node_modules/
   script:
     - npm install --quiet
-    - npm run build-prod
+    - npm run build
   artifacts:
     paths:
       - dist/

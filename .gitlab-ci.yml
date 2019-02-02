@@ -1,3 +1,9 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
 build:
   stage: build
   cache:
@@ -5,23 +11,20 @@ build:
       - node_modules/
   script:
     - npm install --quiet
-    - npm run build-prod
+    - npm run build
   artifacts:
     paths:
       - dist/
 
 test:
+  image: juristr/angular-ci-build:1.0.0
   stage: test
-  cache:
-    policy: pull
-    paths:
-      - node_modules/
   script:
     - npm run test-ci
-    - npm run e2e-ci
 
-deploy_prod:
+production:
   stage: deploy
+  image: ruby:latest
   only:
     - master
   dependencies:
@@ -31,7 +34,6 @@ deploy_prod:
     paths:
       - node_modules/
   script:
-    - npm run deploy
     - apt-get update -qy
     - apt-get install -y ruby-dev
     - gem install dpl

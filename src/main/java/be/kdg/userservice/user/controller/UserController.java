@@ -1,7 +1,10 @@
 package be.kdg.userservice.user.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import be.kdg.userservice.user.dto.UserDto;
+import be.kdg.userservice.user.model.User;
+import be.kdg.userservice.user.service.api.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,27 +19,21 @@ import java.util.Map;
 @RequestMapping("/api")
 public class UserController {
     private final ResourceServerTokenServices tokenServices;
+    private final UserService userServiceImpl;
+    private final ModelMapper modelMapper;
 
-    public UserController(ResourceServerTokenServices tokenServices) {
+    public UserController(ResourceServerTokenServices tokenServices, UserService userServiceImpl, ModelMapper modelMapper) {
         this.tokenServices = tokenServices;
+        this.userServiceImpl = userServiceImpl;
+        this.modelMapper = modelMapper;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/endpointuser")
-    public ResponseEntity<String> endPointUser(OAuth2Authentication authentication) {
+    @GetMapping("/user")
+    public ResponseEntity<UserDto> endPointUser(OAuth2Authentication authentication) {
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
         Map<String, Object> additionalInfo = tokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
-        return new ResponseEntity<>(String.format("Your UUID: %s, your username: %s, your role: %s", additionalInfo.get("uuid").toString(), additionalInfo.get("username").toString(),
-                additionalInfo.get("role").toString()), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @RequestMapping(value = "/endpointadmin", method = RequestMethod.GET)
-    public ResponseEntity<String> endPointAdmin(OAuth2Authentication authentication) {
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        Map<String, Object> additionalInfo = tokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
-        return new ResponseEntity<String>("Your UUID: " + additionalInfo.get("uuid").toString()
-                + " , your username: " + authentication.getPrincipal() + " and your role ADMIN",
-                HttpStatus.OK);
+        User user = userServiceImpl.findUserById(additionalInfo.get("uuid").toString());
+        return new ResponseEntity<>(modelMapper.map(user, UserDto.class), HttpStatus.OK);
     }
 }

@@ -35,7 +35,7 @@ public class CreateDefaultUserListener implements ApplicationListener<ContextRef
         user.setEmail("test@test.com");
         user.setEnabled(1);
         user.setUserName("remismeets");
-        user.setPassword(passwordEncoder.encode("hackerboy123"));
+        user.setPassword(passwordEncoder.encode("12345"));
         userRepository.save(user);
 
         UserRole role = new UserRole();

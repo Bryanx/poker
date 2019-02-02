@@ -17,7 +17,7 @@ build:
       - dist/
 
 test:
-  image: springmedia/rbbt-docker-node-chrome-headless
+  image: juristr/angular-ci-build:1.0.0
   stage: test
   script:
     - npm run ng test

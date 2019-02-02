@@ -23,9 +23,7 @@ test:
     paths:
       - node_modules/
   script:
-    - npm run test-ci
-    - npm run e2e-ci
-
+    - npm run ng test
 deploy_prod:
   stage: deploy
   only:

@@ -1,0 +1,47 @@
+/* Colors: */
+$background-color: #383A4F;
+$green: #44E2A8;
+$blue: #66D9EF;
+$red: #F92672;
+$facebook-blue: #4267b2;
+$dark-gray: #727272;
+
+$inputFontSize: 1.3rem;
+$inputPaddingV: .3rem;
+$inputPaddingH: .7rem;
+$inputLineHeight: 3rem;
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: $background-color;
+  font-family: 'Open Sans', sans-serif;
+}
+
+button {
+  padding: 0.7em 1.4em;
+  border-radius: 0.15em;
+  text-decoration: none;
+  font-weight: 400;
+  color: #FFFFFF;
+  background-color: $green;
+  text-align: center;
+  border: none;
+  font-size: 1.5rem;
+  min-width: 10rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  &:hover {
+    background: darken($green, 15%)
+  }
+}
+
+button:active {
+  top: 0.1em;
+}
+
+h1 {
+  font-size: 4rem;
+}

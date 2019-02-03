@@ -20,6 +20,7 @@ test:
   image: juristr/angular-ci-build:1.0.0
   stage: test
   script:
+    - npm rebuild node-sass
     - npm run test-ci
 
 production:

@@ -1,0 +1,41 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1>LOGIN</h1>
+
+  <section class="social-media">
+    <a href="#">
+      <img src="assets/img/icons/icon-facebook.png" alt="FACEBOOK">
+      Facebook
+    </a>
+    <a href="#">
+      <img src="assets/img/icons/icon-google.png" alt="GOOGLE">
+      Google
+    </a>
+  </section>
+
+  <section class="username">
+    <label>Username</label>
+    <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
+    <div class="error"
+         *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">
+      Username is required
+    </div>
+  </section>
+
+  <section class="password">
+    <label>Password</label>
+    <input type="password" name="password" formControlName="password" id="password" autocomplete="off">
+    <div class="error"
+         *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+      Password is required
+    </div>
+  </section>
+
+  <button [disabled]="loginForm.invalid">
+    LOGIN
+  </button>
+  <div class="error" *ngIf="error">{{error}}</div>
+
+  <a class="no-account" routerLink="/signup">
+    I don't have an account bro :-(
+  </a>
+</form>

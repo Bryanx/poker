@@ -15,7 +15,7 @@ gradle-build:
   stage: build
   only:
     - master
-  script: "./gradlew build"
+  script: "chmod +x ./gradlew build"
   artifacts:
     paths:
       - build/libs/*.jar

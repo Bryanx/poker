@@ -28,12 +28,13 @@
          *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
       Password is required
     </div>
+    <div class="error" *ngIf="error">{{error}}</div>
   </section>
 
   <button [disabled]="loginForm.invalid">
     LOGIN
   </button>
-  <div class="error" *ngIf="error">{{error}}</div>
+
 
   <a class="no-account" routerLink="/register">
     I don't have an account bro :-(

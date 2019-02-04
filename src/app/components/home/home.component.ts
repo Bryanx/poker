@@ -13,4 +13,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  isAuthenticated() {
+    return this.authorizationService.isAuthenticated();
+  }
+
 }

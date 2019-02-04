@@ -12,8 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Configuration class that enables us to change to content of JWT.
+ */
 @Configuration
 public class JWTTokenEnhancerConfig implements TokenEnhancer {
+    /**
+     * Adds our custom claims to the JWT, it adds our id, username and role to the payload.
+     */
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();

@@ -13,6 +13,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 
+/**
+ * Configuration class that configures the authorization server, it will handle the creation of JWT based on the
+ * received authentication credentials.
+ */
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
@@ -29,6 +33,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Change default settings of SecurityConfigurerAdapter.
+     */
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
         oauthServer
@@ -36,6 +43,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .checkTokenAccess("isAuthenticated()");
     }
 
+    /**
+     * Configure in memory which clients are known with their encoded passwords. Configure which grand types are used
+     * and how long the JWT will stay valid
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
@@ -46,6 +57,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .refreshTokenValiditySeconds(600);
     }
 
+    /**
+     * Configure the settings of your authorization endpoint /oauth/token. We set the tokenService, our own userService
+     * and an authenticationManager.
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints

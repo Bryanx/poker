@@ -19,6 +19,9 @@ public class Room {
     @Getter
     private int id;
 
+    @Getter
+    private final String name;
+
     /**
      * Players that are taking part in the current round of poker.
      */
@@ -47,10 +50,11 @@ public class Room {
     /**
      * @param gameRules The rules that are associated with this room.
      */
-    public Room(GameRules gameRules) {
+    public Room(GameRules gameRules, String name) {
         this.playersInRound = new ArrayList<>();
         this.playedRounds = new ArrayList<>();
         this.gameRules = gameRules;
+        this.name = name;
     }
 
     /**

@@ -16,11 +16,6 @@ public final class Act {
     private int id;
 
     /**
-     * The round the act was played in.
-     */
-    private final Round round;
-
-    /**
      * The player that was associated with the act.
      */
     private final Player player;
@@ -31,6 +26,13 @@ public final class Act {
      * @see ActType
      */
     private final ActType type;
+
+    /**
+     * The phase of the round that the act happened in.
+     *
+     * @see Phase
+     */
+    private final Phase phase;
 
     /**
      * An optional bet that is officiated

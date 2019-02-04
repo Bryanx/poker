@@ -6,6 +6,11 @@ package be.kdg.gameservice.round.model;
  */
 public enum ActType {
     /**
+     * The ActType is undecided.
+     */
+    UNDECIDED,
+
+    /**
      * Player passes this round.
      */
     FOLD,

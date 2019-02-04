@@ -1,11 +1,14 @@
 package be.kdg.gameservice.round.model;
 
 import be.kdg.gameservice.ImmutabilityTesting;
+import be.kdg.gameservice.room.model.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -16,7 +19,7 @@ public final class RoundTest extends ImmutabilityTesting {
 
     @Before
     public void setup() {
-        this.round = new Round();
+        this.round = new Round(new ArrayList<>());
     }
 
     @Test
@@ -28,7 +31,22 @@ public final class RoundTest extends ImmutabilityTesting {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void testGetCardsFail() {
+    public void testGetCards() {
         testImmutabilityCollection(round.getCards());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetParticipatingPlayers() {
+        testImmutabilityCollection(round.getParticipatingPlayers());
+    }
+
+    @Test(expected = UnsupportedOperationException.class)
+    public void testGetActs() {
+        testImmutabilityCollection(round.getActs());
+    }
+
+    @Test
+    public void testAddAct() {
+        round.addAct(new Act(null, ActType.UNDECIDED, Phase.PRE_FLOP, 0));
     }
 }

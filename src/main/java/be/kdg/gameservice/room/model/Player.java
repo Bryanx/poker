@@ -1,6 +1,8 @@
 package be.kdg.gameservice.room.model;
 
 import be.kdg.gameservice.card.model.Card;
+import be.kdg.gameservice.round.model.Act;
+import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.HandType;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +31,13 @@ public final class Player {
     @Setter
     @Getter
     private Card secondCard;
+
+    /**
+     * The last act that a specific player
+     */
+    @Setter
+    @Getter
+    private ActType lastAct;
 
     /**
      * The number of chips a player has in its possession.
@@ -75,6 +84,7 @@ public final class Player {
         this.inPlay = false;
         this.isActive = true;
         this.handType = HandType.BAD;
+        this.lastAct = ActType.UNDECIDED;
     }
 
     /**

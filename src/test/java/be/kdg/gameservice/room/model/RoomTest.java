@@ -16,7 +16,7 @@ public final class RoomTest extends ImmutabilityTesting {
 
     @Before
     public void setup() {
-        this.room = new Room(GameRules.TEXAS_HOLD_EM);
+        this.room = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
     }
 
     @Test
@@ -27,12 +27,12 @@ public final class RoomTest extends ImmutabilityTesting {
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void getPlayersInRound() {
+    public void testGetPlayersInRound() {
         testImmutabilityCollection(room.getPlayersInRound());
     }
 
     @Test(expected = UnsupportedOperationException.class)
-    public void getPlayedRounds() {
+    public void testGetPlayedRounds() {
         testImmutabilityCollection(room.getPlayedRounds());
     }
 }

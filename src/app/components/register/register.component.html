@@ -1,5 +1,5 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <h1>LOGIN</h1>
+  <h1>REGISTER</h1>
 
   <section class="social-media">
     <a href="#">
@@ -12,17 +12,27 @@
     </a>
   </section>
 
+  <section class="email">
+    <label>Email</label>
+    <input type="text" name="email" formControlName="email" id="email" autocomplete="off">
+    <div class="error"
+         *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">
+      Email is required
+    </div>
+  </section>
+
   <section class="username">
-    <label for="username">Username</label>
+    <label>Username</label>
     <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
     <div class="error"
          *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">
       Username is required
     </div>
+    <div class="error" *ngIf="error">{{error}}</div>
   </section>
 
   <section class="password">
-    <label for="password">Password</label>
+    <label>Password</label>
     <input type="password" name="password" formControlName="password" id="password" autocomplete="off">
     <div class="error"
          *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
@@ -31,11 +41,11 @@
   </section>
 
   <button [disabled]="loginForm.invalid">
-    LOGIN
+    REGISTER
   </button>
-  <div class="error" *ngIf="error">{{error}}</div>
 
-  <a class="no-account" routerLink="/register">
-    I don't have an account bro :-(
+
+  <a class="no-account" routerLink="/login">
+    I already have an account bro :-)
   </a>
 </form>

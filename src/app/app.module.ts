@@ -10,6 +10,7 @@ import { UserComponent } from './components/user/user.component';
 import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from '@angular/router';
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {RouterModule} from '@angular/router';
     LoginComponent,
     UserComponent,
     HomeComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

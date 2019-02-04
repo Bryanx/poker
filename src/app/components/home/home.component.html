@@ -1,6 +1,11 @@
 
 <img src="/assets/img/logos/logo-white.png"/>
 
-<button routerLink="/login">LOGIN</button>
+<button *ngIf="!authorizationService.isAuthenticated()" routerLink="/login">LOGIN</button>
 
-<button routerLink="/signup">SIGNUP</button>
+<button *ngIf="!authorizationService.isAuthenticated()" routerLink="/register">REGISTER</button>
+
+<button *ngIf="authorizationService.isAuthenticated()" routerLink="/">ENTER</button>
+
+
+

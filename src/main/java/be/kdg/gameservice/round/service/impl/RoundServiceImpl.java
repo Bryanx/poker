@@ -179,7 +179,7 @@ public class RoundServiceImpl implements RoundService {
      * Checks if the BET-act is possible at this point in the round.
      * You can BET if nothing has gone into the pot this round.
      *
-     * @param round The round of the act.
+     * @param round The round of the act.git
      * @return True if a BET is possible.
      * @see ActType To get insight in the types of acts that are possbile.
      */

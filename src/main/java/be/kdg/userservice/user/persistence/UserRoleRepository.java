@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRolesRepository extends JpaRepository<UserRole, String> {
-    @Query("select userrole.role from UserRole userrole, User user where user.userName=?1 and userrole.userId=user.id")
+public interface UserRoleRepository extends JpaRepository<UserRole, String> {
+    @Query("select userrole.role from UserRole userrole, User user where user.username=?1 and userrole.userId=user.id")
     List<String> findRoleByUserName(String username);
 }

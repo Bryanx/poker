@@ -31,7 +31,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getUserName();
+        return user.getUsername();
     }
 
     @Override
@@ -51,8 +51,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (user.getEnabled() == 1) return true;
-        else return false;
+        return user.getEnabled() == 1;
     }
 
     public String getId() {

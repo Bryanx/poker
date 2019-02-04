@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+
 @Data
 @Entity
 @Table(name = "tb_user_role")
@@ -17,4 +18,9 @@ public class UserRole {
     private String userId;
     @Column(name = "role")
     private String role;
+
+    public UserRole(String userId, String role) {
+        this.userId = userId;
+        this.role = role;
+    }
 }

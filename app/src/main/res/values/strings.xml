@@ -1,3 +1,23 @@
 <resources>
-    <string name="app_name">mobile-client</string>
+    <string name="app_name">BroPoker</string>
+    <string name="signup">SIGNUP</string>
+
+    <!-- Login & register -->
+    <string name="logo">Logo</string>
+    <string name="email">Email</string>
+    <string name="password">Wachtwoord</string>
+    <string name="login">Login</string>
+    <string name="no_account">Nog geen account?</string>
+    <string name="reenter_password">Bevestig wachtwoord</string>
+    <string name="create_account">Maak een account</string>
+    <string name="already_member">Al een account? Login</string>
+    <string name="preference_file_key">preferenceFileKey</string>
+    <string name="token">token</string>
+    <string name="logging_in">Inloggen…</string>
+    <string name="register">Registreren…</string>
+    <string name="error_login_message">Inloggen mislukt.</string>
+    <string name="error_register_message">Registreren mislukt.</string>
+    <string name="error_invalid_mail">Vul een geldige mail in.</string>
+    <string name="error_invalid_password">Moet meer als 4 karakter lang zijn.</string>
+    <string name="error_invalid_password_match">Wachtwoorden komen niet overeen.</string>
 </resources>

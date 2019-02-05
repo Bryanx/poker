@@ -5,7 +5,7 @@
 
 <button *ngIf="!authorizationService.isAuthenticated()" routerLink="/register">REGISTER</button>
 
-<button *ngIf="authorizationService.isAuthenticated()" routerLink="/">JOIN ROOM</button>
+<button *ngIf="authorizationService.isAuthenticated()" routerLink="/room">JOIN ROOM</button>
 
 <button *ngIf="authorizationService.isAuthenticated()" routerLink="/">STATS</button>
 

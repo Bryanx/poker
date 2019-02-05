@@ -4,20 +4,29 @@ import be.kdg.gameservice.room.model.Player;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 /**
  * This class represents a single act from a player on a specific round.
  */
 @RequiredArgsConstructor
 @Getter
+@Entity
+@Table(name = "act")
 public final class Act {
     /**
      * The id of the act. Used for persistence.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     /**
      * The player that was associated with the act.
      */
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "player")
     private final Player player;
 
     /**

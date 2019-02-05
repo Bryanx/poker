@@ -3,20 +3,28 @@ package be.kdg.gameservice.room.model;
 import be.kdg.gameservice.round.model.Round;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * A room that can be joined by player to take part
- * in playedRounds of poker.
+ * in rounds of poker.
  */
+@Entity
+@Table(name = "room")
 public class Room {
     /**
      * The id of room, used for persistence.
      */
     @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @Getter
@@ -25,24 +33,25 @@ public class Room {
     /**
      * Players that are taking part in the current round of poker.
      */
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "player_id")
+    @Fetch(value = FetchMode.SUBSELECT)
     private final List<Player> playersInRound;
 
 
     /**
      * An history of all the round that were played in the past.
      */
-    private final List<Round> playedRounds;
-
-    /**
-     * The current round that is being played.
-     */
-    private Round currentRound;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "round_id")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private final List<Round> rounds;
 
     /**
      * The gameRules for this room.
      *
      * @see GameRules
-      */
+     */
     @Getter
     @Setter
     private GameRules gameRules;
@@ -52,7 +61,7 @@ public class Room {
      */
     public Room(GameRules gameRules, String name) {
         this.playersInRound = new ArrayList<>();
-        this.playedRounds = new ArrayList<>();
+        this.rounds = new ArrayList<>();
         this.gameRules = gameRules;
         this.name = name;
     }
@@ -67,14 +76,15 @@ public class Room {
     /**
      * @return An unmodifiable list of all the played rounds.
      */
-    public List<Round> getPlayedRounds() {
-        return Collections.unmodifiableList(playedRounds);
+    public List<Round> getRounds() {
+        return Collections.unmodifiableList(rounds);
     }
 
     /**
-     * //TODO: write documentation.
+     * @return The current round that is being played.
      */
-    public void startNewRound() {
-        //TODO: implement.
+    public Round getCurrentRound() {
+        return rounds.get(rounds.size() - 1);
     }
+
 }

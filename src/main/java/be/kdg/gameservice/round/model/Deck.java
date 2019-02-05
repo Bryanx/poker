@@ -1,8 +1,11 @@
 package be.kdg.gameservice.round.model;
 
 import be.kdg.gameservice.card.model.Card;
+import be.kdg.gameservice.card.model.CardType;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Stack;
 
 /**
  * Holds all the cards that are not used on the board,
@@ -16,14 +19,15 @@ final class Deck {
 
     /**
      * Instantiates a list of cards and fills this list with all
-     * the cards from the enum Card.
+     * the cards from the enum CardType.
      * All the cards will be shuffled when the list is created.
      *
+     * @see CardType
      * @see Card
      */
     Deck() {
         this.cards = new Stack<>();
-        this.cards.addAll(Arrays.asList(Card.values()));
+        Arrays.stream(CardType.values()).forEach(c -> cards.add(new Card(c)));
         Collections.shuffle(cards);
     }
 

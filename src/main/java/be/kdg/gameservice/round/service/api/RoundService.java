@@ -13,4 +13,8 @@ public interface RoundService {
     List<ActType> getPossibleActs(int roundId, int playerId) throws RoundException;
 
     Round startNewRound();
+
+    Round getRound(int roundId) throws RoundException;
+
+    Round saveRound(Round round);
 }

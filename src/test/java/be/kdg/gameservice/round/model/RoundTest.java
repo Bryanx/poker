@@ -1,7 +1,6 @@
 package be.kdg.gameservice.round.model;
 
 import be.kdg.gameservice.ImmutabilityTesting;
-import be.kdg.gameservice.room.model.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,5 +47,6 @@ public final class RoundTest extends ImmutabilityTesting {
     @Test
     public void testAddAct() {
         round.addAct(new Act(null, ActType.UNDECIDED, Phase.PRE_FLOP, 0));
+        assertEquals(1, round.getActs().size());
     }
 }

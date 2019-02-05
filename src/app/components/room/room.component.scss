@@ -1,0 +1,69 @@
+.grid-container {
+  display: grid;
+  grid-template-columns: 40px auto 40px auto 40px;
+  grid-template-rows: auto;
+  grid-template-areas:
+    ". . two . ."
+    "three table table table four"
+    "five table table table six"
+    ". . one . .";
+}
+
+.grid-person-1 {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  grid-area: one;
+}
+
+.grid-person-2 {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  grid-area: two;
+}
+
+.grid-person-3 {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  grid-area: three;
+}
+
+.grid-person-4 {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  grid-area: four;
+}
+
+.grid-person-5 {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  grid-area: five;
+}
+
+.grid-person-6 {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+  grid-area: six;
+}
+
+.grid-item-table {
+  background-color: RGB(50, 252, 141);
+  grid-area: table;
+}

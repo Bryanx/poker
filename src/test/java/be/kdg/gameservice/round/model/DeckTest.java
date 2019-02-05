@@ -2,6 +2,7 @@ package be.kdg.gameservice.round.model;
 
 import be.kdg.gameservice.ImmutabilityTesting;
 import be.kdg.gameservice.card.model.Card;
+import be.kdg.gameservice.card.model.CardType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,9 +34,9 @@ public final class DeckTest extends ImmutabilityTesting {
     public void testShuffleDeck() {
         List<Boolean> samePlaces = new ArrayList<>();
 
-        for (Card card : Card.values()) {
+        for (CardType card : CardType.values()) {
             Card deckCard = deck.getCard();
-            samePlaces.add(card.equals(deckCard));
+            samePlaces.add(card.equals(deckCard.type));
         }
 
         assertNotEquals(52, samePlaces.stream().filter(p -> p).count());

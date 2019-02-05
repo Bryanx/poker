@@ -4,9 +4,13 @@ import be.kdg.gameservice.card.model.Card;
 import be.kdg.gameservice.room.model.Player;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -15,11 +19,15 @@ import static java.util.stream.Collectors.toList;
  * A round represents one game of poker inside the room.
  * A rounds lifecycle ends when the final card is laid on the board.
  */
+@Entity
+@Table(name = "round")
 public final class Round {
     /**
      * The id of the round. Used for persistence.
      */
     @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     /**
@@ -28,10 +36,14 @@ public final class Round {
      */
     private static final int NUMBER_OF_CARDS_ON_BOARD = 5;
 
+
     /**
      * Current cards that are on the board.
      */
-    private final Card[] cards;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "round_id")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private final List<Card> cards;
 
     /**
      * The deck is used for shuffling all the cards at the start of a round.
@@ -39,17 +51,23 @@ public final class Round {
      *
      * @see Deck
      */
-    private final Deck deck;
+    private transient final Deck deck;
 
     /**
      * All acts that are bounded to a specific round.
      * This attribute is mostly going to be used for watching the replay.
      */
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "round_id")
+    @Fetch(value = FetchMode.SUBSELECT)
     private final List<Act> acts;
 
     /**
      * All the players that are participating in the round.
      */
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "roud_id")
+    @Fetch(value = FetchMode.SUBSELECT)
     private final List<Player> participatingPlayers;
 
     /**
@@ -90,7 +108,7 @@ public final class Round {
      * The round is created with default values for all parameters.
      */
     public Round(List<Player> participatingPlayers) {
-        this.cards = new Card[NUMBER_OF_CARDS_ON_BOARD];
+        this.cards = new ArrayList<>();
         this.acts = new ArrayList<>();
         this.participatingPlayers = participatingPlayers;
         this.deck = new Deck();
@@ -102,15 +120,10 @@ public final class Round {
     }
 
     /**
-     * Converts the cards-array to a list.
-     * Code is written on two lines because of a bug in java with an
-     * unmodifiable list in combination with converting from an array to a list.
-     *
      * @return An unmodifiable list of cards that are on the board.
      */
     List<Card> getCards() {
-        List<Card> cardList = Arrays.asList(cards);
-        return Collections.unmodifiableList(cardList);
+        return Collections.unmodifiableList(cards);
     }
 
     /**

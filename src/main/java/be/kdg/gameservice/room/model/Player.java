@@ -1,21 +1,26 @@
 package be.kdg.gameservice.room.model;
 
 import be.kdg.gameservice.card.model.Card;
-import be.kdg.gameservice.round.model.Act;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.HandType;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
+
 /**
  * This class represents a player of a round.
  * A player can be inside a round, or it can be spectating if it has just joined the room.
  */
+@Entity
+@Table(name = "player")
 public final class Player {
     /**
      * The id of the player. Used for persistence.
      */
     @Getter
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     /**
@@ -23,6 +28,8 @@ public final class Player {
      */
     @Setter
     @Getter
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "first_card")
     private Card firstCard;
 
     /**
@@ -30,6 +37,8 @@ public final class Player {
      */
     @Setter
     @Getter
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "second_card")
     private Card secondCard;
 
     /**

@@ -15,7 +15,7 @@
         android:layout_marginTop="64dp"
         android:background="@color/colorGreen"
         android:text="@string/login"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="@+id/ivLogo"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
@@ -26,14 +26,15 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="64dp"
         android:background="@color/colorGreen"
-        android:text="@string/signup"
-        android:textColor="#fff"
+        android:text="@string/register"
+        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="@+id/ivLogo"
         app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toEndOf="@+id/btnLogin"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
     <ImageView
+        android:contentDescription="@string/logo"
         android:id="@+id/ivLogo"
         android:layout_width="300dp"
         android:layout_height="90dp"

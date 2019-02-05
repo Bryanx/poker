@@ -1,6 +1,5 @@
 package be.kdg.gameservice.round.service.api;
 
-import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Phase;

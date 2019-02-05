@@ -10,6 +10,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 
+/**
+ * Api for sending requests to: https://poker-user-service.herokuapp.com
+ */
 public interface UserService {
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})

@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if (response.isSuccessful()) {
+                    response.body().setSignedIn(true);
                     writeSharedPrefs(response.body());
                     onLoginSuccess();
                 } else {

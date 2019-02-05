@@ -25,7 +25,7 @@ public class RoundApiController {
         this.roundService = roundService;
     }
 
-    @GetMapping("/getPossibleActs/{roundId}/{playerId}")
+    @GetMapping("/rounds/[roundId]/players/[playerId}/possible-acts")
     public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId, @PathVariable int playerId) throws RoundException {
         List<ActType> actTypes = roundService.getPossibleActs(roundId, playerId);
         return new ResponseEntity<>(modelMapper.map(actTypes, ActType[].class), HttpStatus.OK);

@@ -3,7 +3,6 @@ package be.kdg.mobile_client;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,16 +10,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import androidx.appcompat.app.AppCompatActivity;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.ServiceGenerator;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

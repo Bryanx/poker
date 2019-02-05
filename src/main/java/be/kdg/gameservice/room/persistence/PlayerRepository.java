@@ -1,4 +1,4 @@
-package be.kdg.gameservice.round.persistence;
+package be.kdg.gameservice.room.persistence;
 
 import be.kdg.gameservice.room.model.Player;
 import org.springframework.data.jpa.repository.JpaRepository;

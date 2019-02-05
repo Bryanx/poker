@@ -1,6 +1,7 @@
 package be.kdg.gameservice.room.controller;
 
 import be.kdg.gameservice.room.controller.dto.PlayerDTO;
+import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.service.api.RoomService;
 import org.modelmapper.ModelMapper;
@@ -24,8 +25,9 @@ public class RoomApiController {
         this.roomService = roomService;
     }
 
+    //TODO: proper exception handling.
     @PostMapping("/rooms/{roomId}/players/{name}")
-    public ResponseEntity<PlayerDTO> savePlayer(@PathVariable int roomId, @PathVariable String name) {
+    public ResponseEntity<PlayerDTO> savePlayer(@PathVariable int roomId, @PathVariable String name) throws RoomException {
         Player playerIn = roomService.savePlayer(roomId, name);
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
 

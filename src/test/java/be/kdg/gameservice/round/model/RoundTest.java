@@ -36,7 +36,7 @@ public final class RoundTest extends ImmutabilityTesting {
 
     @Test(expected = UnsupportedOperationException.class)
     public void testGetParticipatingPlayers() {
-        testImmutabilityCollection(round.getParticipatingPlayers());
+        testImmutabilityCollection(round.getPlayersInRound());
     }
 
     @Test(expected = UnsupportedOperationException.class)

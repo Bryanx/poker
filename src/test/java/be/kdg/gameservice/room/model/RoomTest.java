@@ -23,12 +23,12 @@ public final class RoomTest extends ImmutabilityTesting {
     public void testRoomCreation() {
         assertEquals(room.getGameRules(), GameRules.TEXAS_HOLD_EM);
         assertEquals(room.getRounds().size(), 0);
-        assertEquals(room.getPlayersInRound().size(), 0);
+        assertEquals(room.getPlayersInRoom().size(), 0);
     }
 
     @Test(expected = UnsupportedOperationException.class)
     public void testGetPlayersInRound() {
-        testImmutabilityCollection(room.getPlayersInRound());
+        testImmutabilityCollection(room.getPlayersInRoom());
     }
 
     @Test(expected = UnsupportedOperationException.class)

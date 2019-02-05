@@ -68,7 +68,7 @@ public final class Round {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "roud_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private final List<Player> participatingPlayers;
+    private final List<Player> playersInRound;
 
     /**
      * The current phase of the round. A round always starts at PRE_FLOP
@@ -110,7 +110,7 @@ public final class Round {
     public Round(List<Player> participatingPlayers) {
         this.cards = new ArrayList<>();
         this.acts = new ArrayList<>();
-        this.participatingPlayers = participatingPlayers;
+        this.playersInRound = participatingPlayers;
         this.deck = new Deck();
         this.currentPhase = Phase.PRE_FLOP;
 
@@ -129,8 +129,8 @@ public final class Round {
     /**
      * @return An unmodifiable list of all the participating players.
      */
-    public List<Player> getParticipatingPlayers() {
-        return Collections.unmodifiableList(participatingPlayers);
+    public List<Player> getPlayersInRound() {
+        return Collections.unmodifiableList(playersInRound);
     }
 
     /**
@@ -138,7 +138,7 @@ public final class Round {
      * @return All the other players, except the one from the argument.
      */
     public List<Player> getOtherPlayers(Player player) {
-        return getParticipatingPlayers().stream()
+        return getPlayersInRound().stream()
                 .filter(p -> p.getId() != player.getId())
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }

@@ -36,7 +36,7 @@ public class RoundApiController {
      * @param roundId The id of the round
      * @param playerId The id of the player.
      * @return Status code 200 if the get succeeded.
-     * @throws RoundException TODO: make generic exception
+     * @throws RoundException TODO: proper exception handling
      */
     @GetMapping("/rounds/[roundId]/players/[playerId}/possible-acts")
     public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId, @PathVariable int playerId) throws RoundException {
@@ -50,7 +50,7 @@ public class RoundApiController {
      *
      * @param actDTO The information needed to make a new Act.
      * @return Status code 201 if the post succeeded.
-     * @throws RoundException TODO: make generic exception
+     * @throws RoundException TODO: proper exception handling
      * @see ActDTO
      */
     @PostMapping("/rounds/acts")

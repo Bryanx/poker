@@ -7,7 +7,6 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -36,7 +35,7 @@ public class Room {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "player_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private final List<Player> playersInRound;
+    private final List<Player> playersInRoom;
 
 
     /**
@@ -60,7 +59,7 @@ public class Room {
      * @param gameRules The rules that are associated with this room.
      */
     public Room(GameRules gameRules, String name) {
-        this.playersInRound = new ArrayList<>();
+        this.playersInRoom = new ArrayList<>();
         this.rounds = new ArrayList<>();
         this.gameRules = gameRules;
         this.name = name;
@@ -69,8 +68,8 @@ public class Room {
     /**
      * @return An unmodifiable list of players inside of the round.
      */
-    public List<Player> getPlayersInRound() {
-        return Collections.unmodifiableList(playersInRound);
+    public List<Player> getPlayersInRoom() {
+        return Collections.unmodifiableList(playersInRoom);
     }
 
     /**
@@ -81,10 +80,18 @@ public class Room {
     }
 
     /**
+     * Adds a player to this room.
+     *
+     * @param player The player we need to add.
+     */
+    public void addPlayer(Player player) {
+        playersInRoom.add(player);
+    }
+
+    /**
      * @return The current round that is being played.
      */
     public Round getCurrentRound() {
         return rounds.get(rounds.size() - 1);
     }
-
 }

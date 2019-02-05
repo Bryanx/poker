@@ -55,7 +55,7 @@ public class RoundApiController {
      */
     @PostMapping("/rounds/acts")
     public ResponseEntity<ActDTO> saveAct(@RequestBody @Valid ActDTO actDTO) throws RoundException {
-        roundService.addAct(actDTO.getRoundId(), actDTO.getPlayerId(),
+        roundService.saveAct(actDTO.getRoundId(), actDTO.getPlayerId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet());
         return new ResponseEntity<>(actDTO, HttpStatus.CREATED);
     }

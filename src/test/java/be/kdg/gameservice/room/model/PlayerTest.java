@@ -1,5 +1,6 @@
 package be.kdg.gameservice.room.model;
 
+import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.HandType;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,17 +17,21 @@ public final class PlayerTest {
 
     @Before
     public void setup() {
-        this.player = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips());
+        this.player = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Jarne");
     }
 
     @Test
     public void testCreatePlayer() {
         assertEquals(player.getChipCount(), GameRules.TEXAS_HOLD_EM.getStartingChips());
         assertEquals(player.getHandType(), HandType.BAD);
+        assertEquals(player.getLastAct(), ActType.UNDECIDED);
+        assertEquals(player.getName(), "Jarne");
         assertTrue(player.isActive());
-        assertFalse(player.isInPlay());
+        assertFalse(player.isInRound());
     }
 
+    //TODO: remove?
+    /*
     @Test
     public void testResetPlayer() {
         player.setInPlay(true);
@@ -37,4 +42,5 @@ public final class PlayerTest {
         assertEquals(HandType.BAD, player.getHandType());
         assertFalse(player.isInPlay());
     }
+    */
 }

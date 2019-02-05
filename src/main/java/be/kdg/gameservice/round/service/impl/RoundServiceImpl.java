@@ -49,7 +49,7 @@ public class RoundServiceImpl implements RoundService {
      * @see Player To get insight in all the util methods that are used.
      */
     @Override
-    public void addAct(int roundId, int playerId, ActType type, Phase phase, int bet) throws RoundException {
+    public void saveAct(int roundId, int playerId, ActType type, Phase phase, int bet) throws RoundException {
         //Get data
         Round round = getRound(roundId);
         Optional<Player> playerOpt = round.getParticipatingPlayers().stream()

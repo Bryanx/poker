@@ -1,5 +1,7 @@
 package be.kdg.gameservice.round.model;
 
+import lombok.Getter;
+
 /**
  * All possible hand types that can be achieved when combining different cards.
  */
@@ -63,13 +65,10 @@ public enum HandType {
      */
     STRAIGHT_FLUSH(9);
 
-    private int score;
+    @Getter
+    private final int score;
 
-    private HandType(int score) {
+    HandType(int score) {
         this.score = score;
-    }
-
-    public int getScore() {
-        return score;
     }
 }

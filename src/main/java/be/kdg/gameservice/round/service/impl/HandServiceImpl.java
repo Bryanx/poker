@@ -1,17 +1,17 @@
-package be.kdg.gameservice.round;
+package be.kdg.gameservice.round.service.impl;
 
 import be.kdg.gameservice.card.model.Card;
 import be.kdg.gameservice.round.model.HandType;
-import lombok.Data;
-import java.util.List;
-import java.util.Objects;
+import be.kdg.gameservice.round.service.api.HandService;
+import org.springframework.stereotype.Service;
+
+import java.util.*;
 
 /**
- * A hand represents the possible combinations of cards that a Player can use
- * The HandType of a player gets calculated here
+ * Service responsible for calculating best HandType based on all combinations of 5 out of 7 cards
  */
-@Data
-public class Hand implements Comparable<Hand> {
+@Service
+public class HandServiceImpl implements HandService {
 
     /**
      * Used for calculating HandType based on index in string
@@ -20,52 +20,40 @@ public class Hand implements Comparable<Hand> {
     final static String suits = "hdsc";
 
     /**
-     * List of 5 cards where handType gets calculated on
-     */
-    private List<Card> hand;
-
-    private HandType type;
-
-    public Hand(List<Card> playerCards) {
-        this.hand = playerCards;
-        this.determineHandType();
-    }
-
-    /**
-     * Compares 2 hands based on handType
-     * TODO: Use value of cards to determine ties
-     * @param that
+     * Generate all subsets of 5 out of 5-7 and return best HandType out of all combinations
+     * @param playerCards list of 5-7 cards
      * @return
      */
     @Override
-    public int compareTo(Hand that) {
-        return Integer.compare(this.type.getScore(), that.getType().getScore());
-    }
+    public HandType determineBestPossibleHand(List<Card> playerCards) {
+        List<Set<Card>> res = new ArrayList<>();
+        getSubsets(playerCards, 5, 0, new HashSet<Card>(), res);
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Hand hand = (Hand) o;
-        return type == hand.type;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(type);
-    }
-
-    private HandType determineHandType() {
-        // This algorithms only works for 5 cards
-        if(hand.size() != 5) {
-            return HandType.BAD;
+        List<HandType> allHands = new ArrayList<>();
+        for (Set<Card> handPossibility : res) {
+            HandType hand = this.determineHandType(new ArrayList<>(handPossibility));
+            allHands.add(hand);
         }
+
+        Collections.sort(allHands);
+        return allHands.get(allHands.size() - 1);
+    }
+
+    /**
+     * Determine HandType based on list of 5 cards.
+     * @param hand
+     * @return
+     */
+    private HandType determineHandType(List<Card> hand) {
+        // This algorithms only works for 5 cards
+        if(hand.size() != 5)
+            return HandType.BAD;
 
         int[] faceCount = new int[ranks.length()];
         long straight = 0;
         long flush = 0;
 
-        for(Card card : this.hand) {
+        for(Card card : hand) {
             int face = ranks.indexOf(card.getType().getRank().getName());
 
             // Non existing face detected
@@ -85,9 +73,8 @@ public class Hand implements Comparable<Hand> {
         }
 
         // Shift bit pattern to rhe right as far as possible
-        while(straight % 2 == 0) {
+        while(straight % 2 == 0)
             straight >>= 1;
-        }
 
         // Straight is 00011111; A-2-3-4-5 is 1111000000001
         boolean hasStraight = straight == 0b11111 || straight == 0b1111000000001;
@@ -95,9 +82,8 @@ public class Hand implements Comparable<Hand> {
         // unsets right-most 1-bit, which may be the only one set
         boolean hasFlush = (flush & (flush - 1)) == 0;
 
-        if(hasStraight && hasFlush) {
+        if(hasStraight && hasFlush)
             return HandType.STRAIGHT_FLUSH;
-        }
 
         int total = 0;
 
@@ -127,11 +113,28 @@ public class Hand implements Comparable<Hand> {
         return HandType.HIGH_CARD;
     }
 
-    @Override
-    public String toString() {
-        return "Hand{" +
-                "type=" + type +
-                ", hand= " + hand +
-                '}';
+    /**
+     * Creates all subsets of size k based on superSet
+     * @param superSet
+     * @param k
+     * @param idx
+     * @param current
+     * @param solution
+     */
+    private void getSubsets(List<Card> superSet, int k, int idx, Set<Card> current, List<Set<Card>> solution) {
+        //successful stop clause
+        if (current.size() == k) {
+            solution.add(new HashSet<>(current));
+            return;
+        }
+        //unseccessful stop clause
+        if (idx == superSet.size()) return;
+        Card x = superSet.get(idx);
+        current.add(x);
+        //"guess" x is in the subset
+        getSubsets(superSet, k, idx+1, current, solution);
+        current.remove(x);
+        //"guess" x is not in the subset
+        getSubsets(superSet, k, idx+1, current, solution);
     }
 }

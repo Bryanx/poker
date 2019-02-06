@@ -25,5 +25,6 @@ public final class Card {
      *
      * @see CardType
      */
+    @Getter
     public final CardType type;
 }

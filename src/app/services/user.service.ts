@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {User} from '../model/user';
-import {catchError} from "rxjs/operators";
+import {catchError} from 'rxjs/operators';
+import {AuthResult} from '../model/authResult';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  //url = 'https://poker-user-service.herokuapp.com/api/user';
+  // url = 'https://poker-user-service.herokuapp.com/api/user';
   url = 'http://localhost:5000/api/user';
 
   constructor(private http: HttpClient) {
@@ -18,23 +19,11 @@ export class UserService {
     return this.http.get<User>(this.url);
   }
 
-  addUser(user: User): Observable<User> {
-    return this.http.post<User>(this.url, user);
+  addUser(user: User): Observable<AuthResult> {
+    return this.http.post<AuthResult>(this.url, user);
   }
 
-  updateUser(user: User): Observable<User> {
-    console.log('Update User in service');
-    return this.http.put(this.url, user).pipe(
-      catchError(this.handleError<any>('updateRoom'))
-    );
-  }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error); // log to console
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  changeUser(user: User): Observable<AuthResult> {
+    return this.http.put<AuthResult>(this.url, user);
   }
 }

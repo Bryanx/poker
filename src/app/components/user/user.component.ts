@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthorizationService} from "../../services/authorization.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AuthorizationService} from '../../services/authorization.service';
 
 @Component({
   selector: 'app-user',
@@ -12,12 +11,9 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class UserComponent implements OnInit {
   updateUserForm: FormGroup;
-  returnUrl: string;
-
   user: User;
 
-  constructor(private formBuilder: FormBuilder, private authorizationService: AuthorizationService, private userService: UserService,
-              private route: ActivatedRoute, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private authorizationService: AuthorizationService, private userService: UserService) { }
 
   ngOnInit() {
     this.userService.getUser().subscribe(result => {
@@ -25,18 +21,17 @@ export class UserComponent implements OnInit {
       this.updateUserForm = this.formBuilder.group({
         username: [this.user.username, Validators.compose([Validators.required])]
       });
+    }, error => {
+      console.log(error.error.error_description);
     });
-
-
-
-    this.returnUrl = '/user';
   }
 
-  private onSubmit() {
+  onSubmit() {
     this.user.username = this.updateUserForm.controls.username.value;
-    this.userService.updateUser(this.user).subscribe(result => {
-      this.user = result as User;
+    this.userService.changeUser(this.user).subscribe(authResult => {
+      this.authorizationService.setSession(authResult);
+    }, error => {
+      console.log(error.error.error_description);
     });
   }
-
 }

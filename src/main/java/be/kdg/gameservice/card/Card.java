@@ -1,4 +1,4 @@
-package be.kdg.gameservice.card.model;
+package be.kdg.gameservice.card;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

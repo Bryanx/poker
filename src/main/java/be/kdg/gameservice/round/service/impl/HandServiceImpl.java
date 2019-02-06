@@ -1,6 +1,6 @@
 package be.kdg.gameservice.round.service.impl;
 
-import be.kdg.gameservice.card.model.Card;
+import be.kdg.gameservice.card.Card;
 import be.kdg.gameservice.round.model.HandType;
 import be.kdg.gameservice.round.service.api.HandService;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,8 @@ public class HandServiceImpl implements HandService {
     /**
      * Used for calculating HandType based on index in string
      */
-    final static String ranks = "AKQJT98765432";
-    final static String suits = "hdsc";
+    private final static String ranks = "AKQJT98765432";
+    private final static String suits = "hdsc";
 
     /**
      * Generate all subsets of 5 out of 5-7 and return best HandType out of all combinations

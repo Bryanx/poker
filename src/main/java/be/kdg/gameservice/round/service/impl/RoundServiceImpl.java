@@ -1,16 +1,15 @@
 package be.kdg.gameservice.round.service.impl;
 
-import be.kdg.gameservice.card.model.Card;
+import be.kdg.gameservice.card.Card;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.*;
-import be.kdg.gameservice.round.persistence.PlayerRepository;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.round.service.api.HandService;
 import be.kdg.gameservice.round.service.api.RoundService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,19 +19,13 @@ import java.util.*;
  * This service will be used to manage the ongoing activity of a specific round.
  * It will also take care of the CRUD operations with its persistence dependency.
  */
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class RoundServiceImpl implements RoundService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoundServiceImpl.class);
     private final RoundRepository roundRepository;
-    private final PlayerRepository playerRepository;
     private final HandService handService;
-
-    public RoundServiceImpl(RoundRepository roundRepository, PlayerRepository playerRepository, HandService handService) {
-        this.roundRepository = roundRepository;
-        this.playerRepository = playerRepository;
-        this.handService = handService;
-    }
 
     /**
      * This method will check if the act done by the player is actually possible.
@@ -49,10 +42,10 @@ public class RoundServiceImpl implements RoundService {
      * @see Player To get insight in all the util methods that are used.
      */
     @Override
-    public void addAct(int roundId, int playerId, ActType type, Phase phase, int bet) throws RoundException {
+    public void saveAct(int roundId, int playerId, ActType type, Phase phase, int bet) throws RoundException {
         //Get data
         Round round = getRound(roundId);
-        Optional<Player> playerOpt = round.getParticipatingPlayers().stream()
+        Optional<Player> playerOpt = round.getPlayersInRound().stream()
                 .filter(p -> p.getId() == playerId)
                 .findAny();
 
@@ -129,7 +122,7 @@ public class RoundServiceImpl implements RoundService {
     public List<ActType> getPossibleActs(int roundId, int playerId) throws RoundException {
         //Get data
         Round round = getRound(roundId);
-        Optional<Player> playerOpt = round.getParticipatingPlayers().stream()
+        Optional<Player> playerOpt = round.getPlayersInRound().stream()
                 .filter(p -> p.getId() == playerId)
                 .findAny();
 
@@ -147,6 +140,19 @@ public class RoundServiceImpl implements RoundService {
         if (checkRaise(round)) types.add(ActType.RAISE);
 
         return Collections.unmodifiableList(types);
+    }
+
+    /**
+     * @param participatingPlayers The players that need to participate in this round.
+     * @param button The button, needs to be moved to the next player.
+     * @return The newly created round.
+     * @see Round to get insight in the constructor
+     */
+    @Override
+    public Round startNewRound(List<Player> participatingPlayers, int button) {
+        button = button >= participatingPlayers.size() - 1 ? 1 : button + 1;
+        participatingPlayers.forEach(Player::resetPlayer);
+        return new Round(participatingPlayers, button);
     }
 
     /**
@@ -222,8 +228,7 @@ public class RoundServiceImpl implements RoundService {
      * @return The round that corresponds with the id.
      * @throws RoundException If the round was not found in the database.
      */
-    @Override
-    public Round getRound(int roundId) throws RoundException {
+    private Round getRound(int roundId) throws RoundException {
         return roundRepository.findById(roundId)
                 .orElseThrow(() -> new RoundException(RoundServiceImpl.class, "The round was not found in the database."));
     }
@@ -235,15 +240,8 @@ public class RoundServiceImpl implements RoundService {
      * @return The updated or saved round
      * @see Round
      */
-    @Override
-    public Round saveRound(Round round) {
+    private Round saveRound(Round round) {
         return roundRepository.save(round);
-    }
-
-    @Override
-    public Round startNewRound() {
-        //TODO: implement.
-        return null;
     }
 
     /**
@@ -255,7 +253,7 @@ public class RoundServiceImpl implements RoundService {
     public Player determineWinner(int roundId) throws RoundException {
         //Get data
         Round round = getRound(roundId);
-        List<Player> participatingPlayers = round.getParticipatingPlayers();
+        List<Player> participatingPlayers = round.getPlayersInRound();
 
         HandType bestHand = null;
         Player winningPlayer = null;

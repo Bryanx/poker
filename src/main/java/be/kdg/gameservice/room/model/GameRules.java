@@ -7,8 +7,6 @@ import lombok.Getter;
  */
 @Getter
 public enum GameRules {
-    //TODO: implement more rules
-
     /**
      * The default settings.
      */

@@ -1,7 +1,7 @@
 package be.kdg.gameservice.round.model;
 
-import be.kdg.gameservice.card.model.Card;
-import be.kdg.gameservice.card.model.CardType;
+import be.kdg.gameservice.card.Card;
+import be.kdg.gameservice.card.CardType;
 
 import java.util.Arrays;
 import java.util.Collections;

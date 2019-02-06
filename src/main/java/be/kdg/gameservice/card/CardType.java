@@ -1,9 +1,10 @@
-package be.kdg.gameservice.card.model;
+package be.kdg.gameservice.card;
 
 import lombok.Getter;
 
-import static be.kdg.gameservice.card.model.Rank.*;
-import static be.kdg.gameservice.card.model.Suit.*;
+import static be.kdg.gameservice.card.Rank.*;
+import static be.kdg.gameservice.card.Suit.*;
+
 
 /**
  * This enum holds all the possible card combinations that
@@ -88,9 +89,6 @@ public enum CardType {
         this.evaluation = evaluation;
     }
 
-    /**
-     * Returns the name of the card.
-     */
     @Override
     public String toString() {
         return rank.toString() + suit.toString();

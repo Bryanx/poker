@@ -1,9 +1,12 @@
 package be.kdg.gameservice.room.controller;
 
 import be.kdg.gameservice.room.controller.dto.PlayerDTO;
+import be.kdg.gameservice.room.controller.dto.RoomDTO;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.service.api.RoomService;
+import be.kdg.gameservice.round.model.Round;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,5 +35,19 @@ public class RoomApiController {
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
 
         return new ResponseEntity<>(playerOut, HttpStatus.CREATED);
+    }
+
+    //TODO: proper exception handling.
+    @PostMapping("/rooms/{roomId}/start-new-round")
+    public ResponseEntity<RoomDTO> startNewRound(@PathVariable int roomId) throws RoomException {
+        Room roomIn = roomService.startNewRoundForRoom(roomId);
+        RoomDTO roomOut = new RoomDTO(
+                roomId,
+                roomIn.getName(),
+                roomIn.getGameRules(),
+                roomIn.getCurrentRound()
+        );
+
+        return new ResponseEntity<>(roomOut, HttpStatus.CREATED);
     }
 }

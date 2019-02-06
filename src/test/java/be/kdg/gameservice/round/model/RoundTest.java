@@ -18,7 +18,7 @@ public final class RoundTest extends ImmutabilityTesting {
 
     @Before
     public void setup() {
-        this.round = new Round(new ArrayList<>());
+        this.round = new Round(new ArrayList<>(), 0);
     }
 
     @Test

@@ -3,6 +3,7 @@ package be.kdg.gameservice.round.model;
 import be.kdg.gameservice.card.model.Card;
 import be.kdg.gameservice.room.model.Player;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -19,6 +20,7 @@ import static java.util.stream.Collectors.toList;
  * A round represents one game of poker inside the room.
  * A rounds lifecycle ends when the final card is laid on the board.
  */
+@NoArgsConstructor
 @Entity
 @Table(name = "round")
 public final class Round {
@@ -43,7 +45,7 @@ public final class Round {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "round_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private final List<Card> cards;
+    private List<Card> cards;
 
     /**
      * The deck is used for shuffling all the cards at the start of a round.
@@ -51,7 +53,7 @@ public final class Round {
      *
      * @see Deck
      */
-    private transient final Deck deck;
+    private transient Deck deck;
 
     /**
      * All acts that are bounded to a specific round.
@@ -60,7 +62,7 @@ public final class Round {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "round_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private final List<Act> acts;
+    private List<Act> acts;
 
     /**
      * All the players that are participating in the round.
@@ -68,7 +70,7 @@ public final class Round {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "roud_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private final List<Player> playersInRound;
+    private List<Player> playersInRound;
 
     /**
      * The current phase of the round. A round always starts at PRE_FLOP
@@ -86,7 +88,6 @@ public final class Round {
      * <p>
      * The player after that, will be the one who starts the game.
      */
-    @Setter
     @Getter
     private int button;
 
@@ -107,14 +108,14 @@ public final class Round {
     /**
      * The round is created with default values for all parameters.
      */
-    public Round(List<Player> participatingPlayers) {
+    public Round(List<Player> participatingPlayers, int button) {
         this.cards = new ArrayList<>();
         this.acts = new ArrayList<>();
         this.playersInRound = participatingPlayers;
         this.deck = new Deck();
         this.currentPhase = Phase.PRE_FLOP;
 
-        this.button = 0; //TODO: increment button to next place.
+        this.button = button;
         this.isFinished = false;
         this.pot = 0.0;
     }

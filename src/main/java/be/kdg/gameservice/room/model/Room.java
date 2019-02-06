@@ -2,6 +2,7 @@ package be.kdg.gameservice.room.model;
 
 import be.kdg.gameservice.round.model.Round;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -15,6 +16,7 @@ import java.util.List;
  * A room that can be joined by player to take part
  * in rounds of poker.
  */
+@NoArgsConstructor
 @Entity
 @Table(name = "room")
 public class Room {
@@ -27,24 +29,24 @@ public class Room {
     private int id;
 
     @Getter
-    private final String name;
+    private String name;
 
     /**
      * Players that are taking part in the current round of poker.
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "player_id")
+    @JoinColumn(name = "room_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private final List<Player> playersInRoom;
+    private List<Player> playersInRoom;
 
 
     /**
      * An history of all the round that were played in the past.
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "round_id")
+    @JoinColumn(name = "room_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private final List<Round> rounds;
+    private List<Round> rounds;
 
     /**
      * The gameRules for this room.
@@ -86,6 +88,15 @@ public class Room {
      */
     public void addPlayer(Player player) {
         playersInRoom.add(player);
+    }
+
+    /**
+     * Adds a round to this class.
+     *
+     * @param round The round we need to add.
+     */
+    public void addRound(Round round) {
+        rounds.add(round);
     }
 
     /**

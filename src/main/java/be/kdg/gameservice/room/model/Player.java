@@ -4,6 +4,7 @@ import be.kdg.gameservice.card.model.Card;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.HandType;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import javax.persistence.*;
  * This class represents a player of a round.
  * A player can be inside a round, or it can be spectating if it has just joined the room.
  */
+@NoArgsConstructor
 @Getter
 @Entity
 @Table(name = "player")
@@ -27,7 +29,7 @@ public final class Player {
      * The name of the player. The name is the same as the one used
      * in the account of the user.
      */
-    private final String name;
+    private String name;
 
     /**
      * The first card in the hand of the player.
@@ -60,7 +62,7 @@ public final class Player {
     /**
      * True if the player is participating in the current round.
      */
-    @Getter
+    @Setter
     private boolean inRound;
 
     /**

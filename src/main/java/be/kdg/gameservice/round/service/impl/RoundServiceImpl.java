@@ -147,6 +147,19 @@ public class RoundServiceImpl implements RoundService {
     }
 
     /**
+     * @param participatingPlayers The players that need to participate in this round.
+     * @param button The button, needs to be moved to the next player.
+     * @return The newly created round.
+     * @see Round to get insight in the constructor
+     */
+    @Override
+    public Round startNewRound(List<Player> participatingPlayers, int button) {
+        button = button >= participatingPlayers.size() - 1 ? 1 : button + 1;
+        participatingPlayers.forEach(p -> p.setInRound(true));
+        return new Round(participatingPlayers, button);
+    }
+
+    /**
      * Checks if the CALL-act is possible at this point in the round.
      * You can CALL if one of the other players has BET or RAISED.
      *
@@ -233,10 +246,5 @@ public class RoundServiceImpl implements RoundService {
      */
     private Round saveRound(Round round) {
         return roundRepository.save(round);
-    }
-
-    public Round startNewRound() {
-        //TODO: implement.
-        return null;
     }
 }

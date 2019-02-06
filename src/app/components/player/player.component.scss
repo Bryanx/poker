@@ -1,18 +1,37 @@
 .avatar {
+  display: flex;
   border: 2px solid antiquewhite;
   height: 80px;
   width: 80px;
   border-radius: 50px;
   text-align: center;
-  position: absolute;
+  align-items: center;
+  justify-content: center;
 
   p {
-    position: relative;
-    top: 42%;
+    padding-top: 2px;
     font-weight: 600;
     font-size: 20px;
     color: #fff;
   }
+}
+
+.action {
+  padding-bottom: 0.5rem;
+  letter-spacing: 1.2px;
+  font-size: 1rem;
+  font-weight: normal;
+  color: RGB(68, 226, 168);
+}
+
+.money {
+  padding-top: 0.8rem;
+  color: antiquewhite;
+}
+
+.wrapper {
+  display: block;
+  text-align: center;
 }
 
 .active {

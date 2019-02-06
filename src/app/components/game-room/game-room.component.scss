@@ -2,10 +2,9 @@
   display: grid;
   height: 100vh;
   width: 100vw;
-  grid-template-columns: 25% auto 20% auto 25%;
-  grid-template-rows: 17% 17% 5% 17% 19% 25%;
+  grid-template-columns: 25% 15% auto 15% 25%;
+  grid-template-rows: 20% 20% 6% 20% 20% auto;
   grid-column-gap: 10px;
-  grid-row-gap: 10px;
   grid-template-areas:
     ". . two . ."
     "three table table table four"
@@ -20,6 +19,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .card {
+    display: inline-block;
+  }
 }
 
 .grid-person-1 {
@@ -58,11 +61,11 @@
 
 .grid-actionbar {
   grid-area: actionbar;
-  background-color: RGB(80, 80, 100);
-  padding-top: 10vh;
+  background-color: RGB(36, 38, 59);
 }
 
 .grid-item-table {
   grid-area: table;
   padding: 8vh 5vw 0;
 }
+

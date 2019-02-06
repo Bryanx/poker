@@ -1,0 +1,49 @@
+.actionbar {
+  display: grid;
+  grid-template-columns: 10% 30% auto 30% 10%;
+  grid-template-rows: auto;
+  grid-column-gap: 10px;
+  grid-template-areas: ". action cards raise .";
+}
+
+.cards {
+  grid-area: cards;
+  display: inline-flex;
+  justify-content: center;
+}
+
+.button-actions {
+  grid-area: action;
+  button {
+    float: right;
+    margin-left: 1vh;
+  }
+
+  .call {
+    border-color: RGB(68, 226, 168);
+  }
+
+  .fold {
+    border-color: RGBA(228, 40, 110, 0.8);
+  }
+}
+
+.button-raise {
+  grid-area: raise;
+
+  button {
+    border-color: RGB(248, 218, 97);
+  }
+}
+
+button {
+  width: 10vh;
+  height: 10vh;
+  border-radius: 50px;
+  font-size: 1rem;
+  min-width: 6rem;
+  font-weight: normal;
+  background-color: transparent;
+  border: 3px solid RGB(250, 235, 215);
+  letter-spacing: 1.5px;
+}

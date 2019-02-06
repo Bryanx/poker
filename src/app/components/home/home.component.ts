@@ -8,7 +8,7 @@ import {AuthorizationService} from '../../services/authorization.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private authorizationService: AuthorizationService) { }
+  constructor(public authorizationService: AuthorizationService) { }
 
   ngOnInit() {
   }

@@ -11,10 +11,11 @@ import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
-import { RoomComponent } from './components/room/room.component';
+import { GameRoomComponent } from './components/game-room/game-room.component';
 import { PlayerComponent } from './components/player/player.component';
 import { GameTableComponent } from './components/game-table/game-table.component';
 import { CardComponent } from './components/card/card.component';
+import { ActionbarComponent } from './components/actionbar/actionbar.component';
 
 @NgModule({
   declarations: [
@@ -23,10 +24,11 @@ import { CardComponent } from './components/card/card.component';
     UserComponent,
     HomeComponent,
     RegisterComponent,
-    RoomComponent,
+    GameRoomComponent,
     PlayerComponent,
     GameTableComponent,
     CardComponent,
+    ActionbarComponent,
   ],
   imports: [
     BrowserModule,

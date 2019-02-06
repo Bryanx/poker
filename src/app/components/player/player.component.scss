@@ -1,14 +1,21 @@
 .avatar {
-  background-color: antiquewhite;
-  height: 100px;
-  width: 100px;
+  border: 2px solid antiquewhite;
+  height: 80px;
+  width: 80px;
   border-radius: 50px;
   text-align: center;
   position: absolute;
+
+  p {
+    position: relative;
+    top: 42%;
+    font-weight: 600;
+    font-size: 20px;
+    color: #fff;
+  }
 }
 
-.avatar p {
-  position: relative;
-  top: 50%;
-
+.active {
+  background-color: RGBA(50, 252, 141, 0.4);
 }
+

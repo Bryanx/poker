@@ -14,6 +14,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { RoomComponent } from './components/room/room.component';
 import { PlayerComponent } from './components/player/player.component';
 import { GameTableComponent } from './components/game-table/game-table.component';
+import { CardComponent } from './components/card/card.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { GameTableComponent } from './components/game-table/game-table.component
     RoomComponent,
     PlayerComponent,
     GameTableComponent,
+    CardComponent,
   ],
   imports: [
     BrowserModule,

@@ -40,7 +40,7 @@ public class RoomApiControllerTest extends ImmutabilityTesting {
 
     @Test
     public void testSavePlayer() throws Exception {
-        mockMvc.perform(post("/api/rooms/" + roomId  +"/players/testplayer")
+        mockMvc.perform(post("/api/rooms/" + roomId  +"/players/20")
                 .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isCreated());
     }

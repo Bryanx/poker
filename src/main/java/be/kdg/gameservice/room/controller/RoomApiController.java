@@ -34,13 +34,13 @@ public final class RoomApiController {
      * This API will be called when a player specific to join a specific room.
      *
      * @param roomId The id of the room the player wants to join.
-     * @param name   The name of the player.
+     * @param userId The id of the user instance
      * @return Status code 201 if the player joined the room successfully.
      * @throws RoomException Rerouted to handler.
      */
-    @PostMapping("/rooms/{roomId}/players/{name}")
-    public ResponseEntity<PlayerDTO> savePlayer(@PathVariable int roomId, @PathVariable String name) throws RoomException {
-        Player playerIn = roomService.savePlayer(roomId, name);
+    @PostMapping("/rooms/{roomId}/players/{userId}")
+    public ResponseEntity<PlayerDTO> savePlayer(@PathVariable int roomId, @PathVariable int userId) throws RoomException {
+        Player playerIn = roomService.savePlayer(roomId, userId);
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
 
         return new ResponseEntity<>(playerOut, HttpStatus.CREATED);

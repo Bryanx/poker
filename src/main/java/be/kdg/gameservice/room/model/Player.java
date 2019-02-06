@@ -29,7 +29,7 @@ public final class Player {
      * The name of the player. The name is the same as the one used
      * in the account of the user.
      */
-    private String name;
+    private int userId;
 
     /**
      * The first card in the hand of the player.
@@ -82,9 +82,9 @@ public final class Player {
      * The Player is created with default values for all parameters.
      * @param chipCount The default chip count passed by the game rules.
      */
-    public Player(int chipCount, String name) {
+    public Player(int chipCount, int userId) {
         this.chipCount = chipCount;
-        this.name = name;
+        this.userId = userId;
         this.isActive = true;
         this.inRound = false;
         this.handType = HandType.BAD;

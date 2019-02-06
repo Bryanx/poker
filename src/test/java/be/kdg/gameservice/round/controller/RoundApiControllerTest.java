@@ -19,6 +19,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
+import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,9 +40,14 @@ public class RoundApiControllerTest extends ImmutabilityTesting {
 
     @Before
     public void setup() {
-        Round round = roundRepository.findAll().get(0);
-        roundId = round.getId();
-        playerId = round.getPlayersInRound().get(0).getId();
+        Optional<Round> round = roundRepository.findAll().stream()
+                .filter(r -> !r.isFinished())
+                .findAny();
+
+        if (!round.isPresent()) fail("Nothing testable present in database.");
+
+        roundId = round.get().getId();
+        playerId = round.get().getPlayersInRound().get(0).getId();
     }
 
     @Test

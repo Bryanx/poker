@@ -28,6 +28,16 @@ public class RoomServiceImpl implements RoomService {
     public RoomServiceImpl(RoomRepository roomRepository, RoundService roundService) {
         this.roomRepository = roomRepository;
         this.roundService = roundService;
+        /*
+        try {
+            saveRoom(new Room(GameRules.TEXAS_HOLD_EM, "bro room"));
+            addDefaultPlayers();
+            startNewRoundForRoom(1);
+            startNewRoundForRoom(1);
+        } catch (RoomException e) {
+            e.printStackTrace();
+        }
+        */
     }
 
     /**
@@ -35,25 +45,25 @@ public class RoomServiceImpl implements RoomService {
      * TODO: remove method. Only use for testing purposes.
      */
     private void addDefaultPlayers() throws RoomException {
-        savePlayer(1, "Jarne");
-        savePlayer(1, "Bryan");
-        savePlayer(1, "Remi");
-        savePlayer(1, "Anthony");
-        savePlayer(1, "Maarten");
+        savePlayer(1, 1);
+        savePlayer(1, 2);
+        savePlayer(1, 3);
+        savePlayer(1, 4);
+        savePlayer(1, 5);
     }
 
     /**
      * Adds a player to a room.
      *
      * @param roomId The id of the room the player needs to be added to
-     * @param name   The name of the player
+     * @param userId The id of the user.
      * @return The newly created player.
      * @throws RoomException Thrown if the maximum capacity for the room is reached.
      * @see Player for extra information about player constructor
      * @see Room for extra information about helper methods.
      */
     @Override
-    public Player savePlayer(int roomId, String name) throws RoomException {
+    public Player savePlayer(int roomId, int userId) throws RoomException {
         //Get room
         Room room = getRoom(roomId);
 
@@ -62,7 +72,7 @@ public class RoomServiceImpl implements RoomService {
             throw new RoomException(RoomServiceImpl.class, "Maximum player capacity is reached.");
 
         //Add player to room
-        Player player = new Player(room.getGameRules().getStartingChips(), name);
+        Player player = new Player(room.getGameRules().getStartingChips(), userId);
         room.addPlayer(player);
         saveRoom(room);
         return player;

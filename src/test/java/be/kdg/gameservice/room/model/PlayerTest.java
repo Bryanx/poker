@@ -17,7 +17,7 @@ public final class PlayerTest {
 
     @Before
     public void setup() {
-        this.player = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Jarne");
+        this.player = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), 1);
     }
 
     @Test
@@ -25,22 +25,22 @@ public final class PlayerTest {
         assertEquals(player.getChipCount(), GameRules.TEXAS_HOLD_EM.getStartingChips());
         assertEquals(player.getHandType(), HandType.BAD);
         assertEquals(player.getLastAct(), ActType.UNDECIDED);
-        assertEquals(player.getName(), "Jarne");
+        assertEquals(player.getUserId(), 1);
         assertTrue(player.isActive());
         assertFalse(player.isInRound());
     }
 
-    //TODO: remove?
-    /*
     @Test
     public void testResetPlayer() {
-        player.setInPlay(true);
+        player.setInRound(false);
         player.setHandType(HandType.STRAIGHT_FLUSH);
+        player.setLastAct(ActType.RAISE);
 
         player.resetPlayer();
 
         assertEquals(HandType.BAD, player.getHandType());
-        assertFalse(player.isInPlay());
+        assertEquals(ActType.UNDECIDED, player.getLastAct());
+        assertTrue(player.isInRound());
     }
-    */
+
 }

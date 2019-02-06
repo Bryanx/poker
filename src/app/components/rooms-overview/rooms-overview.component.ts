@@ -16,6 +16,7 @@ export class RoomsOverviewComponent implements OnInit {
   ngOnInit() {
     this.gameService.getRooms().subscribe(rooms => {
       this.rooms = rooms;
+      console.log(this.rooms[0].gameRules.playerDelay);
     });
   }
 }

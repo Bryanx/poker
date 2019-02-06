@@ -1,18 +1,68 @@
+Hallo
 <section *ngIf="user">
-  <h1>User page from {{user.username}} and your mail is {{user.email}}</h1>
+  <!--<form [formGroup]="updateUserForm" (ngSubmit)="onSubmit(form.value)"> -->
+  <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
+    <h2>UPDATE USER</h2>
 
-  <div>
-    <button (click)="goBack()">go back</button>
-
-    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" class="form-control" id="username" required minlength="4" maxlength="20" [(ngModel)]="user.username" name="username">
+    <section class="username">
+      <label for="username">Username</label>
+      <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
+      <div class="error"
+           *ngIf="updateUserForm.controls['username'].hasError('required') && updateUserForm.controls['username'].touched">
+        Username is required
       </div>
+    </section>
 
-      <button type="submit" [disabled]="!userForm.form.valid">Submit</button>
-    </form>
-  </div>
+    <button [disabled]="updateUserForm.invalid">
+      UPDATE
+    </button>
+  </form>
+
+
+  <!--<h1>User page from {{user.username}} and your mail is {{user.email}}</h1>-->
+
+  <!--<div>-->
+    <!--<button (click)="goBack()">go back</button>-->
+
+    <!--<form (ngSubmit)="onSubmit()" #userForm="ngForm">-->
+      <!--<div class="form-group">-->
+        <!--<label for="username">Username</label>-->
+        <!--<input type="text" class="form-control" id="username" required minlength="4" maxlength="20" [(ngModel)]="user.username" name="username">-->
+      <!--</div>-->
+
+      <!--<button type="submit" [disabled]="!userForm.form.valid">Submit</button>-->
+    <!--</form>-->
+  <!--</div>-->
 
 
 </section>
+
+<!--<section *ngIf="user">-->
+
+<!--<form [formGroup]="updateForm" (ngSubmit)="onSubmit()">-->
+    <!--<h1>Update Account</h1>-->
+
+    <!--<section class="username">-->
+      <!--<label for="username">Username</label>-->
+      <!--<input type="text" name="username" formControlName="username" id="username" autocomplete="off" [(ngModel)]="user.username">-->
+      <!--<div class="error"-->
+           <!--*ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">-->
+        <!--Username is required-->
+      <!--</div>-->
+    <!--</section>-->
+
+    <!--&lt;!&ndash;<section class="password">&ndash;&gt;-->
+      <!--&lt;!&ndash;<label for="password">Password</label>&ndash;&gt;-->
+      <!--&lt;!&ndash;<input type="password" name="password" formControlName="password" id="password" autocomplete="off">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="error"&ndash;&gt;-->
+           <!--&lt;!&ndash;*ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">&ndash;&gt;-->
+        <!--&lt;!&ndash;Password is required&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="error" *ngIf="error">{{error}}</div>&ndash;&gt;-->
+    <!--&lt;!&ndash;</section>&ndash;&gt;-->
+
+    <!--<button [disabled]="loginForm.invalid">-->
+      <!--UPDATE-->
+    <!--</button>-->
+  <!--</form>-->
+<!--</section>-->

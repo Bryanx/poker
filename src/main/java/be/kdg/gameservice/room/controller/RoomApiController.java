@@ -6,7 +6,6 @@ import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.service.api.RoomService;
-import be.kdg.gameservice.round.model.Round;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This API is used for managing all the rooms.
+ */
 @RestController
 @RequestMapping("/api")
-public class RoomApiController {
+public final class RoomApiController {
     private final ModelMapper modelMapper;
     private final RoomService roomService;
 
@@ -28,7 +30,14 @@ public class RoomApiController {
         this.roomService = roomService;
     }
 
-    //TODO: proper exception handling.
+    /**
+     * This API will be called when a player specific to join a specific room.
+     *
+     * @param roomId The id of the room the player wants to join.
+     * @param name   The name of the player.
+     * @return Status code 201 if the player joined the room successfully.
+     * @throws RoomException Rerouted to handler.
+     */
     @PostMapping("/rooms/{roomId}/players/{name}")
     public ResponseEntity<PlayerDTO> savePlayer(@PathVariable int roomId, @PathVariable String name) throws RoomException {
         Player playerIn = roomService.savePlayer(roomId, name);
@@ -37,7 +46,13 @@ public class RoomApiController {
         return new ResponseEntity<>(playerOut, HttpStatus.CREATED);
     }
 
-    //TODO: proper exception handling.
+    /**
+     * This API will be called when a round has finished and a new round needs to start.
+     *
+     * @param roomId The id of the room were a new round needs to be created for.
+     * @return Status 200.
+     * @throws RoomException Rerouted to handler.
+     */
     @PostMapping("/rooms/{roomId}/start-new-round")
     public ResponseEntity<RoomDTO> startNewRound(@PathVariable int roomId) throws RoomException {
         Room roomIn = roomService.startNewRoundForRoom(roomId);
@@ -48,6 +63,6 @@ public class RoomApiController {
                 roomIn.getCurrentRound()
         );
 
-        return new ResponseEntity<>(roomOut, HttpStatus.CREATED);
+        return new ResponseEntity<>(roomOut, HttpStatus.OK);
     }
 }

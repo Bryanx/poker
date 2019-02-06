@@ -19,7 +19,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api")
-public class RoundApiController {
+public final class RoundApiController {
     private final ModelMapper modelMapper;
     private final RoundService roundService;
 
@@ -36,9 +36,9 @@ public class RoundApiController {
      * @param roundId The id of the round
      * @param playerId The id of the player.
      * @return Status code 200 if the get succeeded.
-     * @throws RoundException TODO: proper exception handling
+     * @throws RoundException Rerouted to handler.
      */
-    @GetMapping("/rounds/[roundId]/players/[playerId}/possible-acts")
+    @GetMapping("/rounds/{roundId}/players/{playerId}/possible-acts")
     public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId, @PathVariable int playerId) throws RoundException {
         List<ActType> actTypes = roundService.getPossibleActs(roundId, playerId);
         return new ResponseEntity<>(modelMapper.map(actTypes, ActType[].class), HttpStatus.OK);
@@ -50,7 +50,7 @@ public class RoundApiController {
      *
      * @param actDTO The information needed to make a new Act.
      * @return Status code 201 if the post succeeded.
-     * @throws RoundException TODO: proper exception handling
+     * @throws RoundException Rerouted to handler.
      * @see ActDTO
      */
     @PostMapping("/rounds/acts")

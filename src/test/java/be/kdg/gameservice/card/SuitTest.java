@@ -1,4 +1,4 @@
-package be.kdg.gameservice.card.model;
+package be.kdg.gameservice.card;
 
 import be.kdg.gameservice.ImmutabilityTesting;
 import org.junit.Test;
@@ -8,9 +8,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public final class CardTest extends ImmutabilityTesting {
+public final class SuitTest extends ImmutabilityTesting {
     @Test
-    public void testImmutability() {
-        testImmutabilityClass(CardTest.class);
+    public void testImmutabilityGetCards() {
+        testImmutabilityClass(Suit.class);
     }
 }

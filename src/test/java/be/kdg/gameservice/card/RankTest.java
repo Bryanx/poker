@@ -1,4 +1,4 @@
-package be.kdg.gameservice.card.model;
+package be.kdg.gameservice.card;
 
 import be.kdg.gameservice.ImmutabilityTesting;
 import org.junit.Test;

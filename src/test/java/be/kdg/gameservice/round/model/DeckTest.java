@@ -1,8 +1,8 @@
 package be.kdg.gameservice.round.model;
 
 import be.kdg.gameservice.ImmutabilityTesting;
-import be.kdg.gameservice.card.model.Card;
-import be.kdg.gameservice.card.model.CardType;
+import be.kdg.gameservice.card.Card;
+import be.kdg.gameservice.card.CardType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +23,11 @@ public final class DeckTest extends ImmutabilityTesting {
     @Before
     public void setup() {
         this.deck = new Deck();
+    }
+
+    @Test
+    public void testImmutability() {
+        testImmutabilityClass(Deck.class);
     }
 
     @Test

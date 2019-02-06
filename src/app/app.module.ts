@@ -12,8 +12,6 @@ import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { ChatComponent } from './components/chat/chat.component';
-import {ErrorHandler} from './services/error_handler.service';
-import {MatSnackBar} from '@angular/material';
 
 @NgModule({
   declarations: [

@@ -1,6 +1,8 @@
 package be.kdg.gameservice.round.service.impl;
 
+import be.kdg.gameservice.card.model.Card;
 import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.round.Hand;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Act;
 import be.kdg.gameservice.round.model.ActType;
@@ -244,5 +246,87 @@ public class RoundServiceImpl implements RoundService {
     public Round startNewRound() {
         //TODO: implement.
         return null;
+    }
+
+    /**
+     * Determines winning player based on all hand combinations of all the players
+     * @param roundId
+     * @return
+     * @throws RoundException
+     */
+    public Player determineWinningPlayer(int roundId) throws RoundException {
+        //Get data
+        Round round = getRound(roundId);
+        List<Player> participatingPlayers = round.getParticipatingPlayers();
+
+        Hand bestHand = null;
+        Player winningPlayer = null;
+        for (Player player: participatingPlayers) {
+            Hand bestHandForPlayer = this.bestHandForPlayer(player, round);
+
+            if(bestHandForPlayer.compareTo(bestHand) > 0) {
+                winningPlayer = player;
+                bestHand = bestHandForPlayer;
+            }
+        }
+        return winningPlayer;
+    }
+
+    /**
+     * Returns best hand based on all possibilities based for player.
+     * @param player
+     * @param round
+     * @return
+     */
+    private Hand bestHandForPlayer(Player player, Round round) {
+        // Array of 7  cards -> 5 (boardCards) + 1 (player FirstCard) + 1 (player SecondCard)
+        List<Card> playerCards = new ArrayList<>(round.getCards());
+        playerCards.addAll(Arrays.asList(player.getFirstCard(), player.getSecondCard()));
+
+        List<Set<Card>> res = new ArrayList<>();
+        getSubsets(playerCards, 5, 0, new HashSet<Card>(), res);
+
+        List<Hand> allHands = new ArrayList<>();
+        for (Set<Card> handPossibility : res) {
+            Hand hand = this.createHand(new ArrayList<>(handPossibility));
+            allHands.add(hand);
+        }
+
+        Collections.sort(allHands);
+        return allHands.get(allHands.size() - 1);
+    }
+
+    /**
+     * Construct new Hand that calculates handType
+     * @param cards
+     * @return
+     */
+    private Hand createHand(List<Card> cards) {
+        return new Hand(cards);
+    }
+
+    /**
+     * Creates all subsets of size k based on superSet
+     * @param superSet
+     * @param k
+     * @param idx
+     * @param current
+     * @param solution
+     */
+    private void getSubsets(List<Card> superSet, int k, int idx, Set<Card> current, List<Set<Card>> solution) {
+        //successful stop clause
+        if (current.size() == k) {
+            solution.add(new HashSet<>(current));
+            return;
+        }
+        //unseccessful stop clause
+        if (idx == superSet.size()) return;
+        Card x = superSet.get(idx);
+        current.add(x);
+        //"guess" x is in the subset
+        getSubsets(superSet, k, idx+1, current, solution);
+        current.remove(x);
+        //"guess" x is not in the subset
+        getSubsets(superSet, k, idx+1, current, solution);
     }
 }

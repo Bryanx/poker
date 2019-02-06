@@ -122,7 +122,7 @@ public final class Round {
     /**
      * @return An unmodifiable list of cards that are on the board.
      */
-    List<Card> getCards() {
+    public List<Card> getCards() {
         return Collections.unmodifiableList(cards);
     }
 

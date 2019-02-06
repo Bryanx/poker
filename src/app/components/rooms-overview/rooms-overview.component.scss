@@ -107,3 +107,9 @@ button {
   margin-bottom: 35px;
 }
 
+@media(max-width: 800px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
+

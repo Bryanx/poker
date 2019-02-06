@@ -33,7 +33,6 @@ export class UserComponent implements OnInit {
   }
 
   private onSubmit() {
-    console.log(this.user.username);
     this.user.username = this.updateUserForm.controls.username.value;
     this.userService.updateUser(this.user).subscribe(result => {
       this.user = result as User;

@@ -1,13 +1,12 @@
 package be.kdg.gameservice.round.service.impl;
 
+import be.kdg.gameservice.card.model.Card;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.round.exception.RoundException;
-import be.kdg.gameservice.round.model.Act;
-import be.kdg.gameservice.round.model.ActType;
-import be.kdg.gameservice.round.model.Phase;
-import be.kdg.gameservice.round.model.Round;
+import be.kdg.gameservice.round.model.*;
 import be.kdg.gameservice.round.persistence.PlayerRepository;
 import be.kdg.gameservice.round.persistence.RoundRepository;
+import be.kdg.gameservice.round.service.api.HandService;
 import be.kdg.gameservice.round.service.api.RoundService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +26,12 @@ public class RoundServiceImpl implements RoundService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoundServiceImpl.class);
     private final RoundRepository roundRepository;
     private final PlayerRepository playerRepository;
+    private final HandService handService;
 
-    @Autowired
-    public RoundServiceImpl(RoundRepository roundRepository, PlayerRepository playerRepository) {
+    public RoundServiceImpl(RoundRepository roundRepository, PlayerRepository playerRepository, HandService handService) {
         this.roundRepository = roundRepository;
         this.playerRepository = playerRepository;
+        this.handService = handService;
     }
 
     /**
@@ -244,5 +244,46 @@ public class RoundServiceImpl implements RoundService {
     public Round startNewRound() {
         //TODO: implement.
         return null;
+    }
+
+    /**
+     * Determines winning player based on all hand combinations of all the players
+     * @param roundId
+     * @return
+     * @throws RoundException
+     */
+    public Player determineWinner(int roundId) throws RoundException {
+        //Get data
+        Round round = getRound(roundId);
+        List<Player> participatingPlayers = round.getParticipatingPlayers();
+
+        HandType bestHand = null;
+        Player winningPlayer = null;
+
+        for (Player player: participatingPlayers) {
+            HandType bestHandForPlayer = this.bestHandForPlayer(player, round);
+
+            if(bestHand == null) {
+                bestHand = bestHandForPlayer;
+            } else if(bestHandForPlayer.compareTo(bestHand) > 0) {
+                winningPlayer = player;
+                bestHand = bestHandForPlayer;
+            }
+        }
+        return winningPlayer;
+    }
+
+    /**
+     * Returns best handType based on all possibilities out of 7 cards for player.
+     * @param player
+     * @param round
+     * @return
+     */
+    private HandType bestHandForPlayer(Player player, Round round) {
+        // Array of 7  cards -> 5 (boardCards) + 1 (player FirstCard) + 1 (player SecondCard)
+        List<Card> playerCards = new ArrayList<>(round.getCards());
+        playerCards.addAll(Arrays.asList(player.getFirstCard(), player.getSecondCard()));
+
+        return handService.determineBestPossibleHand(playerCards);
     }
 }

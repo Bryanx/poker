@@ -2,70 +2,58 @@
   display: grid;
   height: 100vh;
   width: 100vw;
-  grid-template-columns: 20% auto 20% auto 20%;
-  grid-template-rows: 10%;
+  grid-template-columns: 25% auto 20% auto 25%;
+  grid-template-rows: 18% 18% 6% 18% 20% 20%;
   grid-column-gap: 10px;
   grid-row-gap: 10px;
-  grid-template-areas: ". . two . ." "three table table table four" "tmiddle table table table ." "five table table table six" ". . one . ." "actionbar actionbar actionbar actionbar actionbar";
+  grid-template-areas:
+    ". . two . ."
+    "three table table table four"
+    "tmiddle table table table ."
+    "five table table table six"
+    ". . one . ."
+    "actionbar actionbar actionbar actionbar actionbar";
+}
+
+.grid-person {
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .grid-person-1 {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px 0;
-  font-size: 30px;
-  text-align: center;
   grid-area: one;
+  align-items: start;
 }
 
 .grid-person-2 {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px 0;
-  font-size: 30px;
-  text-align: center;
   grid-area: two;
+  align-items: end;
 }
 
 .grid-person-3 {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px 0;
-  font-size: 30px;
-  text-align: center;
   grid-area: three;
+  justify-content: right;
 }
 
 .grid-person-4 {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px 0;
-  font-size: 30px;
-  text-align: center;
   grid-area: four;
+  justify-content: left;
 }
 
 .grid-person-5 {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px 0;
-  font-size: 30px;
-  text-align: center;
   grid-area: five;
+  justify-content: right;
 }
 
 .grid-person-6 {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px 0px;
-  font-size: 30px;
-  text-align: center;
   grid-area: six;
+  justify-content: left;
 }
 
 .grid-tmiddle {
   grid-area: tmiddle;
-  height: 10em;
 }
 
 .grid-actionbar {
@@ -77,6 +65,5 @@
 .grid-item-table {
   background-color: RGB(50, 252, 141);
   grid-area: table;
-  margin: 20px;
   border-radius: 60px;
 }

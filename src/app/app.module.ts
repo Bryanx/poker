@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { RoomComponent } from './components/room/room.component';
+import { PlayerComponent } from './components/player/player.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RoomComponent } from './components/room/room.component';
     HomeComponent,
     RegisterComponent,
     RoomComponent,
+    PlayerComponent,
   ],
   imports: [
     BrowserModule,

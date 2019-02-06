@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -99,6 +100,14 @@ public class RoomServiceImpl implements RoomService {
         if (room.getRounds().size() > 0) room.getCurrentRound().setFinished(true);
         room.addRound(round);
         return saveRoom(room);
+    }
+
+    /**
+     * @return An unmodifiable collection of all the rooms from the database.
+     */
+    @Override
+    public List<Room> getRooms() {
+        return Collections.unmodifiableList(roomRepository.findAll());
     }
 
     /**

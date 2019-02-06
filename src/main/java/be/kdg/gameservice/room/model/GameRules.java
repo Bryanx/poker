@@ -1,11 +1,13 @@
 package be.kdg.gameservice.room.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 
 /**
  * The rules of a game are represented in the a game format.
  */
 @Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum GameRules {
     /**
      * The default settings.

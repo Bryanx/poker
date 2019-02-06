@@ -14,16 +14,11 @@ public class User {
     @GeneratedValue(generator = "uuid-gen")
     @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
     private String id;
-
-    @Column(name = "username")
     private String username;
-
-    @Column(name = "password")
+    private String firstname;
+    private String lastname;
     private String password;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "enabled")
     private int enabled;
+    private byte[] profilePicture;
 }

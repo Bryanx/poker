@@ -1,7 +1,7 @@
 package be.kdg.userservice.user.controller;
 
 
-import be.kdg.userservice.user.dto.ErrorDto;
+import be.kdg.userservice.user.dto.AuthDto;
 import be.kdg.userservice.user.dto.UserDto;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
@@ -49,14 +49,35 @@ public class UserController {
      * Rest endpoint that creates a user and returns a CREATED status code.
      */
     @PostMapping("/user")
-    public ResponseEntity<Object> addUser(@Valid @RequestBody UserDto userDto) {
-        User userIn = modelMapper.map(userDto, User.class);
-        User userOut;
-        try {
-            userOut = userServiceImpl.addUser(userIn);
-        } catch (UserException e) {
-            return new ResponseEntity<>(new ErrorDto("error", e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<UserDto> addUser(@Valid @RequestBody AuthDto authDto) throws UserException {
+        User userIn = modelMapper.map(authDto, User.class);
+        User userOut = userServiceImpl.addUser(userIn);
+
         return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.CREATED);
+    }
+
+
+    /**
+     * Rest endpoint that updates a user and returns an OK status code.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/user")
+    public ResponseEntity<UserDto> changeUser(@Valid @RequestBody UserDto userDto) throws UserException {
+        User userIn = modelMapper.map(userDto, User.class);
+        User userOut = userServiceImpl.changeUser(userIn);
+
+        return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.OK);
+    }
+
+    /**
+     * Rest endpoint that patches a user password and returns an OK status code.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/user")
+    public ResponseEntity<UserDto> changePassword(@Valid @RequestBody AuthDto authDto) throws UserException {
+        User userIn = modelMapper.map(authDto, User.class);
+        User userOut = userServiceImpl.changePassword(userIn);
+
+        return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.OK);
     }
 }

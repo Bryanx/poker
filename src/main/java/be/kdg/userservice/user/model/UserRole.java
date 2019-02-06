@@ -14,9 +14,7 @@ public class UserRole {
     @GeneratedValue(generator = "uuid-gen")
     @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
     private String id;
-    @Column(name = "user_id")
     private String userId;
-    @Column(name = "role")
     private String role;
 
     public UserRole(String userId, String role) {

@@ -75,4 +75,33 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         return user;
     }
+
+    @Override
+    public User changeUser(User user) throws UserException {
+        User dbUser = userRepository.findById(user.getId()).orElseThrow(() -> new UserException("User not found"));
+
+        Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
+
+        if (optionalUser.isPresent()) {
+            if (!optionalUser.get().getUsername().equals(user.getUsername()))
+            {
+                throw new UserException("Username already taken");
+            }
+            dbUser.setUsername(user.getUsername());
+            dbUser.setFirstname(user.getFirstname());
+            dbUser.setLastname(user.getLastname());
+            dbUser.setEmail(user.getEmail());
+            dbUser.setProfilePicture(user.getProfilePicture());
+        }
+
+        return userRepository.save(dbUser);
+    }
+
+    @Override
+    public User changePassword(User user) throws UserException {
+        User dbUser = userRepository.findById(user.getId()).orElseThrow(() -> new UserException("User not found"));
+        dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(dbUser);
+    }
 }

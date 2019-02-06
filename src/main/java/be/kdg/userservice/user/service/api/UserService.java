@@ -7,4 +7,6 @@ import be.kdg.userservice.user.model.User;
 public interface UserService {
     User findUserById(String id);
     User addUser(User user) throws UserException;
+    User changeUser(User user) throws UserException;
+    User changePassword(User user) throws UserException;
 }

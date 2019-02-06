@@ -1,11 +1,18 @@
-@import "~src/styles.scss";
-
 :host {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 
 h1 {

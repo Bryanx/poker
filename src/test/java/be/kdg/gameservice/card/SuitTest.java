@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public final class SuitTest extends ImmutabilityTesting {
     @Test
-    public void testImmutabilityGetCards() {
+    public void testImmutability() {
         testImmutabilityClass(Suit.class);
     }
 }

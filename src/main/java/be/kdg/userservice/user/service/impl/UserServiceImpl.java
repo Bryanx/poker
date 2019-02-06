@@ -87,12 +87,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             {
                 throw new UserException("Username already taken");
             }
-            dbUser.setUsername(user.getUsername());
-            dbUser.setFirstname(user.getFirstname());
-            dbUser.setLastname(user.getLastname());
-            dbUser.setEmail(user.getEmail());
-            dbUser.setProfilePicture(user.getProfilePicture());
         }
+
+        dbUser.setUsername(user.getUsername());
+        dbUser.setFirstname(user.getFirstname());
+        dbUser.setLastname(user.getLastname());
+        dbUser.setEmail(user.getEmail());
+        dbUser.setProfilePicture(user.getProfilePicture());
 
         return userRepository.save(dbUser);
     }

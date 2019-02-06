@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -36,6 +37,13 @@ public class RoomApiControllerTest extends ImmutabilityTesting {
     @Test
     public void testImmutability() {
         testImmutabilityClass(RoomApiController.class);
+    }
+
+    @Test
+    public void testGetRooms() throws Exception {
+        mockMvc.perform(get("/api/rooms")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
     }
 
     @Test

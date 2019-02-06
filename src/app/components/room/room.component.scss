@@ -1,18 +1,18 @@
 .grid-container {
   display: grid;
-  grid-template-columns: 40px auto 40px auto 40px;
-  grid-template-rows: auto;
-  grid-template-areas:
-    ". . two . ."
-    "three table table table four"
-    "five table table table six"
-    ". . one . .";
+  height: 100vh;
+  width: 100vw;
+  grid-template-columns: 20% auto 20% auto 20%;
+  grid-template-rows: 10%;
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  grid-template-areas: ". . two . ." "three table table table four" "tmiddle table table table ." "five table table table six" ". . one . ." "actionbar actionbar actionbar actionbar actionbar";
 }
 
 .grid-person-1 {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  padding: 20px 0;
   font-size: 30px;
   text-align: center;
   grid-area: one;
@@ -21,7 +21,7 @@
 .grid-person-2 {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  padding: 20px 0;
   font-size: 30px;
   text-align: center;
   grid-area: two;
@@ -30,7 +30,7 @@
 .grid-person-3 {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  padding: 20px 0;
   font-size: 30px;
   text-align: center;
   grid-area: three;
@@ -39,7 +39,7 @@
 .grid-person-4 {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  padding: 20px 0;
   font-size: 30px;
   text-align: center;
   grid-area: four;
@@ -48,7 +48,7 @@
 .grid-person-5 {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  padding: 20px 0;
   font-size: 30px;
   text-align: center;
   grid-area: five;
@@ -57,13 +57,26 @@
 .grid-person-6 {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 20px;
+  padding: 20px 0px;
   font-size: 30px;
   text-align: center;
   grid-area: six;
 }
 
+.grid-tmiddle {
+  grid-area: tmiddle;
+  height: 10em;
+}
+
+.grid-actionbar {
+  grid-area: actionbar;
+  background-color: RGB(80, 80, 100);
+  padding-top: 10vh;
+}
+
 .grid-item-table {
   background-color: RGB(50, 252, 141);
   grid-area: table;
+  margin: 20px;
+  border-radius: 60px;
 }

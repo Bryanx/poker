@@ -1,9 +1,67 @@
+@import "~src/styles.scss";
+
 :host {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.room {
+  display: flex;
+  flex-direction: column;
+
+  width: 350px;
+  height: 200px;
+  margin-bottom: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  border-radius: 8rem;
+  background-color: #505271;
+  position: relative;
+  border: 10px solid #3e405e;
+  transition: .1s;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    transform: scale(1.05);
+    border: 10px solid $green;
+    background-color: darken($green, 15%);
+  }
+
+  label {
+    position: absolute;
+    color: white;
+  }
+
+  .blinds {
+    bottom: 15px;
+    left: 55px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .capacity {
+    bottom: 15px;
+    right: 55px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .name {
+    top: 70px;
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .chips {
+    top: 105px;
+    align-self: center;
+  }
 }
 
 section {
@@ -13,10 +71,12 @@ section {
   justify-content: center;
   align-items: center;
   align-content: center;
+
+  max-width: 1200px;
 }
 
 h1 {
   color: white;
-  margin-top: 4rem;
-  margin-bottom: 2rem;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
 }

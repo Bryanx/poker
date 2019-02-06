@@ -12,7 +12,6 @@ import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overview.component';
-import { RoomComponent } from './components/room/room.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { RoomComponent } from './components/room/room.component';
     HomeComponent,
     RegisterComponent,
     RoomsOverviewComponent,
-    RoomComponent,
   ],
   imports: [
     BrowserModule,

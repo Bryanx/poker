@@ -91,12 +91,13 @@ public final class Player {
         this.lastAct = ActType.UNDECIDED;
     }
 
-    //TODO: remove?
     /**
      * Resets a player to its default values.
      * This method will be called on if the current round ends and a new round is started.
      */
     public void resetPlayer() {
+        this.inRound = true;
         this.handType = HandType.BAD;
+        this.lastAct = ActType.UNDECIDED;
     }
 }

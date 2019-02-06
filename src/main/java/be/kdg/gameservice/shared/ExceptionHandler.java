@@ -17,6 +17,6 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value = {RoomException.class, RoundException.class})
     public ResponseEntity<ErrorDTO> handleControllerExceptions(Exception ex) {
         LOGGER.error(ex.getMessage());
-        return new ResponseEntity<>(new ErrorDTO(ex.getMessage()), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ErrorDTO(ex.getCause().toString(), ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 }

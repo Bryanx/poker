@@ -31,7 +31,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * WARING!!!!!!!!!!!!!!! remove method.
+     * !!! WARING !!!
+     * TODO: remove method. Only use for testing purposes.
      */
     private void addDefaultPlayers() throws RoomException {
         savePlayer(1, "Jarne");

@@ -155,7 +155,7 @@ public class RoundServiceImpl implements RoundService {
     @Override
     public Round startNewRound(List<Player> participatingPlayers, int button) {
         button = button >= participatingPlayers.size() - 1 ? 1 : button + 1;
-        participatingPlayers.forEach(p -> p.setInRound(true));
+        participatingPlayers.forEach(Player::resetPlayer);
         return new Round(participatingPlayers, button);
     }
 

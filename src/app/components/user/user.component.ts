@@ -18,4 +18,10 @@ export class UserComponent implements OnInit {
     });
   }
 
+  private onSubmit() {
+    this.userService.updateUser(this.user).subscribe(result => {
+      this.user = result as User;
+    });
+  }
+
 }

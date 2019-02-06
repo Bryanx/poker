@@ -13,6 +13,7 @@ import {RouterModule} from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { RoomComponent } from './components/room/room.component';
 import { PlayerComponent } from './components/player/player.component';
+import { GameTableComponent } from './components/game-table/game-table.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { PlayerComponent } from './components/player/player.component';
     RegisterComponent,
     RoomComponent,
     PlayerComponent,
+    GameTableComponent,
   ],
   imports: [
     BrowserModule,

@@ -15,9 +15,5 @@ public interface RoundService {
 
     Round startNewRound(List<Player> playersForRound, int button);
 
-    Round getRound(int roundId) throws RoundException;
-
-    Round saveRound(Round round);
-
     Player determineWinner(int roundId) throws RoundException;
 }

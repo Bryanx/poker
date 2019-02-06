@@ -1,16 +1,14 @@
 package be.kdg.gameservice.round.service.impl;
 
-import be.kdg.gameservice.card.model.Card;
+import be.kdg.gameservice.card.Card;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.*;
-import be.kdg.gameservice.round.persistence.PlayerRepository;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.round.service.api.HandService;
 import be.kdg.gameservice.round.service.api.RoundService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -248,14 +246,6 @@ public class RoundServiceImpl implements RoundService {
     private Round saveRound(Round round) {
         return roundRepository.save(round);
     }
-<<<<<<< src/main/java/be/kdg/gameservice/round/service/impl/RoundServiceImpl.java
-=======
-
-    @Override
-    public Round startNewRound() {
-        //TODO: implement.
-        return null;
-    }
 
     /**
      * Determines winning player based on all hand combinations of all the players
@@ -266,7 +256,7 @@ public class RoundServiceImpl implements RoundService {
     public Player determineWinner(int roundId) throws RoundException {
         //Get data
         Round round = getRound(roundId);
-        List<Player> participatingPlayers = round.getParticipatingPlayers();
+        List<Player> participatingPlayers = round.getPlayersInRound();
 
         HandType bestHand = null;
         Player winningPlayer = null;
@@ -297,5 +287,4 @@ public class RoundServiceImpl implements RoundService {
 
         return handService.determineBestPossibleHand(playerCards);
     }
->>>>>>> src/main/java/be/kdg/gameservice/round/service/impl/RoundServiceImpl.java
 }

@@ -1,2 +1,18 @@
-<h1 *ngIf="user">User page from {{user.username}} and your mail is {{user.email}}</h1>
+<section *ngIf="user">
+  <h1>User page from {{user.username}} and your mail is {{user.email}}</h1>
 
+  <div>
+    <button (click)="goBack()">go back</button>
+
+    <form (ngSubmit)="onSubmit()" #userForm="ngForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" required minlength="4" maxlength="20" [(ngModel)]="user.username" name="username">
+      </div>
+
+      <button type="submit" [disabled]="!userForm.form.valid">Submit</button>
+    </form>
+  </div>
+
+
+</section>

@@ -6,6 +6,7 @@ import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.service.api.RoomService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,17 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * This API is used for managing all the rooms.
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public final class RoomApiController {
     private final ModelMapper modelMapper;
     private final RoomService roomService;
-
-    @Autowired
-    public RoomApiController(ModelMapper modelMapper, RoomService roomService) {
-        this.modelMapper = modelMapper;
-        this.roomService = roomService;
-    }
 
     /**
      * This API will be called when a player specific to join a specific room.

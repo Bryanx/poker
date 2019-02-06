@@ -4,6 +4,7 @@ import be.kdg.gameservice.round.controller.dto.ActDTO;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.service.api.RoundService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,17 +18,12 @@ import java.util.List;
  * This API is used for API connections that have somthing to do
  * with the games of poker
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public final class RoundApiController {
     private final ModelMapper modelMapper;
     private final RoundService roundService;
-
-    @Autowired
-    public RoundApiController(ModelMapper modelMapper, RoundService roundService) {
-        this.modelMapper = modelMapper;
-        this.roundService = roundService;
-    }
 
     /**
      * Gets all the possible acts that can be played for a specific player

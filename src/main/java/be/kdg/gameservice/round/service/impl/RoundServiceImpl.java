@@ -7,6 +7,7 @@ import be.kdg.gameservice.round.model.*;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.round.service.api.HandService;
 import be.kdg.gameservice.round.service.api.RoundService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -18,17 +19,13 @@ import java.util.*;
  * This service will be used to manage the ongoing activity of a specific round.
  * It will also take care of the CRUD operations with its persistence dependency.
  */
+@RequiredArgsConstructor
 @Service
 @Transactional
 public class RoundServiceImpl implements RoundService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoundServiceImpl.class);
     private final RoundRepository roundRepository;
     private final HandService handService;
-
-    public RoundServiceImpl(RoundRepository roundRepository, HandService handService) {
-        this.roundRepository = roundRepository;
-        this.handService = handService;
-    }
 
     /**
      * This method will check if the act done by the player is actually possible.

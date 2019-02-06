@@ -9,5 +9,13 @@
   </div>
   <div class="button-raise">
     <button>RAISE</button>
+    <mat-slider
+      thumbLabel
+      [displayWith]="formatLabel"
+      [(ngModel)]="myModel"
+      tickInterval="1000"
+      min="1"
+      max="100000"></mat-slider>
+    <div class="slider-amount">{{myModel}}</div>
   </div>
 </div>

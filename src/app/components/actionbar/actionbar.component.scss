@@ -1,6 +1,6 @@
 .actionbar {
   display: grid;
-  grid-template-columns: 10% 30% auto 30% 10%;
+  grid-template-columns: 10% 30% auto 40%;
   grid-template-rows: auto;
   grid-column-gap: 10px;
   grid-template-areas: ". action cards raise .";
@@ -46,4 +46,24 @@ button {
   background-color: transparent;
   border: 3px solid RGB(250, 235, 215);
   letter-spacing: 1.5px;
+}
+
+mat-slider {
+  width: 10rem;
+  margin: 0 1rem;
+}
+
+.slider-amount {
+  display: inline-block;
+  width: 10vh;
+  height: 10vh;
+  border-radius: 50px;
+  font-weight: normal;
+  background-color: transparent;
+  border: 3px solid RGB(250, 235, 215);
+
+  text-decoration: none;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 2.3rem 1.4rem;
 }

@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ActionbarComponent implements OnInit {
 
-  myModel = 0;
+  sliderValue = 0;
   constructor() { }
 
   ngOnInit() {

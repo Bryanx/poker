@@ -1,15 +1,22 @@
 .actionbar {
   display: grid;
+  width: 100vw;
   grid-template-columns: 10% 30% auto 40%;
   grid-template-rows: auto;
-  grid-column-gap: 10px;
-  grid-template-areas: ". action cards raise .";
+  grid-template-areas: ". action cards raise";
 }
 
 .cards {
   grid-area: cards;
   display: inline-flex;
   justify-content: center;
+
+  div {
+    background-color: antiquewhite;
+    top: -1.5rem;
+    height: 14vh;
+    width: 9vh;
+  }
 }
 
 .button-actions {
@@ -51,6 +58,7 @@ button {
 mat-slider {
   width: 10rem;
   margin: 0 1rem;
+  font-size: 1.1rem;
 }
 
 .slider-amount {

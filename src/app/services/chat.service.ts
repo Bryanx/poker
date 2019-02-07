@@ -5,7 +5,7 @@ import * as Stomp from 'stompjs';
   providedIn: 'root'
 })
 export class ChatService {
-  serverUrl = 'ws://poker-game-service.herokuapp.com/chat/websocket';
+  serverUrl = 'wss://poker-game-service.herokuapp.com/chat/websocket';
   server;
 
   constructor() { }

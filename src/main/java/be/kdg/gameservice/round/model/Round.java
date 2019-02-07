@@ -103,7 +103,7 @@ public final class Round {
      */
     @Setter
     @Getter
-    private double pot;
+    private int pot;
 
     /**
      * The round is created with default values for all parameters.
@@ -117,7 +117,7 @@ public final class Round {
 
         this.button = button;
         this.isFinished = false;
-        this.pot = 0.0;
+        this.pot = 0;
     }
 
     /**

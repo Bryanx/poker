@@ -4,7 +4,6 @@
   width: 100vw;
   grid-template-columns: 25% 15% auto 15% 25%;
   grid-template-rows: 20% 20% 6% 20% 20% auto;
-  grid-column-gap: 10px;
   grid-template-areas:
     ". . two . ."
     "three table table table four"

@@ -53,7 +53,7 @@ public final class CreateDefaultUserListener implements ApplicationListener<Cont
         user.setEmail("test@test.com");
         user.setEnabled(1);
         user.setUsername("admin");
-        user.setPassword(passwordEncoder.encode("1q2w3e"));
+        user.setPassword(passwordEncoder.encode("12345"));
         userRepository.save(user);
 
         role = new UserRole(user.getId(), "ROLE_USER");

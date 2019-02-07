@@ -2,13 +2,14 @@ package be.kdg.userservice.user.dto;
 
 import lombok.Data;
 
-import java.util.List;
 
 
 @Data
 public class UserDto {
     private String id;
     private String username;
+    private String firstname;
+    private String lastname;
     private String email;
-    private String password;
+    private byte[] profilePicture;
 }

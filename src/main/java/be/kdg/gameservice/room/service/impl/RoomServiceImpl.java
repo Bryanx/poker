@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This service will be used to manage the ongoing activity of a specific room.
@@ -78,6 +79,30 @@ public class RoomServiceImpl implements RoomService {
         room.addPlayer(player);
         saveRoom(room);
         return player;
+    }
+
+    /**
+     * Before the player is removed. TODO: expand documentation.
+     *
+     * @param roomId The id of the room were the players needs to be removed from
+     * @param playerId The id of the player we want to delete.
+     * @throws RoomException Thrown if the player was not found in the room.
+     */
+    @Override
+    public void deletePlayer(int roomId, int playerId) throws RoomException {
+        //Get data
+        Room room = getRoom(roomId);
+        Optional<Player> playerOpt = room.getPlayersInRoom().stream()
+                .filter(player -> player.getId() == playerId)
+                .findAny();
+
+        //Check optional player
+        if (!playerOpt.isPresent())
+            throw new RoomException(RoomServiceImpl.class, "Player was in the room.");
+
+        //Update room
+        room.removePlayer(playerOpt.get());
+        saveRoom(room);
     }
 
     /**

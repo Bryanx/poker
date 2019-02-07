@@ -7,8 +7,6 @@ import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.controller.dto.RoundDTO;
-import be.kdg.gameservice.round.exception.RoundException;
-import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Round;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -16,9 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * This API is used for managing all the rooms.
@@ -37,7 +33,6 @@ public final class RoomApiController {
     public ResponseEntity<RoomDTO[]> getRooms() {
         List<Room> roomsIn = roomService.getRooms();
         RoomDTO[] roomsOut = modelMapper.map(roomsIn, RoomDTO[].class);
-
         return new ResponseEntity<>(roomsOut, HttpStatus.OK);
     }
 
@@ -68,6 +63,18 @@ public final class RoomApiController {
     }
 
     /**
+     * @param roomId The id of the room.
+     * @param playerId The id of the player that needs to be deleted from the room.
+     * @return Status code 202 if the player was successfully deleted from the room.
+     * @throws RoomException Rerouted to handler.
+     */
+    @DeleteMapping("/rooms/{roomId}/players/{playerId}/leave-room")
+    public ResponseEntity<Void> leaveRoom(@PathVariable int roomId, @PathVariable int playerId) throws RoomException {
+        roomService.deletePlayer(roomId, playerId);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    /**
      * This API will be called when a player specific to join a specific room.
      *
      * @param roomId The id of the room the player wants to join.
@@ -75,8 +82,8 @@ public final class RoomApiController {
      * @return Status code 201 if the player joined the room successfully.
      * @throws RoomException Rerouted to handler.
      */
-    @PostMapping("/rooms/{roomId}/players/{userId}")
-    public ResponseEntity<PlayerDTO> savePlayer(@PathVariable int roomId, @PathVariable int userId) throws RoomException {
+    @PostMapping("/rooms/{roomId}/players/{userId}/join-room")
+    public ResponseEntity<PlayerDTO> joinRoom(@PathVariable int roomId, @PathVariable int userId) throws RoomException {
         Player playerIn = roomService.savePlayer(roomId, userId);
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
 
@@ -90,7 +97,7 @@ public final class RoomApiController {
      * @return Status 200.
      * @throws RoomException Rerouted to handler.
      */
-    @PostMapping("/rooms/{roomId}/start-new-round")
+    @PostMapping("/rooms/{roomId}/rounds/start-new-round")
     public ResponseEntity<RoundDTO> startNewRound(@PathVariable int roomId) throws RoomException {
         Round roundIn = roomService.startNewRoundForRoom(roomId);
         RoundDTO roundOut = modelMapper.map(roundIn, RoundDTO.class);

@@ -1,6 +1,6 @@
 package be.kdg.gameservice.round.model;
 
-import be.kdg.gameservice.ImmutabilityTesting;
+import be.kdg.gameservice.UtilTesting;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public final class RoundTest extends ImmutabilityTesting {
+public final class RoundTest extends UtilTesting {
     private Round round;
 
     @Before

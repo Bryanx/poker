@@ -35,7 +35,8 @@ public final class RoundApiController {
      * @throws RoundException Rerouted to handler.
      */
     @GetMapping("/rounds/{roundId}/players/{playerId}/possible-acts")
-    public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId, @PathVariable int playerId) throws RoundException {
+    public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId,
+                                                     @PathVariable int playerId) throws RoundException {
         List<ActType> actTypes = roundService.getPossibleActs(roundId, playerId);
         return new ResponseEntity<>(modelMapper.map(actTypes, ActType[].class), HttpStatus.OK);
     }
@@ -49,10 +50,10 @@ public final class RoundApiController {
      * @throws RoundException Rerouted to handler.
      * @see ActDTO
      */
-    @PostMapping("/rounds/acts")
-    public ResponseEntity<ActDTO> saveAct(@RequestBody @Valid ActDTO actDTO) throws RoundException {
-        roundService.saveAct(actDTO.getRoundId(), actDTO.getPlayerId(),
-                actDTO.getType(), actDTO.getPhase(), actDTO.getBet());
+    @PostMapping("/rounds/{roundId}/players/{playerId}/acts")
+    public ResponseEntity<ActDTO> doAct(@RequestBody @Valid ActDTO actDTO, @PathVariable int roundId,
+                                        @PathVariable int playerId) throws RoundException {
+        roundService.saveAct(roundId, playerId, actDTO.getType(), actDTO.getPhase(), actDTO.getBet());
         return new ResponseEntity<>(actDTO, HttpStatus.CREATED);
     }
 }

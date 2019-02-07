@@ -10,6 +10,8 @@ import java.util.List;
 public interface RoomService {
     Player savePlayer(int roomId, int userId) throws RoomException;
 
+    void deletePlayer(int roomId, int playerId) throws RoomException;
+
     Round startNewRoundForRoom(int roomId) throws RoomException;
 
     List<Room> getRooms();

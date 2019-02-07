@@ -150,6 +150,13 @@ public final class Round {
     }
 
     /**
+     * @return An unmodifiable list of all the acts from the round.
+     */
+    public List<Act> getActs() {
+        return Collections.unmodifiableList(acts);
+    }
+
+    /**
      * Adds a newly created act to this round.
      */
     public void addAct(Act act) {
@@ -157,9 +164,11 @@ public final class Round {
     }
 
     /**
-     * @return An unmodifiable list of all the acts from the round.
+     * Removes a player from this round.
+     *
+     * @param player The player that needs to be removed.
      */
-    public List<Act> getActs() {
-        return Collections.unmodifiableList(acts);
+    public void removePlayer(Player player) {
+        playersInRound.remove(player);
     }
 }

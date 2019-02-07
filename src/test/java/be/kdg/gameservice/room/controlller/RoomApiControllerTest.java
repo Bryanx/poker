@@ -1,6 +1,6 @@
 package be.kdg.gameservice.room.controlller;
 
-import be.kdg.gameservice.ImmutabilityTesting;
+import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.room.controller.RoomApiController;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @Transactional
-public class RoomApiControllerTest extends ImmutabilityTesting {
+public class RoomApiControllerTest extends UtilTesting {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -50,36 +50,48 @@ public class RoomApiControllerTest extends ImmutabilityTesting {
 
     @Test
     public void testGetRooms() throws Exception {
-        mockMvc.perform(get("/api/rooms")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        testMockMvcGet("/rooms", mockMvc);
     }
 
     @Test
     public void testGetRoom() throws Exception {
-        mockMvc.perform(get("/api/rooms/" + roomId)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        testMockMvcGet("/rooms/" + roomId, mockMvc);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    //TODO: replace static player id.
     @Test
-    public void testSavePlayer() throws Exception {
-        mockMvc.perform(post("/api/rooms/" + roomId + "/players/20")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isCreated());
+    public void testJoinRoom() throws Exception {
+        testMockMvcPost("/rooms/" + roomId + "/players/20/join-room", null, mockMvc);
     }
 
     @Test
     public void testStartNewRound() throws Exception {
-        mockMvc.perform(post("/api/rooms/" + roomId + "/start-new-round")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isCreated());
+        testMockMvcPost("/rooms/" + roomId + "/rounds/start-new-round", null, mockMvc);
     }
 
     @Test
     public void testGetCurrentRound() throws Exception {
-        mockMvc.perform(get("/api/rooms/" + roomId + "/rounds/current-round")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        testMockMvcGet("/rooms/" + roomId + "/rounds/current-round", mockMvc);
+    }
+
+    @Test
+    public void testLeaveRoom() throws Exception {
+       //TODO: write integration test.
     }
 }

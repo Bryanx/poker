@@ -1,7 +1,6 @@
 package be.kdg.gameservice.round.controller;
 
-import be.kdg.gameservice.ImmutabilityTesting;
-import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.round.controller.dto.ActDTO;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Phase;
@@ -30,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @Transactional
-public class RoundApiControllerTest extends ImmutabilityTesting {
+public class RoundApiControllerTest extends UtilTesting {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -57,20 +56,14 @@ public class RoundApiControllerTest extends ImmutabilityTesting {
 
     @Test
     public void testGetPossibleActs() throws Exception {
-        mockMvc.perform(get("/api/rounds/" + roundId + "/players/" + playerId + "/possible-acts")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        testMockMvcGet("/rounds/" + roundId + "/players/" + playerId + "/possible-acts", mockMvc);
     }
 
     @Test
     public void testSaveAct() throws Exception {
         ActDTO actDTO = new ActDTO(roundId, playerId, ActType.BET, Phase.PRE_FLOP, 10);
         String json = new Gson().toJson(actDTO);
-
-        mockMvc.perform(post("/api/rounds/acts")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(json)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+        testMockMvcPost("/rounds/" + actDTO.getRoundId() + "/players/" + actDTO.getPlayerId() + "/acts",
+                json, mockMvc);
     }
 }

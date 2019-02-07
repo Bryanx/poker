@@ -1,7 +1,7 @@
-<h2>UPDATE USER</h2>
+<h2>Update User Account</h2>
 
 <br>
-<button class="btn" (click)="goBack()">go back</button>
+<button class="btn" (click)="goBack()">Go back</button>
 <section *ngIf="user">
   <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
 
@@ -43,12 +43,24 @@
 
 
     <button [disabled]="updateUserForm.invalid">
-      UPDATE
+      UPDATE USER
     </button>
   </form>
 
 
-  <form [formGroup]="updatePasswordForm" (ngSubmit)="onSubmitPasswordChange()">
+  <form id='updatePasswordForm' [formGroup]="updatePasswordForm" (ngSubmit)="onSubmitPasswordChange()">
+    <section class="inputfield">
+      <label for="password">Password</label>
+      <input type="password" name="password" formControlName="password" id="password" autocomplete="off">
+      <div class="error"
+           *ngIf="updatePasswordForm.controls['password'].hasError('required') && updatePasswordForm.controls['password'].touched">
+        Password is required
+      </div>
+    </section>
 
+    <br>
+    <button [disabled]="updatePasswordForm.invalid">
+      UPDATE PASSWORD
+    </button>
   </form>
 </section>

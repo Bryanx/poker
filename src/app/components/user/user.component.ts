@@ -32,12 +32,12 @@ export class UserComponent implements OnInit {
         lastname: [this.user.lastname, Validators.compose([Validators.required])],
         email: [this.user.email, Validators.compose([Validators.required, Validators.email])]
       });
-      this.updatePasswordForm = this.formBuilder.group({
-        password: ['', Validators.compose([Validators.required])],
-        controlPassword: ['', Validators.compose([Validators.required])]
-      });
     }, error => {
       console.log(error.error.error_description);
+    });
+
+    this.updatePasswordForm = this.formBuilder.group({
+      password: ['', Validators.compose([Validators.required])]
     });
   }
 
@@ -56,14 +56,16 @@ export class UserComponent implements OnInit {
 
   private onSubmitPasswordChange() {
     console.log('Update password');
-    this.user.password = this.updatePasswordForm.controls.password.value;
 
+    console.log(this.updatePasswordForm.controls.password.value);
     const body = new HttpParams()
       .set('username', this.user.username)
       .set('password', this.updatePasswordForm.controls.password.value);
 
-    this.userService.updatePassword(body.toString()).subscribe(authResult => {
-      this.authorizationService.setSession(authResult);
+
+    this.user.password = this.updatePasswordForm.controls.password.value;
+    this.userService.updatePassword(this.user).subscribe(user => {
+      console.log(user);
     }, error => {
       console.log(error.error.error_description);
     });

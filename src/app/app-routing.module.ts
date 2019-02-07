@@ -6,7 +6,7 @@ import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
 import {RouterModule, Routes} from '@angular/router';
 import {RegisterComponent} from './components/register/register.component';
-import {GameRoomComponent} from "./components/game-room/game-room.component";
+import {GameRoomComponent} from './components/game-room/game-room.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {RoomsOverviewComponent} from './components/rooms-overview/rooms-overview.component';
 
@@ -16,7 +16,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'rooms', component: RoomsOverviewComponent },
+  { path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService] },
+  { path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   { path: 'user', component: UserComponent, canActivate: [AuthGuardService] },
   { path: 'game-room', component: GameRoomComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }

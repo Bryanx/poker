@@ -1,6 +1,6 @@
 <h1>CHOOSE A ROOM</h1>
 <section class="rooms">
-  <div class="room" *ngFor="let room of rooms; index as room">
+  <div class="room" *ngFor="let room of rooms; index as room" [routerLink]="['/rooms/', room.roomId]">
     <span class="name">{{room.name.toUpperCase()}}</span>
     <span class="price">Buy-in: {{room.gameRules.startingChips}}</span>
 

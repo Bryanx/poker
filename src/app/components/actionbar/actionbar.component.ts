@@ -1,7 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {GameService} from "../../services/game.service";
-import {Act} from "../../model/act";
-import {ActType} from "../../model/actType";
+import {Component, Input, OnInit} from '@angular/core';
+import {GameService} from '../../services/game.service';
+import {Act} from '../../model/act';
+import {ActType} from '../../model/actType';
+import {Round} from '../../model/round';
+import {Phase} from '../../model/phase';
 
 @Component({
   selector: 'app-actionbar',
@@ -9,6 +11,9 @@ import {ActType} from "../../model/actType";
   styleUrls: ['./actionbar.component.scss']
 })
 export class ActionbarComponent implements OnInit {
+  @Input() curRound: Round;
+  @Input() curPhase: Phase;
+
   sliderValue = 0;
 
   constructor(private gameService: GameService) {
@@ -30,12 +35,18 @@ export class ActionbarComponent implements OnInit {
   }
 
   playAct(type: ActType) {
-    act: Act = new Act(
-      roundId= number,
-      playerId= number,
-      type = type,
-      phase = string,
-      bet = number
-    )
+    const act: Act = new Act();
+    act.roundId = this.curRound.id;
+    act.type = type;
+    act.phase = this.curPhase;
+    act.playerId = 2;
+
+    if (type === ActType.Bet || type === ActType.Raise) {
+      act.bet = this.sliderValue;
+    } else {
+      act.bet = 0;
+    }
+
+    this.gameService.addAct(act);
   }
 }

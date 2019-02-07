@@ -15,8 +15,8 @@ export class AuthorizationService {
       'Authorization': 'Basic ' + btoa('my-trusted-client:secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     };
-    //return this.http.post('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
-    return this.http.post('http://localhost:8080/oauth/token', loginPayload, {headers});
+    // return this.http.post('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
+    return this.http.post('http://localhost:8081/oauth/token', loginPayload, {headers});
   }
 
   setSession(authResult) {

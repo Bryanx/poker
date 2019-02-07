@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {GameService} from "../../services/game.service";
+import {Act} from "../../model/act";
+import {ActType} from "../../model/actType";
 
 @Component({
   selector: 'app-actionbar',
@@ -6,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./actionbar.component.scss']
 })
 export class ActionbarComponent implements OnInit {
-
   sliderValue = 0;
-  constructor() { }
+
+  constructor(private gameService: GameService) {
+  }
 
   ngOnInit() {
   }
@@ -23,5 +27,15 @@ export class ActionbarComponent implements OnInit {
     }
 
     return value;
+  }
+
+  playAct(type: ActType) {
+    act: Act = new Act(
+      roundId= number,
+      playerId= number,
+      type = type,
+      phase = string,
+      bet = number
+    )
   }
 }

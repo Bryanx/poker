@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Room} from '../model/room';
+import {Act} from "../model/act";
 
 /**
  * This service is used to manage all the HTTP traffic of the
@@ -23,5 +24,9 @@ export class GameService {
    */
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(this.url);
+  }
+
+  addAct(act: Act): Observable<Act> {
+    return this.http.put<Act>(this.url, act)
   }
 }

@@ -1,16 +1,16 @@
 <h1>CHOOSE A ROOM</h1>
 <section class="rooms">
   <div class="room" *ngFor="let room of rooms; index as room">
-    <label class="name">{{room.name.toUpperCase()}}</label>
-    <label class="price">Buy-in: {{room.gameRules.startingChips}}</label>
+    <span class="name">{{room.name.toUpperCase()}}</span>
+    <span class="price">Buy-in: {{room.gameRules.startingChips}}</span>
 
-    <label class="blinds">{{room.gameRules.smallBlind}}/{{room.gameRules.bigBlind}}</label>
+    <span class="blinds">{{room.gameRules.smallBlind}}/{{room.gameRules.bigBlind}}</span>
     <img class="blind-img" src="../../../assets/img/icons/coins.svg" rel="coin">
 
-    <label class="timer">{{room.gameRules.playDelay}}s</label>
+    <span class="timer">{{room.gameRules.playDelay}}s</span>
     <img class="timer-img" src="../../../assets/img/icons/timer.svg" rel="timer">
 
-    <label class="capacity">0/{{room.gameRules.maxPlayerCount}}</label>
+    <span class="capacity">0/{{room.gameRules.maxPlayerCount}}</span>
     <img class="cap-img" src="../../../assets/img/icons/less_people.svg" rel="capacity">
   </div>
 </section>

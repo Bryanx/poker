@@ -17,6 +17,7 @@ import { PlayerComponent } from './components/player/player.component';
 import { GameTableComponent } from './components/game-table/game-table.component';
 import { CardComponent } from './components/card/card.component';
 import { ActionbarComponent } from './components/actionbar/actionbar.component';
+import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overview.component';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -32,6 +33,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     GameTableComponent,
     CardComponent,
     ActionbarComponent,
+    RoomsOverviewComponent,
   ],
   imports: [
     BrowserModule,

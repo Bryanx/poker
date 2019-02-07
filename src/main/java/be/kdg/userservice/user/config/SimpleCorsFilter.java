@@ -29,7 +29,7 @@ public class SimpleCorsFilter implements Filter {
 
         if (options.equalsIgnoreCase(request.getMethod())) {
 
-            response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT,OPTIONS");
+            response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT,OPTIONS,PATCH");
 
             response.setHeader("Access-Control-Max-Age", "3600");
 

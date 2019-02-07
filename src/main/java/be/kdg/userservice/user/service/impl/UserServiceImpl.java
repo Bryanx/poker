@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User changePassword(User user) throws UserException {
-        User dbUser = userRepository.findById(user.getId()).orElseThrow(() -> new UserException("User not found"));
+        User dbUser = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new UserException("User not found"));
         dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(dbUser);

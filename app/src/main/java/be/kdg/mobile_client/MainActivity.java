@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import androidx.appcompat.app.AppCompatActivity;
+import be.kdg.mobile_client.services.SharedPrefService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -19,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        redirectIfSignedIn();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         initialiseView();
+        addEventHandlers();
     }
 
     private void initialiseView() {
@@ -30,9 +33,30 @@ public class MainActivity extends AppCompatActivity {
                 .resize(700, 400)
                 .centerInside()
                 .into(this.ivLogo);
+    }
+
+    private void addEventHandlers() {
         btnLogin.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         });
     }
+
+    /**
+     * If the user is in this activity, check if it is signed in and redirect it.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        redirectIfSignedIn();
+    }
+
+    private void redirectIfSignedIn() {
+        if (SharedPrefService.hasToken(this)) {
+            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            startActivity(intent);
+        }
+    }
+
+
 }

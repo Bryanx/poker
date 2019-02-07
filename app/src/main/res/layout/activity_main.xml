@@ -10,25 +10,19 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="102dp"
-        android:layout_height="60dp"
+        style="@style/greenButton"
         android:layout_marginStart="28dp"
         android:layout_marginTop="64dp"
-        android:background="@color/colorGreen"
         android:text="@string/login"
-        android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="@+id/ivLogo"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
     <Button
         android:id="@+id/btnSignUp"
-        android:layout_width="100dp"
-        android:layout_height="60dp"
+        style="@style/greenButton"
         android:layout_marginStart="20dp"
         android:layout_marginTop="64dp"
-        android:background="@color/colorGreen"
         android:text="@string/register"
-        android:textColor="@color/colorWhite"
         app:layout_constraintEnd_toEndOf="@+id/ivLogo"
         app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toEndOf="@+id/btnLogin"

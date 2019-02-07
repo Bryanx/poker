@@ -70,15 +70,12 @@
 
             <Button
                 android:id="@+id/btnLogin"
-                android:layout_width="100dp"
-                android:layout_height="60dp"
+                style="@style/greenButton"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:background="@color/colorGreen"
-                android:text="@string/login"
-                android:textColor="#fff" />
+                android:text="@string/login" />
 
             <TextView
                 android:id="@+id/liSignup"

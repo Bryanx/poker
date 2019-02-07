@@ -36,22 +36,22 @@
 
 .grid-person-3 {
   grid-area: three;
-  justify-content: right;
+  justify-content: flex-end;
 }
 
 .grid-person-4 {
   grid-area: four;
-  justify-content: left;
+  justify-content: flex-start;
 }
 
 .grid-person-5 {
   grid-area: five;
-  justify-content: right;
+  justify-content: flex-end;
 }
 
 .grid-person-6 {
   grid-area: six;
-  justify-content: left;
+  justify-content: flex-start;
 }
 
 .grid-tmiddle {

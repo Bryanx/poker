@@ -1,0 +1,65 @@
+@import "~src/styles.scss";
+
+:host {
+  min-height: 100%;
+}
+
+.chat-content {
+  position: absolute;
+  bottom: 3rem;
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  .error {
+    color: $red;
+  }
+
+  .message {
+    color: $dark-gray;
+    line-height: 2;
+    background: $blue;
+    padding: 0.1rem .7rem;
+    border-radius: 1rem;
+    margin: .3rem 0;
+  }
+
+  .my-message {
+    background: $green;
+    align-self: flex-end;
+  }
+
+  .system-message {
+    align-self: center;
+    background: none;
+    color: white;
+    font-size: .8rem;
+  }
+}
+
+.chat-bottom {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+
+  button {
+    height: 3rem;
+    border-radius: 0;
+    font-size: 1rem;
+    min-width: 0;
+    padding: 0;
+    width: 9rem;
+  }
+
+  input {
+    height: 3rem;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    padding: 1rem;
+  }
+}

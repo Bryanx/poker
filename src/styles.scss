@@ -20,10 +20,15 @@ $inputLineHeight: 3rem;
 body {
   background: $background-color;
   font-family: 'Open Sans', sans-serif;
+  min-height:100%;
+}
+
+button, input {
+  outline: none !important;
 }
 
 button {
-  padding: 0.7em 1.4em;
+  height: 4.5rem;
   border-radius: 0.15em;
   text-decoration: none;
   font-weight: 400;

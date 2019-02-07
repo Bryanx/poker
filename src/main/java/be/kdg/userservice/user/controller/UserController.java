@@ -3,6 +3,7 @@ package be.kdg.userservice.user.controller;
 
 import be.kdg.userservice.security.model.CustomUserDetails;
 import be.kdg.userservice.user.dto.AuthDto;
+import be.kdg.userservice.user.dto.SocialUserDto;
 import be.kdg.userservice.user.dto.TokenDto;
 import be.kdg.userservice.user.dto.UserDto;
 import be.kdg.userservice.user.exception.UserException;
@@ -86,6 +87,17 @@ public class UserController {
         User userOut = userServiceImpl.changePassword(userIn);
 
         return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.OK);
+    }
+
+    /**
+     * Rest endpoint that creates a user and returns a CREATED status code.
+     */
+    @PostMapping("/sociallogin")
+    public ResponseEntity<TokenDto> socialLogin(@Valid @RequestBody SocialUserDto socialUserDto) throws UserException {
+        User userIn = modelMapper.map(socialUserDto, User.class);
+        User userOut = userServiceImpl.checkSocialUser(userIn);
+
+        return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
     }
 
     /**

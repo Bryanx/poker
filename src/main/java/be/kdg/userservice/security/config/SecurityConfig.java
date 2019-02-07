@@ -61,6 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/h2-console/**").antMatchers(HttpMethod.POST, "/api/user");
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/h2-console/**").antMatchers(HttpMethod.POST, "/api/user", "/api/sociallogin");
     }
 }

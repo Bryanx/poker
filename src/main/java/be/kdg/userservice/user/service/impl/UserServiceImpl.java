@@ -105,4 +105,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         return userRepository.save(dbUser);
     }
+
+    @Override
+    public User checkSocialUser(User user) throws UserException {
+        Optional<User> dbUser = userRepository.findBySocialId(user.getSocialId());
+
+        if (!dbUser.isPresent()) {
+            user.setEnabled(1);
+            userRepository.save(user);
+            UserRole role = new UserRole(user.getId(), "ROLE_USER");
+            userRoleRepository.save(role);
+            return user;
+        }
+
+        return dbUser.get();
+    }
 }

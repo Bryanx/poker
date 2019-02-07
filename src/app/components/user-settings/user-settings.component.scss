@@ -1,42 +1,5 @@
 @import "~src/styles.scss";
 
-.grid-container {
-  margin-top: 3rem;
-  display: grid;
-  width: 100vw;
-  grid-template-columns: 18% 30% auto 30% 18%;
-  grid-template-areas:
-  ". first . second ."
-  ". save save save .";
-}
-
-section {
-margin-top: 1rem;
-}
-
-button {
-  width: 100%;
-}
-
-.first-element {
-  grid-area: first;
-}
-
-.second-element {
-  grid-area: second;
-}
-
-.grid-save {
-  margin-top: 3rem;
-  grid-area: save;
-  justify-content: center;
-  display: flex;
-
-  button {
-    width: auto;
-  }
-}
-
 h2 {
   color: white;
   padding-top: 1rem;
@@ -47,9 +10,12 @@ h2 {
   align-items: center;
 }
 
+#updatePasswordForm {
+  display: flex;
+  flex-direction: column;
+}
 
 form {
-  flex-direction: column;
   color: white;
   display: flex;
   justify-content: center;
@@ -79,6 +45,10 @@ form {
     }
   }
 
+  section {
+    flex: 0 45%;
+    margin: 1rem 1rem;
+  }
   .error {
     color: $red;
     position: absolute;

@@ -8,10 +8,10 @@ import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.scss']
+  templateUrl: './user-settings.component.html',
+  styleUrls: ['./user-settings.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserSettingsComponent implements OnInit {
   updateUserForm: FormGroup;
   updatePasswordForm: FormGroup;
   user: User;

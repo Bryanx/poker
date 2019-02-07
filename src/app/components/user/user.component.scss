@@ -1,9 +1,18 @@
 @import "~src/styles.scss";
 
+h2 {
+  color: white;
+  padding-top: 1rem;
+}
 :host {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#updatePasswordForm {
+  display: flex;
+  flex-direction: column;
 }
 
 form {
@@ -40,12 +49,6 @@ form {
     flex: 0 45%;
     margin: 1rem 1rem;
   }
-
-  .inputfield, .password {
-    align-self: flex-start;
-    width: 45%;
-  }
-
   .error {
     color: $red;
     position: absolute;

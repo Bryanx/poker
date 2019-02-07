@@ -7,8 +7,8 @@ import {User} from '../model/user';
   providedIn: 'root'
 })
 export class UserService {
-  url = 'https://poker-user-service.herokuapp.com/api/user';
-  // url = 'http://localhost:8080/api/user';
+  // url = 'https://poker-user-service.herokuapp.com/api/user';
+  url = 'http://localhost:5000/api/user';
 
   constructor(private http: HttpClient) {
   }

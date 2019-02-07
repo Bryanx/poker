@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthorizationService} from '../../services/authorization.service';
 import {HttpParams} from '@angular/common/http';
 import {UserService} from '../../services/user.service';
+import {AuthService, FacebookLoginProvider, GoogleLoginProvider, LinkedInLoginProvider} from 'angularx-social-login';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +16,10 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string;
   error: string;
+  user = new User();
 
   constructor(private formBuilder: FormBuilder, private authorizationService: AuthorizationService, private userService: UserService,
-              private route: ActivatedRoute, private router: Router) {
+              private route: ActivatedRoute, private router: Router, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -31,6 +33,20 @@ export class LoginComponent implements OnInit {
     });
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    this.authService.authState.subscribe((user) => {
+      this.user.id = user.id;
+      this.user.email = user.email;
+      this.user.username = user.lastName
+      this.user.firstname = user.firstName;
+      this.user.lastname = user.lastName;
+      this.user.profilePictureSocial = user.photoUrl;
+      this.user.provider = user.provider;
+      this.authorizationService.socialLogin(this.user).subscribe(authResult => {
+        this.authorizationService.setSession(authResult);
+        this.router.navigateByUrl(this.returnUrl);
+      });
+    });
   }
 
 
@@ -49,5 +65,17 @@ export class LoginComponent implements OnInit {
     }, error => {
       this.error = error.error.error_description;
     });
+  }
+
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+
+  signOut(): void {
+    this.authService.signOut();
   }
 }

@@ -13,6 +13,27 @@ import {RouterModule} from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overview.component';
+import {
+  AuthServiceConfig,
+  FacebookLoginProvider,
+  GoogleLoginProvider,
+  SocialLoginModule
+} from 'angularx-social-login';
+
+const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('624796833023-clhjgupm0pu6vgga7k5i5bsfp6qp6egh.apps.googleusercontent.com')
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('483584635507231')
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -31,12 +52,17 @@ import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overvi
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    SocialLoginModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]

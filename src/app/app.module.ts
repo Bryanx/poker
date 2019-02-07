@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { ChatComponent } from './components/chat/chat.component';
+import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overview.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { ChatComponent } from './components/chat/chat.component';
     HomeComponent,
     RegisterComponent,
     ChatComponent,
+    RoomsOverviewComponent,
   ],
   imports: [
     BrowserModule,

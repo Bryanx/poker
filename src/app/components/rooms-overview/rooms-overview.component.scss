@@ -53,10 +53,15 @@ section {
     }
 
     .name {
-      top: 35px;
+      top: 25px;
       align-self: center;
       font-size: 1.5rem;
       font-weight: bold;
+    }
+
+    .price {
+      top: 60px;
+      align-self: center;
     }
 
     img {
@@ -66,38 +71,38 @@ section {
     }
 
     .blinds {
-      top: 85px;
+      top: 95px;
       left: 70px;
       font-size: 1.2rem;
       font-weight: bold;
     }
 
     .blind-img {
-      top: 115px;
+      top: 125px;
       left: 70px;
     }
 
     .timer {
-      top: 85px;
+      top: 95px;
       left: 150px;
       font-size: 1.2rem;
       font-weight: bold;
     }
 
     .timer-img {
-      top: 115px;
+      top: 125px;
       left: 150px;
     }
 
     .capacity {
-      top: 85px;
+      top: 95px;
       right: 70px;
       font-size: 1.2rem;
       font-weight: bold;
     }
 
     .cap-img {
-      top: 115px;
+      top: 125px;
       right: 70px;
     }
   }

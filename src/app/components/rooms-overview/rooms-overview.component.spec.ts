@@ -12,8 +12,7 @@ describe('RoomsOverviewComponent', () => {
     TestBed.configureTestingModule({
       declarations: [RoomsOverviewComponent],
       imports: [RouterTestingModule, HttpClientTestingModule]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {

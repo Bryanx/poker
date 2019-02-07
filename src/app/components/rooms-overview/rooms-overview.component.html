@@ -2,6 +2,7 @@
 <section class="rooms">
   <div class="room" *ngFor="let room of rooms; index as room">
     <label class="name">{{room.name.toUpperCase()}}</label>
+    <label class="price">Buy-in: {{room.gameRules.startingChips}}</label>
 
     <label class="blinds">{{room.gameRules.smallBlind}}/{{room.gameRules.bigBlind}}</label>
     <img class="blind-img" src="../../../assets/img/icons/coins.svg" rel="coin">

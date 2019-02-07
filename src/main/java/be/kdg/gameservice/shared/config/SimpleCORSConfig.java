@@ -1,4 +1,4 @@
-package be.kdg.gameservice.shared;
+package be.kdg.gameservice.shared.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

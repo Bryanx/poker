@@ -9,6 +9,7 @@ import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -105,9 +106,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
+     * The rooms returned by this method are cached locally.
      * @return An unmodifiable collection of all the rooms from the database.
      */
     @Override
+    @Cacheable(value = "rooms")
     public List<Room> getRooms() {
         return Collections.unmodifiableList(roomRepository.findAll());
     }
@@ -129,11 +132,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
+     * The room returned by this method is cached locally.
+     *
      * @param roomId The id of the room.
      * @return The corresponding room.
      * @throws RoomException Thrown if the room does not exists in the database.
      */
     @Override
+    @Cacheable(value = "room")
     public Room getRoom(int roomId) throws RoomException {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomException(RoomServiceImpl.class, "The room was not found in the database."));

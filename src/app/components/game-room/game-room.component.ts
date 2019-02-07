@@ -21,7 +21,15 @@ export class GameRoomComponent implements OnInit {
       return this.gameService.getRoom(+params.get('id'));
     })).subscribe((room) => {
       this.room = room as Room;
-      console.log(this.room);
+      this.retrieveRound(this.room.roomId);
+    });
+  }
+
+  // TODO: find a way to trigger the round retrieval if there are more than 2 players in the room.
+  private retrieveRound(roomId: number) {
+    this.gameService.getCurrentRound(roomId).subscribe(round => {
+      this.curRound = round;
+      console.log(this.curRound);
     });
   }
 }

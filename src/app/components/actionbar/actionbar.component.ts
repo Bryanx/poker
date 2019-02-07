@@ -11,7 +11,7 @@ import {Phase} from '../../model/phase';
   styleUrls: ['./actionbar.component.scss']
 })
 export class ActionbarComponent implements OnInit {
-  @Input() curRound: Round;
+  @Input() roundId: number;
   @Input() curPhase: Phase;
 
   sliderValue = 0;
@@ -36,7 +36,7 @@ export class ActionbarComponent implements OnInit {
 
   playAct(type: ActType) {
     const act: Act = new Act();
-    act.roundId = this.curRound.id;
+    act.roundId = this.roundId;
     act.type = type;
     act.phase = this.curPhase;
     act.playerId = 2;

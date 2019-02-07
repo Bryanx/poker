@@ -4,19 +4,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100%;
 }
 
 form {
   color: white;
-  width: 35%;
-  max-width: 500px;
-  min-width: 300px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
 
   h1 {
     margin-top: 4rem;
@@ -34,6 +28,7 @@ form {
     font-weight: inherit;
     line-height: $inputLineHeight;
     border-radius: 0.4rem;
+
     outline: none;
     border: 2px solid transparent;
     &:focus {
@@ -42,53 +37,13 @@ form {
   }
 
   section {
-    margin: 1rem 0;
+    flex: 0 45%;
+    margin: 1rem 1rem;
   }
 
-  .social-media {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-
-    a:first-of-type {
-      background: $facebook-blue;
-      color: white;
-      &:hover {
-        background: darken($facebook-blue, 15%)
-      }
-    }
-
-    a {
-      height: 4rem;
-      background: white;
-      border-radius: .4rem;
-      width: 45%;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: $dark-gray;
-      &:hover {
-        background: darken(white, 15%)
-      }
-    }
-
-    img {
-      padding-right: .5rem;
-    }
-  }
-  .username, .password {
+  .inputfield, .password {
     align-self: flex-start;
-    width: 100%;
-  }
-
-  .no-account {
-    color: white;
-    text-decoration: none;
-    margin-top: 2rem;
-    &:hover {
-      text-decoration: underline;
-    }
+    width: 45%;
   }
 
   .error {

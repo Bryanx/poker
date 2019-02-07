@@ -26,4 +26,8 @@ export class UserService {
   changeUser(user: User): Observable<AuthResult> {
     return this.http.put<AuthResult>(this.url, user);
   }
+
+  updatePassword(user: String): Observable<AuthResult> {
+    return this.http.patch<AuthResult>(this.url, user);
+  }
 }

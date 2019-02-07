@@ -1,10 +1,11 @@
-Hallo
-<section *ngIf="user">
-  <!--<form [formGroup]="updateUserForm" (ngSubmit)="onSubmit(form.value)"> -->
-  <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
-    <h2>UPDATE USER</h2>
+<h2>UPDATE USER</h2>
 
-    <section class="username">
+<br>
+<button class="btn" (click)="goBack()">go back</button>
+<section *ngIf="user">
+  <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
+
+    <section class="inputfield">
       <label for="username">Username</label>
       <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
       <div class="error"
@@ -13,56 +14,41 @@ Hallo
       </div>
     </section>
 
+    <section class="inputfield">
+      <label for="email">Email</label>
+      <input type="email" email name="email" formControlName="email" id="email" autocomplete="off">
+      <div class="error"
+           *ngIf="updateUserForm.controls['email'].hasError('required') && updateUserForm.controls['email'].touched">
+        Email is required
+      </div>
+    </section>
+
+    <section class="inputfield">
+      <label for="firstname">First Name</label>
+      <input type="text" name="firstname" formControlName="firstname" id="firstname" autocomplete="off">
+      <div class="error"
+           *ngIf="updateUserForm.controls['firstname'].hasError('required') && updateUserForm.controls['firstname'].touched">
+        Firstname is required
+      </div>
+    </section>
+
+    <section class="inputfield">
+      <label for="lastname">Last Name</label>
+      <input type="text" name="lastname" formControlName="lastname" id="lastname" autocomplete="off">
+      <div class="error"
+           *ngIf="updateUserForm.controls['lastname'].hasError('required') && updateUserForm.controls['lastname'].touched">
+        Lastname is required
+      </div>
+    </section>
+
+
     <button [disabled]="updateUserForm.invalid">
       UPDATE
     </button>
   </form>
 
 
-  <!--<h1>User page from {{user.username}} and your mail is {{user.email}}</h1>-->
+  <form [formGroup]="updatePasswordForm" (ngSubmit)="onSubmitPasswordChange()">
 
-  <!--<div>-->
-    <!--<button (click)="goBack()">go back</button>-->
-
-    <!--<form (ngSubmit)="onSubmit()" #userForm="ngForm">-->
-      <!--<div class="form-group">-->
-        <!--<label for="username">Username</label>-->
-        <!--<input type="text" class="form-control" id="username" required minlength="4" maxlength="20" [(ngModel)]="user.username" name="username">-->
-      <!--</div>-->
-
-      <!--<button type="submit" [disabled]="!userForm.form.valid">Submit</button>-->
-    <!--</form>-->
-  <!--</div>-->
-
-
+  </form>
 </section>
-
-<!--<section *ngIf="user">-->
-
-<!--<form [formGroup]="updateForm" (ngSubmit)="onSubmit()">-->
-    <!--<h1>Update Account</h1>-->
-
-    <!--<section class="username">-->
-      <!--<label for="username">Username</label>-->
-      <!--<input type="text" name="username" formControlName="username" id="username" autocomplete="off" [(ngModel)]="user.username">-->
-      <!--<div class="error"-->
-           <!--*ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">-->
-        <!--Username is required-->
-      <!--</div>-->
-    <!--</section>-->
-
-    <!--&lt;!&ndash;<section class="password">&ndash;&gt;-->
-      <!--&lt;!&ndash;<label for="password">Password</label>&ndash;&gt;-->
-      <!--&lt;!&ndash;<input type="password" name="password" formControlName="password" id="password" autocomplete="off">&ndash;&gt;-->
-      <!--&lt;!&ndash;<div class="error"&ndash;&gt;-->
-           <!--&lt;!&ndash;*ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">&ndash;&gt;-->
-        <!--&lt;!&ndash;Password is required&ndash;&gt;-->
-      <!--&lt;!&ndash;</div>&ndash;&gt;-->
-      <!--&lt;!&ndash;<div class="error" *ngIf="error">{{error}}</div>&ndash;&gt;-->
-    <!--&lt;!&ndash;</section>&ndash;&gt;-->
-
-    <!--<button [disabled]="loginForm.invalid">-->
-      <!--UPDATE-->
-    <!--</button>-->
-  <!--</form>-->
-<!--</section>-->

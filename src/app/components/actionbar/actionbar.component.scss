@@ -1,3 +1,5 @@
+@import "~src/styles.scss";
+
 .actionbar {
   display: grid;
   width: 100vw;
@@ -11,6 +13,7 @@
   display: inline-flex;
   justify-content: center;
 
+  // This is for the cards from the user
   div {
     background-color: antiquewhite;
     top: -1.5rem;
@@ -27,11 +30,17 @@
   }
 
   .call {
-    border-color: RGB(68, 226, 168);
+    border-color: $green;
+    &:hover {
+      background-color: darken($green, 30%);
+    }
   }
 
   .fold {
-    border-color: RGBA(228, 40, 110, 0.8);
+    border-color: $red;
+    &:hover {
+      background-color: darken($red, 30%);
+    }
   }
 }
 
@@ -39,20 +48,24 @@
   grid-area: raise;
 
   button {
-    border-color: RGB(248, 218, 97);
+    border-color: $yellow;
+    &:hover {
+      background-color: darken($yellow, 30%);
+    }
   }
 }
 
 button {
   width: 10vh;
   height: 10vh;
-  border-radius: 50px;
+  border-radius: 100%;
   font-size: 1rem;
   min-width: 6rem;
   font-weight: normal;
   background-color: transparent;
-  border: 3px solid RGB(250, 235, 215);
+  border: 3px solid;
   letter-spacing: 1.5px;
+  color: $white-antique;
 }
 
 mat-slider {
@@ -68,10 +81,10 @@ mat-slider {
   border-radius: 50px;
   font-weight: normal;
   background-color: transparent;
-  border: 3px solid RGB(250, 235, 215);
+  border: 3px solid $white-antique;
 
   text-decoration: none;
-  color: #FFFFFF;
+  color: $white-antique;
   text-align: center;
   padding: 2.3rem 1.4rem;
 }

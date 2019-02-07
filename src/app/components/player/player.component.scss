@@ -1,18 +1,20 @@
+@import "~src/styles.scss";
+
 .avatar {
   display: flex;
   border: 2px solid antiquewhite;
-  height: 80px;
-  width: 80px;
-  border-radius: 50px;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 100%;
   text-align: center;
   align-items: center;
   justify-content: center;
 
   p {
-    padding-top: 2px;
+    padding-top: 0.2rem;
     font-weight: 600;
-    font-size: 20px;
-    color: #fff;
+    font-size: 1.2rem;
+    color: $white-antique;
   }
 }
 
@@ -21,20 +23,16 @@
   letter-spacing: 1.2px;
   font-size: 1rem;
   font-weight: normal;
-  color: RGB(68, 226, 168);
+  color: $green;
 }
 
 .money {
   padding-top: 0.8rem;
-  color: antiquewhite;
+  color: $white-antique;
 }
 
 .wrapper {
   display: block;
   text-align: center;
-}
-
-.active {
-  background-color: RGBA(50, 252, 141, 0.4);
 }
 

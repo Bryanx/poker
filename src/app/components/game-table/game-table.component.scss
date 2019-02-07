@@ -1,8 +1,10 @@
+@import "~src/styles.scss";
+
 .game-table {
   height: 80%;
-  background-color: RGB(20, 220, 110);
+  background-color: darken($green, 17%);
   border-radius: 110px;
-  border: 15px solid RGB(50, 252, 141);
+  border: 15px solid darken($green, 5%);
   display: flex;
   align-items: center;
   justify-content: center;

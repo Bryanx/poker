@@ -1,16 +1,12 @@
+@import "~src/styles.scss";
+
 .grid-container {
   display: grid;
   height: 100vh;
   width: 100vw;
   grid-template-columns: 25% 15% auto 15% 25%;
   grid-template-rows: 20% 20% 6% 20% 20% auto;
-  grid-template-areas:
-    ". . two . ."
-    "three table table table four"
-    "tmiddle table table table ."
-    "five table table table six"
-    ". . one . ."
-    "actionbar actionbar actionbar actionbar actionbar";
+  grid-template-areas: ". . two . ." "three table table table four" "tmiddle table table table ." "five table table table six" "chat . one . ." "actionbar actionbar actionbar actionbar actionbar";
 }
 
 .grid-person {
@@ -18,10 +14,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
-  .card {
-    display: inline-block;
-  }
 }
 
 .grid-person-1 {
@@ -60,11 +52,16 @@
 
 .grid-actionbar {
   grid-area: actionbar;
-  background-color: RGB(36, 38, 59);
+  background-color: $background-color-2;
 }
 
 .grid-item-table {
   grid-area: table;
   padding: 8vh 5vw 0;
+}
+
+.grid-chat {
+  grid-area: chat;
+  position: relative;
 }
 

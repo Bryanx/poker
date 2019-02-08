@@ -9,9 +9,7 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.activities.BaseActivity;
 import be.kdg.mobile_client.model.Token;
-import be.kdg.mobile_client.services.ServiceGenerator;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;
@@ -25,7 +23,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.btnLogin) Button btnLogin;
     @Inject SharedPrefService sharedPrefService;
-    UserService userService = ServiceGenerator.createService(UserService.class);
+    @Inject UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

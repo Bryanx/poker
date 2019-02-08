@@ -7,18 +7,22 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
-import androidx.appcompat.app.AppCompatActivity;
+import javax.inject.Inject;
+
+import be.kdg.mobile_client.activities.BaseActivity;
 import be.kdg.mobile_client.services.SharedPrefService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.ivLogo) ImageView ivLogo;
     @BindView(R.id.btnLogin) Button btnLogin;
+    @Inject SharedPrefService sharedPrefService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
         redirectIfSignedIn();
         setContentView(R.layout.activity_main);
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void redirectIfSignedIn() {
-        if (SharedPrefService.hasToken(this)) {
+        if (sharedPrefService.hasToken(this)) {
             Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
             startActivity(intent);
         }

@@ -6,7 +6,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import javax.inject.Inject;
+
+import be.kdg.mobile_client.activities.BaseActivity;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.ServiceGenerator;
 import be.kdg.mobile_client.services.SharedPrefService;
@@ -17,17 +19,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
-    @BindView(R.id.etEmail)
-    EditText etEmail;
-    @BindView(R.id.etPassword)
-    EditText etPassword;
-    @BindView(R.id.btnLogin)
-    Button btnLogin;
+public class LoginActivity extends BaseActivity {
+    @BindView(R.id.etEmail) EditText etEmail;
+    @BindView(R.id.etPassword) EditText etPassword;
+    @BindView(R.id.btnLogin) Button btnLogin;
+    @Inject SharedPrefService sharedPrefService;
     UserService userService = ServiceGenerator.createService(UserService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void onLoginSuccess(Token token) {
         token.setSignedIn(true);
-        SharedPrefService.saveToken(getApplicationContext(), token);
+        sharedPrefService.saveToken(getApplicationContext(), token);
         Toast.makeText(getBaseContext(), getResources().getString(R.string.logging_in), Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
         setResult(RESULT_OK);

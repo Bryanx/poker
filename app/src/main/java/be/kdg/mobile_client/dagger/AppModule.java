@@ -1,0 +1,27 @@
+package be.kdg.mobile_client.dagger;
+
+import android.app.Application;
+
+import javax.inject.Singleton;
+
+import be.kdg.mobile_client.services.SharedPrefService;
+import dagger.Module;
+import dagger.Provides;
+import lombok.RequiredArgsConstructor;
+
+/**
+ * Bootstrapper module for providing services to activities.
+ */
+@RequiredArgsConstructor
+@Module
+public class AppModule {
+
+    private final Application mApplication;
+
+    @Provides
+    @Singleton
+    Application application() {
+        return mApplication;
+    }
+
+}

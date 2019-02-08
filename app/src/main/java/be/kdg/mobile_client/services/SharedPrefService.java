@@ -13,7 +13,7 @@ public class SharedPrefService {
     /**
      * Writes token to shared preferences for later use.
      */
-    public static void saveToken(Context ctx, Token token) {
+    public void saveToken(Context ctx, Token token) {
         SharedPreferences sharedPref = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         Gson gson = new Gson();
@@ -25,7 +25,7 @@ public class SharedPrefService {
     /**
      * Reads token from shared preferences.
      */
-    public static boolean hasToken(Context ctx) {
+    public boolean hasToken(Context ctx) {
         SharedPreferences sharedPref = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         String json = sharedPref.getString("token", "");
         if (json == null || json.equals("null") || json.isEmpty()) {

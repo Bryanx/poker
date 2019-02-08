@@ -1,4 +1,4 @@
-package be.kdg.mobile_client;
+package be.kdg.mobile_client.activities;
 
 import android.annotation.SuppressLint;
 import android.net.wifi.aware.WifiAwareSession;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 
 import androidx.appcompat.app.AppCompatActivity;
+import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Message;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,14 +23,10 @@ public class RoomActivity extends AppCompatActivity {
     private String url = "wss://poker-game-service.herokuapp.com/chat/websocket";
     private String playerName = "Lotte";
     private int roomNumber = 1;
-    private OkHttpClient client = new OkHttpClient();
-    ;
-    @BindView(R.id.btnSend)
-    Button btnSend;
-    @BindView(R.id.etMessage)
-    EditText etMessage;
-    @BindView(R.id.tvChat)
-    TextView tvChat;
+
+    @BindView(R.id.btnSend) Button btnSend;
+    @BindView(R.id.etMessage) EditText etMessage;
+    @BindView(R.id.tvChat) TextView tvChat;
     private StompClient mStompClient;
 
     @SuppressLint("CheckResult")

@@ -4,18 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
+import javax.inject.Inject;
+
+import be.kdg.mobile_client.activities.BaseActivity;
+import be.kdg.mobile_client.activities.RoomActivity;
 import be.kdg.mobile_client.services.SharedPrefService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MenuActivity extends AppCompatActivity {
-
+public class MenuActivity extends BaseActivity {
     @BindView(R.id.logout) Button logout;
     @BindView(R.id.btnJoinGame) Button btnJoinGame;
+    @Inject SharedPrefService sharedPrefService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
@@ -28,7 +32,7 @@ public class MenuActivity extends AppCompatActivity {
             startActivity(intent);
         });
         logout.setOnClickListener(e -> {
-            SharedPrefService.saveToken(this, null); // remove token
+            sharedPrefService.saveToken(this, null); // remove token
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         });

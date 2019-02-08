@@ -1,4 +1,4 @@
-package be.kdg.mobile_client;
+package be.kdg.mobile_client.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,9 @@ import android.widget.Button;
 
 import javax.inject.Inject;
 
+import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.activities.BaseActivity;
+import be.kdg.mobile_client.activities.MainActivity;
 import be.kdg.mobile_client.activities.RoomActivity;
 import be.kdg.mobile_client.services.SharedPrefService;
 import butterknife.BindView;

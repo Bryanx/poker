@@ -2,6 +2,7 @@ package be.kdg.mobile_client.dagger;
 
 import javax.inject.Singleton;
 
+import be.kdg.mobile_client.App;
 import dagger.Component;
 
 @Singleton

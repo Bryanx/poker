@@ -1,8 +1,8 @@
 package be.kdg.mobile_client.dagger;
 
-import be.kdg.mobile_client.LoginActivity;
-import be.kdg.mobile_client.MainActivity;
-import be.kdg.mobile_client.MenuActivity;
+import be.kdg.mobile_client.activities.LoginActivity;
+import be.kdg.mobile_client.activities.MainActivity;
+import be.kdg.mobile_client.activities.MenuActivity;
 import dagger.Subcomponent;
 
 @Subcomponent(modules = {ControllerModule.class})

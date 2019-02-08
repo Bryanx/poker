@@ -1,4 +1,4 @@
-package be.kdg.mobile_client;
+package be.kdg.mobile_client.activities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.activities.BaseActivity;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.ServiceGenerator;

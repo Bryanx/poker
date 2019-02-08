@@ -11,6 +11,9 @@ import ua.naiksoftware.stomp.Stomp;
 import ua.naiksoftware.stomp.StompClient;
 import ua.naiksoftware.stomp.dto.StompMessage;
 
+/**
+ * Websocket stomp service for sending and receiving chat messages.
+ */
 @SuppressLint("CheckResult")
 public class ChatService {
     private final String URL = "wss://poker-game-service.herokuapp.com/chat/websocket";
@@ -20,6 +23,7 @@ public class ChatService {
     private final String LEAVE_MESSAGE = " has left the room.";
     private final String SYSTEM_NAME = "system";
     private final String ERROR_TAG = "ERROR";
+    private final int HEARTBEAT_MS = 1000;
     private StompClient stompClient;
     private String playerName;
     private int roomNumber;
@@ -28,7 +32,7 @@ public class ChatService {
         this.roomNumber = roomNumber;
         this.playerName = playerName;
         this.stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, URL);
-        stompClient.withClientHeartbeat(1000).withServerHeartbeat(1000);
+        stompClient.withClientHeartbeat(HEARTBEAT_MS).withServerHeartbeat(HEARTBEAT_MS);
         stompClient.connect();
         listenForLifeCycleChanges();
     }

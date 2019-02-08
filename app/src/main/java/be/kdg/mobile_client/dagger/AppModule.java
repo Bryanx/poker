@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Bootstrapper module for providing services to activities.
+ * All methods declared in this module are global scope.
  */
 @RequiredArgsConstructor
 @Module

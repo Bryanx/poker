@@ -10,6 +10,6 @@ import dagger.Component;
 public interface AppComponent {
     void inject(App app);
 
-    //Controller component can be obtained
+    //Controller component can be obtained by injected apps
     ControllerComponent newControllerComponent(ControllerModule controllerModule);
 }

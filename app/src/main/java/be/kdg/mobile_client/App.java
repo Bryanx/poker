@@ -9,7 +9,8 @@ import be.kdg.mobile_client.dagger.DaggerAppComponent;
 
 /**
  * Overrides the default Application file.
- * Every Activity will now have access to the components - modules - services.
+ * Gives access to the app component to all the activies
+ * The app component will provide all the dependencies.
  */
 public class App extends Application {
 

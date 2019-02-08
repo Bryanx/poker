@@ -1,5 +1,6 @@
 package be.kdg.gameservice.round.controller;
 
+import be.kdg.gameservice.RequestType;
 import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.round.controller.dto.ActDTO;
 import be.kdg.gameservice.round.model.ActType;
@@ -56,14 +57,15 @@ public class RoundApiControllerTest extends UtilTesting {
 
     @Test
     public void testGetPossibleActs() throws Exception {
-        testMockMvcGet("/rounds/" + roundId + "/players/" + playerId + "/possible-acts", mockMvc);
+        testMockMvc("/rounds/" + roundId + "/players/" + playerId + "/possible-acts", "",
+                mockMvc, RequestType.GET);
     }
 
     @Test
     public void testSaveAct() throws Exception {
         ActDTO actDTO = new ActDTO(roundId, playerId, ActType.BET, Phase.PRE_FLOP, 10);
         String json = new Gson().toJson(actDTO);
-        testMockMvcPost("/rounds/" + actDTO.getRoundId() + "/players/" + actDTO.getPlayerId() + "/acts",
-                json, mockMvc);
+        testMockMvc("/rounds/" + actDTO.getRoundId() + "/players/" + actDTO.getPlayerId() + "/acts",
+                json, mockMvc, RequestType.POST);
     }
 }

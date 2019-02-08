@@ -1,9 +1,9 @@
 package be.kdg.gameservice;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.ResultMatcher;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -13,6 +13,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -45,34 +48,44 @@ public abstract class UtilTesting {
     }
 
     /**
-     * TODO: write documentation
+     * Generic mock mvc integration test builder.
      *
-     * @param url
-     * @throws Exception
+     * @param url The API url that needs to be tested.
+     * @throws Exception Thrown if something goes wrong with the integration test.
      */
-    protected void testMockMvcGet(String url, MockMvc mock) throws Exception {
-        mock.perform(get("/api" + url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
-    }
-
-    /**
-     * TODO: write documentation
-     *
-     * @param url
-     * @throws Exception
-     */
-    protected void testMockMvcPost(String url, String json, MockMvc mock) throws Exception {
-        if (json != null) {
-            mock.perform(post("/api" + url)
-                    .contentType(MediaType.APPLICATION_JSON_UTF8)
-                    .content(json)
-                    .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isCreated());
-        } else {
-            mock.perform(post("/api" + url)
-                    .contentType(MediaType.APPLICATION_JSON_UTF8))
-                    .andExpect(status().isCreated());
+    protected void testMockMvc(String url, String body, MockMvc mock, RequestType requestType) throws Exception {
+        MockHttpServletRequestBuilder requestBuilder;
+        ResultMatcher resultMatcher;
+        switch (requestType) {
+            case GET:
+                requestBuilder = get("/api" + url);
+                resultMatcher = status().isOk();
+                break;
+            case POST:
+                requestBuilder = post("/api" + url);
+                resultMatcher = status().isCreated();
+                break;
+            case PUT:
+                requestBuilder = put("/api" + url);
+                resultMatcher = status().isAccepted();
+                break;
+            case DELETE:
+                requestBuilder = delete("/api" + url);
+                resultMatcher = status().isAccepted();
+                break;
+            case PATCH:
+                requestBuilder = patch("/api" + url);
+                resultMatcher = status().isAccepted();
+                break;
+            default:
+                throw new Exception("Invalid request binder.");
         }
+
+
+        mock.perform(requestBuilder
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(body)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(resultMatcher);
     }
 }

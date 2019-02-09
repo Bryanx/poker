@@ -83,9 +83,10 @@ public class RoomApiController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/rooms/{roomId}/players/{playerId}/leave-room")
-    public ResponseEntity<Void> leaveRoom(@PathVariable int roomId, @PathVariable int playerId) throws RoomException {
-        roomService.deletePlayer(roomId, playerId);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    public ResponseEntity<PlayerDTO> leaveRoom(@PathVariable int roomId, @PathVariable int playerId) throws RoomException {
+        Player playerIn = roomService.deletePlayer(roomId, playerId);
+        PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
+        return new ResponseEntity<>(playerOut, HttpStatus.ACCEPTED);
     }
 
     /**

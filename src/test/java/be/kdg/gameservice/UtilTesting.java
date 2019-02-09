@@ -3,6 +3,8 @@ package be.kdg.gameservice;
 import be.kdg.gameservice.shared.TokenDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -58,7 +60,7 @@ public abstract class UtilTesting {
     }
 
     /**
-     * Generic mock mvc integration test builder.
+     * Generic mock mvc integration test builder. Mock needs to be passed to this method because
      *
      * @param url The API url that needs to be tested.
      * @throws Exception Thrown if something goes wrong with the integration test.

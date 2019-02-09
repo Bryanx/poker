@@ -170,6 +170,5 @@ public final class Round {
      */
     public void removePlayer(Player player) {
         playersInRound.remove(player);
-        this.pot += player.getChipCount();
     }
 }

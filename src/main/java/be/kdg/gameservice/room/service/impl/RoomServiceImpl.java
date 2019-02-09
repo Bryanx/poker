@@ -82,14 +82,14 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * Before the player is removed. TODO: expand documentation.
+     * Removes the player form the room and the current round.
      *
      * @param roomId The id of the room were the players needs to be removed from
      * @param playerId The id of the player we want to delete.
      * @throws RoomException Thrown if the player was not found in the room.
      */
     @Override
-    public void deletePlayer(int roomId, int playerId) throws RoomException {
+    public Player deletePlayer(int roomId, int playerId) throws RoomException {
         //Get data
         Room room = getRoom(roomId);
         Optional<Player> playerOpt = room.getPlayersInRoom().stream()
@@ -103,6 +103,7 @@ public class RoomServiceImpl implements RoomService {
         //Update room
         room.removePlayer(playerOpt.get());
         saveRoom(room);
+        return playerOpt.get();
     }
 
     /**

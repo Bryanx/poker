@@ -4,7 +4,6 @@ import {User} from '../../model/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthorizationService} from '../../services/authorization.service';
 import { Location } from '@angular/common';
-import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-user',
@@ -15,6 +14,8 @@ export class UserSettingsComponent implements OnInit {
   updateUserForm: FormGroup;
   updatePasswordForm: FormGroup;
   user: User;
+  toast: boolean;
+  toastText: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -41,37 +42,33 @@ export class UserSettingsComponent implements OnInit {
     });
   }
 
-  private onSubmit() {
-    console.log('Update User');
+  onSubmit() {
     this.user.username = this.updateUserForm.controls.username.value;
     this.user.firstname = this.updateUserForm.controls.firstname.value;
     this.user.lastname = this.updateUserForm.controls.lastname.value;
     this.user.email = this.updateUserForm.controls.email.value;
     this.userService.changeUser(this.user).subscribe(authResult => {
       this.authorizationService.setSession(authResult);
+      this.toastText = 'User was updated';
+      this.toast = true;
+      setTimeout(() => this.toast = false, 2000);
     }, error => {
       console.log(error.error.error_description);
     });
   }
 
-  private onSubmitPasswordChange() {
-    console.log('Update password');
-
-    console.log(this.updatePasswordForm.controls.password.value);
-    const body = new HttpParams()
-      .set('username', this.user.username)
-      .set('password', this.updatePasswordForm.controls.password.value);
-
-
+  onSubmitPasswordChange() {
     this.user.password = this.updatePasswordForm.controls.password.value;
-    this.userService.updatePassword(this.user).subscribe(user => {
-      console.log(user);
+    this.userService.changePassword(this.user).subscribe(authResult => {
+      this.toastText = 'User password was updated';
+      this.toast = true;
+      setTimeout(() => this.toast = false, 2000);
     }, error => {
       console.log(error.error.error_description);
     });
   }
 
-  private goBack() {
+  goBack() {
     this.location.back();
   }
 }

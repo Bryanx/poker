@@ -45,7 +45,7 @@
       </section>
 
 
-      <button [disabled]="updateUserForm.invalid">
+      <button [disabled]="updateUserForm.invalid" [class.disabled]="!updateUserForm.valid">
         SAVE
       </button>
     </form>
@@ -63,13 +63,16 @@
       </section>
 
       <br>
-      <button [disabled]="updatePasswordForm.invalid">
+      <button [disabled]="updatePasswordForm.invalid" [class.disabled]="updatePasswordForm.invalid">
         SAVE
       </button>
     </form>
+
   </section>
 
   <section class="grid-save">
     <button class="btn" (click)="goBack()">BACK</button>
   </section>
 </section>
+
+<div class="toast" [class.show]="toast">{{toastText}}</div>

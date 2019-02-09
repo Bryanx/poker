@@ -9,8 +9,8 @@ import {AuthResult} from '../model/authResult';
   providedIn: 'root'
 })
 export class UserService {
-  url = 'https://poker-user-service.herokuapp.com/api/user';
-  // url = 'http://localhost:5000/api/user';
+  // url = 'https://poker-user-service.herokuapp.com/api/user';
+  url = 'http://localhost:5000/api/user';
 
   constructor(private http: HttpClient) {
   }
@@ -27,7 +27,7 @@ export class UserService {
     return this.http.put<AuthResult>(this.url, user);
   }
 
-  updatePassword(user: any): Observable<AuthResult> {
+  changePassword(user: any): Observable<AuthResult> {
     return this.http.patch<any>(this.url, user);
   }
 }

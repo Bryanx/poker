@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Room} from '../model/room';
 import {Act} from '../model/act';
-import {Round} from '../model/round';
+import {Player} from '../model/player';
 
 /**
  * This service is used to manage all the HTTP traffic of the
@@ -13,8 +13,8 @@ import {Round} from '../model/round';
   providedIn: 'root'
 })
 export class GameService {
-  url = 'https://poker-game-service.herokuapp.com/api/rooms';
-  // url = 'http://localhost:8081/api/rooms';
+  // url = 'https://poker-game-service.herokuapp.com/api/rooms';
+  url = 'http://localhost:5001/api/rooms';
 
   constructor(private http: HttpClient) {
   }
@@ -27,15 +27,30 @@ export class GameService {
     return this.http.get<Room[]>(this.url);
   }
 
+  /**
+   * Gives back a single room based on the id of the room.
+   *
+   * @param roomId The id of the room that needs to be returned.
+   */
   getRoom(roomId: number): Observable<Room> {
     return this.http.get<Room>(this.url + '/' + roomId);
   }
 
-  getCurrentRound(roomId: number): Observable<Round> {
-    return this.http.get<Round>(this.url + '/' + roomId + '/rounds/current-round');
+  /**
+   * Lets a user join into a room.
+   *
+   * @param roomId The id of the room that the player wants to join.
+   */
+  addPlayer(roomId: number): Observable<Player> {
+    return this.http.post<Player>(this.url + '/' + roomId + '/join-room', '');
   }
 
+  /**
+   * Saves an act that was played by the player to the backend.
+   *
+   * @param act The act that needs to be saved.
+   */
   addAct(act: Act): Observable<Act> {
-    return this.http.put<Act>(this.url, act);
+    return this.http.post<Act>(this.url, act);
   }
 }

@@ -16,7 +16,7 @@ export class AuthorizationService {
       'Content-type': 'application/x-www-form-urlencoded'
     };
     // return this.http.post('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
-    return this.http.post('http://localhost:8081/oauth/token', loginPayload, {headers});
+    return this.http.post('http://localhost:5000/oauth/token', loginPayload, {headers});
   }
 
   setSession(authResult) {

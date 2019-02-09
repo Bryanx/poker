@@ -18,4 +18,14 @@ export class RoomsOverviewComponent implements OnInit {
       this.rooms = rooms;
     });
   }
+
+  determineCapacityIcon(room: Room): string {
+    const keyword: string = this.isFull(room) ? 'full' : 'not_full';
+    return '../../../assets/img/icons/' + keyword + '.svg';
+  }
+
+
+  isFull(room: Room): boolean {
+    return room.playersInRoom.length >= room.gameRules.maxPlayerCount;
+  }
 }

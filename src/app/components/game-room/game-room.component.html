@@ -1,15 +1,9 @@
 <div class="grid-container">
-  <app-player class="grid-person grid-person-1"></app-player>
-  <app-player class="grid-person grid-person-2"></app-player>
-  <app-player class="grid-person grid-person-3"></app-player>
-  <app-player class="grid-person grid-person-4"></app-player>
-  <app-player class="grid-person grid-person-5"></app-player>
-  <app-player class="grid-person grid-person-6"></app-player>
+  <app-player *ngFor="let player of getAllPlayers(); index as i" [class]="'grid-person grid-person-' + (i + 1)"
+  ></app-player>
   <div class="grid-tmiddle"></div>
   <app-chat class="grid-chat"></app-chat>
   <app-actionbar class="grid-actionbar"
-                 [roundId]="curRound.id"
-                 [curPhase]="curRound.phase"
   ></app-actionbar>
   <app-game-table class="grid-item-table"></app-game-table>
 </div>

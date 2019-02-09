@@ -5,8 +5,6 @@ export class User {
   lastname: string;
   email: string;
   password: string;
-  firstname: string;
-  lastname: string;
   profilePicture: string;
   profilePictureSocial: string;
   provider: string;

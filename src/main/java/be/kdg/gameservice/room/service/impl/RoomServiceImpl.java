@@ -136,7 +136,6 @@ public class RoomServiceImpl implements RoomService {
      * @return An unmodifiable collection of all the rooms from the database.
      */
     @Override
-    @Cacheable(value = "rooms")
     public List<Room> getRooms() {
         return Collections.unmodifiableList(roomRepository.findAll());
     }
@@ -165,7 +164,6 @@ public class RoomServiceImpl implements RoomService {
      * @throws RoomException Thrown if the room does not exists in the database.
      */
     @Override
-    @Cacheable(value = "room")
     public Room getRoom(int roomId) throws RoomException {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomException(RoomServiceImpl.class, "The room was not found in the database."));

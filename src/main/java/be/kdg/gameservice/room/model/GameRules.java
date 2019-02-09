@@ -9,10 +9,9 @@ import lombok.Getter;
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum GameRules {
-    /**
-     * The default settings.
-     */
-    TEXAS_HOLD_EM(4, 8, 30, 500, 6);
+    TEXAS_HOLD_EM_EASY(4, 8, 30, 500, 6),
+    TEXAS_HOLD_EM(8, 16, 25, 2500, 5),
+    TEXAS_HOLD_EM_DIFFICULT(16, 32, 20, 5000, 4);
 
     /**
      * An obligated small bet that needs to be made.

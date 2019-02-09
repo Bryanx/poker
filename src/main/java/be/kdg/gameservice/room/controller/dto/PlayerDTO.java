@@ -1,6 +1,5 @@
 package be.kdg.gameservice.room.controller.dto;
 
-import be.kdg.gameservice.card.Card;
 import be.kdg.gameservice.round.model.HandType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,10 +14,6 @@ public class PlayerDTO {
     private int id;
     @NotNull
     private String userId;
-    @NotNull
-    private Card firstCard;
-    @NotNull
-    private Card secondCard;
     private int chipCount;
     @NotNull
     private HandType handType;

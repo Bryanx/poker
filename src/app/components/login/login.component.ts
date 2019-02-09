@@ -5,12 +5,12 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthorizationService} from '../../services/authorization.service';
 import {HttpParams} from '@angular/common/http';
 import {UserService} from '../../services/user.service';
-import {AuthService, FacebookLoginProvider, GoogleLoginProvider, LinkedInLoginProvider} from 'angularx-social-login';
+import {AuthService, FacebookLoginProvider} from 'angularx-social-login';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;

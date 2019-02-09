@@ -13,7 +13,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class PlayerDTO {
     private int id;
-    private int userId;
+    @NotNull
+    private String userId;
     @NotNull
     private Card firstCard;
     @NotNull

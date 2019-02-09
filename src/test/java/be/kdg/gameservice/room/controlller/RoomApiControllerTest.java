@@ -29,8 +29,6 @@ public class RoomApiControllerTest extends UtilTesting {
     @Autowired
     private RoomRepository roomRepository;
     private int roomId;
-    private int playerIdInRoom;
-    ;
 
     @Before
     public void setup() {
@@ -40,12 +38,11 @@ public class RoomApiControllerTest extends UtilTesting {
 
         if (!roomOpt.isPresent()) fail("Nothing testable present in database.");
         roomId = roomOpt.get().getId();
-        playerIdInRoom = roomOpt.get().getPlayersInRoom().get(0).getId();
     }
 
     @Test
-    public void testImmutability() {
-        testImmutabilityClass(RoomApiController.class);
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(RoomApiController.class);
     }
 
     @Test
@@ -61,21 +58,22 @@ public class RoomApiControllerTest extends UtilTesting {
     //TODO: replace static player id.
     @Test
     public void testJoinRoom() throws Exception {
-        testMockMvc("/rooms/" + roomId + "/players/20/join-room", "", mockMvc, RequestType.POST);
+        testMockMvc("/rooms/" + roomId + "/join-room", "", mockMvc, RequestType.POST);
     }
 
     @Test
     public void testStartNewRound() throws Exception {
-        testMockMvc("/rooms/" + roomId + "/rounds/start-new-round", "", mockMvc, RequestType.POST);
+        testMockMvc("/rooms/" + roomId + "/start-new-round", "", mockMvc, RequestType.POST);
     }
 
     @Test
     public void testGetCurrentRound() throws Exception {
-        testMockMvc("/rooms/" + roomId + "/rounds/current-round", "", mockMvc, RequestType.GET);
+        testMockMvc("/rooms/" + roomId + "/current-round", "", mockMvc, RequestType.GET);
     }
 
     @Test
     public void testLeaveRoom() throws Exception {
-        testMockMvc("/rooms/" + roomId + "/players/" + playerIdInRoom + "/leave-room", "", mockMvc, RequestType.DELETE);
+        testJoinRoom();
+        testMockMvc("/rooms/" + roomId + "/leave-room", "", mockMvc, RequestType.DELETE);
     }
 }

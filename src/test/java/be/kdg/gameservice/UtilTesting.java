@@ -1,11 +1,13 @@
 package be.kdg.gameservice;
 
 import be.kdg.gameservice.shared.TokenDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -34,18 +36,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * You can extend from this class if you want to do immutability testing in your junit tests.
  */
 public abstract class UtilTesting {
+    private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
+
     /**
      * Tests the immutability of a class.
      * If you are working with an enum, the enum will automatically be recognized as final.
      *
      * @param aClass The class you want to test.
      */
-    protected void testImmutabilityClass(Class aClass) {
+    protected void testImmutabilityAttributes(Class aClass) {
         Arrays.stream(aClass.getDeclaredFields())
                 .filter(f -> !f.getName().equalsIgnoreCase("id"))
                 .forEach(f -> assertTrue(Modifier.isFinal(f.getModifiers())));
-
-        assertTrue(Modifier.isFinal(aClass.getModifiers()));
     }
 
     /**
@@ -63,6 +65,9 @@ public abstract class UtilTesting {
      * Generic mock mvc integration test builder. Mock needs to be passed to this method because
      *
      * @param url The API url that needs to be tested.
+     * @param body The content body that will be passed.
+     * @param mock The mock that will be used to make the api request.
+     * @param requestType The type of request that has to be made.
      * @throws Exception Thrown if something goes wrong with the integration test.
      */
     protected void testMockMvc(String url, String body, MockMvc mock, RequestType requestType) throws Exception {
@@ -71,7 +76,7 @@ public abstract class UtilTesting {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setBasicAuth("my-trusted-client", "secret");
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        TokenDto tokenDto = restTemplate.postForObject("http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345", entity, TokenDto.class);
+        TokenDto tokenDto = restTemplate.postForObject(TOKEN_URL, entity, TokenDto.class);
 
         MockHttpServletRequestBuilder requestBuilder;
         ResultMatcher resultMatcher;

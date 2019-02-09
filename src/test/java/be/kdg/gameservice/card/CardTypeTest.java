@@ -45,7 +45,7 @@ public final class CardTypeTest extends UtilTesting {
     }
 
     @Test
-    public void testImmutability() {
-        testImmutabilityClass(CardType.class);
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(CardType.class);
     }
 }

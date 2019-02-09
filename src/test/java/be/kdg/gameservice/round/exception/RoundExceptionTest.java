@@ -1,4 +1,4 @@
-package be.kdg.gameservice.chat;
+package be.kdg.gameservice.round.exception;
 
 import be.kdg.gameservice.UtilTesting;
 import org.junit.Test;
@@ -8,9 +8,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class ChatControllerTest extends UtilTesting {
+public class RoundExceptionTest extends UtilTesting {
     @Test
     public void testImmutabilityAttributes() {
-        testImmutabilityAttributes(ChatController.class);
+        testImmutabilityAttributes(RoundException.class);
     }
 }

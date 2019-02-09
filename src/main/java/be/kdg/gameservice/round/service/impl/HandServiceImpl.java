@@ -11,7 +11,7 @@ import java.util.*;
  * Service responsible for calculating best HandType based on all combinations of 5 out of 7 cards
  */
 @Service
-public class HandServiceImpl implements HandService {
+public final class HandServiceImpl implements HandService {
     /**
      * Used for calculating HandType based on index in string
      */

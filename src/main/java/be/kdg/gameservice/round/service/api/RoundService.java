@@ -9,9 +9,9 @@ import be.kdg.gameservice.round.model.Round;
 import java.util.List;
 
 public interface RoundService {
-    void saveAct(int roundId, int playerId, ActType type, Phase phase, int bet) throws RoundException;
+    void saveAct(int roundId, String userId, ActType type, Phase phase, int bet) throws RoundException;
 
-    List<ActType> getPossibleActs(int roundId, int playerId) throws RoundException;
+    List<ActType> getPossibleActs(int roundId, String userId) throws RoundException;
 
     Round startNewRound(List<Player> playersForRound, int button);
 

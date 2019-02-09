@@ -1,11 +1,13 @@
 package be.kdg.gameservice.round.service;
 
+import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Phase;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.round.service.api.RoundService;
+import be.kdg.gameservice.round.service.impl.RoundServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +22,13 @@ import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class RoundServiceTest {
+public class RoundServiceImplTest extends UtilTesting {
     @Autowired
     private RoundService roundService;
     @Autowired
     private RoundRepository roundRepository;
     private int roundId;
-    private int playerId;
+    private String userId;
 
     @Before
     public void setup() {
@@ -37,21 +39,31 @@ public class RoundServiceTest {
         if (!round.isPresent()) fail("Nothing testable present in database.");
 
         roundId = round.get().getId();
-        playerId = round.get().getPlayersInRound().get(0).getId();
+        userId = round.get().getPlayersInRound().get(0).getUserId();
+    }
+
+    @Test
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(RoundServiceImpl.class);
     }
 
     @Test
     public void testGetPossibleActs() throws RoundException {
-        List<ActType> possibleActs = roundService.getPossibleActs(roundId, playerId);
+        List<ActType> possibleActs = roundService.getPossibleActs(roundId, userId);
         assertEquals(3, possibleActs.size());
         assertTrue(possibleActs.contains(ActType.BET)
                 && possibleActs.contains(ActType.CHECK)
                 && possibleActs.contains(ActType.FOLD));
     }
 
-    @Test(expected = RoundException.class)
+    @Test
     public void testSaveAct() throws RoundException {
-        roundService.saveAct(roundId, playerId, ActType.RAISE, Phase.PRE_FLOP, 25);
+        roundService.saveAct(roundId, userId, ActType.FOLD, Phase.PRE_FLOP, 25);
+    }
+
+    @Test(expected = RoundException.class)
+    public void testSaveActFail() throws RoundException {
+        roundService.saveAct(roundId, userId, ActType.RAISE, Phase.PRE_FLOP, 25);
         fail("Act should not be possible for this player at this time in the round.");
     }
 }

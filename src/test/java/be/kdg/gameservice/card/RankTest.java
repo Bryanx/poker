@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public final class RankTest extends UtilTesting {
     @Test
-    public void testImmutabilityGetCards() {
-        testImmutabilityClass(Rank.class);
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(Rank.class);
     }
 }

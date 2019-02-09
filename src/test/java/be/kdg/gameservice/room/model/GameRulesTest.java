@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 public final class GameRulesTest extends UtilTesting {
     @Test
-    public void testImmutabilityGameRules() {
-        testImmutabilityClass(GameRules.class);
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(GameRules.class);
     }
 }

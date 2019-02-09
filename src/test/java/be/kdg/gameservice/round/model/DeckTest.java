@@ -26,8 +26,8 @@ public final class DeckTest extends UtilTesting {
     }
 
     @Test
-    public void testImmutability() {
-        testImmutabilityClass(Deck.class);
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(Deck.class);
     }
 
     @Test
@@ -49,6 +49,6 @@ public final class DeckTest extends UtilTesting {
 
     @Test
     public void testImmutabilityDeck() {
-        testImmutabilityClass(Deck.class);
+        testImmutabilityAttributes(Deck.class);
     }
 }

@@ -45,6 +45,6 @@ export class AuthorizationService {
   }
 
   socialLogin(user: User) {
-    return this.http.post('http://localhost:5000/api/sociallogin', user);
+    return this.http.post<AuthResult>('http://localhost:5000/api/sociallogin', user);
   }
 }

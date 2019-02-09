@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,7 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public final class RoundApiController {
+public class RoundApiController {
     private final ModelMapper modelMapper;
     private final RoundService roundService;
 
@@ -34,6 +35,7 @@ public final class RoundApiController {
      * @return Status code 200 if the get succeeded.
      * @throws RoundException Rerouted to handler.
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rounds/{roundId}/players/{playerId}/possible-acts")
     public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId,
                                                      @PathVariable int playerId) throws RoundException {
@@ -50,6 +52,7 @@ public final class RoundApiController {
      * @throws RoundException Rerouted to handler.
      * @see ActDTO
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rounds/{roundId}/players/{playerId}/acts")
     public ResponseEntity<ActDTO> doAct(@RequestBody @Valid ActDTO actDTO, @PathVariable int roundId,
                                         @PathVariable int playerId) throws RoundException {

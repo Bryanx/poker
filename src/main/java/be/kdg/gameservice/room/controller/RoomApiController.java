@@ -12,9 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This API is used for managing all the rooms.
@@ -22,15 +27,21 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
-public final class RoomApiController {
+public class RoomApiController {
+    private final ResourceServerTokenServices resourceTokenServices;
     private final ModelMapper modelMapper;
     private final RoomService roomService;
 
     /**
      * @return Statuscode 200 with all the rooms.
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rooms")
-    public ResponseEntity<RoomDTO[]> getRooms() {
+    public ResponseEntity<RoomDTO[]> getRooms(OAuth2Authentication authentication) {
+        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
+        Map<String, Object> additionalInfo = resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
+        System.out.println(additionalInfo.get("username").toString());
+        System.out.println(additionalInfo.get("uuid").toString());
         List<Room> roomsIn = roomService.getRooms();
         RoomDTO[] roomsOut = modelMapper.map(roomsIn, RoomDTO[].class);
         return new ResponseEntity<>(roomsOut, HttpStatus.OK);
@@ -41,6 +52,7 @@ public final class RoomApiController {
      * @return Status code 200 with the corresponding room object.
      * @throws RoomException Rerouted to handler.
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rooms/{roomId}")
     public ResponseEntity<RoomDTO> getRoom(@PathVariable int roomId) throws RoomException {
         Room roomIn = roomService.getRoom(roomId);
@@ -55,6 +67,7 @@ public final class RoomApiController {
      * @return Status 200.
      * @throws RoomException Rerouted to handler.
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rooms/{roomId}/rounds/current-round")
     public ResponseEntity<RoundDTO> getCurrentRound(@PathVariable int roomId) throws RoomException {
         Round roundIn = roomService.getCurrentRound(roomId);
@@ -68,6 +81,7 @@ public final class RoomApiController {
      * @return Status code 202 if the player was successfully deleted from the room.
      * @throws RoomException Rerouted to handler.
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/rooms/{roomId}/players/{playerId}/leave-room")
     public ResponseEntity<Void> leaveRoom(@PathVariable int roomId, @PathVariable int playerId) throws RoomException {
         roomService.deletePlayer(roomId, playerId);
@@ -82,6 +96,7 @@ public final class RoomApiController {
      * @return Status code 201 if the player joined the room successfully.
      * @throws RoomException Rerouted to handler.
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rooms/{roomId}/players/{userId}/join-room")
     public ResponseEntity<PlayerDTO> joinRoom(@PathVariable int roomId, @PathVariable int userId) throws RoomException {
         Player playerIn = roomService.savePlayer(roomId, userId);
@@ -97,6 +112,7 @@ public final class RoomApiController {
      * @return Status 200.
      * @throws RoomException Rerouted to handler.
      */
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rooms/{roomId}/rounds/start-new-round")
     public ResponseEntity<RoundDTO> startNewRound(@PathVariable int roomId) throws RoomException {
         Round roundIn = roomService.startNewRoundForRoom(roomId);

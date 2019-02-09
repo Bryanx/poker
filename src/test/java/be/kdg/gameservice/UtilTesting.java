@@ -1,21 +1,31 @@
 package be.kdg.gameservice;
 
+import be.kdg.gameservice.shared.TokenDto;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -54,6 +64,13 @@ public abstract class UtilTesting {
      * @throws Exception Thrown if something goes wrong with the integration test.
      */
     protected void testMockMvc(String url, String body, MockMvc mock, RequestType requestType) throws Exception {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBasicAuth("my-trusted-client", "secret");
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        TokenDto tokenDto = restTemplate.postForObject("http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345", entity, TokenDto.class);
+
         MockHttpServletRequestBuilder requestBuilder;
         ResultMatcher resultMatcher;
         switch (requestType) {
@@ -82,7 +99,9 @@ public abstract class UtilTesting {
         }
 
 
+        assert tokenDto != null;
         mock.perform(requestBuilder
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", tokenDto.getAccess_token()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body)
                 .accept(MediaType.APPLICATION_JSON))

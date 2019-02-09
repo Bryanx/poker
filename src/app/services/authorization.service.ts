@@ -1,26 +1,27 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
-import {User} from '../model/user';
+import {AuthResult} from '../model/authResult';
+import {Observable} from 'rxjs';
+import {User} from "../model/user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  login(loginPayload) {
+  login(loginPayload): Observable<AuthResult> {
     const headers = {
       'Authorization': 'Basic ' + btoa('my-trusted-client:secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     };
     // return this.http.post('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
-    return this.http.post('http://localhost:5000/oauth/token', loginPayload, {headers});
+    return this.http.post<AuthResult>('http://localhost:5000/oauth/token', loginPayload, {headers});
   }
 
-  setSession(authResult) {
+  setSession(authResult: AuthResult) {
     const expiresAt = moment().add(authResult.expires_in, 'second');
 
     localStorage.setItem('jwt_token', authResult.access_token);
@@ -44,6 +45,6 @@ export class AuthorizationService {
   }
 
   socialLogin(user: User) {
-    return this.http.post('http://localhost:5000/api/sociallogin', user);
+    return this.http.post<AuthResult>('http://localhost:5000/api/sociallogin', user);
   }
 }

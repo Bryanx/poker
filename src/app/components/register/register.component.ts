@@ -42,22 +42,15 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const body = new HttpParams()
-      .set('username', this.loginForm.controls.username.value)
-      .set('password', this.loginForm.controls.password.value)
-      .set('grant_type', 'password');
-
     this.user.email = this.loginForm.controls.email.value;
     this.user.username = this.loginForm.controls.username.value;
     this.user.password = this.loginForm.controls.password.value;
 
-    const auth$ = this.authorizationService.login(body.toString());
-    const user$ = this.userService.addUser(this.user);
-    concat(user$, auth$).subscribe(authResult => {
+    this.userService.addUser(this.user).subscribe(authResult => {
       this.authorizationService.setSession(authResult);
       this.router.navigateByUrl('/');
     }, error => {
-      this.error = error.error.error_description;
+      console.log(error.error.error_description);
     });
   }
 }

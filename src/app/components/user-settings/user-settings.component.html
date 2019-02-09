@@ -1,0 +1,84 @@
+<h2>Update User Account</h2>
+
+<br>
+
+<section *ngIf="user" class="grid-container">
+
+  <section class="first-element">
+
+    <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
+
+      <section class="inputfield">
+        <label for="username">Username</label>
+        <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
+        <div class="error"
+             *ngIf="updateUserForm.controls['username'].hasError('required') && updateUserForm.controls['username'].touched">
+          Username is required
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="email">Email</label>
+        <input type="email" email name="email" formControlName="email" id="email" autocomplete="off">
+        <div class="error"
+             *ngIf="updateUserForm.controls['email'].hasError('required') && updateUserForm.controls['email'].touched">
+          Email is required
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="firstname">First Name</label>
+        <input type="text" name="firstname" formControlName="firstname" id="firstname" autocomplete="off">
+        <div class="error"
+             *ngIf="updateUserForm.controls['firstname'].hasError('required') && updateUserForm.controls['firstname'].touched">
+          Firstname is required
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="lastname">Last Name</label>
+        <input type="text" name="lastname" formControlName="lastname" id="lastname" autocomplete="off">
+        <div class="error"
+             *ngIf="updateUserForm.controls['lastname'].hasError('required') && updateUserForm.controls['lastname'].touched">
+          Lastname is required
+        </div>
+      </section>
+
+
+      <button [disabled]="updateUserForm.invalid" [class.disabled]="!updateUserForm.valid">
+        SAVE
+      </button>
+    </form>
+  </section>
+
+  <section class="second-element">
+    <section class="profile-picture">
+      <label for="file-input">
+      <img [src]="getProfilePicture()" alt="Profile picture">
+      </label>
+      <input id="file-input" type="file" accept="image/*" (change)="changeProfilePicture($event)">
+    </section>
+
+    <form id='updatePasswordForm' [formGroup]="updatePasswordForm" (ngSubmit)="onSubmitPasswordChange()">
+      <section class="inputfield">
+        <label for="password">Password</label>
+        <input type="password" name="password" formControlName="password" id="password" autocomplete="off">
+        <div class="error"
+             *ngIf="updatePasswordForm.controls['password'].hasError('required') && updatePasswordForm.controls['password'].touched">
+          Password is required
+        </div>
+      </section>
+
+      <button [disabled]="updatePasswordForm.invalid" [class.disabled]="updatePasswordForm.invalid">
+        SAVE
+      </button>
+    </form>
+
+  </section>
+
+  <section class="grid-save">
+    <button class="btn" (click)="goBack()">BACK</button>
+  </section>
+</section>
+
+<div class="toast" [class.show]="toast">{{toastText}}</div>

@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
 import {AuthResult} from '../model/authResult';
 import {Observable} from 'rxjs';
+import {User} from "../model/user";
 
 @Injectable({
   providedIn: 'root'

@@ -21,4 +21,7 @@ public class User {
     private String email;
     private int enabled;
     private byte[] profilePicture;
+    private String socialId;
+    private String profilePictureSocial;
+    private String provider;
 }

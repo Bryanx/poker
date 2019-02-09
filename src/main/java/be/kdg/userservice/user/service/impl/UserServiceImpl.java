@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(1);
-        userRepository.save(user);
+        user = userRepository.save(user);
 
         UserRole role = new UserRole(user.getId(), "ROLE_USER");
         userRoleRepository.save(role);
@@ -104,5 +104,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(dbUser);
+    }
+
+    @Override
+    public User checkSocialUser(User user) throws UserException {
+        Optional<User> dbUser = userRepository.findBySocialId(user.getSocialId());
+
+        if (!dbUser.isPresent()) {
+            user.setEnabled(1);
+            user = userRepository.save(user);
+            UserRole role = new UserRole(user.getId(), "ROLE_USER");
+            userRoleRepository.save(role);
+            return user;
+        }
+
+        return dbUser.get();
     }
 }

@@ -22,7 +22,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     /**
      * Configure the resource server to use our own token service.
-     * @param config
      */
     @Override
     public void configure(ResourceServerSecurityConfigurer config) {

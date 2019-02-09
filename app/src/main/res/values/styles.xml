@@ -12,7 +12,7 @@
     <style name="greenButton">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">60dp</item>
-        <item name="android:background">@color/colorGreen</item>
+        <item name="android:background">@drawable/button_corners</item>
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 

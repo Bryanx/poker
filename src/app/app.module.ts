@@ -11,6 +11,24 @@ import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overview.component';
+import {
+  AuthServiceConfig,
+  FacebookLoginProvider,
+  SocialLoginModule
+} from 'angularx-social-login';
+
+const config = new AuthServiceConfig([
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('483584635507231')
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -18,7 +36,9 @@ import { RegisterComponent } from './components/register/register.component';
     LoginComponent,
     UserSettingsComponent,
     HomeComponent,
-    RegisterComponent
+    RegisterComponent,
+    ChatComponent,
+    RoomsOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,13 +46,18 @@ import { RegisterComponent } from './components/register/register.component';
     RouterModule,
     ReactiveFormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SocialLoginModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]

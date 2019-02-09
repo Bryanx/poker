@@ -1,17 +1,6 @@
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
   <h1>LOGIN</h1>
 
-  <section class="social-media">
-    <a href="#">
-      <img src="assets/img/icons/icon-facebook.png" alt="FACEBOOK">
-      Facebook
-    </a>
-    <a href="#">
-      <img src="assets/img/icons/icon-google.png" alt="GOOGLE">
-      Google
-    </a>
-  </section>
-
   <section class="username">
     <label for="username">Username</label>
     <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
@@ -34,6 +23,13 @@
   <button [disabled]="loginForm.invalid">
     LOGIN
   </button>
+
+  <section class="social-media">
+    <a (click)="signInWithFB()">
+      <img src="assets/img/icons/icon-facebook.png" alt="FACEBOOK">
+      Facebook
+    </a>
+  </section>
 
   <a class="no-account" routerLink="/register">
     I don't have an account bro :-(

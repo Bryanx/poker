@@ -42,4 +42,8 @@ export class AuthorizationService {
     const expiresAt = JSON.parse(expiration);
     return moment().isBefore(moment(expiresAt));
   }
+
+  socialLogin(user: User) {
+    return this.http.post('http://localhost:5000/api/sociallogin', user);
+  }
 }

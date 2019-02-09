@@ -52,6 +52,13 @@
   </section>
 
   <section class="second-element">
+    <section class="profile-picture">
+      <label for="file-input">
+      <img [src]="getProfilePicture()" alt="Profile picture">
+      </label>
+      <input id="file-input" type="file" accept="image/*" (change)="changeProfilePicture($event)">
+    </section>
+
     <form id='updatePasswordForm' [formGroup]="updatePasswordForm" (ngSubmit)="onSubmitPasswordChange()">
       <section class="inputfield">
         <label for="password">Password</label>
@@ -62,7 +69,6 @@
         </div>
       </section>
 
-      <br>
       <button [disabled]="updatePasswordForm.invalid" [class.disabled]="updatePasswordForm.invalid">
         SAVE
       </button>

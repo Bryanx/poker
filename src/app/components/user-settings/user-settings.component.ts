@@ -4,6 +4,7 @@ import {User} from '../../model/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthorizationService} from '../../services/authorization.service';
 import { Location } from '@angular/common';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user',
@@ -21,8 +22,8 @@ export class UserSettingsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authorizationService: AuthorizationService,
     private userService: UserService,
-    private location: Location
-  ) { }
+    private location: Location,
+    private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.userService.getUser().subscribe(result => {
@@ -70,5 +71,28 @@ export class UserSettingsComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  getProfilePicture() {
+    if (this.user.profilePicture === null) {
+      return this.user.profilePictureSocial;
+    } else {
+      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + this.user.profilePicture);
+    }
+  }
+
+  changeProfilePicture(event) {
+    const file = event.target.files[0];
+    console.log(this.user.profilePicture);
+    const reader = new FileReader();
+    reader.onload = this.handleReaderLoaded.bind(this);
+    reader.readAsBinaryString(file);
+  }
+
+  handleReaderLoaded(readerEvt) {
+    const binaryString = readerEvt.target.result;
+    this.user.profilePicture = btoa(binaryString);
+    console.log(btoa(binaryString));
+    this.onSubmit();
   }
 }

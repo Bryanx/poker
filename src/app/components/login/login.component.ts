@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
         this.user.username = user.name;
         this.user.firstname = user.firstName;
         this.user.lastname = user.lastName;
-        this.user.profilePictureSocial = user.photoUrl;
+        this.user.profilePictureSocial = 'https://graph.facebook.com/' + user.id + '/picture?type=large';
         this.user.provider = user.provider;
         this.authorizationService.socialLogin(this.user).subscribe(authResult => {
           this.authorizationService.setSession(authResult);

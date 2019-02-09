@@ -113,3 +113,25 @@ form {
   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
+
+.profile-picture {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  img {
+    width: 270px;
+    height: 270px;
+    border-radius: 50%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.profile-picture > input
+{
+  display: none;
+}

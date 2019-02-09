@@ -11,5 +11,7 @@ public class UserDto {
     private String firstname;
     private String lastname;
     private String email;
-    private byte[] profilePicture;
+    private String profilePicture;
+    private String profilePictureSocial;
+    private String provider;
 }

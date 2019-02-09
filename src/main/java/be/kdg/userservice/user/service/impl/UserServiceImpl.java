@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         dbUser.setFirstname(user.getFirstname());
         dbUser.setLastname(user.getLastname());
         dbUser.setEmail(user.getEmail());
-        dbUser.setProfilePicture(user.getProfilePicture());
+        dbUser.setProfilePictureBinary(user.getProfilePictureBinary());
 
         return userRepository.save(dbUser);
     }

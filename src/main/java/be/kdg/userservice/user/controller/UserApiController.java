@@ -30,13 +30,13 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api")
-public class UserController {
+public class UserApiController {
     private final ResourceServerTokenServices resourceTokenServices;
     private final AuthorizationServerTokenServices authorizationServerTokenServices;
     private final UserService userServiceImpl;
     private final ModelMapper modelMapper;
 
-    public UserController(ResourceServerTokenServices resourceTokenServices, AuthorizationServerTokenServices authorizationServerTokenServices, UserService userServiceImpl, ModelMapper modelMapper) {
+    public UserApiController(ResourceServerTokenServices resourceTokenServices, AuthorizationServerTokenServices authorizationServerTokenServices, UserService userServiceImpl, ModelMapper modelMapper) {
         this.resourceTokenServices = resourceTokenServices;
         this.authorizationServerTokenServices = authorizationServerTokenServices;
         this.userServiceImpl = userServiceImpl;
@@ -52,7 +52,15 @@ public class UserController {
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
         Map<String, Object> additionalInfo = resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
         User user = userServiceImpl.findUserById(additionalInfo.get("uuid").toString());
-        return new ResponseEntity<>(modelMapper.map(user, UserDto.class), HttpStatus.OK);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        if (user.getProfilePictureBinary() != null) {
+            userDto.setProfilePicture(new String(user.getProfilePictureBinary()));
+        } else {
+            userDto.setProfilePicture(null);
+        }
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
     /**
@@ -73,6 +81,12 @@ public class UserController {
     @PutMapping("/user")
     public ResponseEntity<TokenDto> changeUser(@Valid @RequestBody UserDto userDto) throws UserException {
         User userIn = modelMapper.map(userDto, User.class);
+
+        if (userDto.getProfilePicture() != null) {
+            byte[] decodedBytes = userDto.getProfilePicture().getBytes();
+            userIn.setProfilePictureBinary(decodedBytes);
+        }
+
         User userOut = userServiceImpl.changeUser(userIn);
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
     }

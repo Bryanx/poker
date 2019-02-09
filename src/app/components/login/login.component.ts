@@ -35,17 +35,20 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
     this.authService.authState.subscribe((user) => {
-      this.user.id = user.id;
-      this.user.email = user.email;
-      this.user.username = user.lastName
-      this.user.firstname = user.firstName;
-      this.user.lastname = user.lastName;
-      this.user.profilePictureSocial = user.photoUrl;
-      this.user.provider = user.provider;
-      this.authorizationService.socialLogin(this.user).subscribe(authResult => {
-        this.authorizationService.setSession(authResult);
-        this.router.navigateByUrl(this.returnUrl);
-      });
+      if (user != null) {
+        this.user.id = user.id;
+        this.user.email = user.email;
+        this.user.username = user.name;
+        this.user.firstname = user.firstName;
+        this.user.lastname = user.lastName;
+        this.user.profilePictureSocial = user.photoUrl;
+        this.user.provider = user.provider;
+        this.authorizationService.socialLogin(this.user).subscribe(authResult => {
+          this.authorizationService.setSession(authResult);
+          this.authService.signOut();
+          this.router.navigateByUrl(this.returnUrl);
+        });
+      }
     });
   }
 
@@ -67,15 +70,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
-  }
-
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
-  }
-
-  signOut(): void {
-    this.authService.signOut();
   }
 }

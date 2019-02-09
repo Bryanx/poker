@@ -47,7 +47,7 @@ form {
 
   .social-media {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
 
     a:first-of-type {
@@ -63,7 +63,7 @@ form {
       height: 4rem;
       background: white;
       border-radius: .4rem;
-      width: 45%;
+      width: 200px;
       text-decoration: none;
       display: flex;
       align-items: center;

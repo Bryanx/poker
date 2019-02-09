@@ -16,15 +16,10 @@ import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overvi
 import {
   AuthServiceConfig,
   FacebookLoginProvider,
-  GoogleLoginProvider,
   SocialLoginModule
 } from 'angularx-social-login';
 
 const config = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('624796833023-clhjgupm0pu6vgga7k5i5bsfp6qp6egh.apps.googleusercontent.com')
-  },
   {
     id: FacebookLoginProvider.PROVIDER_ID,
     provider: new FacebookLoginProvider('483584635507231')

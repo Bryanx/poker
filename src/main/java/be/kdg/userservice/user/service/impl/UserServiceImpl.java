@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(1);
-        userRepository.save(user);
+        user = userRepository.save(user);
 
         UserRole role = new UserRole(user.getId(), "ROLE_USER");
         userRoleRepository.save(role);
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         if (!dbUser.isPresent()) {
             user.setEnabled(1);
-            userRepository.save(user);
+            user = userRepository.save(user);
             UserRole role = new UserRole(user.getId(), "ROLE_USER");
             userRoleRepository.save(role);
             return user;

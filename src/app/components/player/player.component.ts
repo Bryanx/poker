@@ -12,8 +12,13 @@ export class PlayerComponent implements OnInit {
   user: User = {
     id: '',
     username: '',
+    firstname: '',
+    lastname: '',
     password: '',
-    email: ''
+    email: '',
+    profilePicture: '',
+    profilePictureSocial: '',
+    provider: ''
   };
 
   constructor(private userService: UserService) { }

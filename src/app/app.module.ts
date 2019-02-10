@@ -7,7 +7,7 @@ import { LoginComponent } from './components/login/login.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {AuthInterceptor} from './interceptors/authInterceptor';
-import { UserComponent } from './components/user/user.component';
+import { UserSettingsComponent } from './components/user-settings/user-settings.component';
 import { HomeComponent } from './components/home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import {RouterModule} from '@angular/router';
@@ -19,6 +19,22 @@ import { CardComponent } from './components/card/card.component';
 import { ActionbarComponent } from './components/actionbar/actionbar.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overview.component';
+import {
+  AuthServiceConfig,
+  FacebookLoginProvider,
+  SocialLoginModule
+} from 'angularx-social-login';
+
+const config = new AuthServiceConfig([
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('483584635507231')
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -26,7 +42,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     LoginComponent,
-    UserComponent,
+    UserSettingsComponent,
     HomeComponent,
     RegisterComponent,
     GameRoomComponent,
@@ -46,12 +62,17 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
+    SocialLoginModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
     }
   ],
   bootstrap: [AppComponent]

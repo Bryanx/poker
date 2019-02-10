@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {AuthGuardService} from './services/auth-guard.service';
-import {UserComponent} from './components/user/user.component';
+import {UserSettingsComponent} from './components/user-settings/user-settings.component';
 import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
 import {RouterModule, Routes} from '@angular/router';
@@ -18,8 +18,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService] },
   { path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
-  { path: 'user', component: UserComponent, canActivate: [AuthGuardService] },
   { path: 'game-room', component: GameRoomComponent, canActivate: [AuthGuardService] },
+  { path: 'user', component: UserSettingsComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 

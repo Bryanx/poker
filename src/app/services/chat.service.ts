@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import * as Stomp from 'stompjs';
-import * as SockJS from 'sockjs-client';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  serverUrl = 'https://poker-game-service.herokuapp.com/chat';
+  serverUrl = 'wss://poker-game-service.herokuapp.com/chat/websocket';
   server;
 
   constructor() { }
 
   join() {
-    this.server = Stomp.over(new SockJS(this.serverUrl));
+    this.server = Stomp.over(new WebSocket(this.serverUrl));
     return this.server;
   }
 

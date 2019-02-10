@@ -1,4 +1,4 @@
-package be.kdg.gameservice.card;
+package be.kdg.gameservice.room.exception;
 
 import be.kdg.gameservice.UtilTesting;
 import org.junit.Test;
@@ -8,9 +8,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public final class RankTest extends UtilTesting {
+public class RoomExceptionTest extends UtilTesting {
     @Test
     public void testImmutabilityAttributes() {
-        testImmutabilityAttributes(Rank.class);
+        testImmutabilityAttributes(RoomException.class);
     }
 }

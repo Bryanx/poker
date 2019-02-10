@@ -1,4 +1,4 @@
-package be.kdg.gameservice.shared;
+package be.kdg.gameservice.shared.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

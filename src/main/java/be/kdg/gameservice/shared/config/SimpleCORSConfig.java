@@ -1,4 +1,4 @@
-package be.kdg.gameservice.shared;
+package be.kdg.gameservice.shared.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -20,11 +20,7 @@ public class SimpleCORSConfig implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-        if (response.containsHeader("Origin")) {
-            response.setHeader("Access-Control-Allow-Origin", response.getHeader("Origin"));
-        } else {
-            response.setHeader("Access-Control-Allow-Origin", "*");
-        }
+        response.setHeader("Access-Control-Allow-Origin", "*");
         String options = HttpMethod.OPTIONS.toString();
 
         if (options.equalsIgnoreCase(request.getMethod())) {

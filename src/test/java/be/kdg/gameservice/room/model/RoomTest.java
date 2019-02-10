@@ -1,6 +1,6 @@
 package be.kdg.gameservice.room.model;
 
-import be.kdg.gameservice.ImmutabilityTesting;
+import be.kdg.gameservice.UtilTesting;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public final class RoomTest extends ImmutabilityTesting {
+public final class RoomTest extends UtilTesting {
     private Room room;
 
     @Before

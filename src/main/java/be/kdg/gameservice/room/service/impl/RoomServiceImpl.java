@@ -9,11 +9,13 @@ import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * This service will be used to manage the ongoing activity of a specific room.
@@ -46,11 +48,11 @@ public class RoomServiceImpl implements RoomService {
      * TODO: remove method. Only use for testing purposes.
      */
     private void addDefaultPlayers() throws RoomException {
-        savePlayer(1, 1);
-        savePlayer(1, 2);
-        savePlayer(1, 3);
-        savePlayer(1, 4);
-        savePlayer(1, 5);
+        savePlayer(1, "1");
+        savePlayer(1, "1");
+        savePlayer(1, "2");
+        savePlayer(1, "3");
+        savePlayer(1, "4");
     }
 
     /**
@@ -64,7 +66,7 @@ public class RoomServiceImpl implements RoomService {
      * @see Room for extra information about helper methods.
      */
     @Override
-    public Player savePlayer(int roomId, int userId) throws RoomException {
+    public Player savePlayer(int roomId, String userId) throws RoomException {
         //Get room
         Room room = getRoom(roomId);
 
@@ -77,6 +79,31 @@ public class RoomServiceImpl implements RoomService {
         room.addPlayer(player);
         saveRoom(room);
         return player;
+    }
+
+    /**
+     * Removes the player form the room and the current round.
+     *
+     * @param roomId The id of the room were the players needs to be removed from
+     * @param userId The id of the player we want to delete.
+     * @throws RoomException Thrown if the player was not found in the room.
+     */
+    @Override
+    public Player deletePlayer(int roomId, String userId) throws RoomException {
+        //Get data
+        Room room = getRoom(roomId);
+        Optional<Player> playerOpt = room.getPlayersInRoom().stream()
+                .filter(player -> player.getUserId().equals(userId))
+                .findAny();
+
+        //Check optional player
+        if (!playerOpt.isPresent())
+            throw new RoomException(RoomServiceImpl.class, "Player was not in room the room.");
+
+        //Update room
+        room.removePlayer(playerOpt.get());
+        saveRoom(room);
+        return playerOpt.get();
     }
 
     /**
@@ -105,6 +132,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
+     * The rooms returned by this method are cached locally.
      * @return An unmodifiable collection of all the rooms from the database.
      */
     @Override
@@ -129,6 +157,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
+     * The room returned by this method is cached locally.
+     *
      * @param roomId The id of the room.
      * @return The corresponding room.
      * @throws RoomException Thrown if the room does not exists in the database.

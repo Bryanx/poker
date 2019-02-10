@@ -1,6 +1,7 @@
 package be.kdg.gameservice.room.controlller;
 
-import be.kdg.gameservice.ImmutabilityTesting;
+import be.kdg.gameservice.RequestType;
+import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.room.controller.RoomApiController;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
@@ -10,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,15 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 import static org.junit.Assert.fail;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
 @Transactional
-public class RoomApiControllerTest extends ImmutabilityTesting {
+public class RoomApiControllerTest extends UtilTesting {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -44,42 +41,39 @@ public class RoomApiControllerTest extends ImmutabilityTesting {
     }
 
     @Test
-    public void testImmutability() {
-        testImmutabilityClass(RoomApiController.class);
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(RoomApiController.class);
     }
 
     @Test
     public void testGetRooms() throws Exception {
-        mockMvc.perform(get("/api/rooms")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        testMockMvc("/rooms", "", mockMvc, RequestType.GET);
     }
 
     @Test
     public void testGetRoom() throws Exception {
-        mockMvc.perform(get("/api/rooms/" + roomId)
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        testMockMvc("/rooms/" + roomId, "", mockMvc, RequestType.GET);
     }
 
+    //TODO: replace static player id.
     @Test
-    public void testSavePlayer() throws Exception {
-        mockMvc.perform(post("/api/rooms/" + roomId + "/players/20")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isCreated());
+    public void testJoinRoom() throws Exception {
+        testMockMvc("/rooms/" + roomId + "/join-room", "", mockMvc, RequestType.POST);
     }
 
     @Test
     public void testStartNewRound() throws Exception {
-        mockMvc.perform(post("/api/rooms/" + roomId + "/start-new-round")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isCreated());
+        testMockMvc("/rooms/" + roomId + "/start-new-round", "", mockMvc, RequestType.POST);
     }
 
     @Test
     public void testGetCurrentRound() throws Exception {
-        mockMvc.perform(get("/api/rooms/" + roomId + "/rounds/current-round")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isOk());
+        testMockMvc("/rooms/" + roomId + "/current-round", "", mockMvc, RequestType.GET);
+    }
+
+    @Test
+    public void testLeaveRoom() throws Exception {
+        testJoinRoom();
+        testMockMvc("/rooms/" + roomId + "/leave-room", "", mockMvc, RequestType.DELETE);
     }
 }

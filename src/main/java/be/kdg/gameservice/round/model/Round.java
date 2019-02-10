@@ -38,7 +38,6 @@ public final class Round {
      */
     private static final int NUMBER_OF_CARDS_ON_BOARD = 5;
 
-
     /**
      * Current cards that are on the board.
      */
@@ -47,13 +46,6 @@ public final class Round {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Card> cards;
 
-    /**
-     * The deck is used for shuffling all the cards at the start of a round.
-     * It is also used as a holder of the remaining cards.
-     *
-     * @see Deck
-     */
-    private transient Deck deck;
 
     /**
      * All acts that are bounded to a specific round.
@@ -112,12 +104,25 @@ public final class Round {
         this.cards = new ArrayList<>();
         this.acts = new ArrayList<>();
         this.playersInRound = participatingPlayers;
-        this.deck = new Deck();
         this.currentPhase = Phase.PRE_FLOP;
-
         this.button = button;
         this.isFinished = false;
         this.pot = 0;
+        dealCards();
+    }
+
+    /**
+     * Deals all the cards from that round to all the players that are
+     * participating and the 5 cards on the board.
+     */
+    private void dealCards() {
+        Deck deck = new Deck();
+        playersInRound.forEach(player -> player.setFirstCard(deck.getCard()));
+        playersInRound.forEach(player -> player.setSecondCard(deck.getCard()));
+
+        for (int i = 0; i < NUMBER_OF_CARDS_ON_BOARD; i++) {
+            cards.add(deck.getCard());
+        }
     }
 
     /**
@@ -145,6 +150,13 @@ public final class Round {
     }
 
     /**
+     * @return An unmodifiable list of all the acts from the round.
+     */
+    public List<Act> getActs() {
+        return Collections.unmodifiableList(acts);
+    }
+
+    /**
      * Adds a newly created act to this round.
      */
     public void addAct(Act act) {
@@ -152,9 +164,11 @@ public final class Round {
     }
 
     /**
-     * @return An unmodifiable list of all the acts from the round.
+     * Removes a player from this round.
+     *
+     * @param player The player that needs to be removed.
      */
-    public List<Act> getActs() {
-        return Collections.unmodifiableList(acts);
+    public void removePlayer(Player player) {
+        playersInRound.remove(player);
     }
 }

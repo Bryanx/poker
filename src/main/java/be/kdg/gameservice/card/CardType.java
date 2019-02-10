@@ -5,7 +5,6 @@ import lombok.Getter;
 import static be.kdg.gameservice.card.Rank.*;
 import static be.kdg.gameservice.card.Suit.*;
 
-
 /**
  * This enum holds all the possible card combinations that
  * can be made in a deck of cards.

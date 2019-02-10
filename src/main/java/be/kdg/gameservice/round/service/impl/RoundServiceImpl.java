@@ -32,7 +32,7 @@ public class RoundServiceImpl implements RoundService {
      * If that is the case, the act will be created and persisted.
      *
      * @param roundId  The id used to get player from database.
-     * @param playerId The id used to get player from database.
+     * @param userId The id used to get player from database.
      * @param type     The type of act.
      * @param bet      The bet associated with the act.
      * @throws RoundException Thrown if the act is invalid or if the player is not present.
@@ -42,11 +42,11 @@ public class RoundServiceImpl implements RoundService {
      * @see Player To get insight in all the util methods that are used.
      */
     @Override
-    public void saveAct(int roundId, int playerId, ActType type, Phase phase, int bet) throws RoundException {
+    public void saveAct(int roundId, String userId, ActType type, Phase phase, int bet) throws RoundException {
         //Get data
         Round round = getRound(roundId);
         Optional<Player> playerOpt = round.getPlayersInRound().stream()
-                .filter(p -> p.getId() == playerId)
+                .filter(p -> p.getUserId().equals(userId))
                 .findAny();
 
         //Check if player exists
@@ -111,7 +111,7 @@ public class RoundServiceImpl implements RoundService {
      * will automatically be added, because those are always possible.
      *
      * @param roundId  The id used to get player from database.
-     * @param playerId The id used to get player from database.
+     * @param userId The id used to get player from database.
      * @return An unmodifiable list of all the possible actions.
      * @throws RoundException Thrown if the player does not exists.
      * @see ActType To get insight in the types of acts that are possbile.
@@ -119,11 +119,11 @@ public class RoundServiceImpl implements RoundService {
      * @see Player To get insight in all the util methods that are used.
      */
     @Override
-    public List<ActType> getPossibleActs(int roundId, int playerId) throws RoundException {
+    public List<ActType> getPossibleActs(int roundId, String userId) throws RoundException {
         //Get data
         Round round = getRound(roundId);
         Optional<Player> playerOpt = round.getPlayersInRound().stream()
-                .filter(p -> p.getId() == playerId)
+                .filter(p -> p.getUserId().equals(userId))
                 .findAny();
 
         //Check if player exists

@@ -91,6 +91,16 @@ public class Room {
     }
 
     /**
+     * Removes a player from this room and the current round.
+     *
+     * @param player The player we need to remove.
+     */
+    public void removePlayer(Player player) {
+        playersInRoom.remove(player);
+        getCurrentRound().removePlayer(player);
+    }
+
+    /**
      * Adds a round to this class.
      *
      * @param round The round we need to add.

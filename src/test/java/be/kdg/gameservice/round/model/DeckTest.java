@@ -1,6 +1,6 @@
 package be.kdg.gameservice.round.model;
 
-import be.kdg.gameservice.ImmutabilityTesting;
+import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.card.Card;
 import be.kdg.gameservice.card.CardType;
 import org.junit.Before;
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNotEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public final class DeckTest extends ImmutabilityTesting {
+public final class DeckTest extends UtilTesting {
     private Deck deck;
 
     @Before
@@ -26,8 +26,8 @@ public final class DeckTest extends ImmutabilityTesting {
     }
 
     @Test
-    public void testImmutability() {
-        testImmutabilityClass(Deck.class);
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(Deck.class);
     }
 
     @Test
@@ -49,6 +49,6 @@ public final class DeckTest extends ImmutabilityTesting {
 
     @Test
     public void testImmutabilityDeck() {
-        testImmutabilityClass(Deck.class);
+        testImmutabilityAttributes(Deck.class);
     }
 }

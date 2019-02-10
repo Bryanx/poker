@@ -1,6 +1,6 @@
 package be.kdg.gameservice.card;
 
-import be.kdg.gameservice.ImmutabilityTesting;
+import be.kdg.gameservice.UtilTesting;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public final class CardTypeTest extends ImmutabilityTesting {
+public final class CardTypeTest extends UtilTesting {
     private List<CardType> cards;
 
     @Before
@@ -45,7 +45,7 @@ public final class CardTypeTest extends ImmutabilityTesting {
     }
 
     @Test
-    public void testImmutability() {
-        testImmutabilityClass(CardType.class);
+    public void testImmutabilityAttributes() {
+        testImmutabilityAttributes(CardType.class);
     }
 }

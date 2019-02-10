@@ -1,7 +1,7 @@
 package be.kdg.gameservice.card;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,7 +10,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "card")
-@RequiredArgsConstructor
+@NoArgsConstructor
 public final class Card {
     /**
      * The id of the card. Used for persistence.
@@ -26,5 +26,9 @@ public final class Card {
      * @see CardType
      */
     @Getter
-    public final CardType type;
+    public CardType type;
+
+    public Card(CardType type) {
+        this.type = type;
+    }
 }

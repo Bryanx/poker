@@ -31,10 +31,9 @@ public class RoomServiceImpl implements RoomService {
     public RoomServiceImpl(RoomRepository roomRepository, RoundService roundService) {
         this.roomRepository = roomRepository;
         this.roundService = roundService;
+
         /*
         try {
-            saveRoom(new Room(GameRules.TEXAS_HOLD_EM, "bro room"));
-            addDefaultPlayers();
             startNewRoundForRoom(1);
             startNewRoundForRoom(1);
         } catch (RoomException e) {
@@ -118,14 +117,13 @@ public class RoomServiceImpl implements RoomService {
 
         //Determine if round can be created
         List<Player> players = room.getPlayersInRoom();
-        Round prevRound = room.getCurrentRound();
         if (players.size() < 2)
             throw new RoomException(RoomServiceImpl.class, "There must be at least 2 players int room to start a round.");
-        int button = room.getRounds().size() == 0 ? 0 : prevRound.getButton();
+        int button = room.getRounds().size() == 0 ? 0 : room.getCurrentRound().getButton();
 
         //Create new round
         Round round = roundService.startNewRound(room.getPlayersInRoom(), button);
-        if (room.getRounds().size() > 0) prevRound.setFinished(true);
+        if (room.getRounds().size() > 0) room.getCurrentRound().setFinished(true);
         room.addRound(round);
         saveRoom(room);
         return round;

@@ -1,6 +1,7 @@
 <h1>CHOOSE A ROOM</h1>
 <section class="rooms">
-  <div class="room" *ngFor="let room of rooms; index as room">
+  <div *ngFor="let room of rooms; index as room" [class]="'room ' + (isFull(room) ? 'disabled' : 'enabled')"
+       [routerLink]="['/rooms/', room.roomId]">
     <span class="name">{{room.name.toUpperCase()}}</span>
     <span class="price">Buy-in: {{room.gameRules.startingChips}}</span>
 
@@ -10,8 +11,8 @@
     <span class="timer">{{room.gameRules.playDelay}}s</span>
     <img class="timer-img" src="../../../assets/img/icons/timer.svg" rel="timer">
 
-    <span class="capacity">0/{{room.gameRules.maxPlayerCount}}</span>
-    <img class="cap-img" src="../../../assets/img/icons/less_people.svg" rel="capacity">
+    <span class="capacity">{{room.playersInRoom.length}}/{{room.gameRules.maxPlayerCount}}</span>
+    <img class="cap-img" [src]="determineCapacityIcon(room)" rel="capacity">
   </div>
 </section>
 <button routerLink="/">GO BACK</button>

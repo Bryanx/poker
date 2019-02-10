@@ -41,12 +41,6 @@ section {
     cursor: pointer;
     user-select: none;
 
-    &:hover {
-      transform: scale(1.05);
-      border: 10px solid $green;
-      background-color: darken($green, 15%);
-    }
-
     span {
       position: absolute;
       color: white;
@@ -105,6 +99,19 @@ section {
       top: 125px;
       right: 70px;
     }
+  }
+
+  .enabled {
+    &:hover {
+      transform: scale(1.05);
+      border: 10px solid $green;
+      background-color: darken($green, 15%);
+    }
+  }
+
+  .disabled {
+    pointer-events: none;
+    opacity: 0.5;
   }
 }
 

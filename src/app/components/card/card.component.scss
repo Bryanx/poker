@@ -1,0 +1,9 @@
+@import "~src/styles.scss";
+
+.empty-card {
+  background-color: mix($darker-gray, transparent, 60%);
+  height: 8vh;
+  width: 5vh;
+  position: relative;
+  margin: 0.5vh;
+}

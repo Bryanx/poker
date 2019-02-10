@@ -1,0 +1,18 @@
+@import "~src/styles.scss";
+
+.game-table {
+  height: 80%;
+  background-color: darken($green, 17%);
+  border-radius: 110px;
+  border: 15px solid darken($green, 5%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cards {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+

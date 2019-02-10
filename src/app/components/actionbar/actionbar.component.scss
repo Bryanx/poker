@@ -1,0 +1,95 @@
+@import "~src/styles.scss";
+
+.actionbar {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: 10% 30% auto 40%;
+  grid-template-rows: auto;
+  grid-template-areas: ". action cards raise";
+}
+
+.cards {
+  grid-area: cards;
+  display: inline-flex;
+  justify-content: center;
+
+  // This is for the cards from the user
+  div {
+    background-color: antiquewhite;
+    top: -1.5rem;
+    height: 14vh;
+    width: 9vh;
+  }
+}
+
+.button-actions {
+  grid-area: action;
+  button {
+    float: right;
+    margin-left: 1vh;
+  }
+
+  .call {
+    border-color: $green;
+    &:hover {
+      background-color: darken($green, 30%);
+    }
+  }
+
+  .fold {
+    border-color: $red;
+    &:hover {
+      background-color: darken($red, 30%);
+    }
+  }
+}
+
+.raise {
+  grid-area: raise;
+  display: flex;
+  align-items: center;
+
+  button {
+    border-color: $yellow;
+    &:hover {
+      background-color: darken($yellow, 30%);
+    }
+  }
+}
+
+button {
+  width: 10vh;
+  height: 10vh;
+  border-radius: 100%;
+  font-size: 1rem;
+  min-width: 6rem;
+  font-weight: normal;
+  background-color: transparent;
+  border: 3px solid;
+  letter-spacing: 1.5px;
+  color: $white-antique;
+}
+
+mat-slider {
+  width: 10rem;
+  margin: 0 1rem;
+  font-size: 1.1rem;
+}
+
+.slider-amount {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 10vh;
+  height: 10vh;
+  border-radius: 100%;
+  font-weight: normal;
+  background-color: transparent;
+  border: 3px solid $white-antique;
+
+  text-decoration: none;
+  color: $white-antique;
+  text-align: center;
+  padding: 2.3rem 1.4rem;
+}

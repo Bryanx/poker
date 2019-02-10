@@ -1,0 +1,38 @@
+@import "~src/styles.scss";
+
+.avatar {
+  display: flex;
+  border: 2px solid antiquewhite;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+
+  p {
+    padding-top: 0.2rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: $white-antique;
+  }
+}
+
+.action {
+  padding-bottom: 0.5rem;
+  letter-spacing: 1.2px;
+  font-size: 1rem;
+  font-weight: normal;
+  color: $green;
+}
+
+.money {
+  padding-top: 0.8rem;
+  color: $white-antique;
+}
+
+.wrapper {
+  display: block;
+  text-align: center;
+}
+

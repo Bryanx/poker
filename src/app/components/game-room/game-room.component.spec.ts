@@ -8,8 +8,8 @@ import {ActionbarComponent} from '../actionbar/actionbar.component';
 import {FormsModule} from '@angular/forms';
 import {CardComponent} from '../card/card.component';
 import {MatSlider} from '@angular/material';
-import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -17,8 +17,20 @@ describe('GameRoomComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GameRoomComponent, PlayerComponent, ChatComponent, GameTableComponent, ActionbarComponent, CardComponent, MatSlider],
-      imports: [RouterTestingModule, HttpClientTestingModule, FormsModule]
+      declarations: [
+        GameRoomComponent,
+        PlayerComponent,
+        ChatComponent,
+        GameTableComponent,
+        ActionbarComponent,
+        CardComponent,
+        MatSlider
+      ],
+      imports: [
+        FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule
+      ]
     })
       .compileComponents();
   }));

@@ -5,6 +5,9 @@ import javax.inject.Singleton;
 import be.kdg.mobile_client.App;
 import dagger.Component;
 
+/**
+ * Provides components to applications.
+ */
 @Singleton
 @Component(modules = AppModule.class)
 public interface AppComponent {

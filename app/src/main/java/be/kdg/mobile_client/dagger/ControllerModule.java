@@ -16,7 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Comparable to @Configuration class in Spring.
- * All Services that are needed are provided. These services are accesible with @Inject.
+ * All Services that are needed are provided.
+ * These services are accesible with @Inject.
  */
 @Module
 public class ControllerModule {

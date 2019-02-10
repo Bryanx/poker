@@ -2,6 +2,7 @@ package be.kdg.mobile_client.adapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,9 @@ import androidx.annotation.Nullable;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Message;
 
+/**
+ * Adapter for chat messages.
+ */
 public class MessageAdapter extends ArrayAdapter<Message> {
     private final LayoutInflater inflater;
     private final String name;
@@ -28,7 +32,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
     }
 
     /**
-     * Each chat message that will be added to the list will be styled accordingly here.
+     * Each chat message that is added to the list is styled accordingly here.
      */
     @NonNull
     @Override
@@ -46,7 +50,12 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             llMessage.setGravity(Gravity.CENTER);
             tvMessage.setTextColor(res.getColor(R.color.colorWhite));
             tvMessage.setText(message.getContent());
-            tvMessage.setBackgroundColor(res.getColor(R.color.colorBackground));
+            tvMessage.setBackgroundColor(Color.TRANSPARENT);
+        } else if (message.getName().equals("error")) { // error message
+            llMessage.setGravity(Gravity.CENTER);
+            tvMessage.setTextColor(res.getColor(R.color.colorRed));
+            tvMessage.setText(message.getContent());
+            tvMessage.setBackgroundColor(Color.TRANSPARENT);
         } else {  // message from other users
             tvMessage.setText(String.format("%s: %s", message.getName(), message.getContent()));
         }

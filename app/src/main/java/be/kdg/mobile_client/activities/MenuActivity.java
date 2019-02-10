@@ -14,6 +14,9 @@ import be.kdg.mobile_client.services.SharedPrefService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * The main menu of the app.
+ */
 public class MenuActivity extends BaseActivity {
     @BindView(R.id.logout) Button logout;
     @BindView(R.id.btnJoinGame) Button btnJoinGame;
@@ -22,6 +25,7 @@ public class MenuActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getControllerComponent().inject(this);
+        checkIfAuthorized(sharedPrefService);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);

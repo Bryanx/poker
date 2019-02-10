@@ -21,6 +21,11 @@
     <string name="friends">FRIENDS</string>
     <string name="replays">REPLAYS</string>
     <string name="rankings">RANKINGS</string>
+
+    <!-- chat -->
     <string name="send">Send</string>
     <string name="placeholder_message">Message your bros</string>
+    <string name="room_join_message"> joined the room.</string>
+    <string name="room_leave_message"> has left the room.</string>
+    <string name="chat_fragment_tag">CHAT_FRAGMENT_TAG</string>
 </resources>

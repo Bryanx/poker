@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Token;
 
+/**
+ * Service for shared preferences (local storage)
+ */
 public class SharedPrefService {
 
     /**

@@ -8,7 +8,7 @@ import {User} from '../../model/user';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  @Input() userId: number;
+  @Input() userId: string;
   user: User = {
     id: '',
     username: '',
@@ -24,7 +24,7 @@ export class PlayerComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getUser().subscribe(user => this.user = user)
+    this.userService.getUser(this.userId).subscribe(user => this.user = user);
   }
 
   getInitials(): string {

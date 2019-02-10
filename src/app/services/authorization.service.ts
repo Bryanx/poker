@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
 import {AuthResult} from '../model/authResult';
 import {Observable} from 'rxjs';
-import {User} from "../model/user";
+import {User} from '../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class AuthorizationService {
       'Authorization': 'Basic ' + btoa('my-trusted-client:secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     };
-    return this.http.post<AuthResult>('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
-    //return this.http.post<AuthResult>('http://localhost:5000/oauth/token', loginPayload, {headers});
+    // return this.http.post<AuthResult>('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
+    return this.http.post<AuthResult>('http://localhost:5000/oauth/token', loginPayload, {headers});
   }
 
   setSession(authResult: AuthResult) {

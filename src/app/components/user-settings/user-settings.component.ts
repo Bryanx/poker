@@ -26,7 +26,7 @@ export class UserSettingsComponent implements OnInit {
     private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.userService.getUser().subscribe(result => {
+    this.userService.getMyself().subscribe(result => {
       this.user = result as User;
       this.updateUserForm = this.formBuilder.group({
         username: [this.user.username, Validators.compose([Validators.required])],

@@ -27,6 +27,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       return this.gameService.getRoom(+params.get('id'));
     })).subscribe((room) => {
       this.room = room as Room;
+      console.log(this.room);
       this.joinRoom();
     });
   }
@@ -42,7 +43,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.gameService.addPlayer(this.room.roomId)
       .subscribe(player => {
         this.player = player;
-        console.log(this.player);
       });
   }
 

@@ -34,6 +34,7 @@ public class RoomApiControllerTest extends UtilTesting {
     public void setup() {
         Optional<Room> roomOpt = roomRepository.findAll().stream()
                 .filter(room -> room.getPlayersInRoom().size() >= 2)
+                .filter(room -> room.getPlayersInRoom().size() < room.getGameRules().getMaxPlayerCount())
                 .findAny();
 
         if (!roomOpt.isPresent()) fail("Nothing testable present in database.");

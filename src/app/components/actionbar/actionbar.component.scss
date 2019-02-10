@@ -44,8 +44,10 @@
   }
 }
 
-.button-raise {
+.raise {
   grid-area: raise;
+  display: flex;
+  align-items: center;
 
   button {
     border-color: $yellow;
@@ -75,10 +77,13 @@ mat-slider {
 }
 
 .slider-amount {
-  display: inline-block;
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 10vh;
   height: 10vh;
-  border-radius: 50px;
+  border-radius: 100%;
   font-weight: normal;
   background-color: transparent;
   border: 3px solid $white-antique;

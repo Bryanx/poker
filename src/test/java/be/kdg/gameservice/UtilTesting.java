@@ -23,7 +23,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * You can extend from this class if you want to do immutability testing in your junit tests.
  */
 public abstract class UtilTesting {
-    private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
+    //This TOKEN_URL serves for the pipeline.
+    private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
+    //private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
 
     /**
      * Tests the immutability of a class.

@@ -64,6 +64,24 @@ public class UserApiController {
     }
 
     /**
+     * Rest endpoint that returns the user based on his JWT.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<UserDto> getUser(@PathVariable String userId) {
+        User user = userServiceImpl.findUserById(userId);
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        if (user.getProfilePictureBinary() != null) {
+            userDto.setProfilePicture(new String(user.getProfilePictureBinary()));
+        } else {
+            userDto.setProfilePicture(null);
+        }
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+    /**
      * Rest endpoint that creates a user and returns a CREATED status code.
      */
     @PostMapping("/user")

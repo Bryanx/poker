@@ -62,7 +62,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    SocialLoginModule
+    SocialLoginModule,
   ],
   providers: [
     {

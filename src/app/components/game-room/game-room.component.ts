@@ -26,14 +26,14 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.router.paramMap.pipe(switchMap((params: ParamMap) => {
       return this.gameService.getRoom(+params.get('id'));
     })).subscribe((room) => {
+      console.log(this.player);
       this.room = room as Room;
-      console.log(this.room);
       this.joinRoom();
     });
   }
 
   ngOnDestroy(): void {
-    // TODO: call leave player api.
+    this.gameService.deletePlayer(this.room.roomId).subscribe();
   }
 
   /**

@@ -1,5 +1,29 @@
 @import "~src/styles.scss";
 
+.leave-button {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  margin-top: 0;
+  width: 75px;
+  height: 75px;
+
+  border-radius: 50%;
+  min-width: auto;
+
+  &:active {
+    top: 30px;
+  }
+
+  img {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 15px;
+    right: 15px;
+  }
+}
+
 .grid-container {
   display: grid;
   height: 100vh;

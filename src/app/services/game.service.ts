@@ -46,6 +46,15 @@ export class GameService {
   }
 
   /**
+   * Lets a player leave from the current room.
+   *
+   * @param roomId The id of the room that the player wants to leave.
+   */
+  deletePlayer(roomId: number): Observable<Player> {
+    return this.http.delete<Player>(this.url + '/' + roomId + '/leave-room');
+  }
+
+  /**
    * Saves an act that was played by the player to the backend.
    *
    * @param act The act that needs to be saved.

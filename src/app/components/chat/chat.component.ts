@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ChatService} from '../../services/chat.service';
 import {Message} from '../../model/message';
+import {AuthorizationService} from '../../services/authorization.service';
 
 @Component({
   selector: 'app-chat',
@@ -12,13 +13,14 @@ export class ChatComponent implements OnInit {
   messages: Message[] = [];
   inputMessage: string;
   @Input() roomNumber: Number = 1;
-  @Input() playerName: String = 'Bryan';
+  playerName: String;
 
-  constructor(private chatService: ChatService) {
+  constructor(private chatService: ChatService, private authorizationService: AuthorizationService) {
   }
 
   ngOnInit() {
     this.initializeWebSocketConnection();
+    this.playerName = this.authorizationService.getUsername();
   }
 
   initializeWebSocketConnection() {

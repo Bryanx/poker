@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
@@ -19,15 +19,20 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   };
   player: Player = null;
 
-  constructor(private router: ActivatedRoute, private gameService: GameService) {
+  constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService) {
   }
 
   ngOnInit() {
-    this.router.paramMap.pipe(switchMap((params: ParamMap) => {
+    this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
       return this.gameService.getRoom(+params.get('id'));
     })).subscribe((room) => {
       console.log(this.player);
       this.room = room as Room;
+
+      if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
+        this.router.navigateByUrl('/rooms');
+      }
+
       this.joinRoom();
     });
   }

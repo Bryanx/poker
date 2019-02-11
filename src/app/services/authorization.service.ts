@@ -11,6 +11,8 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 })
 export class AuthorizationService {
   helper: JwtHelperService = new JwtHelperService();
+  // socialUrl = 'http://localhost:5000/api/sociallogin';
+  socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
 
   constructor(private http: HttpClient) {}
 
@@ -47,16 +49,22 @@ export class AuthorizationService {
   }
 
   socialLogin(user: User) {
-    return this.http.post<AuthResult>('http://localhost:5000/api/sociallogin', user);
+    return this.http.post<AuthResult>(this.socialUrl, user);
   }
 
   getUsername() {
-    const decodedToken = this.helper.decodeToken(localStorage.getItem('jwt_token'));
-    return decodedToken.username;
+    let username = 'Party Parrot';
+    if (localStorage.getItem('jwt_token')) {
+      username = this.helper.decodeToken(localStorage.getItem('jwt_token')).username;
+    }
+    return username;
   }
 
   getUserId() {
-    const decodedToken = this.helper.decodeToken(localStorage.getItem('jwt_token'));
-    return decodedToken.uuid;
+    let userId = '1207';
+    if (localStorage.getItem('jwt_token')) {
+      userId = this.helper.decodeToken(localStorage.getItem('jwt_token')).uuid;
+    }
+    return userId;
   }
 }

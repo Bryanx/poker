@@ -2,7 +2,8 @@
   <app-player *ngFor="let player of getAllPlayers(); index as i" [class]="'grid-person grid-person-' + (i + 1)"
   ></app-player>
   <div class="grid-tmiddle"></div>
-  <app-chat class="grid-chat"></app-chat>
+  <app-chat class="grid-chat"
+  [roomNumber]="room.roomId"></app-chat>
   <app-actionbar class="grid-actionbar"
   ></app-actionbar>
   <app-game-table class="grid-item-table"></app-game-table>

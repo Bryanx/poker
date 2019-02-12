@@ -24,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public abstract class UtilTesting {
     //This TOKEN_URL serves for the pipeline.
-    private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
-    // private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
+    //private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
+    private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
 
     /**
      * Tests the immutability of a class.
@@ -44,7 +44,7 @@ public abstract class UtilTesting {
      *
      * @param col The collection you want to test.
      */
-    protected void testImmutabilityCollection(List col) {
+    protected <T> void testImmutabilityCollection(List<T> col) {
         col.remove(0);
         col.clear();
         fail("Collection should be immutable");

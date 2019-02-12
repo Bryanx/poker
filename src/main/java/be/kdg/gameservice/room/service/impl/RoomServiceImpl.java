@@ -1,15 +1,14 @@
 package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
-import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
+import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,11 +23,14 @@ import java.util.Optional;
 @Transactional
 @Service
 public class RoomServiceImpl implements RoomService {
+    private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
     private final RoundService roundService;
 
+
     @Autowired
-    public RoomServiceImpl(RoomRepository roomRepository, RoundService roundService) {
+    public RoomServiceImpl(PlayerRepository playerRepository, RoomRepository roomRepository, RoundService roundService) {
+        this.playerRepository = playerRepository;
         this.roomRepository = roomRepository;
         this.roundService = roundService;
 
@@ -75,6 +77,7 @@ public class RoomServiceImpl implements RoomService {
 
         //Add player to room
         Player player = new Player(room.getGameRules().getStartingChips(), userId);
+        player = playerRepository.save(player);
         room.addPlayer(player);
         saveRoom(room);
         return player;
@@ -97,11 +100,12 @@ public class RoomServiceImpl implements RoomService {
 
         //Check optional player
         if (!playerOpt.isPresent())
-            throw new RoomException(RoomServiceImpl.class, "Player was not in room the room.");
+            throw new RoomException(RoomServiceImpl.class, "Player was not in the room.");
 
-        //Update room
+        //Remove player from the room
         room.removePlayer(playerOpt.get());
         saveRoom(room);
+        playerRepository.delete(playerOpt.get());
         return playerOpt.get();
     }
 

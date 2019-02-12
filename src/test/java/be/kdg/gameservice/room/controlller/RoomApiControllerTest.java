@@ -56,7 +56,6 @@ public class RoomApiControllerTest extends UtilTesting {
         testMockMvc("/rooms/" + roomId, "", mockMvc, RequestType.GET);
     }
 
-    //TODO: replace static player id.
     @Test
     public void testJoinRoom() throws Exception {
         testMockMvc("/rooms/" + roomId + "/join-room", "", mockMvc, RequestType.POST);

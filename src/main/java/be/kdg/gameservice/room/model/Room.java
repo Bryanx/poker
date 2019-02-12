@@ -97,7 +97,7 @@ public class Room {
      */
     public void removePlayer(Player player) {
         playersInRoom.remove(player);
-        getCurrentRound().removePlayer(player);
+        if (rounds.size() > 0) getCurrentRound().removePlayer(player);
     }
 
     /**

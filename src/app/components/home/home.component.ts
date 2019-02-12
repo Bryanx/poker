@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization.service';
+import {TranslateService} from '../../services/translate.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import {AuthorizationService} from '../../services/authorization.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public authorizationService: AuthorizationService) { }
+  constructor(public authorizationService: AuthorizationService, private translate: TranslateService) { }
 
   ngOnInit() {
   }
@@ -16,5 +17,4 @@ export class HomeComponent implements OnInit {
   isAuthenticated() {
     return this.authorizationService.isAuthenticated();
   }
-
 }

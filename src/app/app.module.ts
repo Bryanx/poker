@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {MatSliderModule} from '@angular/material/slider';
 
 import { AppComponent } from './app.component';
@@ -19,11 +19,10 @@ import { CardComponent } from './components/card/card.component';
 import { ActionbarComponent } from './components/actionbar/actionbar.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overview.component';
-import {
-  AuthServiceConfig,
-  FacebookLoginProvider,
-  SocialLoginModule
-} from 'angularx-social-login';
+import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angularx-social-login';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {TranslateService} from './services/translate.service';
+import { TranslatePipe } from './translate.pipe';
 
 const config = new AuthServiceConfig([
   {
@@ -36,7 +35,10 @@ export function provideConfig() {
   return config;
 }
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+export function setupTranslateFactory(
+  service: TranslateService): Function {
+  return () => service.use('en');
+}
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     ActionbarComponent,
     ChatComponent,
     RoomsOverviewComponent,
+    TranslatePipe,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +76,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig
+    },
+    TranslateService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: setupTranslateFactory,
+      deps: [ TranslateService ],
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

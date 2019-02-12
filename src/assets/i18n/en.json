@@ -1,0 +1,9 @@
+{
+  "LOGIN": "login",
+  "REGISTER": "register",
+  "JOIN ROOM": "join room",
+  "SETTINGS": "settings",
+  "FRIENDS": "friends",
+  "REPLAYS": "replays",
+  "RANKINGS": "rankings"
+}

@@ -21,7 +21,7 @@ public final class Act {
      * The id of the act. Used for persistence.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     /**

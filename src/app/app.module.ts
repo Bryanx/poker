@@ -65,7 +65,7 @@ export function setupTranslateFactory(
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    SocialLoginModule,
+    SocialLoginModule
   ],
   providers: [
     {

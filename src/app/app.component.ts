@@ -7,7 +7,7 @@ import {TranslateService} from './services/translate.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private translate: TranslateService) {}
+  constructor(public translate: TranslateService) {}
 
   setLang(lang: string) {
     this.translate.use(lang);

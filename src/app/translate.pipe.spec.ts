@@ -1,8 +1,17 @@
 import { TranslatePipe } from './translate.pipe';
+import {AuthGuardService} from './services/auth-guard.service';
+import {TestBed} from '@angular/core/testing';
+import {TranslateService} from './services/translate.service';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('TranslatePipe', () => {
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [HttpClientTestingModule]
+  }));
+
   it('create an instance', () => {
-    const pipe = new TranslatePipe();
+    const translateService: TranslateService = TestBed.get(TranslateService);
+    const pipe = new TranslatePipe(translateService);
     expect(pipe).toBeTruthy();
   });
 });

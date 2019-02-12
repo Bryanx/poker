@@ -5,5 +5,12 @@
   "SETTINGS": "settings",
   "FRIENDS": "friends",
   "REPLAYS": "replays",
-  "RANKINGS": "rankings"
+  "RANKINGS": "rankings",
+  "USERTITLE": "update user account",
+  "USERNAME": "username",
+  "EMAIL": "email",
+  "FIRSTNAME": "first name",
+  "LASTNAME": "last name",
+  "PASSWORD": "wachtwoord",
+  "BACK": "back"
 }

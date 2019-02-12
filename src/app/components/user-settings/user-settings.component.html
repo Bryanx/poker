@@ -9,7 +9,7 @@
     <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
 
       <section class="inputfield">
-        <label for="username">Username</label>
+        <label for="username">{{'USERNAME' | translate | titlecase}}</label>
         <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
         <div class="error"
              *ngIf="updateUserForm.controls['username'].hasError('required') && updateUserForm.controls['username'].touched">

@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthorizationService} from '../../services/authorization.service';
 import { Location } from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
+import {TranslateService} from '../../services/translate.service';
 
 @Component({
   selector: 'app-user',
@@ -23,7 +24,8 @@ export class UserSettingsComponent implements OnInit {
     private authorizationService: AuthorizationService,
     private userService: UserService,
     private location: Location,
-    private sanitizer: DomSanitizer) {}
+    private sanitizer: DomSanitizer,
+    private translate: TranslateService) {}
 
   ngOnInit() {
     this.userService.getUser().subscribe(result => {

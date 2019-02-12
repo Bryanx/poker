@@ -8,9 +8,13 @@ import be.kdg.gameservice.round.model.Round;
 import java.util.List;
 
 public interface RoomService {
-    Player savePlayer(int roomId, String userId) throws RoomException;
+    Player joinRoom(int roomId, String userId) throws RoomException;
 
-    Player deletePlayer(int roomId, String userId) throws RoomException;
+    Player leaveRoom(int roomId, String userId) throws RoomException;
+
+    Player savePlayer(Player player);
+
+    Player getPlayer(String userId);
 
     Round startNewRoundForRoom(int roomId) throws RoomException;
 

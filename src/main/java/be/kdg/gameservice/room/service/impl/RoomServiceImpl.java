@@ -49,11 +49,11 @@ public class RoomServiceImpl implements RoomService {
      * TODO: remove method. Only use for testing purposes.
      */
     private void addDefaultPlayers() throws RoomException {
-        savePlayer(1, "1");
-        savePlayer(1, "1");
-        savePlayer(1, "2");
-        savePlayer(1, "3");
-        savePlayer(1, "4");
+        joinRoom(1, "1");
+        joinRoom(1, "1");
+        joinRoom(1, "2");
+        joinRoom(1, "3");
+        joinRoom(1, "4");
     }
 
     /**
@@ -67,7 +67,7 @@ public class RoomServiceImpl implements RoomService {
      * @see Room for extra information about helper methods.
      */
     @Override
-    public Player savePlayer(int roomId, String userId) throws RoomException {
+    public Player joinRoom(int roomId, String userId) throws RoomException {
         //Get room
         Room room = getRoom(roomId);
 
@@ -91,7 +91,7 @@ public class RoomServiceImpl implements RoomService {
      * @throws RoomException Thrown if the player was not found in the room.
      */
     @Override
-    public Player deletePlayer(int roomId, String userId) throws RoomException {
+    public Player leaveRoom(int roomId, String userId) throws RoomException {
         //Get data
         Room room = getRoom(roomId);
         Optional<Player> playerOpt = room.getPlayersInRoom().stream()
@@ -107,6 +107,16 @@ public class RoomServiceImpl implements RoomService {
         saveRoom(room);
         playerRepository.delete(playerOpt.get());
         return playerOpt.get();
+    }
+
+    @Override
+    public Player savePlayer(Player player) {
+        return playerRepository.save(player);
+    }
+
+    @Override
+    public Player getPlayer(String userId) {
+        return playerRepository.getByUserId(userId);
     }
 
     /**

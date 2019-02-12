@@ -26,7 +26,7 @@ public final class PlayerTest {
         assertEquals(player.getHandType(), HandType.BAD);
         assertEquals(player.getLastAct(), ActType.UNDECIDED);
         assertEquals(player.getUserId(), "1");
-        assertTrue(player.isActive());
+        assertTrue(player.isInRoom());
         assertFalse(player.isInRound());
     }
 

@@ -12,5 +12,14 @@
   "FIRSTNAME": "voornaam",
   "LASTNAME": "achternaam",
   "PASSWORD": "wachtwoord",
-  "BACK": "terug"
+  "SAVE": "opslaan",
+  "BACK": "terug",
+  "GOTOLOGIN": "Ik heb al een account bro :-)",
+  "GOTOREGISTER": "Ik heb nog geen account bro :-(",
+  "USERNAMEREQUIRED": "Gebruikersnaam is vereist",
+  "PASSWORDREQUIRED": "Wachtwoord is vereist",
+  "EMAILREQUIRED": "Email is vereist",
+  "FIRSTNAMEREQUIRED": "Voornaam is vereist",
+  "LASTNAMEREQUIRED": "Achternaam is vereist",
+  "ROOMSOVERVIEWTITLE": "Kies een tafel"
 }

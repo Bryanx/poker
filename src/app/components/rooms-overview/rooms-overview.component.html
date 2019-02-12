@@ -1,8 +1,8 @@
-<h1>CHOOSE A ROOM</h1>
+<h1>{{'ROOMSOVERVIEWTITLE' | translate | uppercase}}</h1>
 <section class="rooms">
   <div *ngFor="let room of rooms; index as room" [class]="'room ' + (isFull(room) ? 'disabled' : 'enabled')"
        [routerLink]="['/rooms/', room.roomId]">
-    <span class="name">{{room.name.toUpperCase()}}</span>
+    <span class="name">{{room.name | uppercase}}</span>
     <span class="price">Buy-in: {{room.gameRules.startingChips}}</span>
 
     <span class="blinds">{{room.gameRules.smallBlind}}/{{room.gameRules.bigBlind}}</span>
@@ -15,4 +15,4 @@
     <img class="cap-img" [src]="determineCapacityIcon(room)" rel="capacity">
   </div>
 </section>
-<button routerLink="/">GO BACK</button>
+<button routerLink="/">{{'BACK' | translate | titlecase}}</button>

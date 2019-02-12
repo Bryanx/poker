@@ -24,8 +24,7 @@ export class UserSettingsComponent implements OnInit {
     private authorizationService: AuthorizationService,
     private userService: UserService,
     private location: Location,
-    private sanitizer: DomSanitizer,
-    private translate: TranslateService) {}
+    private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.userService.getUser().subscribe(result => {

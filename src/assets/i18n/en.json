@@ -11,6 +11,15 @@
   "EMAIL": "email",
   "FIRSTNAME": "first name",
   "LASTNAME": "last name",
-  "PASSWORD": "wachtwoord",
-  "BACK": "back"
+  "PASSWORD": "password",
+  "SAVE": "save",
+  "BACK": "back",
+  "GOTOLOGIN": "I already have an account bro :-)",
+  "GOTOREGISTER": "I don't have an account bro :-(",
+  "USERNAMEREQUIRED": "Username is required",
+  "PASSWORDREQUIRED": "Password is required",
+  "EMAILREQUIRED": "Email is required",
+  "FIRSTNAMEREQUIRED": "Firstname is required",
+  "LASTNAMEREQUIRED": "Lastname is required",
+  "ROOMSOVERVIEWTITLE": "Choose a room"
 }

@@ -37,7 +37,14 @@ export function provideConfig() {
 
 export function setupTranslateFactory(
   service: TranslateService): Function {
-  return () => service.use('en');
+  return () => {
+    const lang = localStorage.getItem('lang');
+    if (lang === null) {
+      service.use('en');
+    } else {
+      service.use(lang);
+    }
+  };
 }
 
 @NgModule({

@@ -14,6 +14,7 @@ export class TranslateService {
       const langPath = `assets/i18n/${lang || 'en'}.json`;
       this.http.get<{}>(langPath).subscribe(
         translation => {
+          localStorage.setItem('lang', lang);
           this.data = Object.assign({}, translation || {});
           resolve(this.data);
         },

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization.service';
-import {TranslateService} from '../../services/translate.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +8,7 @@ import {TranslateService} from '../../services/translate.service';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public authorizationService: AuthorizationService, private translate: TranslateService) { }
+  constructor(public authorizationService: AuthorizationService) { }
 
   ngOnInit() {
   }

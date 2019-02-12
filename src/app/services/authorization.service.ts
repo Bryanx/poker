@@ -10,8 +10,8 @@ import {JwtHelperService} from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  socialUrl = 'http://localhost:5000/api/sociallogin';
-  // socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
+  // socialUrl = 'http://localhost:5000/api/sociallogin';
+  socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
   helper: JwtHelperService = new JwtHelperService();
 
   constructor(private http: HttpClient) {}

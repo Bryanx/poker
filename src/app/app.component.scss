@@ -14,7 +14,22 @@
     min-width: 0;
 
     &:hover {
-      background: darken($green, 15%)
+      color: darken($green, 15%)
+    }
+  }
+}
+
+.logout {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  i {
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      color: darken($green, 15%)
     }
   }
 }

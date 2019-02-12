@@ -1,18 +1,16 @@
-package be.kdg.mobile_client;
+package be.kdg.mobile_client.activities;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
+import javax.inject.Inject;
 
-import androidx.appcompat.app.AppCompatActivity;
+import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Token;
-import be.kdg.mobile_client.services.ServiceGenerator;
+import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,17 +18,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity {
-    @BindView(R.id.etEmail)
-    EditText etEmail;
-    @BindView(R.id.etPassword)
-    EditText etPassword;
-    @BindView(R.id.btnLogin)
-    Button btnLogin;
-    UserService userService = ServiceGenerator.createService(UserService.class);
+public class LoginActivity extends BaseActivity {
+    @BindView(R.id.etEmail) EditText etEmail;
+    @BindView(R.id.etPassword) EditText etPassword;
+    @BindView(R.id.btnLogin) Button btnLogin;
+    @Inject SharedPrefService sharedPrefService;
+    @Inject UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -43,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     public void login() {
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
-        if (validate(email, password)) {
+        if (validateLogin(email, password)) {
             btnLogin.setEnabled(false);
             getTokenFromServer(email, password);
         }
@@ -57,9 +54,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if (response.isSuccessful()) {
-                    response.body().setSignedIn(true);
-                    writeSharedPrefs(response.body());
-                    onLoginSuccess();
+                    onLoginSuccess(response.body());
                 } else {
                     onLoginFailed("");
                 }
@@ -74,7 +69,9 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Gets called when user logs in successfully and closes login activity.
      */
-    public void onLoginSuccess() {
+    public void onLoginSuccess(Token token) {
+        token.setSignedIn(true);
+        sharedPrefService.saveToken(getApplicationContext(), token);
         Toast.makeText(getBaseContext(), getResources().getString(R.string.logging_in), Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
         setResult(RESULT_OK);
@@ -93,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Validates if given credentials are correct.
      */
-    public boolean validate(String email, String password) {
+    public boolean validateLogin(String email, String password) {
         if (email.isEmpty() || email.length() < 4) {
             etEmail.setError(getResources().getString(R.string.error_invalid_mail));
             return false;
@@ -105,17 +102,5 @@ public class LoginActivity extends AppCompatActivity {
         etEmail.setError(null);
         etPassword.setError(null);
         return true;
-    }
-
-    /**
-     * Writes token to shared preferences for later use.
-     */
-    private void writeSharedPrefs(Token token) {
-        SharedPreferences sharedPref = (LoginActivity.this).getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        Gson gson = new Gson();
-        String tokenJson = gson.toJson(token);
-        editor.putString(getString(R.string.token), tokenJson);
-        editor.apply();
     }
 }

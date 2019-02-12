@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthorizationService} from '../../services/authorization.service';
 import { Location } from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
+import {TranslateService} from '../../services/translate.service';
 
 @Component({
   selector: 'app-user',

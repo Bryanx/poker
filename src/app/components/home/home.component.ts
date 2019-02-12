@@ -16,5 +16,4 @@ export class HomeComponent implements OnInit {
   isAuthenticated() {
     return this.authorizationService.isAuthenticated();
   }
-
 }

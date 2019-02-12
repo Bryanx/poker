@@ -1,16 +1,16 @@
 
 <img src="/assets/img/logos/logo-white.png"/>
 
-<button *ngIf="!isAuthenticated()" routerLink="/login">LOGIN</button>
+<button *ngIf="!isAuthenticated()" routerLink="/login">{{'LOGIN' | translate | uppercase}}</button>
 
-<button *ngIf="!isAuthenticated()" routerLink="/register">REGISTER</button>
+<button *ngIf="!isAuthenticated()" routerLink="/register">{{'REGISTER' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated()" routerLink="/rooms">JOIN ROOM</button>
+<button *ngIf="isAuthenticated()" routerLink="/rooms">{{'JOIN ROOM' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated()" routerLink="/user/{{id}}">SETTINGS</button>
+<button *ngIf="isAuthenticated()" routerLink="/user/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated()" routerLink="/">FRIENDS</button>
+<button *ngIf="isAuthenticated()" routerLink="/">{{'FRIENDS' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated()" routerLink="/">REPLAYS</button>
+<button *ngIf="isAuthenticated()" routerLink="/">{{'REPLAYS' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated()" routerLink="/">RANKINGS</button>
+<button *ngIf="isAuthenticated()" routerLink="/">{{'RANKINGS' | translate | uppercase}}</button>

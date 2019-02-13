@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<User> getUsersForName(String name) {
+    public List<User> getUsersByName(String name) {
        return getUsers().stream()
                .filter(u -> u.getUsername().contains(name))
                .collect(Collectors.toUnmodifiableList());

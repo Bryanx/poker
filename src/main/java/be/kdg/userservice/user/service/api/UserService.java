@@ -11,7 +11,7 @@ public interface UserService {
 
     List<User> getUsers();
 
-    List<User> getUsersForName(String name);
+    List<User> getUsersByName(String name);
 
     User addUser(User user) throws UserException;
 

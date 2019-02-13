@@ -41,7 +41,7 @@ public class UserServiceTest {
 
     @Test
     public void testGetUsersByName() {
-        assertEquals(2, userService.getUsersForName(TEST_NAME1).size());
-        assertEquals(TEST_NAME1, userService.getUsersForName(TEST_NAME1).get(0).getUsername());
+        assertEquals(2, userService.getUsersByName(TEST_NAME1).size());
+        assertEquals(TEST_NAME1, userService.getUsersByName(TEST_NAME1).get(0).getUsername());
     }
 }

@@ -74,7 +74,7 @@ public class UserApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/users/{name}")
     public ResponseEntity<UserDto[]> getUsersByName(@PathVariable String name) {
-        List<User> usersIn = userService.getUsersForName(name);
+        List<User> usersIn = userService.getUsersByName(name);
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
     }

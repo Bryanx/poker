@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,11 +24,13 @@ import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@Transactional
 public class RoundServiceImplTest extends UtilTesting {
     @Autowired
     private RoundService roundService;
     @Autowired
     private RoundRepository roundRepository;
+
     private int roundId;
     private String userId;
 
@@ -43,8 +47,18 @@ public class RoundServiceImplTest extends UtilTesting {
     }
 
     @Test
-    public void testImmutabilityAttributes() {
-        testImmutabilityAttributes(RoundServiceImpl.class);
+    public void testStartNewRound() {
+        Round round = roundService.startNewRound(new ArrayList<>(), 2);
+        assertEquals(0, round.getActs().size());
+        assertEquals(5, round.getCards().size());
+        assertEquals(0, round.getPlayersInRound().size());
+        assertEquals(Phase.PRE_FLOP, round.getCurrentPhase());
+    }
+
+    @Test(expected = RoundException.class)
+    public void testSaveActFail() throws RoundException {
+        roundService.saveAct(roundId, userId, ActType.RAISE, Phase.PRE_FLOP, 25);
+        fail("Act should not be possible for this player at this time in the round.");
     }
 
     @Test
@@ -54,16 +68,5 @@ public class RoundServiceImplTest extends UtilTesting {
         assertTrue(possibleActs.contains(ActType.BET)
                 && possibleActs.contains(ActType.CHECK)
                 && possibleActs.contains(ActType.FOLD));
-    }
-
-    @Test
-    public void testSaveAct() throws RoundException {
-        roundService.saveAct(roundId, userId, ActType.FOLD, Phase.PRE_FLOP, 25);
-    }
-
-    @Test(expected = RoundException.class)
-    public void testSaveActFail() throws RoundException {
-        roundService.saveAct(roundId, userId, ActType.RAISE, Phase.PRE_FLOP, 25);
-        fail("Act should not be possible for this player at this time in the round.");
     }
 }

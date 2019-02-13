@@ -1,0 +1,35 @@
+@import "~src/styles.scss";
+
+.language {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  button {
+    background-color: transparent;
+
+    width: auto;
+    height: auto;
+    margin-right: 3px;
+    min-width: 0;
+
+    &:hover {
+      color: darken($green, 15%)
+    }
+  }
+}
+
+.logout {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  i {
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      color: darken($green, 15%)
+    }
+  }
+}

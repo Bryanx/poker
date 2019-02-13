@@ -4,6 +4,7 @@ import { RegisterComponent } from './register.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {TranslatePipe} from '../../translate.pipe';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -11,7 +12,7 @@ describe('RegisterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RegisterComponent ],
+      declarations: [ RegisterComponent, TranslatePipe ],
       imports: [ FormsModule, ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule ]
     })
     .compileComponents();

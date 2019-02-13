@@ -4,6 +4,7 @@ import { UserSettingsComponent } from './user-settings.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {TranslatePipe} from '../../translate.pipe';
 
 describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;
@@ -11,7 +12,7 @@ describe('UserSettingsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UserSettingsComponent ],
+      declarations: [ UserSettingsComponent, TranslatePipe ],
       imports: [ RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule ]
     })
     .compileComponents();

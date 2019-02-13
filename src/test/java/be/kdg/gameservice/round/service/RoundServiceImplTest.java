@@ -31,19 +31,9 @@ public class RoundServiceImplTest extends UtilTesting {
     @Autowired
     private RoundRepository roundRepository;
 
-    private int roundId;
-    private String userId;
-
     @Before
     public void setup() {
-        Optional<Round> round = roundRepository.findAll().stream()
-                .filter(r -> !r.isFinished())
-                .findAny();
-
-        if (!round.isPresent()) fail("Nothing testable present in database.");
-
-        roundId = round.get().getId();
-        userId = round.get().getPlayersInRound().get(0).getUserId();
+        provideTestDataRound(roundRepository);
     }
 
     @Test
@@ -57,13 +47,13 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test(expected = RoundException.class)
     public void testSaveActFail() throws RoundException {
-        roundService.saveAct(roundId, userId, ActType.RAISE, Phase.PRE_FLOP, 25);
+        roundService.saveAct(testableRoundId, testableUserId, ActType.RAISE, Phase.PRE_FLOP, 25);
         fail("Act should not be possible for this player at this time in the round.");
     }
 
     @Test
     public void testGetPossibleActs() throws RoundException {
-        List<ActType> possibleActs = roundService.getPossibleActs(roundId, userId);
+        List<ActType> possibleActs = roundService.getPossibleActs(testableRoundId, testableUserId);
         assertEquals(3, possibleActs.size());
         assertTrue(possibleActs.contains(ActType.BET)
                 && possibleActs.contains(ActType.CHECK)

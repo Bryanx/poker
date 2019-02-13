@@ -7,6 +7,7 @@ import be.kdg.userservice.user.persistence.UserRoleRepository;
 import be.kdg.userservice.user.persistence.UserRepository;
 import be.kdg.userservice.security.model.CustomUserDetails;
 import be.kdg.userservice.user.service.api.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,19 +22,13 @@ import java.util.Optional;
 /**
  * Class that handles all user related tasks.
  */
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -56,6 +51,16 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         } else {
             return user.get();
         }
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> getUsersForName(String name) {
+        return userRepository.findAllByUsername(name);
     }
 
     @Override

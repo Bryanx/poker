@@ -1,4 +1,4 @@
-package be.kdg.userservice.user.dto;
+package be.kdg.userservice.shared;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

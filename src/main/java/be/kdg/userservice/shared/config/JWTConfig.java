@@ -1,6 +1,6 @@
-package be.kdg.userservice.config;
+package be.kdg.userservice.shared.config;
 
-import be.kdg.userservice.security.config.JWTTokenEnhancerConfig;
+import be.kdg.userservice.shared.security.config.JWTTokenEnhancerConfig;
 import be.kdg.userservice.user.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

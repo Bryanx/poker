@@ -1,10 +1,10 @@
 package be.kdg.userservice.user.controller;
 
 
-import be.kdg.userservice.security.model.CustomUserDetails;
+import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.dto.AuthDto;
 import be.kdg.userservice.user.dto.SocialUserDto;
-import be.kdg.userservice.user.dto.TokenDto;
+import be.kdg.userservice.shared.TokenDto;
 import be.kdg.userservice.user.dto.UserDto;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;

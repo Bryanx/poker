@@ -5,10 +5,9 @@ import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.model.UserRole;
 import be.kdg.userservice.user.persistence.UserRoleRepository;
 import be.kdg.userservice.user.persistence.UserRepository;
-import be.kdg.userservice.security.model.CustomUserDetails;
+import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.service.api.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,8 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Class that handles all user related tasks.
@@ -55,12 +56,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public List<User> getUsers() {
-        return userRepository.findAll();
+        return Collections.unmodifiableList(userRepository.findAll());
     }
 
     @Override
     public List<User> getUsersForName(String name) {
-        return userRepository.findAllByUsername(name);
+       return getUsers().stream()
+               .filter(u -> u.getUsername().contains(name))
+               .collect(Collectors.toUnmodifiableList());
     }
 
     @Override

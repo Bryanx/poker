@@ -1,5 +1,7 @@
 <div class="grid-container">
+  <button routerLink="/rooms" class="leave-button"><img src="../../../assets/img/icons/leave1.svg"></button>
   <app-player *ngFor="let player of getAllPlayers(); index as i" [class]="'grid-person grid-person-' + (i + 1)"
+              [userId]="player.userId"
   ></app-player>
   <div class="grid-tmiddle"></div>
   <app-chat class="grid-chat"

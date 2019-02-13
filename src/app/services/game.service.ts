@@ -13,8 +13,8 @@ import {Player} from '../model/player';
   providedIn: 'root'
 })
 export class GameService {
-  // url = 'https://poker-game-service.herokuapp.com/api/rooms';
-  url = 'http://localhost:5001/api/rooms';
+  url = 'https://poker-game-service.herokuapp.com/api/rooms';
+  // url = 'http://localhost:5001/api/rooms';
 
   constructor(private http: HttpClient) {
   }
@@ -41,7 +41,7 @@ export class GameService {
    *
    * @param roomId The id of the room that the player wants to join.
    */
-  addPlayer(roomId: number): Observable<Player> {
+  joinRoom(roomId: number): Observable<Player> {
     return this.http.post<Player>(this.url + '/' + roomId + '/join-room', '');
   }
 
@@ -50,8 +50,16 @@ export class GameService {
    *
    * @param roomId The id of the room that the player wants to leave.
    */
-  deletePlayer(roomId: number): Observable<Player> {
+  leaveRoom(roomId: number): Observable<Player> {
     return this.http.delete<Player>(this.url + '/' + roomId + '/leave-room');
+  }
+
+  getPlayer(): Observable<Player> {
+    return this.http.get<Player>(this.url + '/players');
+  }
+
+  changePlayer(player: Player): Observable<Player> {
+    return this.http.put<Player>(this.url + '/players', player);
   }
 
   /**

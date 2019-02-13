@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {Room} from '../../model/room';
@@ -17,7 +17,13 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     gameRules: null,
     playersInRoom: []
   };
-  player: Player = null;
+  player: Player = {
+    id: 1,
+    userId: '1',
+    inRoom: false,
+    handType: '',
+    chipCount: 0
+  };
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService) {
   }
@@ -26,11 +32,10 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
       return this.gameService.getRoom(+params.get('id'));
     })).subscribe((room) => {
-      console.log(this.player);
       this.room = room as Room;
 
       if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
-        this.router.navigateByUrl('/rooms');
+        this.navigateToOverview();
       }
 
       this.joinRoom();
@@ -38,20 +43,46 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.gameService.deletePlayer(this.room.roomId).subscribe();
+    this.leaveRoom();
+  }
+
+  /**
+   * Returns the players that are in the room including yourself.
+   */
+  getAllPlayers(): Object[] {
+    return this.room.playersInRoom.concat(this.player);
+  }
+
+  /**
+   * This function is called when a page is refreshed.
+   *
+   * @param event The refresh event.
+   */
+  @HostListener('window:beforeunload', ['$event']) unloadHandler(event: Event) {
+    this.leaveRoom();
+  }
+
+  /**
+   * Calls the leave room API call in the game service.
+   */
+  private leaveRoom(): void {
+    this.gameService.leaveRoom(this.room.roomId).subscribe();
   }
 
   /**
    * Joins the web-instance user to this room.
    */
-  private joinRoom() {
-    this.gameService.addPlayer(this.room.roomId)
+  private joinRoom(): void {
+    this.gameService.joinRoom(this.room.roomId)
       .subscribe(player => {
         this.player = player;
       });
   }
 
-  getAllPlayers(): Object[] {
-    return this.room.playersInRoom.concat(this.player);
+  /**
+   * Navigates to the rooms overview.
+   */
+  private navigateToOverview(): void {
+    this.router.navigateByUrl('/rooms').then(/* DO NOTHING WITH PROMISE */);
   }
 }

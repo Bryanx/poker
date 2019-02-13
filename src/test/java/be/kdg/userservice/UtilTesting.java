@@ -28,29 +28,6 @@ public abstract class UtilTesting {
     private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
 
     /**
-     * Tests the immutability of a class.
-     * If you are working with an enum, the enum will automatically be recognized as final.
-     *
-     * @param aClass The class you want to test.
-     */
-    protected void testImmutabilityAttributes(Class aClass) {
-        Arrays.stream(aClass.getDeclaredFields())
-                .filter(f -> !f.getName().equalsIgnoreCase("id"))
-                .forEach(f -> assertTrue(Modifier.isFinal(f.getModifiers())));
-    }
-
-    /**
-     * Tests the immutability of a given collection.
-     *
-     * @param col The collection you want to test.
-     */
-    protected <T> void testImmutabilityCollection(List<T> col) {
-        col.remove(0);
-        col.clear();
-        fail("Collection should be immutable");
-    }
-
-    /**
      * Generic mock mvc integration test builder. Mock needs to be passed to this method because
      *
      * @param url The API url that needs to be tested.

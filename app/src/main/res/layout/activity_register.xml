@@ -17,7 +17,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvLogin"
+                android:id="@+id/tvRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -25,10 +25,28 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
-                android:text="@string/login"
+                android:text="@string/register"
                 android:textColor="#fff"
                 android:textSize="36sp"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/colorWhite"
+                    android:hint="@string/email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#fff"
+                    android:textColorHint="#fff" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="300dp"
@@ -69,26 +87,13 @@
 
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnRegister"
                 style="@style/greenButton"
                 android:layout_gravity="center"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/login" />
-
-            <TextView
-                android:id="@+id/liSignup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center"
-                android:text="@string/no_account_message"
-                android:textColor="#fff"
-                android:textSize="16sp" />
+                android:text="@string/register" />
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

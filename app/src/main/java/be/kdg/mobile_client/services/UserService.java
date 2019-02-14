@@ -1,6 +1,8 @@
 package be.kdg.mobile_client.services;
 
+import be.kdg.mobile_client.model.RegisterDTO;
 import be.kdg.mobile_client.model.Token;
+import be.kdg.mobile_client.model.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
@@ -20,4 +22,9 @@ public interface UserService {
     Call<Token> login(@Query("username") String username,
                       @Query("password") String password,
                       @Query("grant_type") String grant_type);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+                "Accept: application/json; charset=utf-8"})
+    @POST("/api/user")
+    Call<Token> register(@Body RegisterDTO registerDTO);
 }

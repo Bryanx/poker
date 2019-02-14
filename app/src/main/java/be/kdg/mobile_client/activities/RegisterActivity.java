@@ -9,6 +9,7 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.model.RegisterDTO;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
@@ -18,89 +19,96 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity {
+
+    @BindView(R.id.etEmail) EditText etEmail;
     @BindView(R.id.etUsername) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
-    @BindView(R.id.btnLogin) Button btnLogin;
-    @Inject SharedPrefService sharedPrefService;
-    @Inject UserService userService;
+    @BindView(R.id.btnRegister) Button btnRegister;
+
+    @Inject
+    SharedPrefService sharedPrefService;
+
+    @Inject
+    UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
-        this.btnLogin.setOnClickListener(v -> login());
+        this.btnRegister.setOnClickListener(v -> register());
     }
 
-    /**
-     * Handles user login.
-     */
-    public void login() {
+    private void register() {
         String username = etUsername.getText().toString();
+        String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
-        if (validateLogin(username, password)) {
-            btnLogin.setEnabled(false);
-            getTokenFromServer(username, password);
+
+        if (validateRegister(email, password)) {
+            btnRegister.setEnabled(false);
+            getTokenFromServer(new RegisterDTO(username, email, password));
         }
     }
 
     /**
      * Retrieves token from backend with a POST request.
      */
-    private void getTokenFromServer(String username, String password) {
-        userService.login(username, password, "password").enqueue(new Callback<Token>() {
+    private void getTokenFromServer(RegisterDTO registerDTO) {
+        userService.register(registerDTO).enqueue(new Callback<Token>() {
             @Override
             public void onResponse(Call<Token> call, Response<Token> response) {
                 if (response.isSuccessful()) {
-                    onLoginSuccess(response.body());
+                    onRegisterSuccess(response.body());
                 } else {
-                    onLoginFailed("");
+                    onRegisterFailed("");
                 }
             }
             @Override
             public void onFailure(Call<Token> call, Throwable e) {
-                onLoginFailed(e.getMessage());
+                onRegisterFailed(e.getMessage());
             }
         });
     }
 
     /**
-     * Gets called when user logs in successfully and closes login activity.
+     * Gets called when user logs in successfully and closes register activity.
      */
-    public void onLoginSuccess(Token token) {
+    public void onRegisterSuccess(Token token) {
         token.setSignedIn(true);
         sharedPrefService.saveToken(getApplicationContext(), token);
         Toast.makeText(getBaseContext(), getResources().getString(R.string.logging_in), Toast.LENGTH_LONG).show();
-        btnLogin.setEnabled(true);
+        btnRegister.setEnabled(true);
         setResult(RESULT_OK);
         finish();
     }
 
     /**
-     * Gets called when user fails to log in and shows toast.
+     * Gets called when user fails to regsiter and shows toast.
      */
-    public void onLoginFailed(String message) {
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_login_message), Toast.LENGTH_LONG).show();
-        Log.e("Can't login", message);
-        btnLogin.setEnabled(true);
+    public void onRegisterFailed(String message) {
+        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_register_message), Toast.LENGTH_LONG).show();
+        Log.e("Can't register", message);
+        btnRegister.setEnabled(true);
     }
+
 
     /**
      * Validates if given credentials are correct.
      */
-    public boolean validateLogin(String email, String password) {
+    public boolean validateRegister(String email, String password) {
         if (email.isEmpty() || email.length() < 4) {
-            etUsername.setError(getResources().getString(R.string.error_invalid_mail));
+            etEmail.setError(getResources().getString(R.string.error_invalid_mail));
             return false;
         }
         if (password.isEmpty() || password.length() < 4) {
             etPassword.setError(getResources().getString(R.string.error_invalid_password));
             return false;
         }
-        etUsername.setError(null);
+        etEmail.setError(null);
         etPassword.setError(null);
         return true;
     }
+
 }

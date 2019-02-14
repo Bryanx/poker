@@ -1,1 +1,10 @@
+<header class="language">
+  <button (click)="setLang('nl')">NL</button>
+  <button (click)="setLang('en')">EN</button>
+</header>
+
+<header class="logout" *ngIf="isAuthenticated()">
+  <i class="fas fa-sign-out-alt fa-4x" (click)="logout()"></i>
+</header>
+
 <router-outlet></router-outlet>

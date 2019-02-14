@@ -1,4 +1,4 @@
-<h2>Update User Account</h2>
+<h2>{{'USERTITLE' | translate | titlecase}}</h2>
 
 <br>
 
@@ -9,44 +9,44 @@
     <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
 
       <section class="inputfield">
-        <label for="username">Username</label>
+        <label for="username">{{'USERNAME' | translate | titlecase}}</label>
         <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
         <div class="error"
              *ngIf="updateUserForm.controls['username'].hasError('required') && updateUserForm.controls['username'].touched">
-          Username is required
+          {{'USERNAMEREQUIRED' | translate}}
         </div>
       </section>
 
       <section class="inputfield">
-        <label for="email">Email</label>
+        <label for="email">{{'EMAIL' | translate | titlecase}}</label>
         <input type="email" email name="email" formControlName="email" id="email" autocomplete="off">
         <div class="error"
              *ngIf="updateUserForm.controls['email'].hasError('required') && updateUserForm.controls['email'].touched">
-          Email is required
+          {{'EMAILREQUIRED' | translate}}
         </div>
       </section>
 
       <section class="inputfield">
-        <label for="firstname">First Name</label>
+        <label for="firstname">{{'FIRSTNAME' | translate | titlecase}}</label>
         <input type="text" name="firstname" formControlName="firstname" id="firstname" autocomplete="off">
         <div class="error"
              *ngIf="updateUserForm.controls['firstname'].hasError('required') && updateUserForm.controls['firstname'].touched">
-          Firstname is required
+          {{'FIRSTNAMEREQUIRED' | translate}}
         </div>
       </section>
 
       <section class="inputfield">
-        <label for="lastname">Last Name</label>
+        <label for="lastname">{{'LASTNAME' | translate | titlecase}}</label>
         <input type="text" name="lastname" formControlName="lastname" id="lastname" autocomplete="off">
         <div class="error"
              *ngIf="updateUserForm.controls['lastname'].hasError('required') && updateUserForm.controls['lastname'].touched">
-          Lastname is required
+          {{'LASTNAMEREQUIRED' | translate}}
         </div>
       </section>
 
 
       <button [disabled]="updateUserForm.invalid" [class.disabled]="!updateUserForm.valid">
-        SAVE
+        {{'SAVE' | translate | titlecase}}
       </button>
     </form>
   </section>
@@ -61,23 +61,23 @@
 
     <form id='updatePasswordForm' [formGroup]="updatePasswordForm" (ngSubmit)="onSubmitPasswordChange()">
       <section class="inputfield">
-        <label for="password">Password</label>
+        <label for="password">{{'PASSWORD' | translate | titlecase}}</label>
         <input type="password" name="password" formControlName="password" id="password" autocomplete="off">
         <div class="error"
              *ngIf="updatePasswordForm.controls['password'].hasError('required') && updatePasswordForm.controls['password'].touched">
-          Password is required
+          {{'PASSWORDREQUIRED' | translate}}
         </div>
       </section>
 
       <button [disabled]="updatePasswordForm.invalid" [class.disabled]="updatePasswordForm.invalid">
-        SAVE
+        {{'SAVE' | translate | titlecase}}
       </button>
     </form>
 
   </section>
 
   <section class="grid-save">
-    <button class="btn" (click)="goBack()">BACK</button>
+    <button class="btn" (click)="goBack()">{{'BACK' | translate | titlecase}}</button>
   </section>
 </section>
 

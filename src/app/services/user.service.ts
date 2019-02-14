@@ -15,8 +15,12 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  getUser(): Observable<User> {
+  getMyself(): Observable<User> {
     return this.http.get<User>(this.url);
+  }
+
+  getUser(userId: string): Observable<User> {
+    return this.http.get<User>(this.url + '/' + userId);
   }
 
   addUser(user: User): Observable<AuthResult> {

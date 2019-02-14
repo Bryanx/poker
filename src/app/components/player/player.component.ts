@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-player',
@@ -8,7 +9,9 @@ import {User} from '../../model/user';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  @Input() userId: number;
+  @Input() userId: string;
+
+  usePicture: Boolean = false;
   user: User = {
     id: '',
     username: '',
@@ -21,10 +24,15 @@ export class PlayerComponent implements OnInit {
     provider: ''
   };
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.userService.getUser().subscribe(user => this.user = user)
+    this.userService.getUser(this.userId).subscribe(user => {
+      this.user = user;
+      if (this.user.profilePicture !== null) {
+        this.usePicture = true;
+      }
+    });
   }
 
   getInitials(): string {
@@ -36,5 +44,13 @@ export class PlayerComponent implements OnInit {
     }
 
     return initials.join('');
+  }
+
+  getProfilePicture() {
+    if (this.user.profilePicture === null) {
+      return this.user.profilePictureSocial;
+    } else {
+      return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + this.user.profilePicture);
+    }
   }
 }

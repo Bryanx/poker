@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthorizationService} from '../../services/authorization.service';
 import { Location } from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
+import {TranslateService} from '../../services/translate.service';
 
 @Component({
   selector: 'app-user',
@@ -26,7 +27,7 @@ export class UserSettingsComponent implements OnInit {
     private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
-    this.userService.getUser().subscribe(result => {
+    this.userService.getMyself().subscribe(result => {
       this.user = result as User;
       this.updateUserForm = this.formBuilder.group({
         username: [this.user.username, Validators.compose([Validators.required])],

@@ -19,7 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
-    @BindView(R.id.etEmail) EditText etEmail;
+    @BindView(R.id.etUsername) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.btnLogin) Button btnLogin;
     @Inject SharedPrefService sharedPrefService;
@@ -38,11 +38,11 @@ public class LoginActivity extends BaseActivity {
      * Handles user login.
      */
     public void login() {
-        String email = etEmail.getText().toString();
+        String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
-        if (validateLogin(email, password)) {
+        if (validateLogin(username, password)) {
             btnLogin.setEnabled(false);
-            getTokenFromServer(email, password);
+            getTokenFromServer(username, password);
         }
     }
 
@@ -92,14 +92,14 @@ public class LoginActivity extends BaseActivity {
      */
     public boolean validateLogin(String email, String password) {
         if (email.isEmpty() || email.length() < 4) {
-            etEmail.setError(getResources().getString(R.string.error_invalid_mail));
+            etUsername.setError(getResources().getString(R.string.error_invalid_mail));
             return false;
         }
         if (password.isEmpty() || password.length() < 4) {
             etPassword.setError(getResources().getString(R.string.error_invalid_password));
             return false;
         }
-        etEmail.setError(null);
+        etUsername.setError(null);
         etPassword.setError(null);
         return true;
     }

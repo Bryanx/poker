@@ -16,7 +16,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -40,6 +42,7 @@ public class UserServiceImplTest {
 
     @Before
     public void setUp() throws Exception {
+        userRepository.deleteAll();
         User user1 = new User();
         user1.setEmail("test@testtest.com");
         user1.setEnabled(1);
@@ -59,15 +62,13 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void addFriends() throws UserException {
-        Optional<User> userTest1 = userRepository.findByUsername("test1");
-        Optional<User> userTest2 = userRepository.findByUsername("test2");
-        if (!userTest1.isPresent() || !userTest2.isPresent()) throw new UserException("oops");
-        User test1 = userTest1.get();
-        User test2 = userTest2.get();
-        test1.setFriends(Arrays.asList(test2));
-        userRepository.saveAll(Arrays.asList(test1,test2));
-        test1 = userService.findUserById(test1.getId());
+    public void addFriends() throws Exception {
+        User test1 = userRepository.findByUsername("test1").orElseThrow(Exception::new);
+        User test2 = userRepository.findByUsername("test2").orElseThrow(Exception::new);
+        test1.setFriends(new ArrayList<>(Arrays.asList(test2)));
+        userService.changeUser(test1);
+        userService.changeUser(test2);
+        test1 = userRepository.findByUsername("test1").orElseThrow(Exception::new);
         assertNotNull(test1.getFriends());
         assertTrue(test1.getFriends().get(0).getUsername().equalsIgnoreCase("test2"));
         assertTrue(test1.getFriends().get(0).getEmail().equalsIgnoreCase("test@testtesttest.com"));

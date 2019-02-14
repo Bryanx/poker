@@ -18,6 +18,7 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.ivLogo) ImageView ivLogo;
     @BindView(R.id.btnLogin) Button btnLogin;
+    @BindView(R.id.btnSignUp) Button btnSignUp;
     @Inject SharedPrefService sharedPrefService;
 
     @Override
@@ -42,6 +43,11 @@ public class MainActivity extends BaseActivity {
     private void addEventHandlers() {
         btnLogin.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+        });
+
+        btnSignUp.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
         });
     }

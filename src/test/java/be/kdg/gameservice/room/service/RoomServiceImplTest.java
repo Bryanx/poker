@@ -37,13 +37,13 @@ public class RoomServiceImplTest extends UtilTesting {
 
     @Test(expected = RoomException.class)
     public void deletePlayerFail() throws RoomException {
-        roomService.deletePlayer(testableRoomId, "2");
+        roomService.deletePlayer(testableRoomIdWithoutPlayers, "2");
         fail("The player with userId '2' should not be present in this room");
     }
 
     @Test(expected = RoomException.class)
     public void startNewRoundFail() throws RoomException {
-        roomService.getCurrentRound(testableRoomId);
+        roomService.getCurrentRound(testableRoomIdWithoutPlayers);
         fail("A round should not be started with less than 2 players inside one room.");
     }
 }

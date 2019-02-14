@@ -7,15 +7,19 @@ import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.shared.TokenDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.client.RestTemplate;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.Assert.assertTrue;
@@ -26,17 +30,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * You can extend from this class if you want to do immutability testing in your junit tests.
  */
+@Transactional
 public abstract class UtilTesting {
-    private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
-    //private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
+    //private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
+    private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
 
-    protected int testableRoomId;
-    protected int testableRoundId;
-    protected int testablePlayerId;
+    @Autowired
+    private ResourceServerTokenServices resourceServerTokenServices;
+
+    protected int testableRoomIdWithPlayers;
+    protected int testableRoomIdWithoutPlayers;
+    protected int testableRoundIdWithPlayers;
     protected String testableUserId;
 
     /**
      * Provides the current test class with some test-data for rooms.
+     *
      * @param roomRepository The repository that will be used to make the test-data.
      */
     protected void provideTestDataRooms(RoomRepository roomRepository) {
@@ -45,33 +54,49 @@ public abstract class UtilTesting {
         Room room1 = new Room(GameRules.TEXAS_HOLD_EM, "test room 1");
         Room room2 = new Room(GameRules.TEXAS_HOLD_EM, "test room 2");
         Room room3 = new Room(GameRules.TEXAS_HOLD_EM_DIFFICULT, "test room 3");
+        room1.addPlayer(new Player(500, "1"));
+        room1.addPlayer(new Player(500, "2"));
 
         roomRepository.save(room1);
         roomRepository.save(room2);
         roomRepository.save(room3);
 
-        this.testableRoomId = room1.getId();
+        this.testableRoomIdWithPlayers = room1.getId();
+        this.testableRoomIdWithoutPlayers = room2.getId();
     }
 
     /**
      * Provides the current test class with some test-data for rounds.
+     *
      * @param roundRepository The repository that will be used to make the test-data.
      */
     protected void provideTestDataRound(RoundRepository roundRepository) {
         roundRepository.deleteAll();
 
-        Player player = new Player(500, "1");
-        Round round1 = new Round(new ArrayList<>(Collections.singletonList(player)), 2);
-        Round round2 = new Round(new ArrayList<>(), 1);
+        String userIdMock = resourceServerTokenServices.readAccessToken(getMockToken().getAccess_token())
+                .getAdditionalInformation().get("uuid").toString();
+        Round round1 = new Round(new ArrayList<>(), 2);
+        Round round2 = new Round(new ArrayList<>(Arrays.asList(
+                new Player(5000, userIdMock),
+                new Player(5000, "2")
+        )), 1);
         Round round3 = new Round(new ArrayList<>(), 5);
 
         roundRepository.save(round1);
         roundRepository.save(round2);
         roundRepository.save(round3);
 
-        this.testableRoundId = round1.getId();
-        this.testablePlayerId = round1.getPlayersInRound().get(0).getId();
-        this.testableUserId = round1.getPlayersInRound().get(0).getUserId();
+        this.testableRoundIdWithPlayers = round2.getId();
+        this.testableUserId = userIdMock;
+    }
+
+    private TokenDto getMockToken() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBasicAuth("my-trusted-client", "secret");
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return restTemplate.postForObject(TOKEN_URL, entity, TokenDto.class);
     }
 
     /**
@@ -84,12 +109,7 @@ public abstract class UtilTesting {
      * @throws Exception Thrown if something goes wrong with the integration test.
      */
     protected void testMockMvc(String url, String body, MockMvc mock, RequestType requestType) throws Exception {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.setBasicAuth("my-trusted-client", "secret");
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        TokenDto tokenDto = restTemplate.postForObject(TOKEN_URL, entity, TokenDto.class);
+        TokenDto tokenDto = getMockToken();
 
         MockHttpServletRequestBuilder requestBuilder;
         ResultMatcher resultMatcher;

@@ -47,13 +47,13 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test(expected = RoundException.class)
     public void testSaveActFail() throws RoundException {
-        roundService.saveAct(testableRoundId, testableUserId, ActType.RAISE, Phase.PRE_FLOP, 25);
+        roundService.saveAct(testableRoundIdWithPlayers, testableUserId, ActType.RAISE, Phase.PRE_FLOP, 25);
         fail("Act should not be possible for this player at this time in the round.");
     }
 
     @Test
     public void testGetPossibleActs() throws RoundException {
-        List<ActType> possibleActs = roundService.getPossibleActs(testableRoundId, testableUserId);
+        List<ActType> possibleActs = roundService.getPossibleActs(testableRoundIdWithPlayers, testableUserId);
         assertEquals(3, possibleActs.size());
         assertTrue(possibleActs.contains(ActType.BET)
                 && possibleActs.contains(ActType.CHECK)

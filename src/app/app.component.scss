@@ -18,18 +18,3 @@
     }
   }
 }
-
-.logout {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-
-  i {
-    color: white;
-    cursor: pointer;
-
-    &:hover {
-      color: darken($green, 15%)
-    }
-  }
-}

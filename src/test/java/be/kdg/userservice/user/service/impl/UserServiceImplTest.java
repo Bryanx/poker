@@ -15,10 +15,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
 
+@Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceImplTest {
@@ -57,8 +60,11 @@ public class UserServiceImplTest {
 
     @Test
     public void addFriends() throws UserException {
-        User test1 = userRepository.findByUsername("test1").get();
-        User test2 = userRepository.findByUsername("test2").get();
+        Optional<User> userTest1 = userRepository.findByUsername("test1");
+        Optional<User> userTest2 = userRepository.findByUsername("test2");
+        if (!userTest1.isPresent() || !userTest2.isPresent()) throw new UserException("oops");
+        User test1 = userTest1.get();
+        User test2 = userTest2.get();
         test1.setFriends(Arrays.asList(test2));
         userRepository.saveAll(Arrays.asList(test1,test2));
         test1 = userService.findUserById(test1.getId());

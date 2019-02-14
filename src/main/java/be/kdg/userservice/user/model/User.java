@@ -1,9 +1,12 @@
 package be.kdg.userservice.user.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Data
@@ -24,4 +27,9 @@ public class User {
     private String socialId;
     private String profilePictureSocial;
     private String provider;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<User> friends;
 }

@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+
 /**
  * Class that handles all user related tasks.
  */
@@ -63,7 +66,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     public List<User> getUsersByName(String name) {
        return getUsers().stream()
                .filter(u -> u.getUsername().contains(name))
-               .collect(Collectors.toUnmodifiableList());
+               .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     @Override

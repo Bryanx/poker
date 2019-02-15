@@ -142,7 +142,6 @@ public abstract class UtilTesting {
         }
 
 
-        assert tokenDto != null;
         mock.perform(requestBuilder
                 .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", tokenDto.getAccess_token()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

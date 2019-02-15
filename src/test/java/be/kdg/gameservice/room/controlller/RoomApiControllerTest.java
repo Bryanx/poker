@@ -42,8 +42,8 @@ public class RoomApiControllerTest extends UtilTesting {
 
     @Test
     public void testLeaveRoom() throws Exception {
-        joinRoom();
-        testMockMvc("/rooms/" + testableRoomIdWithPlayers + "/leave-room", "", mockMvc, RequestType.POST);
+        // joinRoom();
+        testMockMvc("/rooms/" + testableRoomIdWithPlayers + "/leave-room", "", mockMvc, RequestType.DELETE);
         assertEquals(0, roomService.getRoom(testableRoomIdWithPlayers).getPlayersInRoom().size());
     }
 

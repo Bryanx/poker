@@ -59,7 +59,7 @@ public class RoomApiController {
     }
 
     /**
-     * @param roomId The id of the room.
+     * @param roomId         The id of the room.
      * @param authentication Needed for retrieving the userId.
      * @return Status code 202 if the player was successfully deleted from the room.
      * @throws RoomException Rerouted to handler.
@@ -75,7 +75,7 @@ public class RoomApiController {
     /**
      * This API will be called when a player specific to join a specific room.
      *
-     * @param roomId The id of the room the player wants to join.
+     * @param roomId         The id of the room the player wants to join.
      * @param authentication Needed for retrieving the userId.
      * @return Status code 201 if the player joined the room successfully.
      * @throws RoomException Rerouted to handler.

@@ -40,7 +40,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testGetUsersByName() {
+    public void getUsersByName() {
         assertEquals(2, userService.getUsersByName(TEST_NAME1).size());
         assertEquals(TEST_NAME1, userService.getUsersByName(TEST_NAME1).get(0).getUsername());
     }

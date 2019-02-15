@@ -1,4 +1,4 @@
-package be.kdg.userservice.security.model;
+package be.kdg.userservice.shared.security.model;
 
 import be.kdg.userservice.user.model.User;
 import org.springframework.security.core.GrantedAuthority;

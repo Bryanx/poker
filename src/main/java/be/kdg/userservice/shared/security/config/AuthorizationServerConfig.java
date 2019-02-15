@@ -1,6 +1,6 @@
-package be.kdg.userservice.security.config;
+package be.kdg.userservice.shared.security.config;
 
-import be.kdg.userservice.config.JWTConfig;
+import be.kdg.userservice.shared.config.JWTConfig;
 import be.kdg.userservice.user.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

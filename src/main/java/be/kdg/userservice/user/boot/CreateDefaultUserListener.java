@@ -35,7 +35,8 @@ public final class CreateDefaultUserListener implements ApplicationListener<Cont
      */
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
-        /*//Creating User
+        /*
+        //Creating User
         LOGGER.info("Creating user with role USER");
         User user = new User();
         user.setEmail("remi@test.com");
@@ -57,6 +58,7 @@ public final class CreateDefaultUserListener implements ApplicationListener<Cont
         userRepository.save(user);
 
         role = new UserRole(user.getId(), "ROLE_USER");
-        userRoleRepository.save(role);*/
+        userRoleRepository.save(role);
+        */
     }
 }

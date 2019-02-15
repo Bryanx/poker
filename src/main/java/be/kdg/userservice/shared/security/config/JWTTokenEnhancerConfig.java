@@ -1,6 +1,6 @@
-package be.kdg.userservice.security.config;
+package be.kdg.userservice.shared.security.config;
 
-import be.kdg.userservice.security.model.CustomUserDetails;
+import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;

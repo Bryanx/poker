@@ -1,10 +1,10 @@
 package be.kdg.userservice.user.controller;
 
 
-import be.kdg.userservice.security.model.CustomUserDetails;
+import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.dto.AuthDto;
 import be.kdg.userservice.user.dto.SocialUserDto;
-import be.kdg.userservice.user.dto.TokenDto;
+import be.kdg.userservice.shared.TokenDto;
 import be.kdg.userservice.user.dto.UserDto;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
@@ -33,13 +33,13 @@ import java.util.*;
 public class UserApiController {
     private final ResourceServerTokenServices resourceTokenServices;
     private final AuthorizationServerTokenServices authorizationServerTokenServices;
-    private final UserService userServiceImpl;
+    private final UserService userService;
     private final ModelMapper modelMapper;
 
     public UserApiController(ResourceServerTokenServices resourceTokenServices, AuthorizationServerTokenServices authorizationServerTokenServices, UserService userServiceImpl, ModelMapper modelMapper) {
         this.resourceTokenServices = resourceTokenServices;
         this.authorizationServerTokenServices = authorizationServerTokenServices;
-        this.userServiceImpl = userServiceImpl;
+        this.userService = userServiceImpl;
         this.modelMapper = modelMapper;
     }
 
@@ -51,7 +51,41 @@ public class UserApiController {
     public ResponseEntity<UserDto> getUser(OAuth2Authentication authentication) {
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
         Map<String, Object> additionalInfo = resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
-        User user = userServiceImpl.findUserById(additionalInfo.get("uuid").toString());
+        User user = userService.findUserById(additionalInfo.get("uuid").toString());
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        if (user.getProfilePictureBinary() != null) {
+            userDto.setProfilePicture(new String(user.getProfilePictureBinary()));
+        } else {
+            userDto.setProfilePicture(null);
+        }
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/users")
+    public ResponseEntity<UserDto[]> getUsers() {
+        List<User> usersIn = userService.getUsers();
+        UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
+        return new ResponseEntity<>(usersOut, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/users/{name}")
+    public ResponseEntity<UserDto[]> getUsersByName(@PathVariable String name) {
+        List<User> usersIn = userService.getUsersByName(name);
+        UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
+        return new ResponseEntity<>(usersOut, HttpStatus.OK);
+    }
+
+    /**
+     * Rest endpoint that returns the user based on his JWT.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<UserDto> getUser(@PathVariable String userId) {
+        User user = userService.findUserById(userId);
         UserDto userDto = modelMapper.map(user, UserDto.class);
 
         if (user.getProfilePictureBinary() != null) {
@@ -69,7 +103,7 @@ public class UserApiController {
     @PostMapping("/user")
     public ResponseEntity<TokenDto> addUser(@Valid @RequestBody AuthDto authDto) throws UserException {
         User userIn = modelMapper.map(authDto, User.class);
-        User userOut = userServiceImpl.addUser(userIn);
+        User userOut = userService.addUser(userIn);
 
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.CREATED);
     }
@@ -87,7 +121,7 @@ public class UserApiController {
             userIn.setProfilePictureBinary(decodedBytes);
         }
 
-        User userOut = userServiceImpl.changeUser(userIn);
+        User userOut = userService.changeUser(userIn);
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
     }
 
@@ -98,7 +132,7 @@ public class UserApiController {
     @PatchMapping("/user")
     public ResponseEntity<UserDto> changePassword(@Valid @RequestBody AuthDto authDto) throws UserException {
         User userIn = modelMapper.map(authDto, User.class);
-        User userOut = userServiceImpl.changePassword(userIn);
+        User userOut = userService.changePassword(userIn);
 
         return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.OK);
     }
@@ -109,7 +143,7 @@ public class UserApiController {
     @PostMapping("/sociallogin")
     public ResponseEntity<TokenDto> socialLogin(@Valid @RequestBody SocialUserDto socialUserDto) throws UserException {
         User userIn = modelMapper.map(socialUserDto, User.class);
-        User userOut = userServiceImpl.checkSocialUser(userIn);
+        User userOut = userService.checkSocialUser(userIn);
 
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
     }
@@ -136,7 +170,7 @@ public class UserApiController {
         scopes.add("read");
         scopes.add("write");
 
-        OAuth2Request authorizationRequest = new OAuth2Request(authorizationParameters, "my-trusted-client", authorities, true,scopes, null, "", responseType, null);
+        OAuth2Request authorizationRequest = new OAuth2Request(authorizationParameters, "my-trusted-client", authorities, true, scopes, null, "", responseType, null);
 
         CustomUserDetails userPrincipal = new CustomUserDetails(user, roles);
 

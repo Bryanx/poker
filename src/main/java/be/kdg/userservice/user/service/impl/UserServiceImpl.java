@@ -5,9 +5,9 @@ import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.model.UserRole;
 import be.kdg.userservice.user.persistence.UserRoleRepository;
 import be.kdg.userservice.user.persistence.UserRepository;
-import be.kdg.userservice.security.model.CustomUserDetails;
+import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.service.api.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,25 +15,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Class that handles all user related tasks.
  */
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class UserServiceImpl implements UserDetailsService, UserService {
     private final UserRepository userRepository;
     private final UserRoleRepository userRoleRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserRoleRepository userRoleRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userRoleRepository = userRoleRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -56,6 +52,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         } else {
             return user.get();
         }
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return Collections.unmodifiableList(userRepository.findAll());
+    }
+
+    @Override
+    public List<User> getUsersByName(String name) {
+       return getUsers().stream()
+               .filter(u -> u.getUsername().contains(name))
+               .collect(Collectors.toUnmodifiableList());
     }
 
     @Override

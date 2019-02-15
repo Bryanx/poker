@@ -1,4 +1,4 @@
-package be.kdg.userservice.config;
+package be.kdg.userservice.shared.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

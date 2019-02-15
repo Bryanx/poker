@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ActDTO {
     private int roundId;
-    private int playerId;
     @NotNull
     private ActType type;
     @NotNull

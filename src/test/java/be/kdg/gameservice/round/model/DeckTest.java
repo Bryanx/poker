@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest
 public final class DeckTest {
     @Test
-    public void testCardCount() {
+    public void cardCount() {
        assertEquals(52, new Deck().getNumberOfCards());
     }
 }

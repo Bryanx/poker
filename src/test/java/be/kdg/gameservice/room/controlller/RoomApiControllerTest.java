@@ -41,7 +41,7 @@ public class RoomApiControllerTest extends UtilTesting {
     }
 
     @Test
-    public void testLeaveRoom() throws Exception {
+    public void leaveRoom() throws Exception {
         // joinRoom();
         int numberOfPlayersBeforeRequest = roomService.getRoom(testableRoomIdWithPlayers).getPlayersInRoom().size();
         testMockMvc("/rooms/" + testableRoomIdWithPlayers + "/leave-room", "", mockMvc, RequestType.DELETE);
@@ -49,13 +49,13 @@ public class RoomApiControllerTest extends UtilTesting {
     }
 
     @Test
-    public void testStartNewRound() throws Exception {
+    public void startNewRound() throws Exception {
         testMockMvc("/rooms/" + testableRoomIdWithPlayers + "/start-new-round", "", mockMvc, RequestType.POST);
         assertEquals(1, roomService.getRoom(testableRoomIdWithPlayers).getRounds().size());
     }
 
     @Test
-    public void testGetCurrentRound() throws Exception {
+    public void getCurrentRound() throws Exception {
         testMockMvc("/rooms/" + testableRoomIdWithPlayers + "/current-round", "", mockMvc, RequestType.GET);
     }
 }

@@ -37,7 +37,7 @@ public class RoundServiceImplTest extends UtilTesting {
     }
 
     @Test
-    public void testStartNewRound() {
+    public void startNewRound() {
         Round round = roundService.startNewRound(new ArrayList<>(), 2);
         assertEquals(0, round.getActs().size());
         assertEquals(5, round.getCards().size());
@@ -46,13 +46,13 @@ public class RoundServiceImplTest extends UtilTesting {
     }
 
     @Test(expected = RoundException.class)
-    public void testSaveActFail() throws RoundException {
+    public void saveActFail() throws RoundException {
         roundService.saveAct(testableRoundIdWithPlayers, testableUserId, ActType.RAISE, Phase.PRE_FLOP, 25);
         fail("Act should not be possible for this player at this time in the round.");
     }
 
     @Test
-    public void testGetPossibleActs() throws RoundException {
+    public void getPossibleActs() throws RoundException {
         List<ActType> possibleActs = roundService.getPossibleActs(testableRoundIdWithPlayers, testableUserId);
         assertEquals(3, possibleActs.size());
         assertTrue(possibleActs.contains(ActType.BET)

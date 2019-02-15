@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 public final class RoomTest {
     @Test
-    public void testRoomCreation() {
+    public void roomCreation() {
         Room room = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
         assertEquals(room.getGameRules(), GameRules.TEXAS_HOLD_EM);
         assertEquals(room.getRounds().size(), 0);

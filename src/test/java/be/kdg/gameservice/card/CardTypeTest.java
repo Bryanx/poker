@@ -24,21 +24,21 @@ public final class CardTypeTest {
     }
 
     @Test
-    public void testCardRank() {
+    public void cardRank() {
         for (Rank rank : Rank.values()) {
             assertEquals(4, cards.stream().filter(c -> c.getRank().equals(rank)).count());
         }
     }
 
     @Test
-    public void testCardSuit() {
+    public void cardSuit() {
         for (Suit suit : Suit.values()) {
             assertEquals(13, cards.stream().filter(c -> c.getSuit().equals(suit)).count());
         }
     }
 
     @Test
-    public void testCardEvaluation() {
+    public void cardEvaluation() {
         for (int i = 1; i <= 52; i++) {
             final int eval = i;
             assertEquals(1, cards.stream().filter(c -> c.getEvaluation() == eval).count());

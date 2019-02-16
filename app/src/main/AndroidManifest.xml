@@ -19,6 +19,9 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
+            android:name=".activities.OverviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activities.RoomActivity"
             android:screenOrientation="landscape" />
         <activity android:name=".activities.MainActivity">

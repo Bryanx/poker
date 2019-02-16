@@ -30,4 +30,6 @@
     <string name="room_leave_message"> has left the room.</string>
     <string name="chat_fragment_tag">CHAT_FRAGMENT_TAG</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="back">BACK</string>
+    <string name="choose_a_room">CHOOSE A ROOM</string>
 </resources>

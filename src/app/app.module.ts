@@ -24,6 +24,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TranslateService} from './services/translate.service';
 import { TranslatePipe } from './translate.pipe';
 import { FriendsComponent } from './components/friends/friends.component';
+import { SearchComponent } from './components/search/search.component';
 
 const config = new AuthServiceConfig([
   {
@@ -64,6 +65,7 @@ export function setupTranslateFactory(
     RoomsOverviewComponent,
     TranslatePipe,
     FriendsComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

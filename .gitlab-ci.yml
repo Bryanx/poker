@@ -13,8 +13,6 @@ stages:
 gradle-build:
   image: java:8-jdk
   stage: build
-  only:
-    - master
   script: "chmod +x gradlew && ./gradlew build"
   artifacts:
     paths:

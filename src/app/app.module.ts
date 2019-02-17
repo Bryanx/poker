@@ -23,6 +23,7 @@ import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angul
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TranslateService} from './services/translate.service';
 import { TranslatePipe } from './translate.pipe';
+import { FriendsComponent } from './components/friends/friends.component';
 
 const config = new AuthServiceConfig([
   {
@@ -62,6 +63,7 @@ export function setupTranslateFactory(
     ChatComponent,
     RoomsOverviewComponent,
     TranslatePipe,
+    FriendsComponent,
   ],
   imports: [
     BrowserModule,

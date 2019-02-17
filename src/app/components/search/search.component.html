@@ -5,7 +5,7 @@
 </section>
 
 <section *ngIf="users.length > 0" class="results">
-  <div *ngFor="let user of users; index as i ">
+  <div *ngFor="let user of users; index as i " routerLink="/user/{{user.id}}">
     <div class="image-wrapper">
       <img [src]="getProfilePicture(user)" [alt]="getInitials(user)">
     </div>

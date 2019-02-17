@@ -25,6 +25,7 @@ import {TranslateService} from './services/translate.service';
 import { TranslatePipe } from './translate.pipe';
 import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
+import { UserAccountComponent } from './components/user-account/user-account.component';
 
 const config = new AuthServiceConfig([
   {
@@ -66,6 +67,7 @@ export function setupTranslateFactory(
     TranslatePipe,
     FriendsComponent,
     SearchComponent,
+    UserAccountComponent,
   ],
   imports: [
     BrowserModule,

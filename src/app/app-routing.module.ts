@@ -10,6 +10,7 @@ import {GameRoomComponent} from './components/game-room/game-room.component';
 import {ChatComponent} from './components/chat/chat.component';
 import {RoomsOverviewComponent} from './components/rooms-overview/rooms-overview.component';
 import {FriendsComponent} from './components/friends/friends.component';
+import {UserAccountComponent} from './components/user-account/user-account.component';
 
 
 const routes: Routes = [
@@ -17,11 +18,12 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'chat', component: ChatComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'friends', component: FriendsComponent },
+  { path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService] },
   { path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService] },
   { path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   { path: 'game-room', component: GameRoomComponent, canActivate: [AuthGuardService] },
-  { path: 'user', component: UserSettingsComponent, canActivate: [AuthGuardService] },
+  { path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuardService] },
+  { path: 'user/:id', component: UserAccountComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 

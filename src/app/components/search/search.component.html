@@ -1,4 +1,8 @@
 <section class="search-bar">
-  <input type="text" placeholder="Search users" (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage">
-  <button class="search-button"><img src="../../../assets/img/icons/search.svg" alt="SEARCH"></button>
+  <input type="text" placeholder="Search users" (keyup)="changeSubject()" [(ngModel)]="inputString">
+  <button (click)="changeSubject()" class="search-button"><img src="../../../assets/img/icons/search.svg" alt="SEARCH"></button>
 </section>
+
+<div *ngFor="let user of users; index as i ">
+  {{user.username}}
+</div>

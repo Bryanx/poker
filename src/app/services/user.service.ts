@@ -23,8 +23,12 @@ export class UserService {
     return this.http.get<User>(this.url + '/' + userId);
   }
 
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.url + 's');
+  }
+
   getUsersByName(name: string): Observable<User[]> {
-    return this.http.get<User[]>(this.url + '/' + name);
+    return this.http.get<User[]>(this.url + 's/' + name);
   }
 
   addUser(user: User): Observable<AuthResult> {

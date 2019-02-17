@@ -42,7 +42,8 @@ public class RoundApiControllerTest extends UtilTesting {
         testMockMvc("/rounds/" + actDTO.getRoundId() + "/acts",
                 json, mockMvc, RequestType.POST);
 
-        int numberOfActs = roundRepository.findById(testableRoundIdWithPlayers).orElseThrow()
+        int numberOfActs = roundRepository.findById(testableRoundIdWithPlayers)
+                .orElseThrow(Exception::new)
                 .getActs().size();
         assertEquals(1, numberOfActs);
     }

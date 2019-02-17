@@ -8,6 +8,7 @@ import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,41 +21,13 @@ import java.util.Optional;
  * This service will be used to manage the ongoing activity of a specific room.
  * It will also take care of the CRUD operations with its persistence dependency.
  */
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class RoomServiceImpl implements RoomService {
     private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
     private final RoundService roundService;
-
-
-    @Autowired
-    public RoomServiceImpl(PlayerRepository playerRepository, RoomRepository roomRepository, RoundService roundService) {
-        this.playerRepository = playerRepository;
-        this.roomRepository = roomRepository;
-        this.roundService = roundService;
-
-        /*
-        try {
-            startNewRoundForRoom(1);
-            startNewRoundForRoom(1);
-        } catch (RoomException e) {
-            e.printStackTrace();
-        }
-        */
-    }
-
-    /**
-     * !!! WARING !!!
-     * TODO: remove method. Only use for testing purposes.
-     */
-    private void addDefaultPlayers() throws RoomException {
-        joinRoom(1, "1");
-        joinRoom(1, "1");
-        joinRoom(1, "2");
-        joinRoom(1, "3");
-        joinRoom(1, "4");
-    }
 
     /**
      * Adds a player to a room.

@@ -7,6 +7,7 @@ import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Phase;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import com.google.gson.Gson;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -38,5 +41,9 @@ public class RoundApiControllerTest extends UtilTesting {
         String json = new Gson().toJson(actDTO);
         testMockMvc("/rounds/" + actDTO.getRoundId() + "/acts",
                 json, mockMvc, RequestType.POST);
+
+        int numberOfActs = roundRepository.findById(testableRoundIdWithPlayers).orElseThrow()
+                .getActs().size();
+        assertEquals(1, numberOfActs);
     }
 }

@@ -17,6 +17,7 @@ export class PlayerComponent implements OnInit {
     username: '',
     firstname: '',
     lastname: '',
+    chipcount: 0,
     password: '',
     email: '',
     profilePicture: '',

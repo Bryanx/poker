@@ -3,6 +3,7 @@ export class User {
   username: string;
   firstname: string;
   lastname: string;
+  chipcount: number;
   email: string;
   password: string;
   profilePicture: string;

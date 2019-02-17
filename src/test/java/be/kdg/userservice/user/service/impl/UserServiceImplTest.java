@@ -1,6 +1,5 @@
 package be.kdg.userservice.user.service.impl;
 
-import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.model.UserRole;
 import be.kdg.userservice.user.persistence.UserRepository;
@@ -10,18 +9,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.HashSet;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @Transactional
 @RunWith(SpringRunner.class)
@@ -65,12 +62,12 @@ public class UserServiceImplTest {
     public void addFriends() throws Exception {
         User test1 = userRepository.findByUsername("test1").orElseThrow(Exception::new);
         User test2 = userRepository.findByUsername("test2").orElseThrow(Exception::new);
-        test1.setFriends(new ArrayList<>(Arrays.asList(test2)));
+        test1.setFriends(new HashSet<>(Arrays.asList(test2))); // test mutual friendship
         userService.changeUser(test1);
         userService.changeUser(test2);
         test1 = userRepository.findByUsername("test1").orElseThrow(Exception::new);
         assertNotNull(test1.getFriends());
-        assertTrue(test1.getFriends().get(0).getUsername().equalsIgnoreCase("test2"));
-        assertTrue(test1.getFriends().get(0).getEmail().equalsIgnoreCase("test@testtesttest.com"));
+        assertTrue(test1.getFriends().iterator().next().getUsername().equalsIgnoreCase("test2"));
+        assertTrue(test1.getFriends().iterator().next().getEmail().equalsIgnoreCase("test@testtesttest.com"));
     }
 }

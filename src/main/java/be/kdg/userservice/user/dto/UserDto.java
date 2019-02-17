@@ -14,4 +14,5 @@ public class UserDto {
     private String profilePicture;
     private String profilePictureSocial;
     private String provider;
+    private UserDto[] friends;
 }

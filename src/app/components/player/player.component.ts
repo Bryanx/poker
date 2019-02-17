@@ -22,7 +22,8 @@ export class PlayerComponent implements OnInit {
     email: '',
     profilePicture: '',
     profilePictureSocial: '',
-    provider: ''
+    provider: '',
+    friends: []
   };
 
   constructor(private userService: UserService, private sanitizer: DomSanitizer) { }

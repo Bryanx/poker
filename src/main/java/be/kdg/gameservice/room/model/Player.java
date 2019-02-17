@@ -69,7 +69,7 @@ public final class Player {
      * False if a player has not left the room, but has gone offline.
      */
     @Setter
-    private boolean isActive;
+    private boolean inRoom;
 
     /**
      * The type of hand always starts at HIGH_CARD.
@@ -85,7 +85,7 @@ public final class Player {
     public Player(int chipCount, String userId) {
         this.chipCount = chipCount;
         this.userId = userId;
-        this.isActive = true;
+        this.inRoom = true;
         this.inRound = false;
         this.handType = HandType.BAD;
         this.lastAct = ActType.UNDECIDED;

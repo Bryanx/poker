@@ -1,15 +1,15 @@
 package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
-import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
+import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -21,38 +21,13 @@ import java.util.Optional;
  * This service will be used to manage the ongoing activity of a specific room.
  * It will also take care of the CRUD operations with its persistence dependency.
  */
+@RequiredArgsConstructor
 @Transactional
 @Service
 public class RoomServiceImpl implements RoomService {
+    private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
     private final RoundService roundService;
-
-    @Autowired
-    public RoomServiceImpl(RoomRepository roomRepository, RoundService roundService) {
-        this.roomRepository = roomRepository;
-        this.roundService = roundService;
-
-        /*
-        try {
-            startNewRoundForRoom(1);
-            startNewRoundForRoom(1);
-        } catch (RoomException e) {
-            e.printStackTrace();
-        }
-        */
-    }
-
-    /**
-     * !!! WARING !!!
-     * TODO: remove method. Only use for testing purposes.
-     */
-    private void addDefaultPlayers() throws RoomException {
-        savePlayer(1, "1");
-        savePlayer(1, "1");
-        savePlayer(1, "2");
-        savePlayer(1, "3");
-        savePlayer(1, "4");
-    }
 
     /**
      * Adds a player to a room.
@@ -65,7 +40,7 @@ public class RoomServiceImpl implements RoomService {
      * @see Room for extra information about helper methods.
      */
     @Override
-    public Player savePlayer(int roomId, String userId) throws RoomException {
+    public Player joinRoom(int roomId, String userId) throws RoomException {
         //Get room
         Room room = getRoom(roomId);
 
@@ -75,6 +50,7 @@ public class RoomServiceImpl implements RoomService {
 
         //Add player to room
         Player player = new Player(room.getGameRules().getStartingChips(), userId);
+        player = playerRepository.save(player);
         room.addPlayer(player);
         saveRoom(room);
         return player;
@@ -88,7 +64,7 @@ public class RoomServiceImpl implements RoomService {
      * @throws RoomException Thrown if the player was not found in the room.
      */
     @Override
-    public Player deletePlayer(int roomId, String userId) throws RoomException {
+    public Player leaveRoom(int roomId, String userId) throws RoomException {
         //Get data
         Room room = getRoom(roomId);
         Optional<Player> playerOpt = room.getPlayersInRoom().stream()
@@ -97,12 +73,23 @@ public class RoomServiceImpl implements RoomService {
 
         //Check optional player
         if (!playerOpt.isPresent())
-            throw new RoomException(RoomServiceImpl.class, "Player was not in room the room.");
+            throw new RoomException(RoomServiceImpl.class, "Player was not in the room.");
 
-        //Update room
+        //Remove player from the room
         room.removePlayer(playerOpt.get());
         saveRoom(room);
+        playerRepository.delete(playerOpt.get());
         return playerOpt.get();
+    }
+
+    @Override
+    public Player savePlayer(Player player) {
+        return playerRepository.save(player);
+    }
+
+    @Override
+    public Player getPlayer(String userId) {
+        return playerRepository.getByUserId(userId);
     }
 
     /**

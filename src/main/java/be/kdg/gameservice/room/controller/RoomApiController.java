@@ -18,6 +18,7 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +59,7 @@ public class RoomApiController {
     }
 
     /**
-     * @param roomId The id of the room.
+     * @param roomId         The id of the room.
      * @param authentication Needed for retrieving the userId.
      * @return Status code 202 if the player was successfully deleted from the room.
      * @throws RoomException Rerouted to handler.
@@ -66,7 +67,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/rooms/{roomId}/leave-room")
     public ResponseEntity<PlayerDTO> leaveRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
-        Player playerIn = roomService.deletePlayer(roomId, getUserInfo(authentication).get(ID_KEY).toString());
+        Player playerIn = roomService.leaveRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
         return new ResponseEntity<>(playerOut, HttpStatus.ACCEPTED);
     }
@@ -74,7 +75,7 @@ public class RoomApiController {
     /**
      * This API will be called when a player specific to join a specific room.
      *
-     * @param roomId The id of the room the player wants to join.
+     * @param roomId         The id of the room the player wants to join.
      * @param authentication Needed for retrieving the userId.
      * @return Status code 201 if the player joined the room successfully.
      * @throws RoomException Rerouted to handler.
@@ -82,7 +83,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rooms/{roomId}/join-room")
     public ResponseEntity<PlayerDTO> joinRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
-        Player playerIn = roomService.savePlayer(roomId, getUserInfo(authentication).get(ID_KEY).toString());
+        Player playerIn = roomService.joinRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
         return new ResponseEntity<>(playerOut, HttpStatus.CREATED);
     }
@@ -115,6 +116,22 @@ public class RoomApiController {
         Round roundIn = roomService.startNewRoundForRoom(roomId);
         RoundDTO roundOut = modelMapper.map(roundIn, RoundDTO.class);
         return new ResponseEntity<>(roundOut, HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/rooms/players")
+    public ResponseEntity<PlayerDTO> changePlayer(@RequestBody @Valid PlayerDTO playerDTO) {
+        Player playerIn = roomService.savePlayer(modelMapper.map(playerDTO, Player.class));
+        PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
+        return new ResponseEntity<>(playerOut, HttpStatus.ACCEPTED);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/rooms/players")
+    public ResponseEntity<PlayerDTO> getPlayer(OAuth2Authentication authentication) {
+        Player playerIn = roomService.getPlayer(getUserInfo(authentication).get(ID_KEY).toString());
+        PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
+        return new ResponseEntity<>(playerOut, HttpStatus.OK);
     }
 
     /**

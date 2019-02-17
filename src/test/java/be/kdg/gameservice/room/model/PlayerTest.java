@@ -21,17 +21,17 @@ public final class PlayerTest {
     }
 
     @Test
-    public void testCreatePlayer() {
+    public void createPlayer() {
         assertEquals(player.getChipCount(), GameRules.TEXAS_HOLD_EM.getStartingChips());
         assertEquals(player.getHandType(), HandType.BAD);
         assertEquals(player.getLastAct(), ActType.UNDECIDED);
         assertEquals(player.getUserId(), "1");
-        assertTrue(player.isActive());
+        assertTrue(player.isInRoom());
         assertFalse(player.isInRound());
     }
 
     @Test
-    public void testResetPlayer() {
+    public void resetPlayer() {
         player.setInRound(false);
         player.setHandType(HandType.STRAIGHT_FLUSH);
         player.setLastAct(ActType.RAISE);

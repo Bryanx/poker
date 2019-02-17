@@ -8,4 +8,5 @@ export class User {
   profilePicture: string;
   profilePictureSocial: string;
   provider: string;
+  friends: User[] = [];
 }

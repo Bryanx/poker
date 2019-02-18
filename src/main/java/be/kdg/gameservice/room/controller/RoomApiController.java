@@ -62,7 +62,7 @@ public class RoomApiController {
      * @param roomDTO The request body that contains the name and the rules fot the room.
      * @return Status code 201 with the newly created room.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rooms")
     public ResponseEntity<RoomDTO> addRoom(@RequestBody @Valid RoomDTO roomDTO) {
         Room room = roomService.addRoom(roomDTO.getName(), roomDTO.getGameRules());
@@ -71,14 +71,15 @@ public class RoomApiController {
     }
 
     /**
+     * @param roomId The id of the room that needs to be updated.
      * @param roomDTO The DTO that contains the updated data.
      * @return Status code 202 if the room was successfully updated.
      * @throws RoomException Rerouted to handler.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/rooms")
-    public ResponseEntity<RoomDTO> changeRoom(@RequestBody @Valid RoomDTO roomDTO) throws RoomException {
-        Room room = roomService.changeRoom(modelMapper.map(roomDTO, Room.class));
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/rooms/{roomId}")
+    public ResponseEntity<RoomDTO> changeRoom(@PathVariable int roomId, @RequestBody @Valid RoomDTO roomDTO) throws RoomException {
+        Room room = roomService.changeRoom(roomId, modelMapper.map(roomDTO, Room.class));
         RoomDTO roomOut = modelMapper.map(room, RoomDTO.class);
         return new ResponseEntity<>(roomOut, HttpStatus.ACCEPTED);
     }
@@ -88,7 +89,7 @@ public class RoomApiController {
      * @return Status code 202 if the room was successful deleted.
      * @throws RoomException Rerouted to handler.
      */
-    @PreAuthorize("hasRole('ROLE_AMDIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/rooms/{roomId}")
     public ResponseEntity<Void> deleteRoom(@PathVariable int roomId) throws RoomException {
         roomService.deleteRoom(roomId);

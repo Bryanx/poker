@@ -175,9 +175,9 @@ public class RoomServiceImpl implements RoomService {
      * @return The updated room.
      */
     @Override
-    public Room changeRoom(Room room) throws RoomException {
+    public Room changeRoom(int roomId, Room room) throws RoomException {
         //Get data
-        Room roomToUpdate = getRoom(room.getId());
+        Room roomToUpdate = getRoom(roomId);
 
         //Update room
         roomToUpdate.setName(room.getName());

@@ -12,7 +12,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class SearchComponent implements OnInit {
   private debounceTime: Number = 400;
-  users: User[];
+  users: User[] = [];
   inputString: String = '';
   subject: Subject<String> = new Subject();
 

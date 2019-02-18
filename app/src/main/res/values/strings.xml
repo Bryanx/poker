@@ -32,4 +32,13 @@
     <string name="title_activity_register">RegisterActivity</string>
     <string name="back">BACK</string>
     <string name="choose_a_room">CHOOSE A ROOM</string>
+    <string name="room_name">Room name</string>
+    <string name="buy_in">Buy-in: 1000</string>
+    <string name="_1000">1000</string>
+    <string name="coin">coin</string>
+    <string name="timer">timer</string>
+    <string name="cap">cap</string>
+    <string name="_4_8">4/8</string>
+    <string name="_30s">30s</string>
+    <string name="_0_6">0/6</string>
 </resources>

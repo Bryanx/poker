@@ -12,6 +12,6 @@ import retrofit2.http.Headers;
 public interface GameService {
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})
-    @GET("/api/roomgs")
+    @GET("/api/rooms")
     Call<Room[]> getRooms();
 }

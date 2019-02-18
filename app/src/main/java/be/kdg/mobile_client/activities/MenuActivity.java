@@ -34,7 +34,7 @@ public class MenuActivity extends BaseActivity {
 
     private void addEventHandlers() {
         btnJoinGame.setOnClickListener(e -> {
-            Intent intent = new Intent(getApplicationContext(), RoomActivity.class);
+            Intent intent = new Intent(getApplicationContext(), OverviewActivity.class);
             startActivity(intent);
         });
         logout.setOnClickListener(e -> {

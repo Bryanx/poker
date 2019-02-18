@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.RegisterDTO;
 import be.kdg.mobile_client.model.Token;
+import be.kdg.mobile_client.services.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;
@@ -56,20 +57,13 @@ public class RegisterActivity extends BaseActivity {
      * Retrieves token from backend with a POST request.
      */
     private void getTokenFromServer(RegisterDTO registerDTO) {
-        userService.register(registerDTO).enqueue(new Callback<Token>() {
-            @Override
-            public void onResponse(Call<Token> call, Response<Token> response) {
-                if (response.isSuccessful()) {
-                    onRegisterSuccess(response.body());
-                } else {
-                    onRegisterFailed("");
-                }
+        userService.register(registerDTO).enqueue(new CallbackWrapper<>((throwable, response) -> {
+            if (response.isSuccessful()) {
+                onRegisterSuccess(response.body());
+            } else {
+                onRegisterFailed(throwable == null ? "" : throwable.getMessage());
             }
-            @Override
-            public void onFailure(Call<Token> call, Throwable e) {
-                onRegisterFailed(e.getMessage());
-            }
-        });
+        }));
     }
 
     /**

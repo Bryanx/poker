@@ -4,6 +4,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Wrapper class for retrofit enqueue callback's.
+ * @param <T> return type
+ */
 public class CallbackWrapper<T> implements Callback<T> {
     private Wrapper<T> wrapper;
 

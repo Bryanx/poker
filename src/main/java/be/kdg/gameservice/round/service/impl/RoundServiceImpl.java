@@ -61,10 +61,24 @@ public class RoundServiceImpl implements RoundService {
             round.setPot(round.getPot() + bet);
             player.setLastAct(type);
             player.setChipCount(player.getChipCount() - bet);
-
+            checkEndOfRound(round);
             //update database
             saveRound(round);
         } else throw new RoundException(RoundServiceImpl.class, "The act was not possible to make.");
+
+
+    }
+
+    private void checkEndOfRound(Round round) {
+        Phase currentPhase = round.getCurrentPhase();
+        if (round.getActs().stream()
+                .filter(a -> a.getPhase() == currentPhase)
+                .filter(a -> a.getType() == ActType.CHECK)
+                .toArray()
+                .length == round.getPlayersInRound().size()) {
+
+            round.nextPhase();
+        }
     }
 
     /**
@@ -283,5 +297,10 @@ public class RoundServiceImpl implements RoundService {
         playerCards.addAll(Arrays.asList(player.getFirstCard(), player.getSecondCard()));
 
         return handService.determineBestPossibleHand(playerCards);
+    }
+
+    @Override
+    public List<Round> getRounds() {
+        return Collections.unmodifiableList(roundRepository.findAll());
     }
 }

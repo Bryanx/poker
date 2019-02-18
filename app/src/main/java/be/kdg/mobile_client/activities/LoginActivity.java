@@ -10,13 +10,11 @@ import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Token;
+import be.kdg.mobile_client.services.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.etUsername) EditText etUsername;
@@ -50,20 +48,13 @@ public class LoginActivity extends BaseActivity {
      * Retrieves token from backend with a POST request.
      */
     private void getTokenFromServer(String username, String password) {
-        userService.login(username, password, "password").enqueue(new Callback<Token>() {
-            @Override
-            public void onResponse(Call<Token> call, Response<Token> response) {
-                if (response.isSuccessful()) {
-                    onLoginSuccess(response.body());
-                } else {
-                    onLoginFailed("");
-                }
+        userService.login(username, password, "password").enqueue(new CallbackWrapper<>((throwable, response) -> {
+            if (response.isSuccessful()) {
+                onLoginSuccess(response.body());
+            } else {
+                onLoginFailed(throwable == null ? "" : throwable.getMessage());
             }
-            @Override
-            public void onFailure(Call<Token> call, Throwable e) {
-                onLoginFailed(e.getMessage());
-            }
-        });
+        }));
     }
 
     /**

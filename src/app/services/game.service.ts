@@ -13,8 +13,8 @@ import {Player} from '../model/player';
   providedIn: 'root'
 })
 export class GameService {
-  url = 'https://poker-game-service.herokuapp.com/api/rooms';
-  // url = 'http://localhost:5001/api/rooms';
+  // url = 'https://poker-game-service.herokuapp.com/api/rooms';
+  url = 'http://localhost:5001/api/rooms';
 
   constructor(private http: HttpClient) {
   }
@@ -62,12 +62,4 @@ export class GameService {
     return this.http.put<Player>(this.url + '/players', player);
   }
 
-  /**
-   * Saves an act that was played by the player to the backend.
-   *
-   * @param act The act that needs to be saved.
-   */
-  addAct(act: Act): Observable<Act> {
-    return this.http.post<Act>(this.url, act);
-  }
 }

@@ -4,11 +4,11 @@
     <app-card class="player-card"></app-card>
   </div>
   <div class="button-actions">
-    <button class="call">CALL</button>
-    <button class="fold">FOLD</button>
+    <button (click)="playAct('CALL')" class="call">CALL</button>
+    <button (click)="playAct('FOLD')" class="fold">FOLD</button>
   </div>
   <div class="raise">
-    <button>RAISE</button>
+    <button (click)="playAct('RAISE')" >RAISE</button>
     <mat-slider
       thumbLabel
       [displayWith]="formatLabel"

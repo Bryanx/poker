@@ -1,9 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GameService} from '../../services/game.service';
 import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
-import {Round} from '../../model/round';
 import {Phase} from '../../model/phase';
+import {RoundService} from '../../services/round.service';
 
 @Component({
   selector: 'app-actionbar',
@@ -16,7 +15,7 @@ export class ActionbarComponent implements OnInit {
 
   sliderValue = 0;
 
-  constructor(private gameService: GameService) {
+  constructor(private roundservice: RoundService) {
   }
 
   ngOnInit() {
@@ -34,19 +33,20 @@ export class ActionbarComponent implements OnInit {
     return value;
   }
 
-  playAct(type: ActType) {
+  playAct(actType: string) {
     const act: Act = new Act();
     act.roundId = this.roundId;
-    act.type = type;
+    act.type = ActType[actType];
     act.phase = this.curPhase;
-    act.playerId = 2;
+    act.playerId = 588;
 
-    if (type === ActType.Bet || type === ActType.Raise) {
+    if (act.type === ActType['BET'] || act.type === ActType['RAISE']) {
       act.bet = this.sliderValue;
     } else {
       act.bet = 0;
     }
 
-    this.gameService.addAct(act);
+    //TODO: Uitwerken
+    this.roundservice.addAct(act).subscribe();
   }
 }

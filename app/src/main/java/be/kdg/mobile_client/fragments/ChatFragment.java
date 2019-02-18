@@ -24,6 +24,9 @@ import butterknife.ButterKnife;
 import lombok.NoArgsConstructor;
 import ua.naiksoftware.stomp.dto.StompMessage;
 
+/**
+ * Fragment in which a chat conversation is shown
+ */
 @NoArgsConstructor // required for fragments
 public class ChatFragment extends BaseFragment {
     @BindView(R.id.btnSend) Button btnSend;
@@ -32,7 +35,7 @@ public class ChatFragment extends BaseFragment {
     @Inject ChatService chatService;
     @Inject Gson gson;
 
-    MessageAdapter messageAdapter;
+    private MessageAdapter messageAdapter;
     private String playerName = "Lotte";
     private int roomNumber = 1;
     private String ERROR_TAG = "ChatFragment";
@@ -46,21 +49,29 @@ public class ChatFragment extends BaseFragment {
         ButterKnife.bind(this, view);
         messageAdapter = new MessageAdapter(getActivity(), playerName);
         lvChat.setAdapter(messageAdapter);
-        chatService.connect(roomNumber, playerName, (Throwable e) -> {
-            getActivity().runOnUiThread(() -> messageAdapter.add(new Message("error", "Something wen't wrong.")));
-            Log.e(ERROR_TAG, e.getMessage());
-        });
+        connectChat(messageAdapter);
         addEventHandlers();
         return view;
     }
 
+    /**
+     * Connect to the chat service and log errors to the adapter.
+     */
+    private void connectChat(MessageAdapter messageAdapter) {
+        chatService.connect(roomNumber, playerName, (Throwable e) -> {
+            getActivity().runOnUiThread(() -> messageAdapter.add(new Message("error", "Something wen't wrong.")));
+            Log.e(ERROR_TAG, e.getMessage());
+        });
+    }
+
+    /**
+     * Handle incoming and outgoing messages
+     */
     private void addEventHandlers() {
-        //receive message
         chatService.setOnIncomingMessage((StompMessage msg) -> {
             Message message = gson.fromJson(msg.getPayload(), Message.class);
             getActivity().runOnUiThread(() -> messageAdapter.add(message));
         }, (Throwable error) -> Log.e(ERROR_TAG, error.getMessage()));
-        //send message
         btnSend.setOnClickListener(e -> {
             if (etMessage.getText().length() > 0) {
                 chatService.sendMessage(playerName, etMessage.getText().toString());

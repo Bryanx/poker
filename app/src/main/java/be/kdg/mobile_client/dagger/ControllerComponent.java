@@ -2,6 +2,7 @@ package be.kdg.mobile_client.dagger;
 
 import javax.inject.Singleton;
 
+import be.kdg.mobile_client.activities.FriendsActivity;
 import be.kdg.mobile_client.activities.LoginActivity;
 import be.kdg.mobile_client.activities.MainActivity;
 import be.kdg.mobile_client.activities.MenuActivity;
@@ -22,4 +23,5 @@ public interface ControllerComponent {
     void inject(RoomActivity menuActivity);
     void inject(ChatFragment menuActivity);
     void inject(RegisterActivity registerActivity);
+    void inject(FriendsActivity friendsActivity);
 }

@@ -1,0 +1,17 @@
+<section class="search-bar">
+  <input type="text" placeholder="Search users" (keyup)="changeSubject()" [(ngModel)]="inputString">
+  <button (click)="changeSubject()" class="search-button"><img src="../../../assets/img/icons/search.svg" alt="SEARCH">
+  </button>
+</section>
+
+<section *ngIf="users.length > 0" class="results">
+  <div *ngFor="let user of users; index as i " routerLink="/user/{{user.id}}">
+    <div class="image-wrapper">
+      <img [src]="null" [alt]="getInitials(user)">
+    </div>
+    <span class="username-span">{{user.username}}</span>
+    <button class="friend-button">Befriend bro</button>
+  </div>
+</section>
+<h1 class="nothing-found" *ngIf="users.length <= 0">No bros :(</h1>
+

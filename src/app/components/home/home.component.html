@@ -2,7 +2,7 @@
   <i class="fas fa-sign-out-alt fa-4x" (click)="logout()"></i>
 </header>
 
-<img src="/assets/img/logos/logo-white.png"/>
+<img src="../../../assets/img/logos/logo-white.png"/>
 
 <button *ngIf="!isAuthenticated()" routerLink="/login">{{'LOGIN' | translate | uppercase}}</button>
 
@@ -10,9 +10,9 @@
 
 <button *ngIf="isAuthenticated()" routerLink="/rooms">{{'JOIN ROOM' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated()" routerLink="/user/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
+<button *ngIf="isAuthenticated()" routerLink="/settings/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated()" routerLink="/">{{'FRIENDS' | translate | uppercase}}</button>
+<button *ngIf="isAuthenticated()" routerLink="/friends">{{'FRIENDS' | translate | uppercase}}</button>
 
 <button *ngIf="isAuthenticated()" routerLink="/">{{'REPLAYS' | translate | uppercase}}</button>
 

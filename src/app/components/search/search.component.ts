@@ -11,7 +11,8 @@ import {DomSanitizer} from '@angular/platform-browser';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  users: User[] = [];
+  private debounceTime: Number = 400;
+  users: User[];
   inputString: String = '';
   subject: Subject<String> = new Subject();
 
@@ -20,7 +21,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.subject.pipe(
-      debounceTime(400),
+      debounceTime(this.debounceTime),
       distinctUntilChanged()
     ).subscribe(value => this.getUsers(value as string));
     this.getUsers();

@@ -28,4 +28,6 @@ public interface RoomService {
     Room addRoom(String name, GameRules gameRules);
 
     Room changeRoom(Room room) throws RoomException;
+
+    void deleteRoom(int id) throws RoomException;
 }

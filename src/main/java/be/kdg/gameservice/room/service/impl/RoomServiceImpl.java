@@ -186,6 +186,16 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
+     * Deletes a room from database.
+     *
+     * @param id The id of the room that needs to be deleted.
+     */
+    @Override
+    public void deleteRoom(int id) {
+        roomRepository.deleteById(id);
+    }
+
+    /**
      * @param room The room that needs to be updated or saved.
      */
     private Room saveRoom(Room room) {

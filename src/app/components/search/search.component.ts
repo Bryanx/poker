@@ -22,10 +22,7 @@ export class SearchComponent implements OnInit {
     this.subject.pipe(
       debounceTime(400),
       distinctUntilChanged()
-    ).subscribe(value => {
-      this.getUsers(value as string);
-      console.log(this.users);
-    });
+    ).subscribe(value => this.getUsers(value as string));
     this.getUsers();
   }
 

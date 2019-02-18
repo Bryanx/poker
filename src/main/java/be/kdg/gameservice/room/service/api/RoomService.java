@@ -26,4 +26,6 @@ public interface RoomService {
     Room getRoom(int roomId) throws RoomException;
 
     Room addRoom(String name, GameRules gameRules);
+
+    Room changeRoom(Room room) throws RoomException;
 }

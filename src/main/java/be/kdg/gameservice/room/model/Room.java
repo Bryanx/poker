@@ -29,6 +29,7 @@ public class Room {
     private int id;
 
     @Getter
+    @Setter
     private String name;
 
     /**

@@ -60,14 +60,27 @@ public class RoomApiController {
 
     /**
      * @param roomDTO The request body that contains the name and the rules fot the room.
-     * @return The newly created room.
+     * @return Status code 201 with the newly created room.
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rooms")
-    public ResponseEntity<RoomDTO> getRoom(@RequestBody @Valid RoomDTO roomDTO) {
+    public ResponseEntity<RoomDTO> addRoom(@RequestBody @Valid RoomDTO roomDTO) {
         Room room = roomService.addRoom(roomDTO.getName(), roomDTO.getGameRules());
         RoomDTO roomOut = modelMapper.map(room, RoomDTO.class);
         return new ResponseEntity<>(roomOut, HttpStatus.CREATED);
+    }
+
+    /**
+     * @param roomDTO The DTO that contains the updated data.
+     * @return Status code 202 if the room was successfully updated.
+     * @throws RoomException Rerouted to handler.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/rooms")
+    public ResponseEntity<RoomDTO> changeRoom(@RequestBody @Valid RoomDTO roomDTO) throws RoomException {
+        Room room = roomService.changeRoom(modelMapper.map(roomDTO, Room.class));
+        RoomDTO roomOut = modelMapper.map(room, RoomDTO.class);
+        return new ResponseEntity<>(roomOut, HttpStatus.ACCEPTED);
     }
 
     /**

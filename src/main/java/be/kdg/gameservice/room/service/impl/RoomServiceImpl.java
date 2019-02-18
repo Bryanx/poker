@@ -169,6 +169,23 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
+     * Changes a room in the database.
+     *
+     * @param room The room with adjusted values that needs to be updated.
+     * @return The updated room.
+     */
+    @Override
+    public Room changeRoom(Room room) throws RoomException {
+        //Get data
+        Room roomToUpdate = getRoom(room.getId());
+
+        //Update room
+        roomToUpdate.setName(room.getName());
+        roomToUpdate.setGameRules(room.getGameRules());
+        return saveRoom(roomToUpdate);
+    }
+
+    /**
      * @param room The room that needs to be updated or saved.
      */
     private Room saveRoom(Room room) {

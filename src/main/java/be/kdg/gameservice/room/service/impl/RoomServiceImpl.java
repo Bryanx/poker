@@ -1,6 +1,7 @@
 package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.PlayerRepository;
@@ -152,6 +153,19 @@ public class RoomServiceImpl implements RoomService {
     public Room getRoom(int roomId) throws RoomException {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomException(RoomServiceImpl.class, "The room was not found in the database."));
+    }
+
+    /**
+     * Adds a room to the database.
+     *
+     * @param name The name of the room.
+     * @param gameRules The rules that will be applied in this room.
+     * @return The newly created room.
+     */
+    @Override
+    public Room addRoom(String name, GameRules gameRules) {
+        Room room = new Room(gameRules, name);
+        return saveRoom(room);
     }
 
     /**

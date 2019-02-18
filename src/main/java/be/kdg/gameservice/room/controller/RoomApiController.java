@@ -59,6 +59,18 @@ public class RoomApiController {
     }
 
     /**
+     * @param roomDTO The request body that contains the name and the rules fot the room.
+     * @return The newly created room.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/rooms")
+    public ResponseEntity<RoomDTO> getRoom(@RequestBody @Valid RoomDTO roomDTO) {
+        Room room = roomService.addRoom(roomDTO.getName(), roomDTO.getGameRules());
+        RoomDTO roomOut = modelMapper.map(room, RoomDTO.class);
+        return new ResponseEntity<>(roomOut, HttpStatus.CREATED);
+    }
+
+    /**
      * @param roomId         The id of the room.
      * @param authentication Needed for retrieving the userId.
      * @return Status code 202 if the player was successfully deleted from the room.

@@ -29,6 +29,27 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final RoundService roundService;
 
+
+    /**
+     * Creates a new room based on room object passed to roomRepository save method
+     * @param room
+     * @return
+     */
+    public Room addRoom(Room room) {
+        return roomRepository.save(room);
+    }
+
+    /**
+     * Returns room based on roomName
+     * Carefull, roomname should be unique.
+     * @param roomName
+     * @return
+     */
+    @Override
+    public Room getRoomByName(String roomName) {
+        return roomRepository.getRoomByName(roomName);
+    }
+
     /**
      * Adds a player to a room.
      *

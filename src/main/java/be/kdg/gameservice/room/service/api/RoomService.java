@@ -23,4 +23,8 @@ public interface RoomService {
     Round getCurrentRound(int roomId) throws RoomException;
 
     Room getRoom(int roomId) throws RoomException;
+
+    Room addRoom(Room room);
+
+    Room getRoomByName(String roomName);
 }

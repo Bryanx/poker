@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomDTO {
-    private int roomId;
+    private int id;
     @NotNull
     private String name;
     @NotNull

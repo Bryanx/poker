@@ -59,6 +59,44 @@ public class RoomApiController {
     }
 
     /**
+     * @param roomDTO The request body that contains the name and the rules fot the room.
+     * @return Status code 201 with the newly created room.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/rooms")
+    public ResponseEntity<RoomDTO> addRoom(@RequestBody @Valid RoomDTO roomDTO) {
+        Room room = roomService.addRoom(roomDTO.getName(), roomDTO.getGameRules());
+        RoomDTO roomOut = modelMapper.map(room, RoomDTO.class);
+        return new ResponseEntity<>(roomOut, HttpStatus.CREATED);
+    }
+
+    /**
+     * @param roomId The id of the room that needs to be updated.
+     * @param roomDTO The DTO that contains the updated data.
+     * @return Status code 202 if the room was successfully updated.
+     * @throws RoomException Rerouted to handler.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/rooms/{roomId}")
+    public ResponseEntity<RoomDTO> changeRoom(@PathVariable int roomId, @RequestBody @Valid RoomDTO roomDTO) throws RoomException {
+        Room room = roomService.changeRoom(roomId, modelMapper.map(roomDTO, Room.class));
+        RoomDTO roomOut = modelMapper.map(room, RoomDTO.class);
+        return new ResponseEntity<>(roomOut, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * @param roomId The id of the room that needs to be deleted.
+     * @return Status code 202 if the room was successful deleted.
+     * @throws RoomException Rerouted to handler.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @DeleteMapping("/rooms/{roomId}")
+    public ResponseEntity<Void> deleteRoom(@PathVariable int roomId) throws RoomException {
+        roomService.deleteRoom(roomId);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    /**
      * @param roomId         The id of the room.
      * @param authentication Needed for retrieving the userId.
      * @return Status code 202 if the player was successfully deleted from the room.

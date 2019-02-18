@@ -2,9 +2,13 @@ package be.kdg.gameservice.room.controlller;
 
 import be.kdg.gameservice.RequestType;
 import be.kdg.gameservice.UtilTesting;
+import be.kdg.gameservice.room.controller.dto.RoomDTO;
 import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.GameRules;
+import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
+import com.google.gson.Gson;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -42,10 +49,35 @@ public class RoomApiControllerTest extends UtilTesting {
 
     @Test
     public void leaveRoom() throws Exception {
-        // joinRoom();
         int numberOfPlayersBeforeRequest = roomService.getRoom(testableRoomIdWithPlayers).getPlayersInRoom().size();
         testMockMvc("/rooms/" + testableRoomIdWithPlayers + "/leave-room", "", mockMvc, RequestType.DELETE);
         assertEquals(numberOfPlayersBeforeRequest - 1, roomService.getRoom(testableRoomIdWithPlayers).getPlayersInRoom().size());
+    }
+
+    @Test
+    public void addAndDeleteRoom() throws Exception {
+        int numberOfRooms = roomRepository.findAll().size();
+
+        //Test add room
+        RoomDTO roomDTO = new RoomDTO(1, "jos room", GameRules.TEXAS_HOLD_EM, new ArrayList<>());
+        String json = new Gson().toJson(roomDTO);
+        testMockMvc("/rooms", json, mockMvc, RequestType.POST);
+        assertEquals(numberOfRooms + 1, roomRepository.findAll().size());
+
+        //Test delete room
+        Room room = roomRepository.findAll().stream()
+                .filter(r -> r.getName().equalsIgnoreCase("jos room")).findAny().orElseThrow(Exception::new);
+        testMockMvc("/rooms/" + room.getId(), "", mockMvc, RequestType.DELETE);
+        assertEquals(numberOfRooms, roomRepository.findAll().size());
+    }
+
+    @Test
+    public void changeRoom() throws Exception {
+        RoomDTO roomDTO = new RoomDTO(testableRoomIdWithoutPlayers, "josef", GameRules.TEXAS_HOLD_EM_DIFFICULT, new ArrayList<>());
+        String json = new Gson().toJson(roomDTO);
+        testMockMvc("/rooms/" + testableRoomIdWithoutPlayers, json, mockMvc, RequestType.PUT);
+        assertEquals("josef", roomRepository.findById(testableRoomIdWithoutPlayers).orElseThrow(Exception::new).getName());
+        assertEquals(GameRules.TEXAS_HOLD_EM_DIFFICULT, roomRepository.findById(testableRoomIdWithoutPlayers).orElseThrow(Exception::new).getGameRules());
     }
 
     @Test

@@ -171,4 +171,8 @@ public final class Round {
     public void removePlayer(Player player) {
         playersInRound.remove(player);
     }
+
+    public void nextPhase() {
+        this.currentPhase = this.currentPhase.next();
+    }
 }

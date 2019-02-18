@@ -65,7 +65,7 @@
   border-radius: 1.5rem;
 
   div {
-    margin: 10px 20px;
+    margin: 10px;
     padding: 10px;
     border-radius: 1rem;
     user-select: none;
@@ -88,6 +88,7 @@
     }
 
     .image-wrapper {
+      margin-right: 20px;
       border-radius: 50%;
       display: inline-block;
       width: 50px;

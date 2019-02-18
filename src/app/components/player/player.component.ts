@@ -37,8 +37,8 @@ export class PlayerComponent implements OnInit {
     });
   }
 
-  getInitials(user: User): string {
-    return user.username.charAt(0).toUpperCase();
+  getInitials(): string {
+    return this.user.username.charAt(0).toUpperCase();
   }
 
   getProfilePicture() {

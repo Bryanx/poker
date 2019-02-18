@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FriendsComponent } from './friends.component';
+import {SearchComponent} from '../search/search.component';
+import {TranslatePipe} from '../../translate.pipe';
+import {NgModel, ReactiveFormsModule} from '@angular/forms';
+import {RouterLink, RouterModule} from '@angular/router';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('FriendsComponent', () => {
   let component: FriendsComponent;
@@ -8,7 +14,8 @@ describe('FriendsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FriendsComponent ]
+      declarations: [ FriendsComponent, SearchComponent, TranslatePipe, NgModel ],
+      imports: [ HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule ]
     })
     .compileComponents();
   }));

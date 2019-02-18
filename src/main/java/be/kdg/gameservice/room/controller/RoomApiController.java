@@ -112,8 +112,8 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rooms/{roomId}/start-new-round")
     public ResponseEntity<RoundDTO> startNewRound(@PathVariable int roomId) throws RoomException {
-        Round roundIn = roomService.startNewRoundForRoom(roomId);
-        RoundDTO roundOut = modelMapper.map(roundIn, RoundDTO.class);
+        Round round = roomService.startNewRoundForRoom(roomId);
+        RoundDTO roundOut = modelMapper.map(round, RoundDTO.class);
         return new ResponseEntity<>(roundOut, HttpStatus.CREATED);
     }
 

@@ -37,15 +37,8 @@ export class PlayerComponent implements OnInit {
     });
   }
 
-  getInitials(): string {
-    const words: string[] = this.user.username.split(' ');
-    const initials: string[] = [];
-
-    for (let i = 0; i < words.length; i++) {
-      initials.push(words[i].charAt(0).toUpperCase());
-    }
-
-    return initials.join('');
+  getInitials(user: User): string {
+    return user.username.charAt(0).toUpperCase();
   }
 
   getProfilePicture() {

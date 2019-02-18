@@ -35,14 +35,7 @@ export class SearchComponent implements OnInit {
   }
 
   getInitials(user: User): string {
-    const words: string[] = user.username.split(' ');
-    const initials: string[] = [];
-
-    for (let i = 0; i < words.length; i++) {
-      initials.push(words[i].charAt(0).toUpperCase());
-    }
-
-    return initials.join('');
+    return user.username.charAt(0).toUpperCase();
   }
 
   changeSubject(): void {

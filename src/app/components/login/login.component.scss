@@ -35,7 +35,8 @@ form {
     line-height: $inputLineHeight;
     border-radius: 0.4rem;
     outline: none;
-    border: 2px solid transparent;
+    border: 3px solid transparent;
+    transition: 300ms ease border;
     &:focus {
       border: 3px solid $green;
     }

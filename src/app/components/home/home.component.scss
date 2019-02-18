@@ -14,3 +14,18 @@ img {
   width: 90%;
   max-width: 500px;
 }
+
+.logout {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+
+  i {
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      color: darken($green, 15%)
+    }
+  }
+}

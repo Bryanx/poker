@@ -38,7 +38,7 @@ public class RoomAdapter extends ArrayAdapter<Room> {
         TextView tvRoomName = convertView.findViewById(R.id.tvName);
         tvRoomName.setText(room.getName());
         TextView tvBuyIn = convertView.findViewById(R.id.tvBuyIn);
-        tvBuyIn.setText(String.format(Locale.ENGLISH,"Buy-in: %d", room.getGameRules().getStartingChips()));
+        tvBuyIn.setText(String.format(Locale.ENGLISH, "Buy-in: %d", room.getGameRules().getStartingChips()));
 
         //Get game rule information
         TextView tvBlinds = convertView.findViewById(R.id.tvBlinds);
@@ -46,14 +46,14 @@ public class RoomAdapter extends ArrayAdapter<Room> {
         TextView tvTimer = convertView.findViewById(R.id.tvTimer);
         tvTimer.setText(String.format(Locale.ENGLISH, "%ds", room.getGameRules().getPlayDelay()));
         TextView tvCap = convertView.findViewById(R.id.tvCap);
-        tvCap.setText(String.format(Locale.ENGLISH, "%d/%d", 0, room.getGameRules().getMaxPlayerCount()));
+        tvCap.setText(String.format(Locale.ENGLISH, "%d/%d", room.getPlayersInRoom().size(), room.getGameRules().getMaxPlayerCount()));
 
         //Get images
         /*
         createPic(R.drawable.ic_coins).into((ImageView) convertView.findViewById(R.id.ivCoin));
         createPic(R.drawable.ic_timer).into((ImageView) convertView.findViewById(R.id.ivTimer));
         createPic(R.drawable.ic_not_full).into((ImageView) convertView.findViewById(R.id.ivCap));
-*/
+        */
 
         return convertView;
     }

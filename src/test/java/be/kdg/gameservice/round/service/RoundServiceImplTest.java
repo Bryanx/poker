@@ -41,7 +41,7 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Before
     public void setup() {
-        //provideTestDataRound(roundRepository);
+        provideTestDataRound(roundRepository);
     }
 
     @Test
@@ -250,6 +250,69 @@ public class RoundServiceImplTest extends UtilTesting {
         assertEquals(12, round.getActs().size());
         assertEquals(3, round.getPlayersInRound().size());
         assertEquals(3, round.getActivePlayers().size());
+        assertEquals(Phase.SHOWDOWN, round.getCurrentPhase());
+    }
+
+    @Test
+    public void playRoundWithBetAfterFlop() throws RoomException, RoundException {
+        Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
+        roomService.addRoom(roomMade);
+
+        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten");
+        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi");
+        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk");
+
+        Room room = roomService.getRoomByName("Test room");
+
+        roomService.joinRoom(room.getId(),player1.getUserId() );
+        roomService.joinRoom(room.getId(),player2.getUserId());
+        roomService.joinRoom(room.getId(),player3.getUserId() );
+
+        roomService.startNewRoundForRoom(room.getId());
+
+        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+
+        assertEquals(0, round.getActs().size());
+        assertEquals(5, round.getCards().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(Phase.PRE_FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.BET, round.getCurrentPhase(), 50);
+        roundService.saveAct(round.getId(), "Remi", ActType.CALL, round.getCurrentPhase(), 50);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CALL, round.getCurrentPhase(), 50);
+
+        assertEquals(3, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(Phase.FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.BET, round.getCurrentPhase(), 50);
+        roundService.saveAct(round.getId(), "Dirk", ActType.RAISE, round.getCurrentPhase(), 100);
+        roundService.saveAct(round.getId(), "Maarten", ActType.FOLD, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CALL, round.getCurrentPhase(), 50);
+
+
+        assertEquals(8, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.TURN, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(10, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.RIVER, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(12, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
         assertEquals(Phase.SHOWDOWN, round.getCurrentPhase());
     }
 }

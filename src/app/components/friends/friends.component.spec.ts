@@ -7,6 +7,7 @@ import {NgModel, ReactiveFormsModule} from '@angular/forms';
 import {RouterLink, RouterModule} from '@angular/router';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
 
 describe('FriendsComponent', () => {
   let component: FriendsComponent;
@@ -15,7 +16,7 @@ describe('FriendsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ FriendsComponent, SearchComponent, TranslatePipe, NgModel ],
-      imports: [ HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule ]
+      imports: [ HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule, AngularFontAwesomeModule ]
     })
     .compileComponents();
   }));

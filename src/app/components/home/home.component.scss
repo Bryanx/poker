@@ -28,6 +28,7 @@ img {
   i {
     color: darken($background-color, 5%);
     cursor: pointer;
+    transform: rotate(180deg);
 
     &:hover {
       color: darken($background-color, 50%);

@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
-import {Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
+import {AuthorizationService} from '../../services/authorization.service';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -16,15 +18,24 @@ export class SearchComponent implements OnInit {
   inputString: String = '';
   subject: Subject<String> = new Subject();
 
+  @Output() friendAdded: EventEmitter<User> = new EventEmitter();
+
   constructor(private userService: UserService, private sanitizer: DomSanitizer) {
   }
 
   ngOnInit(): void {
     this.subject.pipe(
       debounceTime(this.debounceTime as number),
-      distinctUntilChanged()
-    ).subscribe(value => this.getUsers(value as string));
-    this.getUsers();
+      distinctUntilChanged(),
+    ).subscribe(value => {
+      this.userService.getUsersByName(value as string).subscribe(users => {
+        if (!this.inputString) {
+          this.users = [];
+        } else {
+          this.users = users;
+        }
+      });
+    });
   }
 
   getProfilePicture(user: User) {
@@ -41,13 +52,5 @@ export class SearchComponent implements OnInit {
 
   changeSubject(): void {
     this.subject.next(this.inputString);
-  }
-
-  private getUsers(input: string = ''): void {
-    if (input === '') {
-      this.userService.getUsers().subscribe(users => this.users = users);
-    } else {
-      this.userService.getUsersByName(input).subscribe(users => this.users = users);
-    }
   }
 }

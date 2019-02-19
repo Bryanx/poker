@@ -23,8 +23,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss",
-              "../node_modules/font-awesome/css/font-awesome.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           },

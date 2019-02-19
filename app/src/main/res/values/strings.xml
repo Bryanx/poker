@@ -41,4 +41,7 @@
     <string name="_4_8">4/8</string>
     <string name="_30s">30s</string>
     <string name="_0_6">0/6</string>
+    <string name="no_friends_message">You\'re a loner bro :-(</string>
+    <string name="error_message">Something went wrong :-(</string>
+    <string name="remove">REMOVE</string>
 </resources>

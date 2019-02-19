@@ -14,10 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".activities.FriendsActivity"></activity>
         <activity
             android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.OverviewActivity"
             android:screenOrientation="portrait" />

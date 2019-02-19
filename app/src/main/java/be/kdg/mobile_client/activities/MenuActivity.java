@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 public class MenuActivity extends BaseActivity {
     @BindView(R.id.logout) Button logout;
     @BindView(R.id.btnJoinGame) Button btnJoinGame;
+    @BindView(R.id.btnFriends) Button btnFriends;
     @Inject SharedPrefService sharedPrefService;
 
     @Override
@@ -35,6 +36,10 @@ public class MenuActivity extends BaseActivity {
     private void addEventHandlers() {
         btnJoinGame.setOnClickListener(e -> {
             Intent intent = new Intent(getApplicationContext(), OverviewActivity.class);
+            startActivity(intent);
+        });
+        btnFriends.setOnClickListener(e -> {
+            Intent intent = new Intent(getApplicationContext(), FriendsActivity.class);
             startActivity(intent);
         });
         logout.setOnClickListener(e -> {

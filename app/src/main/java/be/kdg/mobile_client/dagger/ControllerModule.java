@@ -4,13 +4,18 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 
+import javax.inject.Singleton;
+
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -21,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 public class ControllerModule {
-    public static final String API_BASE_URL = "https://poker-user-service.herokuapp.com";
+    private static final String API_BASE_URL = "https://poker-user-service.herokuapp.com";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 
@@ -61,9 +66,22 @@ public class ControllerModule {
     }
 
     @Provides
-    Retrofit retrofit() {
+    OkHttpClient okHttpClient(SharedPrefService sharedPrefService) {
+        Token token = sharedPrefService.getToken(activity());
+        if (token == null) return new OkHttpClient();
+        return new OkHttpClient().newBuilder().addInterceptor(chain -> {
+            Request newRequest = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer " + token.getAccessToken())
+                    .build();
+            return chain.proceed(newRequest);
+        }).build();
+    }
+
+    @Provides
+    Retrofit retrofit(OkHttpClient client) {
         return new Retrofit
                 .Builder()
+                .client(client)
                 .addConverterFactory(gsonConverter())
                 .baseUrl(API_BASE_URL)
                 .build();

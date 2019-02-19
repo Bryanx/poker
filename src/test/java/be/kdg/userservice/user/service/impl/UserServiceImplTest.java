@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -62,7 +63,7 @@ public class UserServiceImplTest {
     public void addFriends() throws Exception {
         User test1 = userRepository.findByUsername("test1").orElseThrow(Exception::new);
         User test2 = userRepository.findByUsername("test2").orElseThrow(Exception::new);
-        test1.setFriends(new HashSet<>(Arrays.asList(test2))); // test mutual friendship
+        test1.setFriends(new ArrayList<>(Arrays.asList(test2))); // test mutual friendship
         userService.changeUser(test1);
         userService.changeUser(test2);
         test1 = userRepository.findByUsername("test1").orElseThrow(Exception::new);

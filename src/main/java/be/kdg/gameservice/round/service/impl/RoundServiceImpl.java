@@ -73,11 +73,26 @@ public class RoundServiceImpl implements RoundService {
         Phase currentPhase = round.getCurrentPhase();
         if (round.getActs().stream()
                 .filter(a -> a.getPhase() == currentPhase)
-                .filter(a -> a.getType() == ActType.CHECK)
+                .filter(a -> a.getType() == ActType.CHECK || a.getType() == ActType.FOLD)
                 .toArray()
-                .length == round.getPlayersInRound().size()) {
+                .length == round.getActivePlayers().size()) {
 
             round.nextPhase();
+        } else {
+            int lastAct = -1;
+            for (int i = 0; i < round.getActs().size(); i++) {
+                if(round.getActs().get(i).getPhase() == currentPhase) {
+                    if(round.getActs().get(i).getType() == ActType.BET || round.getActs().get(i).getType() == ActType.RAISE) {
+                        lastAct = i;
+                    }
+                }
+            }
+
+            List<Act> lastActs = round.getActs().subList(lastAct, round.getActs().size());
+
+            if(lastActs.stream().filter(a -> a.getType() == ActType.CALL).toArray().length == round.getActivePlayers().size() - 1) {
+                round.nextPhase();
+            }
         }
     }
 

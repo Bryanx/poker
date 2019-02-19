@@ -1,8 +1,11 @@
 package be.kdg.mobile_client.model;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+/**
+ * The game rules that are applied to a specific room.
+ */
+@Getter
 public class GameRules {
     private int smallBlind;
     private int bigBlind;

@@ -1,11 +1,11 @@
 package be.kdg.mobile_client.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -13,15 +13,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Room;
-import lombok.AllArgsConstructor;
 
 /**
  * An adapter that is using the recycler method.
+ * The class extends the generic inner class implementation of the ViewHolder.
  */
-@AllArgsConstructor
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapter.ViewHolder> {
     private List<Room> rooms;
 
+    /**
+     * Filters our all the rooms that are full before initializing the collection.
+     *
+     * @param rooms All the rooms.
+     */
+    public RoomRecyclerAdapter(List<Room> rooms) {
+        List<Room> newRooms = new ArrayList<>();
+        for (Room room : rooms) {
+            if (room.getPlayersInRoom().size() < room.getGameRules().getMaxPlayerCount()) {
+                newRooms.add(room);
+            }
+        }
+
+        this.rooms = newRooms;
+    }
+
+    /**
+     * Inflates the layout that will be used to display each room.
+     *
+     * @return a ViewHolder that is based on the inflated view.
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -29,9 +49,16 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         return new ViewHolder(view);
     }
 
+    /**
+     * Binds all the information of one room to one of the view holders.
+     *
+     * @param holder   The holder that "holds" the views that are created so they can be recycled.
+     * @param position The position in the array.
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Room room = rooms.get(position);
+
         holder.tvRoomName.setText(rooms.get(position).getName());
         holder.tvBuyIn.setText(String.format(Locale.ENGLISH, "Buy-in: %d", room.getGameRules().getStartingChips()));
         holder.tvBlinds.setText(String.format(Locale.ENGLISH, "%d/%d", room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind()));
@@ -39,6 +66,11 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         holder.tvCap.setText(String.format(Locale.ENGLISH, "%d/%d", room.getPlayersInRoom().size(), room.getGameRules().getMaxPlayerCount()));
     }
 
+    /**
+     * Used internally by the recycler to determine how many holders should be created.
+     *
+     * @return The size of the rooms list.
+     */
     @Override
     public int getItemCount() {
         return rooms.size();

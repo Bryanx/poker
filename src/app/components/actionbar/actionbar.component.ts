@@ -52,10 +52,10 @@ export class ActionbarComponent implements OnInit {
   }
 
   getPossibleActs() {
-    this.roundservice.getPossibleActs(618).subscribe(result => {
-    //TODO: uitwerken
-      console.log(result)
-    });
+    /*this.roundservice.getPossibleActs(618).subscribe(result => {
+    // TODO: uitwerken
+      console.log(result);
+    });*/
     return true;
   }
 }

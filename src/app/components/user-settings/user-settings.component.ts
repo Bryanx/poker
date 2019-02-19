@@ -84,7 +84,6 @@ export class UserSettingsComponent implements OnInit {
 
   changeProfilePicture(event) {
     const file = event.target.files[0];
-    console.log(this.user.profilePicture);
     const reader = new FileReader();
     reader.onload = this.handleReaderLoaded.bind(this);
     reader.readAsBinaryString(file);
@@ -93,7 +92,6 @@ export class UserSettingsComponent implements OnInit {
   handleReaderLoaded(readerEvt) {
     const binaryString = readerEvt.target.result;
     this.user.profilePicture = btoa(binaryString);
-    console.log(btoa(binaryString));
     this.onSubmit();
   }
 }

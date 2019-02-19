@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ChatService} from '../../services/chat.service';
 import {Message} from '../../model/message';
 import {AuthorizationService} from '../../services/authorization.service';
@@ -19,8 +19,8 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.initializeWebSocketConnection();
     this.playerName = this.authorizationService.getUsername();
+    this.initializeWebSocketConnection();
   }
 
   initializeWebSocketConnection() {

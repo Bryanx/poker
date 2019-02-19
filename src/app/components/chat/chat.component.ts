@@ -2,6 +2,7 @@ import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ChatService} from '../../services/chat.service';
 import {Message} from '../../model/message';
 import {AuthorizationService} from '../../services/authorization.service';
+import {WebsocketService} from '../../services/websocket.service';
 
 @Component({
   selector: 'app-chat',
@@ -15,7 +16,8 @@ export class ChatComponent implements OnInit {
   @Input() roomNumber: Number = 1;
   playerName: String;
 
-  constructor(private chatService: ChatService, private authorizationService: AuthorizationService) {
+  constructor(private chatService: ChatService, private authorizationService: AuthorizationService,
+              private websocketService: WebsocketService) {
   }
 
   ngOnInit() {
@@ -24,7 +26,7 @@ export class ChatComponent implements OnInit {
   }
 
   initializeWebSocketConnection() {
-    const server = this.chatService.join();
+    const server = this.websocketService.join();
     server.connect({}, () => {
       server.subscribe('/chatroom/receive/' + this.roomNumber, message => {
         message = JSON.parse(message.body);

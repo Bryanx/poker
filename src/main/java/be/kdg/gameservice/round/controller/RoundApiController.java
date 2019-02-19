@@ -58,8 +58,8 @@ public class RoundApiController {
      * @see ActDTO
      */
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/rounds/{roundId}/acts")
-    public ResponseEntity<ActDTO> doAct(@RequestBody @Valid ActDTO actDTO, @PathVariable int roundId,
+    @PostMapping("/rounds/{roundId}")
+    public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO, @PathVariable int roundId,
                                         OAuth2Authentication authentication) throws RoundException {
         roundService.saveAct(roundId, getUserInfo(authentication).get(ID_KEY).toString(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet());

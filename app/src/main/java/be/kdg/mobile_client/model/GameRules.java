@@ -1,5 +1,7 @@
 package be.kdg.mobile_client.model;
 
+import lombok.Getter;
+
 @Getter
 public class GameRules {
     private int smallBlind;

@@ -68,7 +68,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBlinds"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/ic_coins"/>
 
             <ImageView
                 android:id="@+id/ivTimer"
@@ -83,7 +84,8 @@
                 app:layout_constraintEnd_toStartOf="@+id/ivCap"
                 app:layout_constraintHorizontal_bias="0.023"
                 app:layout_constraintStart_toEndOf="@+id/ivCoin"
-                app:layout_constraintTop_toBottomOf="@+id/tvTimer" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTimer"
+                app:srcCompat="@drawable/ic_timer"/>
 
             <ImageView
                 android:id="@+id/ivCap"
@@ -95,7 +97,8 @@
                 android:contentDescription="@string/cap"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCap" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCap"
+                app:srcCompat="@drawable/ic_not_full"/>
 
             <TextView
                 android:id="@+id/tvBlinds"

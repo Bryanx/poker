@@ -1,6 +1,5 @@
 package be.kdg.mobile_client.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -21,8 +22,8 @@ import be.kdg.mobile_client.model.Room;
 public class RoomAdapter extends ArrayAdapter<Room> {
     private final LayoutInflater inflater;
 
-    public RoomAdapter(Context ctx, Room[] rooms) {
-        super(ctx, -1, rooms);
+    public RoomAdapter(Context ctx) {
+        super(ctx, -1, new ArrayList<>());
         this.inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -48,9 +49,11 @@ public class RoomAdapter extends ArrayAdapter<Room> {
         tvCap.setText(String.format(Locale.ENGLISH, "%d/%d", 0, room.getGameRules().getMaxPlayerCount()));
 
         //Get images
-        initializeDrawable(R.drawable.ic_coins, convertView.findViewById(R.id.ivCoin));
-        initializeDrawable(R.drawable.ic_timer, convertView.findViewById(R.id.ivTimer));
-        initializeDrawable(R.drawable.ic_not_full, convertView.findViewById(R.id.ivCap));
+        /*
+        createPic(R.drawable.ic_coins).into((ImageView) convertView.findViewById(R.id.ivCoin));
+        createPic(R.drawable.ic_timer).into((ImageView) convertView.findViewById(R.id.ivTimer));
+        createPic(R.drawable.ic_not_full).into((ImageView) convertView.findViewById(R.id.ivCap));
+*/
 
         return convertView;
     }
@@ -59,13 +62,11 @@ public class RoomAdapter extends ArrayAdapter<Room> {
      * Util method that is used to initialize all image views inside one of the rooms.
      *
      * @param src The source of the image.
-     * @param target The target where the image needs to go.
      */
-    private void initializeDrawable(int src, ImageView target) {
-        Picasso.get()
+    private RequestCreator createPic(int src) {
+        return Picasso.get()
                 .load(src)
                 .resize(35, 35)
-                .centerInside()
-                .into(target);
+                .centerInside();
     }
 }

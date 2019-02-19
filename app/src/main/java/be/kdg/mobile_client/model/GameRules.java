@@ -1,8 +1,8 @@
 package be.kdg.mobile_client.model;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class GameRules {
     private int smallBlind;
     private int bigBlind;

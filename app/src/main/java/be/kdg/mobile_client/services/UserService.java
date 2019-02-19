@@ -1,17 +1,15 @@
 package be.kdg.mobile_client.services;
 
-import be.kdg.mobile_client.model.RegisterDTO;
+import be.kdg.mobile_client.model.Register;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.model.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import retrofit2.http.Url;
 
 /**
  * Api for sending requests to: https://poker-user-service.herokuapp.com
@@ -30,7 +28,7 @@ public interface UserService {
             "Accept: application/json; charset=utf-8",
             "No-Authentication: true"})
     @POST("/api/user")
-    Call<Token> register(@Body RegisterDTO registerDTO);
+    Call<Token> register(@Body Register registerDTO);
 
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})

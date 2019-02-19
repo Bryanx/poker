@@ -9,5 +9,5 @@ public class Room {
     private int roomId;
     private String name;
     private GameRules gameRules;
-    private List<Object> players;
+    private List<Object> playersInRoom;
 }

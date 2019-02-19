@@ -9,19 +9,15 @@ import android.widget.Toast;
 import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.model.RegisterDTO;
+import be.kdg.mobile_client.model.Register;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegisterActivity extends BaseActivity {
-
     @BindView(R.id.etEmail) EditText etEmail;
     @BindView(R.id.etUsername) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
@@ -49,14 +45,14 @@ public class RegisterActivity extends BaseActivity {
 
         if (validateRegister(email, password)) {
             btnRegister.setEnabled(false);
-            getTokenFromServer(new RegisterDTO(username, email, password));
+            getTokenFromServer(new Register(username, email, password));
         }
     }
 
     /**
      * Retrieves token from backend with a POST request.
      */
-    private void getTokenFromServer(RegisterDTO registerDTO) {
+    private void getTokenFromServer(Register registerDTO) {
         userService.register(registerDTO).enqueue(new CallbackWrapper<>((throwable, response) -> {
             if (response.isSuccessful()) {
                 onRegisterSuccess(response.body());

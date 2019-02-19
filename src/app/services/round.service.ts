@@ -22,4 +22,13 @@ export class RoundService {
     console.log(act);
     return this.http.post<Act>(this.url + '/' + act.roundId, act);
   }
+
+  /**
+   * Saves an act that was played by the player to the backend.
+   *
+   * @param act The act that needs to be saved.
+   */
+  getPossibleActs(roundId: number): Observable<Act> {
+    return this.http.get<Act>(this.url + '/' + roundId + '/possible-acts');
+  }
 }

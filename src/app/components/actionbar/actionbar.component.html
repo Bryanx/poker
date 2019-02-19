@@ -4,11 +4,13 @@
     <app-card class="player-card"></app-card>
   </div>
   <div class="button-actions">
-    <button (click)="playAct('CALL')" class="call">CALL</button>
-    <button (click)="playAct('FOLD')" class="fold">FOLD</button>
+    <button *ngIf="!getPossibleActs()" (click)="playAct(actTypes.Call)" class="call">CALL</button>
+    <button *ngIf="getPossibleActs()" (click)="playAct(actTypes.Check)" class="call">CHECK</button>
+    <button (click)="playAct(actTypes.Fold)" class="fold">FOLD</button>
   </div>
   <div class="raise">
-    <button (click)="playAct('RAISE')" >RAISE</button>
+    <button *ngIf="!getPossibleActs()" (click)="playAct(actTypes.Raise)" >RAISE</button>
+    <button *ngIf="getPossibleActs()" (click)="playAct(actTypes.Bet)" >BET</button>
     <mat-slider
       thumbLabel
       [displayWith]="formatLabel"

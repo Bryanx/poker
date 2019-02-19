@@ -3,6 +3,7 @@ import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
 import {Phase} from '../../model/phase';
 import {RoundService} from '../../services/round.service';
+import {AuthorizationService} from '../../services/authorization.service';
 
 @Component({
   selector: 'app-actionbar',
@@ -12,10 +13,11 @@ import {RoundService} from '../../services/round.service';
 export class ActionbarComponent implements OnInit {
   @Input() roundId: number;
   @Input() curPhase: Phase;
+  public actTypes: typeof ActType = ActType;
 
   sliderValue = 0;
 
-  constructor(private roundservice: RoundService) {
+  constructor(private roundservice: RoundService, private authoService: AuthorizationService) {
   }
 
   ngOnInit() {
@@ -33,20 +35,27 @@ export class ActionbarComponent implements OnInit {
     return value;
   }
 
-  playAct(actType: string) {
+  playAct(actType: ActType) {
     const act: Act = new Act();
     act.roundId = this.roundId;
-    act.type = ActType[actType];
+    act.type = actType;
     act.phase = this.curPhase;
     act.playerId = 588;
 
-    if (act.type === ActType['BET'] || act.type === ActType['RAISE']) {
+    if (act.type === 'BET' || act.type === 'RAISE') {
       act.bet = this.sliderValue;
     } else {
       act.bet = 0;
     }
 
-    //TODO: Uitwerken
     this.roundservice.addAct(act).subscribe();
+  }
+
+  getPossibleActs() {
+    this.roundservice.getPossibleActs(618).subscribe(result => {
+    //TODO: uitwerken
+      console.log(result)
+    });
+    return true;
   }
 }

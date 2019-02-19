@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.ChatService;
+import be.kdg.mobile_client.services.GameService;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import dagger.Module;
@@ -26,7 +27,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 @Module
 public class ControllerModule {
-    private static final String API_BASE_URL = "https://poker-user-service.herokuapp.com";
+    //private static final String API_BASE_URL = "https://poker-user-service.herokuapp.com";
+    private static final String API_BASE_URL = "http://localhost:5000";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 
@@ -90,6 +92,11 @@ public class ControllerModule {
     @Provides
     UserService userService(Retrofit retrofit) {
         return retrofit.create(UserService.class);
+    }
+
+    @Provides
+    GameService gameService(Retrofit retrofit) {
+        return retrofit.create(GameService.class);
     }
 
     @Provides

@@ -4,13 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
+import javax.inject.Inject;
+
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.services.GameService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class OverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack)
     Button btnBack;
+    @Inject
+    private GameService gameService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package be.kdg.mobile_client.model;
 
+@Getter
 public class GameRules {
     private int smallBlind;
     private int bigBlind;

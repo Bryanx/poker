@@ -31,5 +31,5 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
-    private Set<User> friends;
+    private List<User> friends;
 }

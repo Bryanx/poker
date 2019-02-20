@@ -6,10 +6,10 @@
   "FRIENDS": "friends",
   "REPLAYS": "replays",
   "RANKINGS": "rankings",
-  "USERTITLE": "update user account",
   "USERNAME": "username",
   "EMAIL": "email",
   "FIRSTNAME": "first name",
+  "GAMES": "games",
   "LASTNAME": "last name",
   "PASSWORD": "password",
   "SAVE": "save",
@@ -21,5 +21,8 @@
   "EMAILREQUIRED": "Email is required",
   "FIRSTNAMEREQUIRED": "Firstname is required",
   "LASTNAMEREQUIRED": "Lastname is required",
-  "ROOMSOVERVIEWTITLE": "Choose a room"
+  "ROOMSOVERVIEWTITLE": "Choose a room",
+  "RANK": "rank",
+  "WON": "won",
+  "LOST": "lost"
 }

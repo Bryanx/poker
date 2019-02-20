@@ -150,6 +150,17 @@ public final class Round {
     }
 
     /**
+     * Returns all active players
+     * An active player is defined as a player where his last act is not FOLD
+     * @return
+     */
+    public List<Player> getActivePlayers() {
+        return getPlayersInRound().stream()
+                .filter(p -> p.getLastAct() != ActType.FOLD)
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+    }
+
+    /**
      * @return An unmodifiable list of all the acts from the round.
      */
     public List<Act> getActs() {

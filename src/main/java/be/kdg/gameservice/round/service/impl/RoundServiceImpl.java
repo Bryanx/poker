@@ -73,11 +73,28 @@ public class RoundServiceImpl implements RoundService {
         Phase currentPhase = round.getCurrentPhase();
         if (round.getActs().stream()
                 .filter(a -> a.getPhase() == currentPhase)
-                .filter(a -> a.getType() == ActType.CHECK)
+                .filter(a -> a.getType() == ActType.CHECK || a.getType() == ActType.FOLD)
                 .toArray()
-                .length == round.getPlayersInRound().size()) {
+                .length == round.getActivePlayers().size()) {
 
             round.nextPhase();
+        } else {
+            int lastAct = -1;
+            for (int i = 0; i < round.getActs().size(); i++) {
+                if(round.getActs().get(i).getPhase() == currentPhase) {
+                    if(round.getActs().get(i).getType() == ActType.BET || round.getActs().get(i).getType() == ActType.RAISE) {
+                        lastAct = i;
+                    }
+                }
+            }
+
+            if(lastAct != -1) {
+                List<Act> lastActs = round.getActs().subList(lastAct, round.getActs().size());
+
+                if(lastActs.stream().filter(a -> a.getType() == ActType.CALL).toArray().length == round.getActivePlayers().size() - 1) {
+                    round.nextPhase();
+                }
+            }
         }
     }
 
@@ -112,7 +129,7 @@ public class RoundServiceImpl implements RoundService {
             case CALL:
                 return checkCall(round.getOtherPlayers(player));
             case CHECK:
-                return checkCheck(round.getOtherPlayers(player));
+                return checkCheck(round, round.getOtherPlayers(player));
             case RAISE:
                 return checkRaise(round);
             default:
@@ -150,7 +167,7 @@ public class RoundServiceImpl implements RoundService {
 
         if (checkBet(round)) types.add(ActType.BET);
         if (checkCall(round.getOtherPlayers(player))) types.add(ActType.CALL);
-        if (checkCheck(round.getOtherPlayers(player))) types.add(ActType.CHECK);
+        if (checkCheck(round, round.getOtherPlayers(player))) types.add(ActType.CHECK);
         if (checkRaise(round)) types.add(ActType.RAISE);
 
         return Collections.unmodifiableList(types);
@@ -190,18 +207,27 @@ public class RoundServiceImpl implements RoundService {
      * Checks if the CHECK-act is possible at this point in the round.
      * You can CHECK if other players didn't BET, RAISE or CALL.
      *
+     *
+     * @param round
      * @param others All the other players in the round.
      * @return True if a CHECK is possible.
      * @see ActType To get insight in the types of acts that are possbile.
      */
-    private boolean checkCheck(List<Player> others) {
-        Optional<Player> playerOpt = others.stream()
-                .filter(p -> p.getLastAct().equals(ActType.RAISE) ||
-                        p.getLastAct().equals(ActType.CALL) ||
-                        p.getLastAct().equals(ActType.BET))
-                .findAny();
+    private boolean checkCheck(Round round, List<Player> others) {
+        int lastBetRaiseAct = -1;
+        for (int i = 0; i < round.getActs().size(); i++) {
+            if(round.getActs().get(i).getPhase() == round.getCurrentPhase()) {
+                if(round.getActs().get(i).getType() == ActType.BET || round.getActs().get(i).getType() == ActType.RAISE) {
+                    lastBetRaiseAct = i;
+                }
+            }
+        }
 
-        return !playerOpt.isPresent();
+        if(lastBetRaiseAct == -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

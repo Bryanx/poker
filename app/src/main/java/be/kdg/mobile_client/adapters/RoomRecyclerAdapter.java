@@ -78,7 +78,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
      * Places an image inside the image view.
      *
      * @param src The source of the image.
-     * @param target The target were the source needs to be placed.
+     * @param target The target where the source needs to be placed.
      */
     private void placeImage(int src, ImageView target) {
         Picasso.get()

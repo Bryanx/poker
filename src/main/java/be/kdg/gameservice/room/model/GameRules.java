@@ -1,48 +1,64 @@
 package be.kdg.gameservice.room.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import javax.persistence.*;
 
 /**
  * The rules of a game are represented in the a game format.
  */
 @Getter
+@Entity
+@Table(name = "game_rules")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum GameRules {
-    TEXAS_HOLD_EM_EASY(4, 8, 30, 500, 6),
-    TEXAS_HOLD_EM(8, 16, 25, 2500, 5),
-    TEXAS_HOLD_EM_DIFFICULT(16, 32, 20, 5000, 4);
+public class GameRules {
+    /**
+     * The id of the gamerule. Used for persistence.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     /**
      * An obligated small bet that needs to be made.
      */
-    private final int smallBlind;
+    private int smallBlind;
 
     /**
      * An obligated 'big' bet that needs to be made.
      */
-    private final int bigBlind;
+    private int bigBlind;
 
     /**
      * The time each player has to make an act during a round.
      */
-    private final int playDelay;
+    private int playDelay;
 
     /**
      * The staring chips for each player at the beginning of the round.
      */
-    private final int startingChips;
+    private int startingChips;
 
     /**
      * The max number of players that are permitted in a room.
      */
-    private final int maxPlayerCount;
+    private int maxPlayerCount;
 
-    GameRules(int smallBlind, int bigBlind, int playDelay, int startingChips, int maxPlayerCount) {
+    public GameRules(int smallBlind, int bigBlind, int playDelay, int startingChips, int maxPlayerCount) {
         this.smallBlind = smallBlind;
         this.bigBlind = bigBlind;
         this.playDelay = playDelay;
         this.startingChips = startingChips;
         this.maxPlayerCount = maxPlayerCount;
+    }
+
+    public GameRules() {
+        this.smallBlind = 10;
+        this.bigBlind = 20;
+        this.playDelay = 30;
+        this.startingChips = 2000;
+        this.maxPlayerCount = 6;
     }
 }

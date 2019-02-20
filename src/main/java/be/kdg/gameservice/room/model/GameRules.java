@@ -3,6 +3,7 @@ package be.kdg.gameservice.room.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
  */
 @Getter
 @Entity
+@Setter
 @Table(name = "game_rules")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public class GameRules {

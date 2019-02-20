@@ -181,7 +181,11 @@ public class RoomServiceImpl implements RoomService {
 
         //Update room
         roomToUpdate.setName(room.getName());
-        roomToUpdate.setGameRules(room.getGameRules());
+        roomToUpdate.getGameRules().setSmallBlind(room.getGameRules().getSmallBlind());
+        roomToUpdate.getGameRules().setBigBlind(room.getGameRules().getBigBlind());
+        roomToUpdate.getGameRules().setMaxPlayerCount(room.getGameRules().getMaxPlayerCount());
+        roomToUpdate.getGameRules().setPlayDelay(room.getGameRules().getPlayDelay());
+        roomToUpdate.getGameRules().setStartingChips(room.getGameRules().getStartingChips());
         return saveRoom(roomToUpdate);
     }
 

@@ -285,12 +285,15 @@ public class RoundServiceImpl implements RoundService {
     }
 
     /**
-     * Distributes the pot to the winner
-     * @param round
+     * Distributes the pot to the winner and resets the pot
+     * @param roundId
      * @param player
      */
-    public void distributeCoins(Round round, Player player) {
+    public void distributeCoins(int roundId, Player player) throws RoundException {
+        //Get data
+        Round round = getRound(roundId);
         player.setChipCount(player.getChipCount() + round.getPot());
+        round.setPot(0);
     }
 
     /**

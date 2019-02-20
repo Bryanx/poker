@@ -3,7 +3,10 @@ package be.kdg.mobile_client.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +67,25 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         holder.tvBlinds.setText(String.format(Locale.ENGLISH, "%d/%d", room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind()));
         holder.tvTimer.setText(String.format(Locale.ENGLISH, "%ds", room.getGameRules().getPlayDelay()));
         holder.tvCap.setText(String.format(Locale.ENGLISH, "%d/%d", room.getPlayersInRoom().size(), room.getGameRules().getMaxPlayerCount()));
+
+        placeImage(R.drawable.coins, holder.ivCoin);
+        placeImage(R.drawable.timer, holder.ivTimer);
+        placeImage(R.drawable.not_full, holder.ivCap);
+    }
+
+
+    /**
+     * Places an image inside the image view.
+     *
+     * @param src The source of the image.
+     * @param target The target were the source needs to be placed.
+     */
+    private void placeImage(int src, ImageView target) {
+        Picasso.get()
+                .load(src)
+                .resize(35, 35)
+                .centerInside()
+                .into(target);
     }
 
     /**
@@ -86,6 +108,9 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         TextView tvBlinds;
         TextView tvTimer;
         TextView tvCap;
+        ImageView ivCoin;
+        ImageView ivTimer;
+        ImageView ivCap;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -94,6 +119,9 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             tvBlinds = itemView.findViewById(R.id.tvBlinds);
             tvTimer = itemView.findViewById(R.id.tvTimer);
             tvCap = itemView.findViewById(R.id.tvCap);
+            ivCoin = itemView.findViewById(R.id.ivCoin);
+            ivTimer = itemView.findViewById(R.id.ivTimer);
+            ivCap = itemView.findViewById(R.id.ivCap);
         }
     }
 }

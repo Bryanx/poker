@@ -78,7 +78,7 @@
                 android:text="@string/login" />
 
             <TextView
-                android:id="@+id/liSignup"
+                android:id="@+id/tvBroMessageLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

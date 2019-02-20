@@ -1,9 +1,11 @@
 package be.kdg.mobile_client.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -21,6 +23,7 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.etEmail) EditText etEmail;
     @BindView(R.id.etUsername) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
+    @BindView(R.id.tvBroMessageRegister) TextView tvBroMessage;
     @BindView(R.id.btnRegister) Button btnRegister;
 
     @Inject
@@ -35,7 +38,15 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
-        this.btnRegister.setOnClickListener(v -> register());
+        addEventListners();
+    }
+
+    private void addEventListners() {
+        btnRegister.setOnClickListener(v -> register());
+        tvBroMessage.setOnClickListener(e -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void register() {
@@ -72,6 +83,8 @@ public class RegisterActivity extends BaseActivity {
         btnRegister.setEnabled(true);
         setResult(RESULT_OK);
         finish();
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 
     /**

@@ -36,14 +36,13 @@ export class SearchComponent implements OnInit {
     this.subject.pipe(
       debounceTime(this.debounceTime as number),
       distinctUntilChanged(),
-    ).subscribe(value => {
-      this.userService.getUsersByName(value as string).subscribe(users => {
-        if (!this.inputString) {
-          this.users = [];
-        } else {
-          this.users = users;
-        }
-      });
+      switchMap(() => this.userService.getUsersByName(this.inputString as string))
+    ).subscribe(users => {
+      if (!this.inputString) {
+        this.users = [];
+      } else {
+        this.users = users;
+      }
     });
   }
 

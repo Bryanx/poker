@@ -42,7 +42,6 @@
         android:layout_marginBottom="8dp"
         android:divider="@null"
         android:dividerHeight="5dp"
-        android:stackFromBottom="true"
         app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

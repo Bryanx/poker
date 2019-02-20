@@ -3,10 +3,7 @@ package be.kdg.mobile_client.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -21,23 +18,23 @@ import lombok.AllArgsConstructor;
  * The class extends the generic inner class implementation of the ViewHolder.
  */
 @AllArgsConstructor
-public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapter.ViewHolder> {
+public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAdapter.ViewHolder> {
     private List<User> users;
 
     /**
-     * Inflates the layout that will be used to display each user.
+     * Inflates the layout that will be used to display each friend.
      *
      * @return a ViewHolder that is based on the inflated view.
      */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_user, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_friend, parent, false);
         return new ViewHolder(view);
     }
 
     /**
-     * Binds all the information of one user to one of the view holders.
+     * Binds all the information of one friend to one of the view holders.
      *
      * @param holder   The holder that "holds" the views that are created so they can be recycled.
      * @param position The position in the array.
@@ -45,16 +42,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
-
         holder.tvName.setText(user.getUsername());
-        /*
-        Picasso.get()
-                .load(R.drawable.pic_placeholder)
-                .resize(35, 35)
-                .centerInside()
-                //.transform(new CircleTransformation())
-                .into(holder.ivPic);
-                */
     }
 
     /**
@@ -73,12 +61,10 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
      */
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
-        //ImageView ivPic;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvName = itemView.findViewById(R.id.tvUserName);
-            //ivPic = itemView.findViewById(R.id.ivUserPic);
+            tvName = itemView.findViewById(R.id.tvFriendsRow);
         }
     }
 }

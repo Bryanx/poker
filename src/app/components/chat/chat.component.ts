@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ChatService} from '../../services/chat.service';
 import {Message} from '../../model/message';
 import {AuthorizationService} from '../../services/authorization.service';
@@ -13,7 +13,7 @@ export class ChatComponent implements OnInit {
   error: Boolean = false;
   messages: Message[] = [];
   inputMessage: string;
-  @Input() roomNumber: Number = 1;
+  @Input() roomId: number;
   playerName: String;
 
   constructor(private chatService: ChatService, private authorizationService: AuthorizationService,
@@ -22,13 +22,13 @@ export class ChatComponent implements OnInit {
 
   ngOnInit() {
     this.playerName = this.authorizationService.getUsername();
-    this.initializeWebSocketConnection();
+    this.initializeChatConnection();
   }
 
-  initializeWebSocketConnection() {
+  initializeChatConnection() {
     const server = this.websocketService.join();
     server.connect({}, () => {
-      server.subscribe('/chatroom/receive/' + this.roomNumber, message => {
+      server.subscribe('/chatroom/receive/' + this.roomId, message => {
         message = JSON.parse(message.body);
         if (message) {
           this.messages.push(message);
@@ -49,7 +49,7 @@ export class ChatComponent implements OnInit {
     }
     this.inputMessage = '';
     const message = JSON.stringify({name: name, content: messageString});
-    this.chatService.send('/chatroom/send/' + this.roomNumber, message);
+    this.chatService.send('/chatroom/send/' + this.roomId, message);
   }
 
   myMessage(message: Message) {

@@ -5,8 +5,9 @@
   ></app-player>
   <div class="grid-tmiddle"></div>
   <app-chat class="grid-chat" *ngIf="room"
-  [roomNumber]="room.roomId"></app-chat>
+  [roomId]="room.roomId"></app-chat>
   <app-actionbar class="grid-actionbar"
-  ></app-actionbar>
+                 *ngIf="room"
+                 [roomId]="room.roomId"></app-actionbar>
   <app-game-table class="grid-item-table"></app-game-table>
 </div>

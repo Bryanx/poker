@@ -19,7 +19,6 @@ public final class HandServiceImpl implements HandService {
     private final static String suits = "hdsc";
 
     /**
-     *  TODO: finish documentation.
      * Generate all subsets of 5 out of 5-7 and return best HandType out of all combinations
      * @param playerCards list of 5-7 cards
      * @return
@@ -40,8 +39,6 @@ public final class HandServiceImpl implements HandService {
     }
 
     /**
-     * TODO: expand documentation
-     * TODO: split method into manageable chucks.
      * Determine HandType based on list of 5 cards.
      * @param hand
      * @return
@@ -116,7 +113,6 @@ public final class HandServiceImpl implements HandService {
     }
 
     /**
-     * TODO: finish documentation.
      * Creates all subsets of size k based on superSet
      * @param superSet
      * @param k

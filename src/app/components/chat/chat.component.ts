@@ -46,7 +46,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     this.inputMessage = '';
     const chatMessage = JSON.stringify({name: name, content: messageString});
-    this.websocketService.publish({destination: '/chatroom/send/' + this.roomId, body: chatMessage});
+    this.websocketService.publish({destination: '/chatrooms/' + this.roomId + '/send', body: chatMessage});
   }
 
   myMessage(message: ChatMessage) {

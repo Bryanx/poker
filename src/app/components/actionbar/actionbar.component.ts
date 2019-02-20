@@ -33,7 +33,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   initializeGameConnection() {
-    this.actSubscription = this.websocketService.watch('/gameroom/receiveact/' + this.roomId).subscribe((message: Message) => {
+    this.actSubscription = this.websocketService.watch('/room/receiveact/' + this.roomId).subscribe((message: Message) => {
       if (message) {
         console.log(JSON.parse(message.body));
       }
@@ -67,7 +67,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       act.bet = 0;
     }
 
-    this.websocketService.publish({destination: '/gameroom/sendact/' + this.roomId, body: JSON.stringify(act)});
+    this.websocketService.publish({destination: '/rooms/' + this.roomId + '/sendact', body: JSON.stringify(act)});
   }
 
   getPossibleActs() {

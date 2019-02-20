@@ -1,6 +1,5 @@
 import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
-import {switchMap} from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
 import {Subscription} from 'rxjs';
@@ -8,6 +7,8 @@ import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {Player} from '../../model/player';
 import {AuthorizationService} from '../../services/authorization.service';
+import {Round} from '../../model/round';
+import {RoomService} from '../../services/room.service';
 
 @Component({
   selector: 'app-room',
@@ -18,28 +19,40 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   room: Room;
   player: Player;
   roomSubscription: Subscription;
+  roundSubscription: Subscription;
   done: boolean;
+  round: Round;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
-              private websocketService: RxStompService, private authorizationService: AuthorizationService) {
+              private websocketService: RxStompService, private authorizationService: AuthorizationService,
+              private roomService: RoomService) {
   }
 
-  ngOnInit() {
+   ngOnInit() {
     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
 
     this.getRoom(roomId as number);
 
-    setTimeout(() => this.initializeRoomConnection(), 500);
+    setTimeout(() => {
+      this.initializeRoomConnection();
+      this.joinRoom();
+      setTimeout(() => {
+        this.initializeRoundConnection();
+        this.getCurrentRound();
+      }, 500);
+      this.done = true;
+    }, 500);
   }
 
   ngOnDestroy(): void {
     this.leaveRoom();
+    this.roomSubscription.unsubscribe();
+    this.roundSubscription.unsubscribe();
   }
 
   initializeRoomConnection() {
-    this.roomSubscription = this.websocketService.watch('/gameroom/join/' + this.room.roomId).subscribe((message: Message) => {
+    this.roomSubscription = this.websocketService.watch('/room/join/' + this.room.roomId).subscribe((message: Message) => {
       if (message) {
-        console.log(JSON.parse(message.body));
         const player = JSON.parse(message.body) as Player;
         if (player.userId === this.authorizationService.getUserId()) {
           this.player = player;
@@ -51,11 +64,17 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     }, error => {
       console.log(error.error.error_description);
     });
+  }
 
-    setTimeout(() => {
-      this.joinRoom();
-      this.done = true;
-    } , 500);
+  initializeRoundConnection() {
+    this.roundSubscription = this.websocketService.watch('/room/receive-round/' + this.room.roomId).subscribe((message: Message) => {
+      if (message) {
+        console.log(JSON.parse(message.body));
+        this.round = JSON.parse(message.body) as Round;
+      }
+    }, error => {
+      console.log(error.error.error_description);
+    });
   }
 
   getRoom(id: number): void {
@@ -65,6 +84,12 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
         this.navigateToOverview();
       }
+    });
+  }
+
+  getCurrentRound(): void {
+    this.websocketService.publish({
+      destination: '/rooms/' + this.room.roomId + '/get-current-round'
     });
   }
 

@@ -104,7 +104,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:text="@string/_4_8"
-                android:textColor="#fff"
+                android:textColor="@color/colorWhite"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"

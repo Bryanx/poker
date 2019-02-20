@@ -45,7 +45,7 @@
     <Button
         android:id="@+id/btnBack"
         style="@style/greenButton"
-        android:layout_width="170dp"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="8dp"

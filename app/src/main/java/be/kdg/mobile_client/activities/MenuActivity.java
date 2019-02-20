@@ -3,6 +3,9 @@ package be.kdg.mobile_client.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -21,6 +24,7 @@ public class MenuActivity extends BaseActivity {
     @BindView(R.id.logout) Button logout;
     @BindView(R.id.btnJoinGame) Button btnJoinGame;
     @BindView(R.id.btnFriends) Button btnFriends;
+    @BindView(R.id.ivLogo) ImageView ivLogo;
     @Inject SharedPrefService sharedPrefService;
 
     @Override
@@ -31,6 +35,15 @@ public class MenuActivity extends BaseActivity {
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
         addEventHandlers();
+        loadImages();
+    }
+
+    private void loadImages() {
+        Picasso.get()
+                .load(R.drawable.logo_white)
+                .resize(700, 400)
+                .centerInside()
+                .into(ivLogo);
     }
 
     private void addEventHandlers() {

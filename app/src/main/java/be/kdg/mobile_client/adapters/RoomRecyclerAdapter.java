@@ -100,7 +100,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
 
     /**
      * This inner class will hold the images in memory so that
-     * they can mee recycled.
+     * they can be recycled.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvRoomName;

@@ -21,5 +21,11 @@
   "EMAILREQUIRED": "Email is required",
   "FIRSTNAMEREQUIRED": "Firstname is required",
   "LASTNAMEREQUIRED": "Lastname is required",
-  "ROOMSOVERVIEWTITLE": "Choose a room"
+  "ROOMSOVERVIEWTITLE": "Choose a room",
+  "ADMINROOM": "rooms",
+  "ADMINUSER": "users",
+  "ROOM NAME": "room name",
+  "ROOMNAMEREQUIRED": "Room name is required",
+  "GAMERULES": "game-rules",
+  "GAMERULESREQUIRED": "Game-rules required"
 }

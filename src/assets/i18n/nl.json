@@ -21,5 +21,11 @@
   "EMAILREQUIRED": "Email is vereist",
   "FIRSTNAMEREQUIRED": "Voornaam is vereist",
   "LASTNAMEREQUIRED": "Achternaam is vereist",
-  "ROOMSOVERVIEWTITLE": "Kies een tafel"
+  "ROOMSOVERVIEWTITLE": "Kies een tafel",
+  "ADMINROOM": "tafels",
+  "ADMINUSER": "gebruikers",
+  "ROOM NAME": "tafel name",
+  "ROOMNAMEREQUIRED": "Tafel naam is vereist",
+  "GAMERULES": "game-rules",
+  "GAMERULESREQUIRED": "Game-rules required"
 }

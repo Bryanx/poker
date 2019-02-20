@@ -1,0 +1,31 @@
+<section class="grid">
+  <section class="first-element">
+
+    <form [formGroup]="updateRoomForm" (ngSubmit)="onSubmit()">
+
+      <section class="inputfield">
+        <label for="name">{{'ROOM NAME' | translate | titlecase}}</label>
+        <input type="text" name="name" formControlName="name" id="name" autocomplete="off">
+        <div class="error"
+             *ngIf="updateRoomForm.controls['name'].hasError('required') && updateRoomForm.controls['name'].touched">
+          {{'ROOMNAMEREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="gameRules">{{'GAMERULES' | translate | titlecase}}</label>
+        <select type="form-control" name="gameRules" formControlName="gameRules" id="gameRules">
+          <option  [value]="1">KIEKEBOE</option> <!-- TODO: Dropdown -->
+          <div class="error"
+               *ngIf="updateRoomForm.controls['gameRules'].hasError('required') && updateRoomForm.controls['gameRules'].touched">
+            {{'GAMERULESREQUIRED' | translate}}
+          </div>
+        </select>
+      </section>
+
+      <button [disabled]="updateUserForm.invalid" [class.disabled]="!updateUserForm.valid">
+        {{'SAVE' | translate | titlecase}}
+      </button>
+    </form>
+  </section>
+</section>

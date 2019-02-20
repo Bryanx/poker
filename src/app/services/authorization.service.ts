@@ -48,6 +48,11 @@ export class AuthorizationService {
     return moment().isBefore(moment(expiresAt));
   }
 
+  isAdmin() {
+    // TODO: For testing only admin1 = admin
+      return this.getUsername().toLowerCase() === 'admin1';
+  }
+
   socialLogin(user: User) {
     return this.http.post<AuthResult>(this.socialUrl, user);
   }

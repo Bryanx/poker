@@ -79,16 +79,6 @@ public class ControllerModule {
         }).build();
     }
 
-    /*
-    @Provides
-    Retrofit.Builder builder(OkHttpClient client) {
-        return new Retrofit
-                .Builder()
-                .client(client)
-                .addConverterFactory(gsonConverter()),
-    }
-    */
-
     @Provides
     UserService userService(OkHttpClient client) {
         return new Retrofit

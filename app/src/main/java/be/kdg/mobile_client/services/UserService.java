@@ -28,7 +28,7 @@ public interface UserService {
             "Accept: application/json; charset=utf-8",
             "No-Authentication: true"})
     @POST("/api/user")
-    Call<Token> register(@Body Register registerDTO);
+    Call<Token> register(@Body Register register);
 
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})

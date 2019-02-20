@@ -25,7 +25,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
     private List<Room> rooms;
 
     /**
-     * Filters our all the rooms that are full before initializing the collection.
+     * Filters out all the rooms that are full before initializing the collection.
      *
      * @param rooms All the rooms.
      */

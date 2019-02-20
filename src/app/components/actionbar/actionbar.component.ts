@@ -1,45 +1,45 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
 import {Phase} from '../../model/phase';
 import {RoundService} from '../../services/round.service';
-import {WebsocketService} from '../../services/websocket.service';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {Message} from '@stomp/stompjs';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-actionbar',
   templateUrl: './actionbar.component.html',
   styleUrls: ['./actionbar.component.scss']
 })
-export class ActionbarComponent implements OnInit {
+export class ActionbarComponent implements OnInit, OnDestroy {
   @Input() roundId: number;
   @Input() curPhase: Phase;
   @Input() roomId: number;
   public actTypes: typeof ActType = ActType;
+  actSubscription: Subscription;
 
   sliderValue = 0;
 
-  constructor(private roundservice: RoundService, private websocketService: WebsocketService) {
-
+  constructor(private roundservice: RoundService, private websocketService: RxStompService) {
   }
 
   ngOnInit() {
     this.initializeGameConnection();
   }
 
+  ngOnDestroy() {
+    this.actSubscription.unsubscribe();
+  }
+
   initializeGameConnection() {
-    const server = this.websocketService.getServer();
-    /*server.connect({}, () => {
-      server.subscribe('/gameroom/receiveact/' + this.roomId, act => {
-        act = JSON.parse(act.body);
-        if (act) {
-          console.log(act);
-        }
-      }, error => {
-        console.log(error.error.error_description);
-      });
+    this.actSubscription = this.websocketService.watch('/gameroom/receiveact/' + this.roomId).subscribe((message: Message) => {
+      if (message) {
+        console.log(JSON.parse(message.body));
+      }
     }, error => {
       console.log(error.error.error_description);
-    });*/
+    });
   }
 
   formatLabel(value: number | null) {
@@ -67,9 +67,7 @@ export class ActionbarComponent implements OnInit {
       act.bet = 0;
     }
 
-    this.roundservice.sendAct(act, this.roomId);
-    // this.roundservice.addAct(act).subscribe();
-
+    this.websocketService.publish({destination: '/gameroom/sendact/' + this.roomId, body: JSON.stringify(act)});
   }
 
   getPossibleActs() {

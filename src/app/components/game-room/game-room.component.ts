@@ -3,8 +3,6 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
-import {Player} from '../../model/player';
-import {WebsocketService} from '../../services/websocket.service';
 
 @Component({
   selector: 'app-room',
@@ -15,7 +13,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   room;
   player;
 
-  constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService, private websocketService: WebsocketService) {
+  constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService) {
   }
 
   ngOnInit() {
@@ -30,7 +28,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
       this.joinRoom();
     });
-    this.websocketService.join();
   }
 
   ngOnDestroy(): void {

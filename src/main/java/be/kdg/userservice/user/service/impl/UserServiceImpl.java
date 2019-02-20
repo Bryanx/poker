@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setChips(20000);
         user.setEnabled(1);
         user = userRepository.save(user);
 

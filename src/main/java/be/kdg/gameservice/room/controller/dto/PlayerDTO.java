@@ -12,10 +12,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class PlayerDTO {
     private int id;
-    @NotNull
     private String userId;
     private boolean inRoom;
     private int chipCount;
-    @NotNull
     private HandType handType;
 }

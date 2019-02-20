@@ -13,8 +13,8 @@ import {Player} from '../model/player';
   providedIn: 'root'
 })
 export class GameService {
-  url = 'https://poker-game-service.herokuapp.com/api/rooms';
-  // url = 'http://localhost:5001/api/rooms';
+  // url = 'https://poker-game-service.herokuapp.com/api/rooms';
+  url = 'http://localhost:5001/api/rooms';
 
   constructor(private http: HttpClient) {
   }
@@ -55,7 +55,8 @@ export class GameService {
   }
 
   changeRoom(room: Room): Observable<Room> {
-    return this.http.put<Room>(this.url + room.roomId, room);
+    console.log(room);
+    return this.http.put<Room>(this.url + "/" + room.roomId, room);
   }
 
   getPlayer(): Observable<Player> {

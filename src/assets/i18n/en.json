@@ -27,5 +27,12 @@
   "ROOM NAME": "room name",
   "ROOMNAMEREQUIRED": "Room name is required",
   "GAMERULES": "game-rules",
-  "GAMERULESREQUIRED": "Game-rules required"
+  "MAXPLAYERCOUNT": "Maximum players allowed",
+  "MAXPLAYERCOUNTREQUIRED": "Maximum players required",
+  "SMALLBLIND": "small blind",
+  "SMALLBLINDREQUIRED": "small blind required",
+  "PLAYDELAY": "Time to play an action",
+  "PLAYDELAYREQUIRED": "Time to play an action is required",
+  "STARTINGCHIPS": "Buy-in amount",
+  "STARTINGCHIPSREQUIRED": "Buy-in amount required"
 }

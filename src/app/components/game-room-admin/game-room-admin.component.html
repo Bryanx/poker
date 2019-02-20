@@ -1,7 +1,9 @@
+<h2>{{'GAMERULES' | translate | titlecase}}</h2>
+
 <section class="grid">
   <section class="first-element">
 
-    <form [formGroup]="updateRoomForm" (ngSubmit)="onSubmit()">
+    <form *ngIf="updateRoomForm" [formGroup]="updateRoomForm" (ngSubmit)="onSubmit()">
 
       <section class="inputfield">
         <label for="name">{{'ROOM NAME' | translate | titlecase}}</label>
@@ -13,17 +15,44 @@
       </section>
 
       <section class="inputfield">
-        <label for="gameRules">{{'GAMERULES' | translate | titlecase}}</label>
-        <select type="form-control" name="gameRules" formControlName="gameRules" id="gameRules">
-          <option  [value]="1">KIEKEBOE</option> <!-- TODO: Dropdown -->
+        <label for="maxPlayerCount">{{'MAXPLAYERCOUNT' | translate | titlecase}}</label>
+        <select type="form-control" name="maxPlayerCount" formControlName="maxPlayerCount" id="maxPlayerCount">
+          <option  [value]="6">6</option> <!-- TODO: Dropdown -->
           <div class="error"
-               *ngIf="updateRoomForm.controls['gameRules'].hasError('required') && updateRoomForm.controls['gameRules'].touched">
-            {{'GAMERULESREQUIRED' | translate}}
+               *ngIf="updateRoomForm.controls['maxPlayerCount'].hasError('required') && updateRoomForm.controls['maxPlayerCount'].touched">
+            {{'MAXPLAYERCOUNTREQUIRED' | translate}}
           </div>
         </select>
       </section>
 
-      <button [disabled]="updateUserForm.invalid" [class.disabled]="!updateUserForm.valid">
+      <section class="inputfield">
+        <label for="smallBlind">{{'SMALLBLIND' | translate | titlecase}}</label>
+        <input type="number" name="smallBlind" formControlName="smallBlind" id="smallBlind" autocomplete="off">
+        <div class="error"
+             *ngIf="updateRoomForm.controls['smallBlind'].hasError('required') && updateRoomForm.controls['smallBlind'].touched">
+          {{'SMALLBLINDREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="playDelay">{{'PLAYDELAY' | translate | titlecase}}</label>
+        <input type="number" name="playDelay" formControlName="playDelay" id="playDelay" autocomplete="off">
+        <div class="error"
+             *ngIf="updateRoomForm.controls['playDelay'].hasError('required') && updateRoomForm.controls['playDelay'].touched">
+          {{'PLAYDELAYREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="startingChips">{{'STARTINGCHIPS' | translate | titlecase}}</label>
+        <input type="number" name="startingChips" formControlName="startingChips" id="startingChips" autocomplete="off">
+        <div class="error"
+             *ngIf="updateRoomForm.controls['startingChips'].hasError('required') && updateRoomForm.controls['startingChips'].touched">
+          {{'STARTINGCHIPSREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid">
         {{'SAVE' | translate | titlecase}}
       </button>
     </form>

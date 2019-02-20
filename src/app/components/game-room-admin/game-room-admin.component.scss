@@ -1,0 +1,137 @@
+@import "~src/styles.scss";
+
+.grid-container {
+  margin-top: 3rem;
+  display: grid;
+  width: 100vw;
+  grid-template-columns: 18% 30% auto 30% 18%;
+  grid-template-areas:
+    ". first . second ."
+    ". save save save .";
+}
+
+section {
+  margin-top: 1rem;
+}
+
+button {
+  width: 100%;
+}
+
+.first-element {
+  grid-area: first;
+}
+
+.second-element {
+  grid-area: second;
+}
+
+.grid-save {
+  margin-top: 3rem;
+  grid-area: save;
+  justify-content: center;
+  display: flex;
+
+  button {
+    width: auto;
+  }
+}
+
+.disabled {
+  background: #DDDDDD;
+  cursor: not-allowed;
+  &:hover {
+    background: #DDDDDD;
+  }
+}
+
+h2 {
+  color: white;
+  padding-top: 1rem;
+}
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+form {
+  flex-direction: column;
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  h1 {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+  }
+
+  input {
+    display: block;
+    padding: $inputPaddingV $inputPaddingH;
+    margin: .2rem 0;
+    color: $dark-gray;
+    width: 100%;
+    font-family: inherit;
+    font-size: $inputFontSize;
+    font-weight: inherit;
+    line-height: $inputLineHeight;
+    border-radius: 0.4rem;
+
+    outline: none;
+    border: 2px solid transparent;
+    &:focus {
+      border: 3px solid $green;
+    }
+  }
+
+  .error {
+    color: $red;
+    position: absolute;
+  }
+}
+
+.toast {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+}
+
+.toast.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+.profile-picture {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 20px;
+
+  img {
+    width: 270px;
+    height: 270px;
+    border-radius: 50%;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.profile-picture > input
+{
+  display: none;
+}

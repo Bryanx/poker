@@ -26,6 +26,13 @@
   "ADMINUSER": "gebruikers",
   "ROOM NAME": "tafel name",
   "ROOMNAMEREQUIRED": "Tafel naam is vereist",
-  "GAMERULES": "game-rules",
-  "GAMERULESREQUIRED": "Game-rules required"
+  "GAMERULES": "tafel regels",
+  "MAXPLAYERCOUNT": "Maximum toegelaten spelers",
+  "MAXPLAYERCOUNTREQUIRED": "Maximum spelers is vereist",
+  "SMALLBLIND": "small blind",
+  "SMALLBLINDREQUIRED": "small blind is vereist",
+  "PLAYDELAY": "Tijd om een actie te spelen",
+  "PLAYDELAYREQUIRED": "Tijd om een actie te spelen is vereist",
+  "STARTINGCHIPS": "Inkoopwaarde",
+  "STARTINGCHIPSREQUIRED": "Inkoopwarde is vereist"
 }

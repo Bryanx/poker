@@ -19,7 +19,7 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="@string/choose_a_room"
-        android:textColor="#fff"
+        android:textColor="@color/colorWhite"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/lvRoom"

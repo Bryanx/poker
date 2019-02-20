@@ -47,4 +47,5 @@
     <string name="username">Username</string>
     <string name="search_placeholder">Search for users</string>
     <string name="search_bros">Search bros</string>
+    <string name="add">add</string>
 </resources>

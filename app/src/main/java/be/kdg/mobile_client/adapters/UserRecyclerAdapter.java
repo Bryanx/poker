@@ -16,6 +16,10 @@ import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.User;
 import lombok.AllArgsConstructor;
 
+/**
+ * An adapter that is using the recycler method.
+ * The class extends the generic inner class implementation of the ViewHolder.
+ */
 @AllArgsConstructor
 public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapter.ViewHolder> {
     private List<User> users;
@@ -28,8 +32,8 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_room, parent, false);
-        return new UserRecyclerAdapter.ViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_user, parent, false);
+        return new ViewHolder(view);
     }
 
     /**
@@ -47,7 +51,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
                 .load(R.drawable.pic_placeholder)
                 .resize(35, 35)
                 .centerInside()
-                .transform(new CircleTransformation())
+                //.transform(new CircleTransformation())
                 .into(holder.ivPic);
     }
 

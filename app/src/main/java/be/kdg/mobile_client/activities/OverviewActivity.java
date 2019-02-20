@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  */
 public class OverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
-    @BindView(R.id.lvRoom) RecyclerView lvRoom;
+    @BindView(R.id.lvUser) RecyclerView lvRoom;
     @Inject GameService gameService;
 
     @Override

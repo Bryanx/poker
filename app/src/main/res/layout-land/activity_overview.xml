@@ -22,14 +22,14 @@
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/lvRoom"
+        app:layout_constraintBottom_toTopOf="@+id/lvUser"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.571" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lvRoom"
+        android:id="@+id/lvUser"
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:layout_margin="16dp"

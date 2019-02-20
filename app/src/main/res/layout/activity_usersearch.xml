@@ -32,7 +32,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lvRoom"
+        android:id="@+id/lvUser"
         android:layout_width="match_parent"
         android:layout_height="580dp"
         android:layout_margin="16dp"

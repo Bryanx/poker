@@ -16,8 +16,8 @@ public class RoundController {
      * If a player choses an act in a room, it is received here.
      * The players choice will than be sent to the rest of the room.
      */
-    @MessageMapping("/gameroom/sendact/{roomId}")
+    @MessageMapping("/rooms/{roomId}/sendact")
     public void onReceiveAct(ActDTO actDTO, @DestinationVariable("roomId") String roomId) {
-        this.template.convertAndSend("/gameroom/receiveact/" + roomId, actDTO);
+        this.template.convertAndSend("/room/receiveact/" + roomId, actDTO);
     }
 }

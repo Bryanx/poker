@@ -134,7 +134,7 @@ public class RoomServiceImpl implements RoomService {
         if (room.getRounds().size() > 0) room.getCurrentRound().setFinished(true);
         room.addRound(round);
         saveRoom(room);
-        return round;
+        return getCurrentRound(roomId);
     }
 
     /**
@@ -158,7 +158,7 @@ public class RoomServiceImpl implements RoomService {
         Room room = getRoom(roomId);
 
         //Determine which round to give back
-        if (room.getRounds().size() <= 0) return startNewRoundForRoom(roomId);
+        if (room.getRounds().size() <= 0 || room.getCurrentRound().isFinished()) return startNewRoundForRoom(roomId);
         else return room.getCurrentRound();
     }
 

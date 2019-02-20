@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -33,6 +34,7 @@ public class RoomApiController {
     private final ResourceServerTokenServices resourceTokenServices;
     private final ModelMapper modelMapper;
     private final RoomService roomService;
+    private final SimpMessagingTemplate template;
 
     /**
      * @return Status code 200 with all the rooms from the database.
@@ -69,53 +71,8 @@ public class RoomApiController {
     public ResponseEntity<PlayerDTO> leaveRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
         Player playerIn = roomService.leaveRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
+        this.template.convertAndSend("/room/join/" + roomId, playerOut);
         return new ResponseEntity<>(playerOut, HttpStatus.ACCEPTED);
-    }
-
-    /**
-     * This API will be called when a player specific to join a specific room.
-     *
-     * @param roomId         The id of the room the player wants to join.
-     * @param authentication Needed for retrieving the userId.
-     * @return Status code 201 if the player joined the room successfully.
-     * @throws RoomException Rerouted to handler.
-     */
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/rooms/{roomId}/join-room")
-    public ResponseEntity<PlayerDTO> joinRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
-        Player playerIn = roomService.joinRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
-        PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
-        return new ResponseEntity<>(playerOut, HttpStatus.CREATED);
-    }
-
-    /**
-     * Gives back the current round of the room.
-     *
-     * @param roomId The id of the room from where the rounds needs to be returned/created.
-     * @return Status 200.
-     * @throws RoomException Rerouted to handler.
-     */
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/rooms/{roomId}/current-round")
-    public ResponseEntity<RoundDTO> getCurrentRound(@PathVariable int roomId) throws RoomException {
-        Round roundIn = roomService.getCurrentRound(roomId);
-        RoundDTO roundOut = modelMapper.map(roundIn, RoundDTO.class);
-        return new ResponseEntity<>(roundOut, HttpStatus.OK);
-    }
-
-    /**
-     * This API will be called when a round has finished and a new round needs to start.
-     *
-     * @param roomId The id of the room were a new round needs to be created for.
-     * @return Status 200.
-     * @throws RoomException Rerouted to handler.
-     */
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/rooms/{roomId}/start-new-round")
-    public ResponseEntity<RoundDTO> startNewRound(@PathVariable int roomId) throws RoomException {
-        Round round = roomService.startNewRoundForRoom(roomId);
-        RoundDTO roundOut = modelMapper.map(round, RoundDTO.class);
-        return new ResponseEntity<>(roundOut, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

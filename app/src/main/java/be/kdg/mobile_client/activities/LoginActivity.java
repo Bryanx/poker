@@ -1,9 +1,11 @@
 package be.kdg.mobile_client.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -19,6 +21,7 @@ import butterknife.ButterKnife;
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.etUsername) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
+    @BindView(R.id.tvBroMessageLogin) TextView tvBroMessage;
     @BindView(R.id.btnLogin) Button btnLogin;
     @Inject SharedPrefService sharedPrefService;
     @Inject UserService userService;
@@ -29,6 +32,14 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        addEventListners();
+    }
+
+    private void addEventListners() {
+        tvBroMessage.setOnClickListener(e -> {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+        });
         this.btnLogin.setOnClickListener(v -> login());
     }
 
@@ -67,6 +78,8 @@ public class LoginActivity extends BaseActivity {
         btnLogin.setEnabled(true);
         setResult(RESULT_OK);
         finish();
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 
     /**

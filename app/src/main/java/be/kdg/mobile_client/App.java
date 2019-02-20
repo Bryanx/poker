@@ -13,7 +13,6 @@ import be.kdg.mobile_client.dagger.DaggerAppComponent;
  * The app component will provide all the dependencies.
  */
 public class App extends Application {
-
     private AppComponent appComponent;
 
     @UiThread

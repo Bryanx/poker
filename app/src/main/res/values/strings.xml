@@ -30,7 +30,19 @@
     <string name="room_leave_message"> has left the room.</string>
     <string name="chat_fragment_tag">CHAT_FRAGMENT_TAG</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="back">BACK</string>
+    <string name="choose_a_room">CHOOSE A ROOM</string>
+    <string name="room_name">Room name</string>
+    <string name="buy_in">Buy-in: 1000</string>
+    <string name="_1000">1000</string>
+    <string name="coin">coin</string>
+    <string name="timer">timer</string>
+    <string name="cap">cap</string>
+    <string name="_4_8">4/8</string>
+    <string name="_30s">30s</string>
+    <string name="_0_6">0/6</string>
     <string name="no_friends_message">You\'re a loner bro :-(</string>
     <string name="error_message">Something went wrong :-(</string>
     <string name="remove">REMOVE</string>
+    <string name="has_an_account">I do have an account bro :)</string>
 </resources>

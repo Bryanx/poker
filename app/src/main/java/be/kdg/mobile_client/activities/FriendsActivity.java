@@ -32,6 +32,7 @@ public class FriendsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         ButterKnife.bind(this);
+
         friendAdapter = new FriendAdapter(this);
         lvFriends.setAdapter(friendAdapter);
         loadFriends();

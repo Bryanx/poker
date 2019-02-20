@@ -42,7 +42,6 @@
         app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.334"
-        app:srcCompat="@drawable/logo_white" />
+        app:layout_constraintVertical_bias="0.334" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

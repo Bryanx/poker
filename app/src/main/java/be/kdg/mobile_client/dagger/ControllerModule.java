@@ -4,12 +4,11 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 
-import javax.inject.Singleton;
-
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.ChatService;
+import be.kdg.mobile_client.services.GameService;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import dagger.Module;
@@ -22,11 +21,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Comparable to @Configuration class in Spring.
  * All Services that are needed are provided.
- * These services are accesible with @Inject.
+ * These services are accessible with @Inject.
  */
 @Module
 public class ControllerModule {
-    private static final String API_BASE_URL = "https://poker-user-service.herokuapp.com";
+    private static final String API_BASE_URL_USER = "https://poker-user-service.herokuapp.com";
+    private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
+    //private static final String API_BASE_URL_USER = "http://localhost:5000";
+    //private static final String API_BASE_URL_GAME = "http://localhost:5001";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 
@@ -78,18 +80,25 @@ public class ControllerModule {
     }
 
     @Provides
-    Retrofit retrofit(OkHttpClient client) {
+    UserService userService(OkHttpClient client) {
         return new Retrofit
                 .Builder()
                 .client(client)
                 .addConverterFactory(gsonConverter())
-                .baseUrl(API_BASE_URL)
-                .build();
+                .baseUrl(API_BASE_URL_USER)
+                .build()
+                .create(UserService.class);
     }
 
     @Provides
-    UserService userService(Retrofit retrofit) {
-        return retrofit.create(UserService.class);
+    GameService gameService(OkHttpClient client) {
+        return new Retrofit
+                .Builder()
+                .client(client)
+                .addConverterFactory(gsonConverter())
+                .baseUrl(API_BASE_URL_GAME)
+                .build()
+                .create(GameService.class);
     }
 
     @Provides

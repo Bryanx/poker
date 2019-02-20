@@ -6,7 +6,6 @@
     <string name="register">REGISTER</string>
     <string name="logo">Logo</string>
     <string name="email">Email</string>
-    <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="preference_file_key">preferenceFileKey</string>
     <string name="token">token</string>

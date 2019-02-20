@@ -1,8 +1,10 @@
 package be.kdg.mobile_client.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -20,7 +22,8 @@ import butterknife.ButterKnife;
  */
 public class FriendsActivity extends BaseActivity {
     @BindView(R.id.lvFriends) ListView lvFriends;
-    @BindView(R.id.tvError) TextView tvError;
+    @BindView(R.id.btnSearch) Button btnSearch;
+    @BindView(R.id.btnBack) Button btnBack;
     @Inject SharedPrefService sharedPrefService;
     @Inject UserService userService;
     private FriendAdapter friendAdapter;
@@ -32,10 +35,22 @@ public class FriendsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         ButterKnife.bind(this);
+        addEventListners();
 
         friendAdapter = new FriendAdapter(this);
         lvFriends.setAdapter(friendAdapter);
         loadFriends();
+    }
+
+    private void addEventListners() {
+        btnSearch.setOnClickListener(e -> {
+            Intent intent = new Intent(this, UserSearchActivity.class);
+            startActivity(intent);
+        });
+        btnBack.setOnClickListener(e -> {
+            Intent intent = new Intent(this,  MenuActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void loadFriends() {
@@ -45,7 +60,7 @@ public class FriendsActivity extends BaseActivity {
                     friendAdapter.add(friend);
                 }
             } else {
-                tvError.setText(throwable == null ? getString(R.string.error_message) : throwable.getMessage());
+                Toast.makeText(this, "Error loading friends", Toast.LENGTH_LONG).show();
             }
         }));
     }

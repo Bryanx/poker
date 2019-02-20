@@ -28,6 +28,10 @@ public class User {
     private String socialId;
     private String profilePictureSocial;
     private String provider;
+    private int chips;
+    private int wins;
+    private int gamesPlayed;
+    private String bestHand;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)

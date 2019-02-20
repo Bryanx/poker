@@ -285,6 +285,15 @@ public class RoundServiceImpl implements RoundService {
     }
 
     /**
+     * Distributes the pot to the winner
+     * @param round
+     * @param player
+     */
+    public void distributeCoins(Round round, Player player) {
+        player.setChipCount(player.getChipCount() + round.getPot());
+    }
+
+    /**
      * Determines winning player based on all hand combinations of all the players
      * @param roundId
      * @return

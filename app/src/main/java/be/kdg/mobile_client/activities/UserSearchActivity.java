@@ -2,12 +2,10 @@ package be.kdg.mobile_client.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -38,6 +36,7 @@ public class UserSearchActivity extends BaseActivity {
         setContentView(R.layout.activity_usersearch);
         ButterKnife.bind(this);
         addEventHandlers();
+        getUsers();
     }
 
     private void addEventHandlers() {
@@ -52,15 +51,35 @@ public class UserSearchActivity extends BaseActivity {
                             event.getAction() == KeyEvent.ACTION_DOWN &&
                             event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                 if (event == null || !event.isShiftPressed()) {
-                    getUsers();
+                    getUsersByName(etSearch.getText().toString());
                 }
             }
             return false;
         });
     }
 
+    /**
+     * Gets all the users for the user micro-service and puts them into
+     * a list adapter.
+     */
     private void getUsers() {
         userService.getUser().enqueue(new CallbackWrapper<>((throwable, response) -> {
+            if (response.isSuccessful() && response.body() != null) {
+                initializeAdapter(Arrays.asList(response.body()));
+            } else {
+                Toast.makeText(getApplicationContext(), "Error getting rooms", Toast.LENGTH_LONG).show();
+            }
+        }));
+    }
+
+    /**
+     * Gets all the users that have the searched string inside their name
+     * and puts them into a list adapter.
+     *
+     * @param name The search string.
+     */
+    private void getUsersByName(String name) {
+        userService.getUserByName(name).enqueue(new CallbackWrapper<>((throwable, response) -> {
             if (response.isSuccessful() && response.body() != null) {
                 initializeAdapter(Arrays.asList(response.body()));
             } else {

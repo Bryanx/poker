@@ -63,8 +63,8 @@ public class RegisterActivity extends BaseActivity {
     /**
      * Retrieves token from backend with a POST request.
      */
-    private void getTokenFromServer(Register registerDTO) {
-        userService.register(registerDTO).enqueue(new CallbackWrapper<>((throwable, response) -> {
+    private void getTokenFromServer(Register register) {
+        userService.register(register).enqueue(new CallbackWrapper<>((throwable, response) -> {
             if (response.isSuccessful()) {
                 onRegisterSuccess(response.body());
             } else {

@@ -1,4 +1,4 @@
-package be.kdg.gameservice.chat;
+package be.kdg.gameservice.shared.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat")
+        registry.addEndpoint("/connect")
                 .setAllowedOrigins("*")
                 .withSockJS();
     }
@@ -28,7 +28,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/chatroom/receive/")
+        registry.enableSimpleBroker("/chatroom/receive/", "/gameroom/receiveact/")
                 .setHeartbeatValue(new long[]{10000, 10000})
                 .setTaskScheduler(heartBeatScheduler());
     }

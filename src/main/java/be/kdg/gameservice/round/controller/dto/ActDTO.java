@@ -13,9 +13,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ActDTO {
     private int roundId;
-    @NotNull
     private ActType type;
-    @NotNull
     private Phase phase;
     private int bet;
 }

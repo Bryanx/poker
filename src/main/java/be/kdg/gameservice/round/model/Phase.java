@@ -1,8 +1,11 @@
 package be.kdg.gameservice.round.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Different phases the round of poker can be in.
  */
+@JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
 public enum Phase {
     /**
      * Phase before flop, first betting round.

@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthorizationService} from '../../services/authorization.service';
 import {GameService} from '../../services/game.service';
 import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {Room} from '../../model/room';
-import {User} from '../../model/user';
 
 @Component({
   selector: 'app-game-room-admin',
@@ -16,11 +14,13 @@ export class GameRoomAdminComponent implements OnInit {
   updateRoomForm: FormGroup;
   room: Room;
   roomId: number;
+  maxPlayers: number[];
 
   constructor(
     private formBuilder: FormBuilder,
     private gameService: GameService,
     private curRouter: ActivatedRoute) {
+    this.maxPlayers = new Array(5).fill(2).map((x,i)=>i+2);
   }
 
   ngOnInit() {
@@ -33,9 +33,9 @@ export class GameRoomAdminComponent implements OnInit {
       this.updateRoomForm = this.formBuilder.group({
         name: [this.room.name, Validators.compose([Validators.required])],
         maxPlayerCount: [this.room.gameRules.maxPlayerCount, Validators.compose([Validators.required])],
-        smallBlind: [this.room.gameRules.smallBlind, Validators.compose([Validators.required])],
-        playDelay: [this.room.gameRules.playDelay, Validators.compose([Validators.required])],
-        startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required])],
+        smallBlind: [this.room.gameRules.smallBlind, Validators.compose([Validators.required, Validators.min(10)])],
+        playDelay: [this.room.gameRules.playDelay, Validators.compose([Validators.required, Validators.min(10)])],
+        startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])],
       })
     });
   }

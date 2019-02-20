@@ -30,9 +30,9 @@
   "MAXPLAYERCOUNT": "Maximum toegelaten spelers",
   "MAXPLAYERCOUNTREQUIRED": "Maximum spelers is vereist",
   "SMALLBLIND": "small blind",
-  "SMALLBLINDREQUIRED": "small blind is vereist",
+  "SMALLBLINDREQUIRED": "small blind boven de 10 is vereist",
   "PLAYDELAY": "Tijd om een actie te spelen",
-  "PLAYDELAYREQUIRED": "Tijd om een actie te spelen is vereist",
+  "PLAYDELAYREQUIRED": "Tijd om een actie te spelen boven de 10 seconden is vereist",
   "STARTINGCHIPS": "Inkoopwaarde",
-  "STARTINGCHIPSREQUIRED": "Inkoopwarde is vereist"
+  "STARTINGCHIPSREQUIRED": "Inkoopwarde boven de 500 is vereist"
 }

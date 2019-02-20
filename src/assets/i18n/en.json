@@ -30,9 +30,9 @@
   "MAXPLAYERCOUNT": "Maximum players allowed",
   "MAXPLAYERCOUNTREQUIRED": "Maximum players required",
   "SMALLBLIND": "small blind",
-  "SMALLBLINDREQUIRED": "small blind required",
+  "SMALLBLINDREQUIRED": "small blind above 10 is required",
   "PLAYDELAY": "Time to play an action",
-  "PLAYDELAYREQUIRED": "Time to play an action is required",
+  "PLAYDELAYREQUIRED": "Time to play an action is required and needs to be 10 or higher",
   "STARTINGCHIPS": "Buy-in amount",
-  "STARTINGCHIPSREQUIRED": "Buy-in amount required"
+  "STARTINGCHIPSREQUIRED": "Buy-in amount above 500 is required"
 }

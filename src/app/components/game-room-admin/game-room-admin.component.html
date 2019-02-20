@@ -17,7 +17,7 @@
       <section class="inputfield">
         <label for="maxPlayerCount">{{'MAXPLAYERCOUNT' | translate | titlecase}}</label>
         <select type="form-control" name="maxPlayerCount" formControlName="maxPlayerCount" id="maxPlayerCount">
-          <option  [value]="6">6</option> <!-- TODO: Dropdown -->
+          <option *ngFor="let number of maxPlayers" [ngValue]="number">{{number}}</option>
           <div class="error"
                *ngIf="updateRoomForm.controls['maxPlayerCount'].hasError('required') && updateRoomForm.controls['maxPlayerCount'].touched">
             {{'MAXPLAYERCOUNTREQUIRED' | translate}}
@@ -29,7 +29,7 @@
         <label for="smallBlind">{{'SMALLBLIND' | translate | titlecase}}</label>
         <input type="number" name="smallBlind" formControlName="smallBlind" id="smallBlind" autocomplete="off">
         <div class="error"
-             *ngIf="updateRoomForm.controls['smallBlind'].hasError('required') && updateRoomForm.controls['smallBlind'].touched">
+             *ngIf="updateRoomForm.controls['smallBlind'].hasError('required') && updateRoomForm.controls['smallBlind'].touched || updateRoomForm.controls['smallBlind'].hasError('min')">
           {{'SMALLBLINDREQUIRED' | translate}}
         </div>
       </section>
@@ -38,7 +38,7 @@
         <label for="playDelay">{{'PLAYDELAY' | translate | titlecase}}</label>
         <input type="number" name="playDelay" formControlName="playDelay" id="playDelay" autocomplete="off">
         <div class="error"
-             *ngIf="updateRoomForm.controls['playDelay'].hasError('required') && updateRoomForm.controls['playDelay'].touched">
+             *ngIf="updateRoomForm.controls['playDelay'].hasError('required') && updateRoomForm.controls['playDelay'].touched || updateRoomForm.controls['playDelay'].hasError('min')">
           {{'PLAYDELAYREQUIRED' | translate}}
         </div>
       </section>
@@ -47,7 +47,7 @@
         <label for="startingChips">{{'STARTINGCHIPS' | translate | titlecase}}</label>
         <input type="number" name="startingChips" formControlName="startingChips" id="startingChips" autocomplete="off">
         <div class="error"
-             *ngIf="updateRoomForm.controls['startingChips'].hasError('required') && updateRoomForm.controls['startingChips'].touched">
+             *ngIf="updateRoomForm.controls['startingChips'].hasError('required') && updateRoomForm.controls['startingChips'].touched || updateRoomForm.controls['startingChips'].hasError('min')">
           {{'STARTINGCHIPSREQUIRED' | translate}}
         </div>
       </section>

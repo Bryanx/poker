@@ -18,4 +18,6 @@ public interface RoundService {
     Player determineWinner(int roundId) throws RoundException;
 
     List<Round> getRounds();
+
+    void distributeCoins(int roundId, Player player) throws RoundException;
 }

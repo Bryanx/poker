@@ -70,7 +70,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.roundSubscription = this.websocketService.watch('/room/receive-round/' + this.room.roomId).subscribe((message: Message) => {
       if (message) {
         this.round = JSON.parse(message.body) as Round;
-        console.log(this.round);
+        // console.log(this.round);
       }
     }, error => {
       console.log(error.error.error_description);

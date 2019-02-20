@@ -6,6 +6,8 @@ import {RoundService} from '../../services/round.service';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {Subscription} from 'rxjs';
+import {Round} from '../../model/round';
+import {AuthorizationService} from '../../services/authorization.service';
 
 @Component({
   selector: 'app-actionbar',
@@ -13,15 +15,14 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./actionbar.component.scss']
 })
 export class ActionbarComponent implements OnInit, OnDestroy {
-  @Input() roundId: number;
-  @Input() curPhase: Phase;
   @Input() roomId: number;
   public actTypes: typeof ActType = ActType;
   actSubscription: Subscription;
+  _round: Round;
 
   sliderValue = 0;
 
-  constructor(private roundService: RoundService, private websocketService: RxStompService) {
+  constructor(private roundService: RoundService, private websocketService: RxStompService, private authorizationService: AuthorizationService) {
   }
 
   ngOnInit() {
@@ -76,5 +77,29 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       console.log(result);
     });*/
     return true;
+  }
+
+  @Input() set round(round: Round) {
+    this._round = round;
+    if (this._round) {
+      this.checkTurn();
+    }
+  }
+
+  checkTurn() {
+    const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
+    if (this._round.playersInRound[nextPlayerIndex].userId === this.authorizationService.getUserId()) {
+      console.log('Its my turn');
+      console.log('First card:' + this._round.playersInRound[nextPlayerIndex].firstCard.type);
+      console.log('Second card:' + this._round.playersInRound[nextPlayerIndex].secondCard.type);
+    } else {
+      for (let i = 0; i < this._round.playersInRound.length; i++) {
+        if (this._round.playersInRound[i].userId === this.authorizationService.getUserId()) {
+          console.log('Its my opponents turn');
+          console.log('First card:' + this._round.playersInRound[i].firstCard.type);
+          console.log('Second card:' + this._round.playersInRound[i].secondCard.type);
+        }
+      }
+    }
   }
 }

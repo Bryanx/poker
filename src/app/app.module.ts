@@ -27,6 +27,8 @@ import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import { RankingsComponent } from './components/rankings/rankings.component';
+import {MatTableModule} from '@angular/material';
 
 const config = new AuthServiceConfig([
   {
@@ -69,6 +71,7 @@ export function setupTranslateFactory(
     FriendsComponent,
     SearchComponent,
     UserAccountComponent,
+    RankingsComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ export function setupTranslateFactory(
     HttpClientModule,
     AppRoutingModule,
     SocialLoginModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    MatTableModule,
   ],
   providers: [
     {

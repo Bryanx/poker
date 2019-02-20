@@ -17,13 +17,17 @@ export class PlayerComponent implements OnInit {
     username: '',
     firstname: '',
     lastname: '',
-    chipcount: 0,
+    chipsInRoom: 0,
     password: '',
     email: '',
     profilePicture: '',
     profilePictureSocial: '',
     provider: '',
-    friends: []
+    friends: [],
+    chips: 0,
+    wins: 0,
+    gamesPlayed: 0,
+    bestHand: ''
   };
 
   constructor(private userService: UserService, private sanitizer: DomSanitizer) { }

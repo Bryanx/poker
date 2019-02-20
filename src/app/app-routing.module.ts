@@ -11,6 +11,7 @@ import {ChatComponent} from './components/chat/chat.component';
 import {RoomsOverviewComponent} from './components/rooms-overview/rooms-overview.component';
 import {FriendsComponent} from './components/friends/friends.component';
 import {UserAccountComponent} from './components/user-account/user-account.component';
+import {RankingsComponent} from './components/rankings/rankings.component';
 
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'chat', component: ChatComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService] },
+  { path: 'rankings', component: RankingsComponent, canActivate: [AuthGuardService] },
   { path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService] },
   { path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   { path: 'game-room', component: GameRoomComponent, canActivate: [AuthGuardService] },

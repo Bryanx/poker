@@ -1,7 +1,7 @@
 <div class="actionbar">
   <div class="cards">
-    <app-card class="player-card"></app-card>
-    <app-card class="player-card"></app-card>
+    <app-card class="player-card" [card]="firstCard"></app-card>
+    <app-card class="player-card" [card]="secondCard"></app-card>
   </div>
   <div class="button-actions">
     <button *ngIf="!getPossibleActs()" (click)="playAct(actTypes.Call)" class="call">CALL</button>

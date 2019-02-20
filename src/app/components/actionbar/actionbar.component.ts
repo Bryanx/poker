@@ -8,6 +8,7 @@ import {Message} from '@stomp/stompjs';
 import {Subscription} from 'rxjs';
 import {Round} from '../../model/round';
 import {AuthorizationService} from '../../services/authorization.service';
+import {Card} from '../../model/card';
 
 @Component({
   selector: 'app-actionbar',
@@ -19,7 +20,8 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   public actTypes: typeof ActType = ActType;
   actSubscription: Subscription;
   _round: Round;
-
+  firstCard: Card;
+  secondCard: Card;
   sliderValue = 0;
 
   constructor(private roundService: RoundService, private websocketService: RxStompService, private authorizationService: AuthorizationService) {
@@ -92,12 +94,16 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       console.log('Its my turn');
       console.log('First card:' + this._round.playersInRound[nextPlayerIndex].firstCard.type);
       console.log('Second card:' + this._round.playersInRound[nextPlayerIndex].secondCard.type);
+      this.firstCard = this._round.playersInRound[nextPlayerIndex].firstCard;
+      this.secondCard = this._round.playersInRound[nextPlayerIndex].secondCard;
     } else {
       for (let i = 0; i < this._round.playersInRound.length; i++) {
         if (this._round.playersInRound[i].userId === this.authorizationService.getUserId()) {
           console.log('Its my opponents turn');
           console.log('First card:' + this._round.playersInRound[i].firstCard.type);
           console.log('Second card:' + this._round.playersInRound[i].secondCard.type);
+          this.firstCard = this._round.playersInRound[i].firstCard;
+          this.secondCard = this._round.playersInRound[i].secondCard;
         }
       }
     }

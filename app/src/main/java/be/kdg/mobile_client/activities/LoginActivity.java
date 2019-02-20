@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LoginActivity extends BaseActivity {
-    @BindView(R.id.etUsername) EditText etUsername;
+    @BindView(R.id.etSearch) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.tvBroMessageLogin) TextView tvBroMessage;
     @BindView(R.id.btnLogin) Button btnLogin;

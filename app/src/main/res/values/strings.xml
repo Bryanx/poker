@@ -45,4 +45,7 @@
     <string name="error_message">Something went wrong :-(</string>
     <string name="remove">REMOVE</string>
     <string name="has_an_account">I do have an account bro :)</string>
+    <string name="username">Username</string>
+    <string name="search_placeholder">Search for users</string>
+    <string name="search_bros">Search bros</string>
 </resources>

@@ -13,7 +13,7 @@ import {Room} from '../../model/room';
 export class GameRoomAdminComponent implements OnInit {
   updateRoomForm: FormGroup;
   room: Room;
-  roomId: number;
+  id: number;
   maxPlayers: number[];
 
   constructor(
@@ -25,11 +25,11 @@ export class GameRoomAdminComponent implements OnInit {
 
   ngOnInit() {
     this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
-      this.roomId = +params.get('id');
+      this.id = +params.get('id');
       return this.gameService.getRoom(+params.get('id'));
     })).subscribe((room) => {
       this.room = room as Room;
-      this.room.roomId = this.roomId;
+      this.room.id = this.id;
       this.updateRoomForm = this.formBuilder.group({
         name: [this.room.name, Validators.compose([Validators.required])],
         maxPlayerCount: [this.room.gameRules.maxPlayerCount, Validators.compose([Validators.required])],
@@ -44,6 +44,7 @@ export class GameRoomAdminComponent implements OnInit {
     this.room.name = this.updateRoomForm.controls.name.value;
     this.room.gameRules.maxPlayerCount = this.updateRoomForm.controls.maxPlayerCount.value;
     this.room.gameRules.smallBlind = this.updateRoomForm.controls.smallBlind.value;
+    this.room.gameRules.bigBlind = 2 * this.updateRoomForm.controls.smallBlind.value;
     this.room.gameRules.playDelay = this.updateRoomForm.controls.playDelay.value;
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
     this.gameService.changeRoom(this.room).subscribe(room => {

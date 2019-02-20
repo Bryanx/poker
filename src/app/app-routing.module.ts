@@ -22,8 +22,8 @@ const routes: Routes = [
   { path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService] },
   { path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService] },
   { path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
-  { path: 'game-room', component: GameRoomComponent, canActivate: [AuthGuardService] },
-  { path: 'game-room/:id/settings', component: GameRoomAdminComponent, canActivate: [AuthGuardService] },
+  { path: 'game-rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService] },
+  { path: 'game-rooms/:id', component: GameRoomAdminComponent, canActivate: [AuthGuardService] },
   { path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuardService] },
   { path: 'user/:id', component: UserAccountComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }

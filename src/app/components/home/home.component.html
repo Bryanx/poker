@@ -18,6 +18,6 @@
 
 <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'RANKINGS' | translate | uppercase}}</button>
 
-<button *ngIf="isAdmin()" routerLink="/">{{'ADMINROOM' | translate | uppercase}}</button>
+<button *ngIf="isAdmin()" routerLink="/game-rooms">{{'ADMINROOM' | translate | uppercase}}</button>
 
 <button *ngIf="isAdmin()" routerLink="/">{{'ADMINUSER' | translate | uppercase}}</button>

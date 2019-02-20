@@ -43,6 +43,7 @@ public final class CreateDefaultUserListener implements ApplicationListener<Cont
         user.setEnabled(1);
         user.setUsername("remismeets");
         user.setPassword(passwordEncoder.encode("12345"));
+        user.setChips(20000);
         userRepository.save(user);
 
         UserRole role = new UserRole(user.getId(), "ROLE_USER");
@@ -55,6 +56,7 @@ public final class CreateDefaultUserListener implements ApplicationListener<Cont
         user.setEnabled(1);
         user.setUsername("admin");
         user.setPassword(passwordEncoder.encode("12345"));
+        user.setChips(20000);
         userRepository.save(user);
 
         role = new UserRole(user.getId(), "ROLE_USER");

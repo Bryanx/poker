@@ -1,2 +1,13 @@
-<app-search></app-search>
+
+<h1>{{'FRIENDS' | translate | uppercase}}</h1>
+
+<app-search (friendAdded)="addFriend($event)"></app-search>
+
+<section>
+  <div class="friend-row" *ngFor="let friend of myself?.friends" routerLink="/user/{{friend.id}}">
+    {{friend.username}}
+    <div class="delete-friend" (click)="removeFriend(friend)"><fa name="plus"></fa></div>
+  </div>
+</section>
+
 <button class="back-button" routerLink="/">{{'BACK' | translate | titlecase}}</button>

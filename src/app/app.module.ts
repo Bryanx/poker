@@ -26,6 +26,7 @@ import { TranslatePipe } from './translate.pipe';
 import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
 
 const config = new AuthServiceConfig([
   {
@@ -78,7 +79,8 @@ export function setupTranslateFactory(
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    SocialLoginModule
+    SocialLoginModule,
+    AngularFontAwesomeModule
   ],
   providers: [
     {

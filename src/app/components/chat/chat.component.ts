@@ -37,7 +37,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }, error => {
       this.error = true;
     });
-    setTimeout(() => this.sendMessage('system', this.playerName + ' joined the room.'), 1000);
+    setTimeout(() => this.sendMessage('system', this.playerName + ' joined the room.'), 500);
   }
 
   sendMessage(name: String = this.playerName, messageString: String = this.inputMessage) {

@@ -19,5 +19,7 @@ export const websocketConfig: InjectableRxStompConfig = {
   // Wait in milliseconds before attempting auto reconnect
   // Set to 0 to disable
   // Typical value 500 (500 milli seconds)
-  reconnectDelay: 200
+  reconnectDelay: 200,
+
+
 };

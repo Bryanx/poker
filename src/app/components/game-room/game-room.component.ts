@@ -3,6 +3,11 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {switchMap} from 'rxjs/operators';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
+import {Subscription} from 'rxjs';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {Message} from '@stomp/stompjs';
+import {Player} from '../../model/player';
+import {AuthorizationService} from '../../services/authorization.service';
 
 @Component({
   selector: 'app-room',
@@ -10,35 +15,64 @@ import {GameService} from '../../services/game.service';
   styleUrls: ['./game-room.component.scss']
 })
 export class GameRoomComponent implements OnInit, OnDestroy {
-  room;
-  player;
+  room: Room;
+  player: Player;
+  roomSubscription: Subscription;
+  done: boolean;
 
-  constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService) {
+  constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
+              private websocketService: RxStompService, private authorizationService: AuthorizationService) {
   }
 
   ngOnInit() {
-    this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
-      return this.gameService.getRoom(+params.get('id'));
-    })).subscribe((room) => {
-      this.room = room as Room;
+    const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
 
-      if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
-        this.navigateToOverview();
-      }
+    this.getRoom(roomId as number);
 
-      this.joinRoom();
-    });
+    setTimeout(() => this.initializeRoomConnection(), 500);
   }
 
   ngOnDestroy(): void {
     this.leaveRoom();
   }
 
+  initializeRoomConnection() {
+    this.roomSubscription = this.websocketService.watch('/gameroom/join/' + this.room.roomId).subscribe((message: Message) => {
+      if (message) {
+        console.log(JSON.parse(message.body));
+        const player = JSON.parse(message.body) as Player;
+        if (player.userId === this.authorizationService.getUserId()) {
+          this.player = player;
+          this.getRoom(this.room.roomId);
+        } else {
+          this.getRoom(this.room.roomId);
+        }
+      }
+    }, error => {
+      console.log(error.error.error_description);
+    });
+
+    setTimeout(() => {
+      this.joinRoom();
+      this.done = true;
+    } , 500);
+  }
+
+  getRoom(id: number): void {
+    this.gameService.getRoom(id).subscribe(room => {
+      this.room = room as Room;
+
+      if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
+        this.navigateToOverview();
+      }
+    });
+  }
+
   /**
    * Returns the players that are in the room including yourself.
    */
   getAllPlayers(): Object[] {
-    return this.room.playersInRoom.concat(this.player);
+    return this.room.playersInRoom;
   }
 
   /**
@@ -61,10 +95,10 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Joins the web-instance user to this room.
    */
   private joinRoom(): void {
-    this.gameService.joinRoom(this.room.roomId)
-      .subscribe(player => {
-        this.player = player;
-      });
+    this.websocketService.publish({
+      destination: '/rooms/' + this.room.roomId + '/join',
+      body: JSON.stringify({userId: this.authorizationService.getUserId()})
+    });
   }
 
   /**

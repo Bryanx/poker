@@ -21,7 +21,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
   sliderValue = 0;
 
-  constructor(private roundservice: RoundService, private websocketService: RxStompService) {
+  constructor(private roundService: RoundService, private websocketService: RxStompService) {
   }
 
   ngOnInit() {

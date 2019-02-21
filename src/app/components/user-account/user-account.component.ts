@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
 import {switchMap} from 'rxjs/operators';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Location} from '@angular/common';
 import {MatSnackBar} from '@angular/material';
 
 @Component({
@@ -19,7 +20,7 @@ export class UserAccountComponent implements OnInit {
   constructor(private userService: UserService,
               private route: ActivatedRoute,
               private sanitizer: DomSanitizer,
-              private router: Router,
+              private location: Location,
               private snackbar: MatSnackBar) {
   }
 
@@ -65,9 +66,5 @@ export class UserAccountComponent implements OnInit {
 
   isFriends() {
     return this.myself.friends.some(friend => friend.id === this.user.id);
-  }
-
-  goBack() {
-    return this.router.navigateByUrl('/');
   }
 }

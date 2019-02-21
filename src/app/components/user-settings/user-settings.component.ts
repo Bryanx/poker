@@ -3,8 +3,9 @@ import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthorizationService} from '../../services/authorization.service';
+import { Location } from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Router} from '@angular/router';
+import {TranslateService} from '../../services/translate.service';
 
 @Component({
   selector: 'app-user',
@@ -22,7 +23,7 @@ export class UserSettingsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authorizationService: AuthorizationService,
     private userService: UserService,
-    private router: Router,
+    private location: Location,
     private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
@@ -70,7 +71,7 @@ export class UserSettingsComponent implements OnInit {
   }
 
   goBack() {
-    return this.router.navigateByUrl('/');
+    this.location.back();
   }
 
   getProfilePicture() {

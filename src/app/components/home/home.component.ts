@@ -18,10 +18,6 @@ export class HomeComponent implements OnInit {
     return this.authorizationService.isAuthenticated();
   }
 
-  isAdmin() {
-    return this.authorizationService.isAdmin();
-  }
-
   logout() {
     this.authorizationService.logout();
     this.router.navigateByUrl('/');

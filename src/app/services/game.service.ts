@@ -30,33 +30,28 @@ export class GameService {
   /**
    * Gives back a single room based on the id of the room.
    *
-   * @param id The id of the room that needs to be returned.
+   * @param roomId The id of the room that needs to be returned.
    */
-  getRoom(id: number): Observable<Room> {
-    return this.http.get<Room>(this.url + '/' + id);
+  getRoom(roomId: number): Observable<Room> {
+    return this.http.get<Room>(this.url + '/' + roomId);
   }
 
   /**
    * Lets a user join into a room.
    *
-   * @param id The id of the room that the player wants to join.
+   * @param roomId The id of the room that the player wants to join.
    */
-  joinRoom(id: number): Observable<Player> {
-    return this.http.post<Player>(this.url + '/' + id + '/join-room', '');
+  joinRoom(roomId: number): Observable<Player> {
+    return this.http.post<Player>(this.url + '/' + roomId + '/join-room', '');
   }
 
   /**
    * Lets a player leave from the current room.
    *
-   * @param id The id of the room that the player wants to leave.
+   * @param roomId The id of the room that the player wants to leave.
    */
-  leaveRoom(id: number): Observable<Player> {
-    return this.http.delete<Player>(this.url + '/' + id + '/leave-room');
-  }
-
-  changeRoom(room: Room): Observable<Room> {
-    console.log(room);
-    return this.http.put<Room>(this.url + "/" + room.id, room);
+  leaveRoom(roomId: number): Observable<Player> {
+    return this.http.delete<Player>(this.url + '/' + roomId + '/leave-room');
   }
 
   getPlayer(): Observable<Player> {

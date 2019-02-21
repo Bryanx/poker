@@ -69,6 +69,10 @@ public class RoundServiceImpl implements RoundService {
 
     }
 
+    /**
+     *
+     * @param round
+     */
     private void checkEndOfRound(Round round) {
         Phase currentPhase = round.getCurrentPhase();
         if (round.getActs().stream()

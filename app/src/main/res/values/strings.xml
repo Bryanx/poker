@@ -45,4 +45,19 @@
     <string name="error_message">Something went wrong :-(</string>
     <string name="remove">REMOVE</string>
     <string name="has_an_account">I do have an account bro :)</string>
+
+    <!-- ranking -->
+    <string name="rank">RANK</string>
+    <string name="chips">CHIPS</string>
+    <string name="won">WON</string>
+    <string name="lost">LOST</string>
+    <string name="games">GAMES</string>
+    <string name="userid">USER_ID</string>
+
+    <!-- account -->
+    <string name="header_placeholder">…</string>
+    <string name="amount_of_games_won">AMOUNT OF GAMES WON</string>
+    <string name="current_amount_of_chips">CURRENT AMOUNT OF CHIPS</string>
+    <string name="total_games_played">TOTAL GAMES PLAYED</string>
+    <string name="best_hand">BEST HAND</string>
 </resources>

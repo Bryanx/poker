@@ -28,6 +28,8 @@ import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
 import { GameRoomAdminComponent } from './components/game-room-admin/game-room-admin.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import { RankingsComponent } from './components/rankings/rankings.component';
+import {MatSnackBarModule, MatTableModule} from '@angular/material';
 
 const config = new AuthServiceConfig([
   {
@@ -71,6 +73,7 @@ export function setupTranslateFactory(
     SearchComponent,
     UserAccountComponent,
     GameRoomAdminComponent,
+    RankingsComponent
   ],
   imports: [
     BrowserModule,
@@ -82,7 +85,9 @@ export function setupTranslateFactory(
     HttpClientModule,
     AppRoutingModule,
     SocialLoginModule,
-    AngularFontAwesomeModule
+    AngularFontAwesomeModule,
+    MatTableModule,
+    MatSnackBarModule
   ],
   providers: [
     {

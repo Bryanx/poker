@@ -23,4 +23,5 @@
 
   <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/">{{'ADMINUSER' | translate | uppercase}}</button>
 
+  <button *ngIf="isAuthenticated()" routerLink="/rankings">{{'RANKINGS' | translate | uppercase}}</button>
 </section>

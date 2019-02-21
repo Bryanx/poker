@@ -10,6 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -117,10 +118,18 @@ public class Room {
     }
 
     /**
-     * Return number between 0 and maxRoomSize
-     * @return
+     * Return number between 0 and maxRoomSize.
+     * @return available seatNumber
      */
     public int getFirstEmptySeat() {
+        playersInRoom.sort(Comparator.comparingInt(Player::getSeatNumber));
+
+        for (int i = 0; i < playersInRoom.size(); i++) {
+            if (playersInRoom.get(i).getSeatNumber() != i) {
+                return i;
+            }
+        }
+
         return -1;
     }
 }

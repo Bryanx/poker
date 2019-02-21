@@ -122,14 +122,40 @@ public class Room {
      * @return available seatNumber
      */
     public int getFirstEmptySeat() {
-        playersInRoom.sort(Comparator.comparingInt(Player::getSeatNumber));
+//        playersInRoom.sort(Comparator.comparingInt(Player::getSeatNumber));
+//
+//        for (int i = 0; i < playersInRoom.size(); i++) {
+//            if (playersInRoom.get(i).getSeatNumber() != i) {
+//                return i;
+//            }
+//        }
+//
+//        return 0;
 
-        for (int i = 0; i < playersInRoom.size(); i++) {
-            if (playersInRoom.get(i).getSeatNumber() != i) {
-                return i;
+        int[] A = playersInRoom.stream().mapToInt(Player::getSeatNumber).toArray();
+
+        int n = A.length;
+
+        for (int i = 0; i < n; i++) {
+            while (A[i] != i + 1) {
+                if (A[i] <= 0 || A[i] >= n)
+                    break;
+
+                if(A[i]==A[A[i]-1])
+                    break;
+
+                int temp = A[i];
+                A[i] = A[temp - 1];
+                A[temp - 1] = temp;
             }
         }
 
-        return 0;
+        for (int i = 0; i < n; i++){
+            if (A[i] != i + 1){
+                return i + 1;
+            }
+        }
+
+        return n + 1;
     }
 }

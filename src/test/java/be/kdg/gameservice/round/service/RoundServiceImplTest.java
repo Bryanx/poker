@@ -330,6 +330,9 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void distributeCoins() throws RoomException, RoundException {
+        /*
+            EasyMock
+         */
         Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
         roomService.addRoom(roomMade);
 

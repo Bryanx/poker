@@ -3,10 +3,7 @@ package be.kdg.mobile_client.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,16 +42,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
-
         holder.tvName.setText(user.getUsername());
-        /*
-        Picasso.get()
-                .load(R.drawable.pic_placeholder)
-                .resize(35, 35)
-                .centerInside()
-                //.transform(new CircleTransformation())
-                .into(holder.ivPic);
-                */
     }
 
     /**
@@ -73,12 +61,10 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
      */
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
-        //ImageView ivPic;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvUserName);
-            //ivPic = itemView.findViewById(R.id.ivUserPic);
         }
     }
 }

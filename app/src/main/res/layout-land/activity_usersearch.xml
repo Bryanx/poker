@@ -27,8 +27,8 @@
             android:backgroundTint="@color/colorWhite"
             android:hint="@string/search_placeholder"
             android:inputType="text"
-            android:textColor="#fff"
-            android:textColorHint="#fff" />
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

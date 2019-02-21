@@ -38,7 +38,7 @@ public class FriendsActivity extends BaseActivity {
         setContentView(R.layout.activity_friends);
         ButterKnife.bind(this);
         addEventListners();
-        loadFriends();
+        getFriends();
     }
 
     private void addEventListners() {
@@ -52,7 +52,7 @@ public class FriendsActivity extends BaseActivity {
         });
     }
 
-    private void loadFriends() {
+    private void getFriends() {
         userService.getMySelf().enqueue(new CallbackWrapper<>((throwable, response) -> {
             if (response.isSuccessful() && response.body() != null) {
                 initializeAdapter(response.body().getFriends());

@@ -13,7 +13,7 @@
     <string name="logging_in">Logged in</string>
     <string name="error_login_message">Login failed</string>
     <string name="error_register_message">Registreren mislukt.</string>
-    <string name="error_invalid_mail">Has to be longer than 4 characters.</string>
+    <string name="error_invalid_mail">Invalid email.</string>
     <string name="error_invalid_password">Has to be longer than 4 characters.</string>
     <string name="no_account_message">I don\'t have an account bro :-(</string>
     <string name="logout">LOGOUT</string>

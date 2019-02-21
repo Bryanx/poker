@@ -13,9 +13,10 @@ import javax.inject.Inject;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Register;
 import be.kdg.mobile_client.model.Token;
-import be.kdg.mobile_client.services.CallbackWrapper;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
+import be.kdg.mobile_client.shared.EmailValidator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -25,12 +26,9 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.tvBroMessageRegister) TextView tvBroMessage;
     @BindView(R.id.btnRegister) Button btnRegister;
-
-    @Inject
-    SharedPrefService sharedPrefService;
-
-    @Inject
-    UserService userService;
+    @Inject SharedPrefService sharedPrefService;
+    @Inject UserService userService;
+    @Inject EmailValidator emailValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +40,7 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void addEventListners() {
+        etEmail.addTextChangedListener(emailValidator);
         btnRegister.setOnClickListener(v -> register());
         tvBroMessage.setOnClickListener(e -> {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -54,7 +53,7 @@ public class RegisterActivity extends BaseActivity {
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
 
-        if (validateRegister(email, password)) {
+        if (validateRegister(password)) {
             btnRegister.setEnabled(false);
             getTokenFromServer(new Register(username, email, password));
         }
@@ -100,8 +99,8 @@ public class RegisterActivity extends BaseActivity {
     /**
      * Validates if given credentials are correct.
      */
-    public boolean validateRegister(String email, String password) {
-        if (email.isEmpty() || email.length() < 4) {
+    public boolean validateRegister(String password) {
+        if (!emailValidator.isValid()) {
             etEmail.setError(getResources().getString(R.string.error_invalid_mail));
             return false;
         }

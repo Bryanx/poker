@@ -2,7 +2,6 @@ package be.kdg.mobile_client.activities;
 
 import android.os.Bundle;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;

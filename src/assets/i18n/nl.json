@@ -21,5 +21,8 @@
   "EMAILREQUIRED": "Email is vereist",
   "FIRSTNAMEREQUIRED": "Voornaam is vereist",
   "LASTNAMEREQUIRED": "Achternaam is vereist",
-  "ROOMSOVERVIEWTITLE": "Kies een tafel"
+  "ROOMSOVERVIEWTITLE": "Kies een tafel",
+  "SEARCH_USERS": "Zoek gebruikers",
+  "NO_FRIENDS": "Je hebt geen bros :(",
+  "USERS": "Gebruiks"
 }

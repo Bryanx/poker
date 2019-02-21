@@ -2,7 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
 import {Observable, Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, first, map, switchMap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {AuthorizationService} from '../../services/authorization.service';
 import { EMPTY } from 'rxjs';
@@ -21,8 +21,7 @@ export class SearchComponent implements OnInit {
   users: User[] = [];
   inputString: String = '';
   subject: Subject<String> = new Subject();
-
-  @Output() friendAdded: EventEmitter<User> = new EventEmitter();
+  myself: User;
 
   constructor(private userService: UserService, private sanitizer: DomSanitizer) {
   }
@@ -30,9 +29,12 @@ export class SearchComponent implements OnInit {
   /**
    * When the component is created, the functionality will be piped into the subject and be subscribed on.
    * A subject is an observable stream were you can put data inside it and manipulate it.
-   * This subject is defined as a string, which means that the stream will only accept strings as input.
+   * This subject is defined as a string, which mea
+   * ns that the stream will only accept strings as input.
    */
   ngOnInit(): void {
+    this.userService.getMyself().subscribe(user => this.myself = user);
+
     this.subject.pipe(
       debounceTime(this.debounceTime as number),
       distinctUntilChanged(),
@@ -74,5 +76,15 @@ export class SearchComponent implements OnInit {
    */
   addToSubject(): void {
     this.subject.next(this.inputString);
+  }
+
+  /**
+   * Adds a friend to the current user.
+   *
+   * @param friend The friend that needs to be added.
+   */
+  addFriend(friend: User) {
+    this.myself.friends.push(friend);
+    this.userService.changeUser(this.myself).subscribe();
   }
 }

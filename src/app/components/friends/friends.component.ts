@@ -11,7 +11,6 @@ import {User} from '../../model/user';
   styleUrls: ['./friends.component.scss']
 })
 export class FriendsComponent implements OnInit {
-
   myself: User;
 
   constructor(private userService: UserService) { }
@@ -22,11 +21,6 @@ export class FriendsComponent implements OnInit {
 
   removeFriend(friend: User) {
     this.myself.friends = this.myself.friends.filter(other => other !== friend);
-    this.userService.changeUser(this.myself).subscribe();
-  }
-
-  addFriend(friend: User) {
-    this.myself.friends.push(friend);
     this.userService.changeUser(this.myself).subscribe();
   }
 }

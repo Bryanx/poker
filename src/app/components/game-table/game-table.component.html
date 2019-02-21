@@ -1,9 +1,9 @@
 <div class="game-table">
   <div class="cards">
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
-    <app-card></app-card>
+    <app-card *ngIf="firstCard" [card]="_round.cards[0]"></app-card>
+    <app-card *ngIf="secondCard" [card]="_round.cards[1]"></app-card>
+    <app-card *ngIf="thirthCard" [card]="_round.cards[2]"></app-card>
+    <app-card *ngIf="fourthCard" [card]="_round.cards[3]"></app-card>
+    <app-card *ngIf="fifthCard" [card]="_round.cards[4]"></app-card>
   </div>
 </div>

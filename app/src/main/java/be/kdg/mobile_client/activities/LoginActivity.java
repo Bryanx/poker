@@ -32,10 +32,10 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        addEventListners();
+        addEventListeners();
     }
 
-    private void addEventListners() {
+    private void addEventListeners() {
         tvBroMessage.setOnClickListener(e -> {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);

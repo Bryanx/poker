@@ -21,6 +21,7 @@ public class MenuActivity extends BaseActivity {
     @BindView(R.id.logout) Button logout;
     @BindView(R.id.btnJoinGame) Button btnJoinGame;
     @BindView(R.id.btnFriends) Button btnFriends;
+    @BindView(R.id.btnRankings) Button btnRankings;
     @Inject SharedPrefService sharedPrefService;
 
     @Override
@@ -40,6 +41,10 @@ public class MenuActivity extends BaseActivity {
         });
         btnFriends.setOnClickListener(e -> {
             Intent intent = new Intent(getApplicationContext(), FriendsActivity.class);
+            startActivity(intent);
+        });
+        btnRankings.setOnClickListener(e -> {
+            Intent intent = new Intent(getApplicationContext(), RankingsActivity.class);
             startActivity(intent);
         });
         logout.setOnClickListener(e -> {

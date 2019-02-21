@@ -1,9 +1,11 @@
 <h1>{{user.username}}
   <ng-container *ngIf="user && myself">
     <button *ngIf="user.id !== myself.id && isFriends()" (click)="removeFriend()"
-            class="remove-friend">{{'REMOVE FRIEND' | translate | titlecase}}</button>
+            class="remove-friend">{{'REMOVE FRIEND' | translate | titlecase}}
+    </button>
     <button *ngIf="user.id !== myself.id && !isFriends()" (click)="addFriend()"
-            class="add-friend">{{'ADD FRIEND' | translate | titlecase}}</button>
+            class="add-friend">{{'ADD FRIEND' | translate | titlecase}}
+    </button>
   </ng-container>
 </h1>
 

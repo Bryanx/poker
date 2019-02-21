@@ -9,7 +9,7 @@
 <section *ngIf="users.length > 0" class="results">
   <div *ngFor="let user of users; index as i ">
     <div class="image-wrapper">
-      <img [src]="null" [alt]="getInitials(user)">
+      {{getInitials(user)}}
     </div>
     <span class="username-span" routerLink="/user/{{user.id}}">{{user.username}}</span>
     <button class="friend-button" *ngIf="checkShowButton(user)" (click)="addFriend(user)">Befriend bro</button>

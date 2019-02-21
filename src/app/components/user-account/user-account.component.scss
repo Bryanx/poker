@@ -10,24 +10,29 @@
 section {
   width: 70%;
   display: flex;
+
   .half-width {
     width: 50%;
     position: relative;
-    color:white;
-    padding: 1rem;
+    color: white;
+    padding: 1.5rem;
+    overflow: hidden;
+
     .profile-picture {
       position: absolute;
       right: 1rem;
       bottom: 0;
-      top: 1rem;
       width: 14rem;
+      top: 1rem;
       border-radius: 50%;
       border: solid 6px white;
     }
+
     h2 {
       color: lighten($background-color, 30%);
       font-size: .9rem;
     }
+
     span {
       font-size: 1.5rem;
       margin-bottom: .4rem;

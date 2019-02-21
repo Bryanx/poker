@@ -20,7 +20,7 @@ export class GameRoomAdminComponent implements OnInit {
     private formBuilder: FormBuilder,
     private gameService: GameService,
     private curRouter: ActivatedRoute) {
-    this.maxPlayers = new Array(5).fill(2).map((x,i)=>i+2);
+    this.maxPlayers = new Array(5).fill(2).map((x, i) => i + 2);
   }
 
   ngOnInit() {
@@ -52,6 +52,14 @@ export class GameRoomAdminComponent implements OnInit {
       // this.toast = true;
       // setTimeout(() => this.toast = false, 2000);
     });
+  }
+
+  validationRequired(name: string) {
+    return this.updateRoomForm.controls[name].hasError('required') && this.updateRoomForm.controls[name].touched;
+  }
+
+  validationMin(name: string) {
+    return this.updateRoomForm.controls[name].hasError('min') && this.updateRoomForm.controls[name].touched;
   }
 
 }

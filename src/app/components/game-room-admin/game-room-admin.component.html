@@ -8,7 +8,7 @@
         <label for="name">{{'ROOM NAME' | translate | titlecase}}</label>
         <input type="text" name="name" formControlName="name" id="name" autocomplete="off">
         <div class="error"
-             *ngIf="updateRoomForm.controls['name'].hasError('required') && updateRoomForm.controls['name'].touched">
+             *ngIf="validationRequired('name')">
           {{'ROOMNAMEREQUIRED' | translate}}
         </div>
       </section>
@@ -20,7 +20,7 @@
         <select type="form-control" name="maxPlayerCount" formControlName="maxPlayerCount" id="maxPlayerCount">
           <option *ngFor="let number of maxPlayers" [ngValue]="number">{{number}}</option>
           <div class="error"
-               *ngIf="updateRoomForm.controls['maxPlayerCount'].hasError('required') && updateRoomForm.controls['maxPlayerCount'].touched">
+               *ngIf="validationRequired('maxPlayerCount')">
             {{'MAXPLAYERCOUNTREQUIRED' | translate}}
           </div>
         </select>
@@ -30,7 +30,7 @@
         <label for="playDelay">{{'PLAYDELAY' | translate | titlecase}}</label>
         <input type="number" name="playDelay" formControlName="playDelay" id="playDelay" autocomplete="off">
         <div class="error"
-             *ngIf="updateRoomForm.controls['playDelay'].hasError('required') && updateRoomForm.controls['playDelay'].touched || updateRoomForm.controls['playDelay'].hasError('min')">
+             *ngIf="validationRequired('playDelay') || validationMin('playDelay')">
           {{'PLAYDELAYREQUIRED' | translate}}
         </div>
       </section>
@@ -41,7 +41,7 @@
         <label for="smallBlind">{{'SMALLBLIND' | translate | titlecase}}</label>
         <input type="number" name="smallBlind" formControlName="smallBlind" id="smallBlind" autocomplete="off">
         <div class="error"
-             *ngIf="updateRoomForm.controls['smallBlind'].hasError('required') && updateRoomForm.controls['smallBlind'].touched || updateRoomForm.controls['smallBlind'].hasError('min')">
+             *ngIf="validationRequired('smallBlind') || validationMin('smallBlind')">
           {{'SMALLBLINDREQUIRED' | translate}}
         </div>
       </section>
@@ -50,7 +50,7 @@
         <label for="startingChips">{{'STARTINGCHIPS' | translate | titlecase}}</label>
         <input type="number" name="startingChips" formControlName="startingChips" id="startingChips" autocomplete="off">
         <div class="error"
-             *ngIf="updateRoomForm.controls['startingChips'].hasError('required') && updateRoomForm.controls['startingChips'].touched || updateRoomForm.controls['startingChips'].hasError('min')">
+             *ngIf="validationRequired('startingChips') || validationMin('startingChips')">
           {{'STARTINGCHIPSREQUIRED' | translate}}
         </div>
       </section>

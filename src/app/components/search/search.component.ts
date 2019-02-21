@@ -1,11 +1,9 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
-import {Observable, Subject} from 'rxjs';
-import {debounceTime, distinctUntilChanged, first, map, switchMap} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
-import {AuthorizationService} from '../../services/authorization.service';
-import { EMPTY } from 'rxjs';
 
 /**
  * This component will be used for searching through all the users
@@ -33,6 +31,7 @@ export class SearchComponent implements OnInit {
    * ns that the stream will only accept strings as input.
    */
   ngOnInit(): void {
+    console.log(this.myself);
     this.userService.getMyself().subscribe(user => this.myself = user);
 
     this.subject.pipe(
@@ -86,5 +85,19 @@ export class SearchComponent implements OnInit {
   addFriend(friend: User) {
     this.myself.friends.push(friend);
     this.userService.changeUser(this.myself).subscribe();
+  }
+
+  checkShowButton(user: User) {
+    if (user.id === this.myself.id) {
+      return false;
+    }
+
+    for (let i = 0; i < this.myself.friends.length; i++) {
+      if (this.myself.friends[i].id === user.id) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

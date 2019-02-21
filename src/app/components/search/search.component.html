@@ -12,10 +12,10 @@
       <img [src]="null" [alt]="getInitials(user)">
     </div>
     <span class="username-span" routerLink="/user/{{user.id}}}">{{user.username}}</span>
-    <button class="friend-button" (click)="addFriend(user)">Befriend bro</button>
+    <button class="friend-button" *ngIf="checkShowButton(user)" (click)="addFriend(user)">Befriend bro</button>
   </div>
 </section>
-<h1 class="nothing-found" *ngIf="inputString && users.length <= 0">No bros :(</h1>
+<h2 class="nothing-found" *ngIf="inputString && users.length <= 0">No bros :(</h2>
 
 <button class="back-button" routerLink="/friends">{{'BACK' | translate | titlecase}}</button>
 

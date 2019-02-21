@@ -122,7 +122,7 @@ public class Room {
      */
     public int getFirstEmptySeat() {
         int[] occupiedSeats = playersInRoom.stream().mapToInt(Player::getSeatNumber).toArray();
-        return findFirstPositiveMissingOccurrence(occupiedSeats) -1;
+        return findFirstPositiveMissingOccurrence(occupiedSeats);
     }
 
     /**

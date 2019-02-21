@@ -12,8 +12,10 @@ import static org.junit.Assert.assertEquals;
 public final class RoomTest {
     @Test
     public void roomCreation() {
-        Room room = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
-        assertEquals(room.getGameRules(), GameRules.TEXAS_HOLD_EM);
+        Room room = new Room(new GameRules(8, 16, 25, 2500, 5), "Test room");
+        assertEquals(room.getGameRules().getStartingChips(), new GameRules(8, 16, 25, 2500, 5).getStartingChips());
+        assertEquals(room.getGameRules().getPlayDelay(), new GameRules(8, 16, 25, 2500, 5).getPlayDelay());
+        assertEquals(room.getGameRules().getBigBlind(), new GameRules(8, 16, 25, 2500, 5).getBigBlind());
         assertEquals(room.getRounds().size(), 0);
         assertEquals(room.getPlayersInRoom().size(), 0);
     }

@@ -54,6 +54,7 @@ public class Room {
      *
      * @see GameRules
      */
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Getter
     @Setter
     private GameRules gameRules;

@@ -17,12 +17,14 @@
     <string name="error_invalid_username">Username is not valid.</string>
     <string name="error_invalid_password">Has to be longer than 4 characters.</string>
     <string name="no_account_message">I don\'t have an account bro :-(</string>
-    <string name="logout">LOGOUT</string>
+
+    <!-- Main menu -->
     <string name="join_game">JOIN GAME</string>
-    <string name="stats">STATS</string>
+    <string name="settings">SETTINGS</string>
     <string name="friends">FRIENDS</string>
     <string name="replays">REPLAYS</string>
     <string name="rankings">RANKINGS</string>
+    <string name="logout">LOGOUT</string>
 
     <!-- chat -->
     <string name="send">Send</string>

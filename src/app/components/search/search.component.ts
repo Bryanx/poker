@@ -87,17 +87,16 @@ export class SearchComponent implements OnInit {
     this.userService.changeUser(this.myself).subscribe();
   }
 
+  /**
+   * Checks if we need to show a button to befriend someone.
+   *
+   * @param user The user where the checks need to happen on.
+   */
   checkShowButton(user: User) {
     if (user.id === this.myself.id) {
       return false;
+    } else {
+      return !this.myself.friends.some(friend => friend.id === user.id);
     }
-
-    for (let i = 0; i < this.myself.friends.length; i++) {
-      if (this.myself.friends[i].id === user.id) {
-        return false;
-      }
-    }
-
-    return true;
   }
 }

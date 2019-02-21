@@ -1,15 +1,21 @@
 {
+  "AMOUNT OF GAMES WON": "aantal gewonnen spellen",
+  "CURRENT AMOUNT OF CHIPS":"huidig aantal chips",
+  "TOTAL GAMES PLAYED": "totaal aantal gespeelde spellen",
+  "ADD FRIEND": "voeg vriend toe",
+  "REMOVE FRIEND": "verwijder vriend",
   "LOGIN": "inloggen",
   "REGISTER": "registreren",
   "JOIN ROOM": "kies een kamer",
   "SETTINGS": "instellingen",
+  "BEST HAND": "beste hand",
   "FRIENDS": "vrienden",
   "REPLAYS": "herhalingen",
   "RANKINGS": "scorebord",
-  "USERTITLE": "wijzig gebruikersaccount",
   "USERNAME": "gebruikersnaam",
   "EMAIL": "email",
   "FIRSTNAME": "voornaam",
+  "GAMES": "spellen",
   "LASTNAME": "achternaam",
   "PASSWORD": "wachtwoord",
   "SAVE": "opslaan",
@@ -21,5 +27,9 @@
   "EMAILREQUIRED": "Email is vereist",
   "FIRSTNAMEREQUIRED": "Voornaam is vereist",
   "LASTNAMEREQUIRED": "Achternaam is vereist",
-  "ROOMSOVERVIEWTITLE": "Kies een tafel"
+  "ROOMSOVERVIEWTITLE": "Kies een tafel",
+  "RANK": "rang",
+  "WON": "gewonnen",
+  "LOST": "verloren",
+  "UNKNOWN": "onbekend"
 }

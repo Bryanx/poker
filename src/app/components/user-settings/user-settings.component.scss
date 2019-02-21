@@ -1,9 +1,15 @@
 @import "~src/styles.scss";
 
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .grid-container {
-  margin-top: 3rem;
+  margin-top: 0;
   display: grid;
-  width: 100vw;
+  width: 100%;
   grid-template-columns: 18% 30% auto 30% 18%;
   grid-template-areas:
   ". first . second ."
@@ -27,7 +33,7 @@ button {
 }
 
 .grid-save {
-  margin-top: 3rem;
+  margin: 3rem 0;
   grid-area: save;
   justify-content: center;
   display: flex;
@@ -45,16 +51,6 @@ button {
   }
 }
 
-h2 {
-  color: white;
-  padding-top: 1rem;
-}
-:host {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 
 form {
   flex-direction: column;
@@ -62,11 +58,6 @@ form {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-
-  h1 {
-    margin-top: 4rem;
-    margin-bottom: 2rem;
-  }
 
   input {
     display: block;

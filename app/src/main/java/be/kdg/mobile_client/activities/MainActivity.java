@@ -63,6 +63,7 @@ public class MainActivity extends BaseActivity {
 
     private void redirectIfSignedIn() {
         if (sharedPrefService.hasToken(this)) {
+            finish();
             Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
             startActivity(intent);
         }

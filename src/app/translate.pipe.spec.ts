@@ -1,5 +1,4 @@
 import { TranslatePipe } from './translate.pipe';
-import {AuthGuardService} from './services/auth-guard.service';
 import {TestBed} from '@angular/core/testing';
 import {TranslateService} from './services/translate.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';

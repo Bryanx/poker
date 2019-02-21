@@ -3,6 +3,7 @@ package be.kdg.mobile_client.activities;
 import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -20,7 +21,6 @@ import butterknife.ButterKnife;
  */
 public class FriendsActivity extends BaseActivity {
     @BindView(R.id.lvFriends) ListView lvFriends;
-    @BindView(R.id.tvError) TextView tvError;
     @Inject SharedPrefService sharedPrefService;
     @Inject UserService userService;
     private FriendAdapter friendAdapter;
@@ -45,7 +45,7 @@ public class FriendsActivity extends BaseActivity {
                     friendAdapter.add(friend);
                 }
             } else {
-                tvError.setText(throwable == null ? getString(R.string.error_message) : throwable.getMessage());
+                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
             }
         }));
     }

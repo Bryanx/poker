@@ -14,13 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.FriendsActivity"></activity>
+        <activity android:name=".activities.AccountActivity"></activity>
+        <activity android:name=".activities.RankingsActivity" />
+        <activity android:name=".activities.FriendsActivity" />
         <activity
             android:name=".activities.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".activities.OverviewActivity" />
+        <activity android:name=".activities.OverviewActivity" />
         <activity
             android:name=".activities.RoomActivity"
             android:screenOrientation="landscape" />

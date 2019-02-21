@@ -1,7 +1,37 @@
 @import "~src/styles.scss";
 
+.grid {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: auto 20% 5% 20% auto;
+  grid-template-areas: ". name name name ." ". one . two ." ". save save save .";
+}
+
 section {
   margin-top: 2rem;
+}
+
+.grid-name {
+  grid-area: name;
+  display: block;
+  width: 100%;
+}
+
+.grid-one {
+  grid-area: one;
+  display: block;
+  width: 100%;
+}
+
+.grid-two {
+  grid-area: two;
+  display: block;
+  width: 100%;
+}
+
+.grid-save {
+  grid-area: save;
+  display: block;
 }
 
 button {
@@ -61,7 +91,7 @@ form {
 
   select {
     display: block;
-    padding: $inputPaddingV $inputPaddingH;
+    padding: 1.05rem $inputPaddingH;
     margin: .2rem 0;
     color: $dark-gray;
     width: 100%;

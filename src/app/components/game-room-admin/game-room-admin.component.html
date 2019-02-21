@@ -1,10 +1,9 @@
 <h2>{{'GAMERULES' | translate | titlecase}}</h2>
 
-<section class="grid">
-  <section class="first-element">
+<form *ngIf="updateRoomForm" [formGroup]="updateRoomForm" (ngSubmit)="onSubmit()">
+  <section class="grid">
 
-    <form *ngIf="updateRoomForm" [formGroup]="updateRoomForm" (ngSubmit)="onSubmit()">
-
+    <section class="grid-name">
       <section class="inputfield">
         <label for="name">{{'ROOM NAME' | translate | titlecase}}</label>
         <input type="text" name="name" formControlName="name" id="name" autocomplete="off">
@@ -13,7 +12,9 @@
           {{'ROOMNAMEREQUIRED' | translate}}
         </div>
       </section>
+    </section>
 
+    <section class="grid-one">
       <section class="inputfield">
         <label for="maxPlayerCount">{{'MAXPLAYERCOUNT' | translate | titlecase}}</label>
         <select type="form-control" name="maxPlayerCount" formControlName="maxPlayerCount" id="maxPlayerCount">
@@ -26,20 +27,22 @@
       </section>
 
       <section class="inputfield">
-        <label for="smallBlind">{{'SMALLBLIND' | translate | titlecase}}</label>
-        <input type="number" name="smallBlind" formControlName="smallBlind" id="smallBlind" autocomplete="off">
-        <div class="error"
-             *ngIf="updateRoomForm.controls['smallBlind'].hasError('required') && updateRoomForm.controls['smallBlind'].touched || updateRoomForm.controls['smallBlind'].hasError('min')">
-          {{'SMALLBLINDREQUIRED' | translate}}
-        </div>
-      </section>
-
-      <section class="inputfield">
         <label for="playDelay">{{'PLAYDELAY' | translate | titlecase}}</label>
         <input type="number" name="playDelay" formControlName="playDelay" id="playDelay" autocomplete="off">
         <div class="error"
              *ngIf="updateRoomForm.controls['playDelay'].hasError('required') && updateRoomForm.controls['playDelay'].touched || updateRoomForm.controls['playDelay'].hasError('min')">
           {{'PLAYDELAYREQUIRED' | translate}}
+        </div>
+      </section>
+    </section>
+
+    <section class="grid-two">
+      <section class="inputfield">
+        <label for="smallBlind">{{'SMALLBLIND' | translate | titlecase}}</label>
+        <input type="number" name="smallBlind" formControlName="smallBlind" id="smallBlind" autocomplete="off">
+        <div class="error"
+             *ngIf="updateRoomForm.controls['smallBlind'].hasError('required') && updateRoomForm.controls['smallBlind'].touched || updateRoomForm.controls['smallBlind'].hasError('min')">
+          {{'SMALLBLINDREQUIRED' | translate}}
         </div>
       </section>
 
@@ -51,13 +54,13 @@
           {{'STARTINGCHIPSREQUIRED' | translate}}
         </div>
       </section>
+    </section>
 
+    <section class="grid-save">
       <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid">
         {{'SAVE' | translate | titlecase}}
       </button>
-    </form>
+      <button class="btn" routerLink="/game-rooms">{{'BACK' | translate | titlecase}}</button>
+    </section>
   </section>
-  <section>
-    <button class="btn" routerLink="/game-rooms">{{'BACK' | translate | titlecase}}</button>
-  </section>
-</section>
+</form>

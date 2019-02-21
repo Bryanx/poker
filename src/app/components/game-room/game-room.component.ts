@@ -12,7 +12,7 @@ import {Player} from '../../model/player';
 })
 export class GameRoomComponent implements OnInit, OnDestroy {
   room: Room = {
-    roomId: 0,
+    id: 0,
     name: '',
     gameRules: null,
     playersInRoom: []
@@ -66,14 +66,14 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Calls the leave room API call in the game service.
    */
   private leaveRoom(): void {
-    this.gameService.leaveRoom(this.room.roomId).subscribe();
+    this.gameService.leaveRoom(this.room.id).subscribe();
   }
 
   /**
    * Joins the web-instance user to this room.
    */
   private joinRoom(): void {
-    this.gameService.joinRoom(this.room.roomId)
+    this.gameService.joinRoom(this.room.id)
       .subscribe(player => {
         this.player = player;
       });

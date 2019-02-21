@@ -11,6 +11,7 @@ import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.GameService;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
+import be.kdg.mobile_client.shared.EmailValidator;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -66,6 +67,9 @@ public class ControllerModule {
     Gson gson() {
         return new Gson();
     }
+
+    @Provides
+    EmailValidator emailValidator() { return new EmailValidator(); }
 
     @Provides
     OkHttpClient okHttpClient(SharedPrefService sharedPrefService) {

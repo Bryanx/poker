@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Token;
-import be.kdg.mobile_client.services.CallbackWrapper;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;

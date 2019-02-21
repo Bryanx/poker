@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.services;
+package be.kdg.mobile_client.shared;
 
 import retrofit2.Call;
 import retrofit2.Callback;

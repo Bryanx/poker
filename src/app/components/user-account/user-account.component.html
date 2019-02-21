@@ -1,3 +1,27 @@
-<p>
-  This is the account of {{user.username}}
-</p>
+<h1>{{user.username}}
+  <ng-container *ngIf="user && myself">
+    <button *ngIf="user.id !== myself.id && isFriends()" (click)="removeFriend()"
+            class="remove-friend">{{'REMOVE FRIEND' | translate | titlecase}}</button>
+    <button *ngIf="user.id !== myself.id && !isFriends()" (click)="addFriend()"
+            class="add-friend">{{'ADD FRIEND' | translate | titlecase}}</button>
+  </ng-container>
+</h1>
+
+<section>
+  <div class="half-width">
+    <img [src]="picture" (error)="setDefaultPicture()"
+         alt="Profile picture" class="profile-picture">
+  </div>
+  <div class="half-width">
+    <h2>{{'AMOUNT OF GAMES WON' | translate | uppercase}}</h2>
+    <span>{{user.wins | number}}</span>
+    <h2>{{'CURRENT AMOUNT OF CHIPS' | translate | uppercase}}</h2>
+    <span>{{user.chips | number}}</span>
+    <h2>{{'TOTAL GAMES PLAYED' | translate | uppercase}}</h2>
+    <span>{{user.gamesPlayed | number}}</span>
+    <h2>{{'BEST HAND' | translate | uppercase}}</h2>
+    <span>{{user.bestHand ? user.bestHand :  'UNKNOWN' | translate | titlecase}}</span>
+  </div>
+</section>
+
+<button class="back-button" (click)="location.back()">{{'BACK' | translate | titlecase}}</button>

@@ -14,4 +14,24 @@ export class User {
   gamesPlayed: number;
   bestHand: string;
   friends: User[] = [];
+
+  static create() {
+    return {
+      id: '',
+      username: '...',
+      firstname: '',
+      lastname: '',
+      chipsInRoom: 0,
+      password: '',
+      email: '',
+      profilePicture: '',
+      profilePictureSocial: '',
+      provider: '',
+      friends: [],
+      chips: 0,
+      wins: 0,
+      gamesPlayed: 0,
+      bestHand: ''
+    };
+  }
 }

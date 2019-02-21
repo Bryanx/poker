@@ -60,4 +60,5 @@
     <string name="current_amount_of_chips">CURRENT AMOUNT OF CHIPS</string>
     <string name="total_games_played">TOTAL GAMES PLAYED</string>
     <string name="best_hand">BEST HAND</string>
+    <string name="user_profile_picture">User profile picture</string>
 </resources>

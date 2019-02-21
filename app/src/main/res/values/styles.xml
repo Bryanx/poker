@@ -28,8 +28,8 @@
     <style name="rankingsHeaderRow">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">6dp</item>
-        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
         <item name="android:textColor">@color/colorLighterBackground</item>
         <item name="android:textAllCaps">true</item>
     </style>
@@ -37,6 +37,11 @@
     <style name="rankingsDataRow" parent="rankingsHeaderRow">
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="accountContentData" parent="rankingsDataRow">
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
     </style>
 
     <style name="accountContentHeader" parent="rankingsHeaderRow">

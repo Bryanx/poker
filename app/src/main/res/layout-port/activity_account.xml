@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    tools:context=".activities.AccountActivity">
+
+    <ImageView
+        android:id="@+id/ivPicture"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toTopOf="@+id/llContent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/user_profile_picture" />
+
+    <LinearLayout
+        android:id="@+id/llContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivPicture">
+
+        <TextView
+            android:id="@+id/tvHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/header_placeholder"
+            android:textColor="@color/colorWhite"
+            android:textSize="36sp"
+            android:textStyle="bold" />
+
+        <TextView
+            style="@style/accountContentHeader"
+            android:text="@string/amount_of_games_won" />
+
+        <TextView
+            android:id="@+id/tvWins"
+            style="@style/accountContentData"
+            android:text="@string/header_placeholder" />
+
+        <TextView
+            style="@style/accountContentHeader"
+            android:text="@string/current_amount_of_chips" />
+
+        <TextView
+            android:id="@+id/tvChips"
+            style="@style/accountContentData"
+            android:text="@string/header_placeholder" />
+
+        <TextView
+            style="@style/accountContentHeader"
+            android:text="@string/total_games_played" />
+
+        <TextView
+            android:id="@+id/tvGames"
+            style="@style/accountContentData"
+            android:text="@string/header_placeholder" />
+
+        <TextView
+            style="@style/accountContentHeader"
+            android:text="@string/best_hand" />
+
+        <TextView
+            android:id="@+id/tvBestHand"
+            style="@style/accountContentData"
+            android:text="@string/header_placeholder" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,6 +27,7 @@ import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
 import { GameRoomAdminComponent } from './components/game-room-admin/game-room-admin.component';
+import {AngularFontAwesomeModule} from 'angular-font-awesome';
 
 const config = new AuthServiceConfig([
   {
@@ -80,7 +81,8 @@ export function setupTranslateFactory(
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    SocialLoginModule
+    SocialLoginModule,
+    AngularFontAwesomeModule
   ],
   providers: [
     {

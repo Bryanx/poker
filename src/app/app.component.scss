@@ -2,19 +2,22 @@
 
 .language {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 1rem;
+  right: 1rem;
 
   button {
-    background-color: transparent;
-
+    background: none;
+    color: darken($background-color, 5%);
     width: auto;
     height: auto;
-    margin-right: 3px;
+    margin: 0;
     min-width: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0 0 0 .3rem;
 
     &:hover {
-      color: darken($green, 15%)
+      color: darken($background-color, 50%);
     }
   }
 }

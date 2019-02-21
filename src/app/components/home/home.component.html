@@ -1,23 +1,26 @@
 <header class="logout" *ngIf="isAuthenticated()">
-  <i class="fas fa-sign-out-alt fa-4x" (click)="logout()"></i>
+  <i class="fas fa-sign-out-alt fa-2x" (click)="logout()"></i>
 </header>
 
 <img src="../../../assets/img/logos/logo-white.png"/>
 
-<button *ngIf="!isAuthenticated()" routerLink="/login">{{'LOGIN' | translate | uppercase}}</button>
+<section>
+  <button *ngIf="!isAuthenticated()" routerLink="/login">{{'LOGIN' | translate | uppercase}}</button>
 
-<button *ngIf="!isAuthenticated()" routerLink="/register">{{'REGISTER' | translate | uppercase}}</button>
+  <button *ngIf="!isAuthenticated()" routerLink="/register">{{'REGISTER' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rooms">{{'JOIN ROOM' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rooms">{{'JOIN ROOM' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/settings/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/settings/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/friends">{{'FRIENDS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/friends">{{'FRIENDS' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'REPLAYS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'REPLAYS' | translate | uppercase}}</button>
 
-<button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'RANKINGS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'RANKINGS' | translate | uppercase}}</button>
 
-<button *ngIf="isAdmin()" routerLink="/game-rooms">{{'ADMINROOM' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/game-rooms">{{'ADMINROOM' | translate | uppercase}}</button>
 
-<button *ngIf="isAdmin()" routerLink="/">{{'ADMINUSER' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/">{{'ADMINUSER' | translate | uppercase}}</button>
+
+</section>

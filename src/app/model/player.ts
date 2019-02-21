@@ -11,4 +11,5 @@ export class Player {
   inRoom: boolean;
   chipCount: number;
   handType: string;
+  seatNumber: number;
 }

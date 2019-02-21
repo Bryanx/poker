@@ -12,8 +12,18 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ActDTO {
+    private String userId;
     private int roundId;
+    private int playerId;
     private ActType type;
     private Phase phase;
     private int bet;
+
+    public ActDTO(String userId, int roundId, ActType type, Phase phase, int bet) {
+        this.userId = userId;
+        this.roundId = roundId;
+        this.type = type;
+        this.phase = phase;
+        this.bet = bet;
+    }
 }

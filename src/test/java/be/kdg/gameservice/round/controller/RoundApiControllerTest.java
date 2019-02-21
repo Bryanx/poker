@@ -37,7 +37,7 @@ public class RoundApiControllerTest extends UtilTesting {
 
     @Test
     public void saveAct() throws Exception {
-        ActDTO actDTO = new ActDTO(testableRoundIdWithPlayers, ActType.BET, Phase.PRE_FLOP, 10);
+        ActDTO actDTO = new ActDTO(testableUserId, testableRoundIdWithPlayers, ActType.BET, Phase.PRE_FLOP, 10);
         String json = new Gson().toJson(actDTO);
         testMockMvc("/rounds/" + actDTO.getRoundId(),
                 json, mockMvc, RequestType.POST);

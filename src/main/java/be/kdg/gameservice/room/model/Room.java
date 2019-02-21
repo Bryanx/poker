@@ -130,6 +130,6 @@ public class Room {
             }
         }
 
-        return -1;
+        return 0;
     }
 }

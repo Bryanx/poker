@@ -56,8 +56,8 @@ public abstract class UtilTesting {
         Room room1 = new Room(GameRules.TEXAS_HOLD_EM, "test room 1");
         Room room2 = new Room(GameRules.TEXAS_HOLD_EM, "test room 2");
         Room room3 = new Room(GameRules.TEXAS_HOLD_EM_DIFFICULT, "test room 3");
-        room1.addPlayer(new Player(500, userIdMock));
-        room1.addPlayer(new Player(500, "2"));
+        room1.addPlayer(new Player(500, userIdMock, room1.getFirstEmptySeat()));
+        room1.addPlayer(new Player(500, "2", room1.getFirstEmptySeat()));
 
         roomRepository.save(room1);
         roomRepository.save(room2);
@@ -80,8 +80,8 @@ public abstract class UtilTesting {
                 .getAdditionalInformation().get("uuid").toString();
         Round round1 = new Round(new ArrayList<>(), 2);
         Round round2 = new Round(new ArrayList<>(Arrays.asList(
-                new Player(5000, userIdMock),
-                new Player(5000, "2")
+                new Player(5000, userIdMock, 0),
+                new Player(5000, "2", 1)
         )), 1);
         Round round3 = new Round(new ArrayList<>(), 5);
 

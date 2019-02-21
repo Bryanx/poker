@@ -79,9 +79,9 @@ public class RoundServiceImplTest extends UtilTesting {
         Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
         roomService.addRoom(roomMade);
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten");
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi");
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk");
+        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
+        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -138,9 +138,9 @@ public class RoundServiceImplTest extends UtilTesting {
         Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
         roomService.addRoom(roomMade);
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten");
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi");
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk");
+        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
+        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -197,9 +197,9 @@ public class RoundServiceImplTest extends UtilTesting {
         Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
         roomService.addRoom(roomMade);
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten");
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi");
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk");
+        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
+        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -261,9 +261,9 @@ public class RoundServiceImplTest extends UtilTesting {
         Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
         roomService.addRoom(roomMade);
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten");
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi");
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk");
+        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
+        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -333,9 +333,9 @@ public class RoundServiceImplTest extends UtilTesting {
         Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
         roomService.addRoom(roomMade);
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten");
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi");
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk");
+        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
+        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 

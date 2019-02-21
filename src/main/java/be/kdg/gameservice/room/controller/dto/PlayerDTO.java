@@ -18,4 +18,5 @@ public class PlayerDTO {
     private int chipCount;
     @NotNull
     private HandType handType;
+    private int seatNumber;
 }

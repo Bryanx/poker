@@ -44,7 +44,7 @@ public class FriendsActivity extends BaseActivity {
                     friendAdapter.add(friend);
                 }
             } else {
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.error_message), Toast.LENGTH_LONG).show();
             }
         }));
     }

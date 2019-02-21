@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class EmailValidatorTest {
     @Test
-    public void emailValidator() {
+    public void isValidEmail() {
         assertTrue(EmailValidator.isValidEmail("name@email.com"));
         assertTrue(EmailValidator.isValidEmail("aad@asd.asd"));
         assertTrue(EmailValidator.isValidEmail("asd@asdasd.coasdm"));

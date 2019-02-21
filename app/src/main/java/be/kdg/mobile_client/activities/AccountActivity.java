@@ -46,7 +46,7 @@ public class AccountActivity extends BaseActivity {
             if (response.isSuccessful() && response.body() != null) {
                 loadUserIntoView(response.body());
             } else {
-                Toast.makeText(getBaseContext(), getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.error_message), Toast.LENGTH_LONG).show();
             }
         }));
     }
@@ -66,7 +66,7 @@ public class AccountActivity extends BaseActivity {
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
             ivPicture.setImageBitmap(decodedByte);
         } else {
-            Picasso.get().load(R.drawable.user).into(ivPicture); //loads the default profile picture
+            Picasso.get().load(R.drawable.user).into(ivPicture); // load default profile picture
         }
     }
 }

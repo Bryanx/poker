@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity {
     public void onLoginSuccess(Token token) {
         token.setSignedIn(true);
         sharedPrefService.saveToken(getApplicationContext(), token);
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.logging_in), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.logging_in), Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
         setResult(RESULT_OK);
         finish();
@@ -84,7 +84,7 @@ public class LoginActivity extends BaseActivity {
      * Gets called when user fails to log in and shows toast.
      */
     public void onLoginFailed(String message) {
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_login_message), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.error_login_message), Toast.LENGTH_LONG).show();
         Log.e("Can't login", message);
         btnLogin.setEnabled(true);
     }

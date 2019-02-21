@@ -10,6 +10,7 @@ import {Round} from '../../model/round';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Card} from '../../model/card';
 import {Player} from '../../model/player';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-actionbar',
@@ -24,6 +25,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   sliderValue = 0;
   myTurn: boolean;
   player: Player;
+  currentAct: Act;
 
   constructor(private roundService: RoundService, private websocketService: RxStompService,
               private authorizationService: AuthorizationService) {
@@ -40,7 +42,8 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   initializeGameConnection() {
     this.actSubscription = this.websocketService.watch('/room/receiveact/' + this.roomId).subscribe((message: Message) => {
       if (message) {
-        console.log(JSON.parse(message.body));
+        this.currentAct = JSON.parse(message.body) as Act;
+        console.log(this.currentAct);
       }
     }, error => {
       console.log(error.error.error_description);
@@ -101,17 +104,25 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   checkTurn() {
-    const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
-    if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
-      console.log('Its my turn');
-      console.log('First card:' + this.player.firstCard.type);
-      console.log('Second card:' + this.player.secondCard.type);
-      this.myTurn = true;
+    this.myTurn = false;
+    // console.log(this.currentAct);
+
+    if (this.currentAct === undefined) {
+      const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
+      if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
+        this.myTurn = true;
+      }
     } else {
-      console.log('Its my opponents turn');
-      console.log('First card:' + this.player.firstCard.type);
-      console.log('Second card:' + this.player.secondCard.type);
-      this.myTurn = false;
+      if (this.currentAct.nextUserId === undefined) {
+        const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
+        if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
+          this.myTurn = true;
+        }
+      } else {
+        if (this.currentAct.nextUserId === this.player.userId) {
+          this.myTurn = true;
+        }
+      }
     }
   }
 }

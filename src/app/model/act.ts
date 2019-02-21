@@ -8,4 +8,5 @@ export class Act {
   type: ActType;
   phase: Phase;
   bet: number;
+  nextUserId: string;
 }

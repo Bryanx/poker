@@ -79,16 +79,23 @@ public final class Player {
     private HandType handType;
 
     /**
+     * The seatnumber where to player is seated on the table
+     */
+    @Setter
+    private int seatNumber;
+
+    /**
      * The Player is created with default values for all parameters.
      * @param chipCount The default chip count passed by the game rules.
      */
-    public Player(int chipCount, String userId) {
+    public Player(int chipCount, String userId, int seatNumber) {
         this.chipCount = chipCount;
         this.userId = userId;
         this.inRoom = true;
         this.inRound = false;
         this.handType = HandType.BAD;
         this.lastAct = ActType.UNDECIDED;
+        this.seatNumber = seatNumber;
     }
 
     /**

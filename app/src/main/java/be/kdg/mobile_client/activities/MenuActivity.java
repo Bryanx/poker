@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * The main menu of the app.
  */
 public class MenuActivity extends BaseActivity {
-    @BindView(R.id.logout) Button logout;
+    @BindView(R.id.btnLogout) Button btnLogout;
     @BindView(R.id.btnJoinGame) Button btnJoinGame;
     @BindView(R.id.btnFriends) Button btnFriends;
     @BindView(R.id.btnRankings) Button btnRankings;
@@ -47,7 +47,7 @@ public class MenuActivity extends BaseActivity {
             Intent intent = new Intent(getApplicationContext(), RankingsActivity.class);
             startActivity(intent);
         });
-        logout.setOnClickListener(e -> {
+        btnLogout.setOnClickListener(e -> {
             sharedPrefService.saveToken(this, null); // remove token
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);

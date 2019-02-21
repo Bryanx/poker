@@ -50,7 +50,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/rankings"/>
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/btnLogout"
             android:layout_height="wrap_content"
             style="@style/greenButton"
             android:text="@string/logout" />

@@ -9,13 +9,19 @@
 
   <button *ngIf="!isAuthenticated()" routerLink="/register">{{'REGISTER' | translate | uppercase}}</button>
 
-  <button *ngIf="isAuthenticated()" routerLink="/rooms">{{'JOIN ROOM' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rooms">{{'JOIN ROOM' | translate | uppercase}}</button>
 
-  <button *ngIf="isAuthenticated()" routerLink="/settings/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/settings/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
 
-  <button *ngIf="isAuthenticated()" routerLink="/friends">{{'FRIENDS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/friends">{{'FRIENDS' | translate | uppercase}}</button>
 
-  <button *ngIf="isAuthenticated()" routerLink="/">{{'REPLAYS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'REPLAYS' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'RANKINGS' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/game-rooms">{{'ADMINROOM' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/">{{'ADMINUSER' | translate | uppercase}}</button>
 
   <button *ngIf="isAuthenticated()" routerLink="/rankings">{{'RANKINGS' | translate | uppercase}}</button>
 </section>

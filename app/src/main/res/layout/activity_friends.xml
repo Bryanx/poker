@@ -24,13 +24,6 @@
             android:textSize="36sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/tvError"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorRed"/>
-
         <ListView
             android:id="@+id/lvFriends"
             android:layout_width="match_parent"

@@ -49,10 +49,8 @@ public class LoginActivity extends BaseActivity {
     public void login() {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
-        if (validateLogin(username, password)) {
-            btnLogin.setEnabled(false);
-            getTokenFromServer(username, password);
-        }
+        btnLogin.setEnabled(false);
+        getTokenFromServer(username, password);
     }
 
     /**
@@ -89,22 +87,5 @@ public class LoginActivity extends BaseActivity {
         Toast.makeText(getBaseContext(), getResources().getString(R.string.error_login_message), Toast.LENGTH_LONG).show();
         Log.e("Can't login", message);
         btnLogin.setEnabled(true);
-    }
-
-    /**
-     * Validates if given credentials are correct.
-     */
-    public boolean validateLogin(String email, String password) {
-        if (email.isEmpty() || email.length() < 4) {
-            etUsername.setError(getResources().getString(R.string.error_invalid_mail));
-            return false;
-        }
-        if (password.isEmpty() || password.length() < 4) {
-            etPassword.setError(getResources().getString(R.string.error_invalid_password));
-            return false;
-        }
-        etUsername.setError(null);
-        etPassword.setError(null);
-        return true;
     }
 }

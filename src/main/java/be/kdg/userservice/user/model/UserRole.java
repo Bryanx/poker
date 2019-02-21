@@ -1,11 +1,13 @@
 package be.kdg.userservice.user.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
 
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "tb_user_role")

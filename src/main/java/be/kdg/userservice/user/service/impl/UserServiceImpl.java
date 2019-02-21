@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 /**
  * Class that handles all user related tasks.
@@ -59,18 +61,20 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public List<User> getUsers() {
-        return Collections.unmodifiableList(userRepository.findAll());
+        return userRepository.findAll().stream()
+                .filter(user -> userRoleRepository.findByUserId(user.getId()).getRole().equals("ROLE_USER"))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     @Override
     public List<User> getUsersByName(String name) {
-       return getUsers().stream()
-               .filter(u -> u.getUsername().contains(name))
-               .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+        return getUsers().stream()
+                .filter(u -> u.getUsername().contains(name))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     @Override
-    public User addUser(User user) throws UserException{
+    public User addUser(User user) throws UserException {
         Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
 
         if (optionalUser.isPresent()) {
@@ -95,12 +99,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
 
         if (optionalUser.isPresent()) {
-            if (!optionalUser.get().getUsername().equals(user.getUsername()))
-            {
+            if (!optionalUser.get().getUsername().equals(user.getUsername())) {
                 throw new UserException("Username already taken");
             }
         }
-
+        adjustFriends(user);
         dbUser.setUsername(user.getUsername());
         dbUser.setFirstname(user.getFirstname());
         dbUser.setLastname(user.getLastname());
@@ -109,6 +112,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         dbUser.setFriends(user.getFriends());
 
         return userRepository.save(dbUser);
+    }
+
+    /**
+     * Because the UserDTO is cast to a normal user, the password will be zero, because this field
+     * is not present in the DTO.
+     */
+    private void adjustFriends(User user) {
+        for (User friend : user.getFriends()) {
+            User correct = userRepository.findById(friend.getId())
+                    .orElseThrow(() -> new UsernameNotFoundException("Username was not found"));
+            friend.setPassword(correct.getPassword());
+            friend.setEnabled(correct.getEnabled());
+        }
     }
 
     @Override

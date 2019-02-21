@@ -59,7 +59,7 @@ public final class CreateDefaultUserListener implements ApplicationListener<Cont
         user.setChips(20000);
         userRepository.save(user);
 
-        role = new UserRole(user.getId(), "ROLE_USER");
+        role = new UserRole(user.getId(), "ROLE_ADMIN");
         userRoleRepository.save(role);
         */
     }

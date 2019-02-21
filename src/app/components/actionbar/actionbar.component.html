@@ -2,9 +2,9 @@
   <p *ngIf="!myTurn">
     {{'BROTURN' | translate | uppercase}}
   </p>
-  <div class="cards">
-    <app-card class="player-card" [card]="firstCard"></app-card>
-    <app-card class="player-card" [card]="secondCard"></app-card>
+  <div class="cards" *ngIf="player">
+    <app-card class="player-card" [card]="player.firstCard"></app-card>
+    <app-card class="player-card" [card]="player.secondCard"></app-card>
   </div>
   <div class="button-actions">
     <button *ngIf="!getPossibleActs()" (click)="playAct(actTypes.Call)" class="call">CALL</button>

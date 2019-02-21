@@ -9,6 +9,7 @@ import {Subscription} from 'rxjs';
 import {Round} from '../../model/round';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Card} from '../../model/card';
+import {Player} from '../../model/player';
 
 @Component({
   selector: 'app-actionbar',
@@ -20,12 +21,12 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   public actTypes: typeof ActType = ActType;
   actSubscription: Subscription;
   _round: Round;
-  firstCard: Card;
-  secondCard: Card;
   sliderValue = 0;
   myTurn: boolean;
+  player: Player;
 
-  constructor(private roundService: RoundService, private websocketService: RxStompService, private authorizationService: AuthorizationService) {
+  constructor(private roundService: RoundService, private websocketService: RxStompService,
+              private authorizationService: AuthorizationService) {
   }
 
   ngOnInit() {
@@ -60,10 +61,11 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
   playAct(actType: ActType) {
     const act: Act = new Act();
-    act.roundId = 1;
+    act.roundId = this._round.id;
     act.type = actType;
-    act.phase = Phase.River;
-    act.playerId = 588;
+    act.phase = this._round.currentPhase;
+    act.playerId = this.player.id;
+    act.userId = this.player.userId;
 
     if (act.type === 'BET' || act.type === 'RAISE') {
       act.bet = this.sliderValue;
@@ -85,30 +87,31 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   @Input() set round(round: Round) {
     this._round = round;
     if (this._round) {
+      this.getPlayer();
       this.checkTurn();
+    }
+  }
+
+  getPlayer() {
+    for (let i = 0; i < this._round.playersInRound.length; i++) {
+      if (this._round.playersInRound[i].userId === this.authorizationService.getUserId()) {
+        this.player = this._round.playersInRound[i];
+      }
     }
   }
 
   checkTurn() {
     const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
-    if (this._round.playersInRound[nextPlayerIndex].userId === this.authorizationService.getUserId()) {
+    if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
       console.log('Its my turn');
-      console.log('First card:' + this._round.playersInRound[nextPlayerIndex].firstCard.type);
-      console.log('Second card:' + this._round.playersInRound[nextPlayerIndex].secondCard.type);
-      this.firstCard = this._round.playersInRound[nextPlayerIndex].firstCard;
-      this.secondCard = this._round.playersInRound[nextPlayerIndex].secondCard;
+      console.log('First card:' + this.player.firstCard.type);
+      console.log('Second card:' + this.player.secondCard.type);
       this.myTurn = true;
     } else {
-      for (let i = 0; i < this._round.playersInRound.length; i++) {
-        if (this._round.playersInRound[i].userId === this.authorizationService.getUserId()) {
-          console.log('Its my opponents turn');
-          console.log('First card:' + this._round.playersInRound[i].firstCard.type);
-          console.log('Second card:' + this._round.playersInRound[i].secondCard.type);
-          this.firstCard = this._round.playersInRound[i].firstCard;
-          this.secondCard = this._round.playersInRound[i].secondCard;
-          this.myTurn = false;
-        }
-      }
+      console.log('Its my opponents turn');
+      console.log('First card:' + this.player.firstCard.type);
+      console.log('Second card:' + this.player.secondCard.type);
+      this.myTurn = false;
     }
   }
 }

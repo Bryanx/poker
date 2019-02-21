@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 /**
  * This service will be used to manage the ongoing activity of a specific round.
@@ -344,5 +348,35 @@ public class RoundServiceImpl implements RoundService {
     @Override
     public List<Round> getRounds() {
         return Collections.unmodifiableList(roundRepository.findAll());
+    }
+
+    @Override
+    public String determineNextUserId(int roundId, String userId) throws RoundException{
+        Round round = getRound(roundId);
+        Optional<Player> playerOpt = round.getPlayersInRound().stream()
+                .filter(p -> p.getUserId().equals(userId))
+                .findAny();
+
+        if (!playerOpt.isPresent())
+            throw new RoundException(RoundServiceImpl.class, "playerId could not be associated with round.");
+
+        Player player = playerOpt.get();
+
+        List<Player> sortedActivePlayers = round.getActivePlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getSeatNumber))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+
+        for (Player activePlayer : sortedActivePlayers) {
+            if (activePlayer.getSeatNumber() > player.getSeatNumber()) {
+                return activePlayer.getUserId();
+            }
+        }
+
+        Optional<Player> optionalPlayer = round.getActivePlayers().stream().min(Comparator.comparing(Player::getSeatNumber));
+        if (optionalPlayer.isPresent()) {
+            return optionalPlayer.get().getUserId();
+        } else {
+            throw new RoundException(RoundServiceImpl.class, "No suitable players found.");
+        }
     }
 }

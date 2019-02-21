@@ -10,6 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -121,6 +122,7 @@ public class Room {
      * @return available seatNumber
      */
     public int getFirstEmptySeat() {
+        playersInRoom.sort(Comparator.comparingInt(Player::getSeatNumber));
         int[] occupiedSeats = playersInRoom.stream().mapToInt(Player::getSeatNumber).toArray();
         return findFirstPositiveMissingOccurrence(occupiedSeats);
     }

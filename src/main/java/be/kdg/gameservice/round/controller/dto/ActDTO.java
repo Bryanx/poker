@@ -18,6 +18,7 @@ public class ActDTO {
     private ActType type;
     private Phase phase;
     private int bet;
+    private String nextUserId;
 
     public ActDTO(String userId, int roundId, ActType type, Phase phase, int bet) {
         this.userId = userId;

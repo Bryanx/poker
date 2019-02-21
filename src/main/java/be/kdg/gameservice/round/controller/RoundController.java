@@ -28,10 +28,11 @@ public class RoundController {
      */
     @MessageMapping("/rooms/{roomId}/sendact")
     public void onReceiveAct(ActDTO actDTO, @DestinationVariable("roomId") int roomId) throws RoundException, RoomException {
-        this.template.convertAndSend("/room/receiveact/" + roomId, actDTO);
-
         this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet());
+
+        actDTO.setNextUserId(roundService.determineNextUserId(actDTO.getRoundId(), actDTO.getUserId()));
+        this.template.convertAndSend("/room/receiveact/" + roomId, actDTO);
 
         Round round = roomService.getCurrentRound(roomId);
         RoundDTO roundOut = modelMapper.map(round, RoundDTO.class);

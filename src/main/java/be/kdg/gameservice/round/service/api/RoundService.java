@@ -20,4 +20,6 @@ public interface RoundService {
     List<Round> getRounds();
 
     void distributeCoins(int roundId, Player player) throws RoundException;
+
+    String determineNextUserId(int roundId, String userId) throws RoundException;
 }

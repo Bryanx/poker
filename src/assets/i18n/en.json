@@ -1,15 +1,21 @@
 {
+  "AMOUNT OF GAMES WON": "amount of games won",
+  "CURRENT AMOUNT OF CHIPS": "current amount of chips",
+  "TOTAL GAMES PLAYED": "total games played",
+  "ADD FRIEND": "add friend",
+  "REMOVE FRIEND": "remove friend",
   "LOGIN": "login",
   "REGISTER": "register",
   "JOIN ROOM": "join room",
   "SETTINGS": "settings",
+  "BEST HAND": "best hand",
   "FRIENDS": "friends",
   "REPLAYS": "replays",
   "RANKINGS": "rankings",
-  "USERTITLE": "update user account",
   "USERNAME": "username",
   "EMAIL": "email",
   "FIRSTNAME": "first name",
+  "GAMES": "games",
   "LASTNAME": "last name",
   "PASSWORD": "password",
   "SAVE": "save",
@@ -24,5 +30,9 @@
   "ROOMSOVERVIEWTITLE": "Choose a room",
   "SEARCH_USERS": "Search users",
   "NO_FRIENDS": "You have no bros :(",
-  "USERS": "Users"
+  "USERS": "Users",
+  "RANK": "rank",
+  "WON": "won",
+  "LOST": "lost",
+  "UNKNOWN": "unknown"
 }

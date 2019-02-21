@@ -12,6 +12,7 @@ import {RoomsOverviewComponent} from './components/rooms-overview/rooms-overview
 import {FriendsComponent} from './components/friends/friends.component';
 import {UserAccountComponent} from './components/user-account/user-account.component';
 import {SearchComponent} from './components/search/search.component';
+import {RankingsComponent} from './components/rankings/rankings.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService] },
   { path: 'search', component: SearchComponent, canActivate: [AuthGuardService] },
+  { path: 'rankings', component: RankingsComponent, canActivate: [AuthGuardService] },
   { path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService] },
   { path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   { path: 'game-room', component: GameRoomComponent, canActivate: [AuthGuardService] },

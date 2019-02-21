@@ -70,7 +70,7 @@ public class RoomServiceImpl implements RoomService {
             throw new RoomException(RoomServiceImpl.class, "Maximum player capacity is reached.");
 
         //Add player to room
-        Player player = new Player(room.getGameRules().getStartingChips(), userId);
+        Player player = new Player(room.getGameRules().getStartingChips(), userId, room.getFirstEmptySeat());
         player = playerRepository.save(player);
         room.addPlayer(player);
         saveRoom(room);

@@ -115,4 +115,12 @@ public class Room {
     public Round getCurrentRound() {
         return rounds.get(rounds.size() - 1);
     }
+
+    /**
+     * Return number between 0 and maxRoomSize
+     * @return
+     */
+    public int getFirstEmptySeat() {
+        return -1;
+    }
 }

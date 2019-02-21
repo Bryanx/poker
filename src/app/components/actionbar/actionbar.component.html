@@ -1,4 +1,7 @@
-<div class="actionbar">
+<div [className]="myTurn ? 'actionbar' : 'actionbar-disabled'">
+  <p *ngIf="!myTurn">
+    {{'BROTURN' | translate | uppercase}}
+  </p>
   <div class="cards">
     <app-card class="player-card" [card]="firstCard"></app-card>
     <app-card class="player-card" [card]="secondCard"></app-card>

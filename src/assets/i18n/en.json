@@ -21,5 +21,6 @@
   "EMAILREQUIRED": "Email is required",
   "FIRSTNAMEREQUIRED": "Firstname is required",
   "LASTNAMEREQUIRED": "Lastname is required",
-  "ROOMSOVERVIEWTITLE": "Choose a room"
+  "ROOMSOVERVIEWTITLE": "Choose a room",
+  "BROTURN": "It's your bro's turn, bro"
 }

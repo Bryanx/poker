@@ -23,6 +23,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   firstCard: Card;
   secondCard: Card;
   sliderValue = 0;
+  myTurn: boolean;
 
   constructor(private roundService: RoundService, private websocketService: RxStompService, private authorizationService: AuthorizationService) {
   }
@@ -96,6 +97,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       console.log('Second card:' + this._round.playersInRound[nextPlayerIndex].secondCard.type);
       this.firstCard = this._round.playersInRound[nextPlayerIndex].firstCard;
       this.secondCard = this._round.playersInRound[nextPlayerIndex].secondCard;
+      this.myTurn = true;
     } else {
       for (let i = 0; i < this._round.playersInRound.length; i++) {
         if (this._round.playersInRound[i].userId === this.authorizationService.getUserId()) {
@@ -104,6 +106,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
           console.log('Second card:' + this._round.playersInRound[i].secondCard.type);
           this.firstCard = this._round.playersInRound[i].firstCard;
           this.secondCard = this._round.playersInRound[i].secondCard;
+          this.myTurn = false;
         }
       }
     }

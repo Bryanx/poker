@@ -10,7 +10,6 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -122,40 +121,38 @@ public class Room {
      * @return available seatNumber
      */
     public int getFirstEmptySeat() {
-//        playersInRoom.sort(Comparator.comparingInt(Player::getSeatNumber));
-//
-//        for (int i = 0; i < playersInRoom.size(); i++) {
-//            if (playersInRoom.get(i).getSeatNumber() != i) {
-//                return i;
-//            }
-//        }
-//
-//        return 0;
+        int[] occupiedSeats = playersInRoom.stream().mapToInt(Player::getSeatNumber).toArray();
+        return findFirstPositiveMissingOccurrence(occupiedSeats) -1;
+    }
 
-        int[] A = playersInRoom.stream().mapToInt(Player::getSeatNumber).toArray();
+    /**
+     * Finds the first missing positive number in an array of ints
+     * @param occupiedSeats
+     * @return
+     */
+    private int findFirstPositiveMissingOccurrence(int[] occupiedSeats) {
+        int size = occupiedSeats.length;
 
-        int n = A.length;
-
-        for (int i = 0; i < n; i++) {
-            while (A[i] != i + 1) {
-                if (A[i] <= 0 || A[i] >= n)
+        for (int i = 0; i < size; i++) {
+            while (occupiedSeats[i] != i + 1) {
+                if (occupiedSeats[i] <= 0 || occupiedSeats[i] >= size)
                     break;
 
-                if(A[i]==A[A[i]-1])
+                if(occupiedSeats[i]==occupiedSeats[occupiedSeats[i]-1])
                     break;
 
-                int temp = A[i];
-                A[i] = A[temp - 1];
-                A[temp - 1] = temp;
+                int temp = occupiedSeats[i];
+                occupiedSeats[i] = occupiedSeats[temp - 1];
+                occupiedSeats[temp - 1] = temp;
             }
         }
 
-        for (int i = 0; i < n; i++){
-            if (A[i] != i + 1){
+        for (int i = 0; i < size; i++){
+            if (occupiedSeats[i] != i + 1){
                 return i + 1;
             }
         }
 
-        return n + 1;
+        return size+1;
     }
 }

@@ -12,6 +12,7 @@ import be.kdg.mobile_client.services.GameService;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import be.kdg.mobile_client.shared.EmailValidator;
+import be.kdg.mobile_client.shared.UsernameValidator;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -70,6 +71,9 @@ public class ControllerModule {
 
     @Provides
     EmailValidator emailValidator() { return new EmailValidator(); }
+
+    @Provides
+    UsernameValidator usernameValidator() { return new UsernameValidator(); }
 
     @Provides
     OkHttpClient okHttpClient(SharedPrefService sharedPrefService) {

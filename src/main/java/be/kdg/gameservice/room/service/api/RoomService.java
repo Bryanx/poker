@@ -27,4 +27,6 @@ public interface RoomService {
     Room addRoom(Room room);
 
     Room getRoomByName(String roomName);
+
+    int checkChips (int roomId, int userChips) throws RoomException;
 }

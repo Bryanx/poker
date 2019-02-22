@@ -13,9 +13,11 @@ import javax.inject.Inject;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Register;
 import be.kdg.mobile_client.model.Token;
-import be.kdg.mobile_client.services.CallbackWrapper;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
+import be.kdg.mobile_client.shared.EmailValidator;
+import be.kdg.mobile_client.shared.UsernameValidator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -25,12 +27,10 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.tvBroMessageRegister) TextView tvBroMessage;
     @BindView(R.id.btnRegister) Button btnRegister;
-
-    @Inject
-    SharedPrefService sharedPrefService;
-
-    @Inject
-    UserService userService;
+    @Inject SharedPrefService sharedPrefService;
+    @Inject UserService userService;
+    @Inject EmailValidator emailValidator;
+    @Inject UsernameValidator usernameValidator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +42,8 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void addEventListners() {
+        etEmail.addTextChangedListener(emailValidator);
+        etUsername.addTextChangedListener(usernameValidator);
         btnRegister.setOnClickListener(v -> register());
         tvBroMessage.setOnClickListener(e -> {
             Intent intent = new Intent(this, LoginActivity.class);
@@ -54,7 +56,7 @@ public class RegisterActivity extends BaseActivity {
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
 
-        if (validateRegister(email, password)) {
+        if (validateRegister(password)) {
             btnRegister.setEnabled(false);
             getTokenFromServer(new Register(username, email, password));
         }
@@ -79,7 +81,7 @@ public class RegisterActivity extends BaseActivity {
     public void onRegisterSuccess(Token token) {
         token.setSignedIn(true);
         sharedPrefService.saveToken(getApplicationContext(), token);
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.logging_in), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.logging_in), Toast.LENGTH_LONG).show();
         btnRegister.setEnabled(true);
         setResult(RESULT_OK);
         finish();
@@ -91,7 +93,7 @@ public class RegisterActivity extends BaseActivity {
      * Gets called when user fails to regsiter and shows toast.
      */
     public void onRegisterFailed(String message) {
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_register_message), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.error_register_message), Toast.LENGTH_LONG).show();
         Log.e("Can't register", message);
         btnRegister.setEnabled(true);
     }
@@ -100,13 +102,17 @@ public class RegisterActivity extends BaseActivity {
     /**
      * Validates if given credentials are correct.
      */
-    public boolean validateRegister(String email, String password) {
-        if (email.isEmpty() || email.length() < 4) {
-            etEmail.setError(getResources().getString(R.string.error_invalid_mail));
+    public boolean validateRegister(String password) {
+        if (!emailValidator.isValid()) {
+            etEmail.setError(getString(R.string.error_invalid_mail));
+            return false;
+        }
+        if (!usernameValidator.isValid()) {
+            etUsername.setError(getString(R.string.error_invalid_username));
             return false;
         }
         if (password.isEmpty() || password.length() < 4) {
-            etPassword.setError(getResources().getString(R.string.error_invalid_password));
+            etPassword.setError(getString(R.string.error_invalid_password));
             return false;
         }
         etEmail.setError(null);

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.FriendRecyclerAdapter;
 import be.kdg.mobile_client.model.User;
-import be.kdg.mobile_client.services.CallbackWrapper;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;
@@ -57,16 +57,16 @@ public class FriendsActivity extends BaseActivity {
             if (response.isSuccessful() && response.body() != null) {
                 initializeAdapter(response.body().getFriends());
             } else {
-                Toast.makeText(this, "Error loading friends", Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.error_message), Toast.LENGTH_LONG).show();
             }
         }));
     }
 
     /**
-     * Initializes the rooms adapter to show all the rooms that
-     * were retrieved from the game-service back-end.
+     * Initializes the friend adapter to show all the friends that
+     * were retrieved from the user-service back-end.
      *
-     * @param friends The fri that need to be used by the adapter.
+     * @param friends The friends that need to be used by the adapter.
      */
     private void initializeAdapter(List<User> friends) {
         FriendRecyclerAdapter friendAdapter = new FriendRecyclerAdapter(friends);

@@ -11,16 +11,19 @@
     <string name="token">token</string>
     <string name="logging_in">Logged in</string>
     <string name="error_login_message">Login failed</string>
-    <string name="error_register_message">Registreren mislukt.</string>
-    <string name="error_invalid_mail">Has to be longer than 4 characters.</string>
+    <string name="error_register_message">Register failed.</string>
+    <string name="error_invalid_mail">Email is not valid.</string>
+    <string name="error_invalid_username">Username is not valid.</string>
     <string name="error_invalid_password">Has to be longer than 4 characters.</string>
     <string name="no_account_message">I don\'t have an account bro :-(</string>
-    <string name="logout">LOGOUT</string>
+
+    <!-- Main menu -->
     <string name="join_game">JOIN GAME</string>
-    <string name="stats">STATS</string>
+    <string name="settings">SETTINGS</string>
     <string name="friends">FRIENDS</string>
     <string name="replays">REPLAYS</string>
     <string name="rankings">RANKINGS</string>
+    <string name="logout">LOGOUT</string>
 
     <!-- chat -->
     <string name="send">Send</string>
@@ -44,6 +47,24 @@
     <string name="error_message">Something went wrong :-(</string>
     <string name="remove">REMOVE</string>
     <string name="has_an_account">I do have an account bro :)</string>
+
+    <!-- ranking -->
+    <string name="rank">RANK</string>
+    <string name="chips">CHIPS</string>
+    <string name="won">WON</string>
+    <string name="lost">LOST</string>
+    <string name="games">GAMES</string>
+    <string name="userid">USER_ID</string>
+
+    <!-- account -->
+    <string name="header_placeholder">…</string>
+    <string name="amount_of_games_won">AMOUNT OF GAMES WON</string>
+    <string name="current_amount_of_chips">CURRENT AMOUNT OF CHIPS</string>
+    <string name="total_games_played">TOTAL GAMES PLAYED</string>
+    <string name="best_hand">BEST HAND</string>
+    <string name="user_profile_picture">User profile picture</string>
+    
+    <!-- friends -->
     <string name="username">Username</string>
     <string name="search_placeholder">Search for users</string>
     <string name="search_bros">Search bros</string>

@@ -43,7 +43,7 @@ public interface UserService {
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})
     @GET("/api/users")
-    Call<User[]> getUser();
+    Call<User[]> getUsers();
 
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})

@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.RoomRecyclerAdapter;
 import be.kdg.mobile_client.model.Room;
-import be.kdg.mobile_client.services.CallbackWrapper;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.GameService;
 import butterknife.BindView;
 import butterknife.ButterKnife;

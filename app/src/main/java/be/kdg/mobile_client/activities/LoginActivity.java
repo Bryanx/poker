@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Token;
-import be.kdg.mobile_client.services.CallbackWrapper;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import butterknife.BindView;
@@ -32,10 +32,10 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        addEventListners();
+        addEventListeners();
     }
 
-    private void addEventListners() {
+    private void addEventListeners() {
         tvBroMessage.setOnClickListener(e -> {
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
@@ -49,10 +49,8 @@ public class LoginActivity extends BaseActivity {
     public void login() {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
-        if (validateLogin(username, password)) {
-            btnLogin.setEnabled(false);
-            getTokenFromServer(username, password);
-        }
+        btnLogin.setEnabled(false);
+        getTokenFromServer(username, password);
     }
 
     /**
@@ -60,7 +58,7 @@ public class LoginActivity extends BaseActivity {
      */
     private void getTokenFromServer(String username, String password) {
         userService.login(username, password, "password").enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response.isSuccessful()) {
+            if (response != null && response.isSuccessful()) {
                 onLoginSuccess(response.body());
             } else {
                 onLoginFailed(throwable == null ? "" : throwable.getMessage());
@@ -74,7 +72,7 @@ public class LoginActivity extends BaseActivity {
     public void onLoginSuccess(Token token) {
         token.setSignedIn(true);
         sharedPrefService.saveToken(getApplicationContext(), token);
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.logging_in), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.logging_in), Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
         setResult(RESULT_OK);
         finish();
@@ -86,25 +84,8 @@ public class LoginActivity extends BaseActivity {
      * Gets called when user fails to log in and shows toast.
      */
     public void onLoginFailed(String message) {
-        Toast.makeText(getBaseContext(), getResources().getString(R.string.error_login_message), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.error_login_message), Toast.LENGTH_LONG).show();
         Log.e("Can't login", message);
         btnLogin.setEnabled(true);
-    }
-
-    /**
-     * Validates if given credentials are correct.
-     */
-    public boolean validateLogin(String email, String password) {
-        if (email.isEmpty() || email.length() < 4) {
-            etUsername.setError(getResources().getString(R.string.error_invalid_mail));
-            return false;
-        }
-        if (password.isEmpty() || password.length() < 4) {
-            etPassword.setError(getResources().getString(R.string.error_invalid_password));
-            return false;
-        }
-        etUsername.setError(null);
-        etPassword.setError(null);
-        return true;
     }
 }

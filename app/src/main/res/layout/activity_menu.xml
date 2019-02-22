@@ -43,12 +43,11 @@
             android:text="@string/join_game" />
 
         <Button
-            android:id="@+id/btnStats"
-            style="@style/greenButton"
-            android:layout_width="175dp"
+            android:id="@+id/btnSettings"
             android:layout_height="wrap_content"
+            style="@style/greenButton"
             android:layout_marginBottom="12dp"
-            android:text="@string/stats" />
+            android:text="@string/settings"/>
 
         <Button
             android:id="@+id/btnFriends"
@@ -75,10 +74,10 @@
             android:text="@string/rankings" />
 
         <Button
-            android:id="@+id/logout"
+            android:id="@+id/btnLogout"
+            android:layout_height="wrap_content"
             style="@style/greenButton"
             android:layout_width="175dp"
-            android:layout_height="wrap_content"
             android:text="@string/logout" />
     </LinearLayout>
 

@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.UserRecyclerAdapter;
 import be.kdg.mobile_client.model.User;
-import be.kdg.mobile_client.services.CallbackWrapper;
 import be.kdg.mobile_client.services.UserService;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -63,7 +63,7 @@ public class UserSearchActivity extends BaseActivity {
      * a list adapter.
      */
     private void getUsers() {
-        userService.getUser().enqueue(new CallbackWrapper<>((throwable, response) -> {
+        userService.getUsers().enqueue(new CallbackWrapper<>((throwable, response) -> {
             if (response.isSuccessful() && response.body() != null) {
                 initializeAdapter(Arrays.asList(response.body()));
             } else {

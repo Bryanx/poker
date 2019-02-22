@@ -1,5 +1,7 @@
 package be.kdg.mobile_client.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +15,21 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.activities.RankingsActivity;
+import be.kdg.mobile_client.activities.RoomActivity;
 import be.kdg.mobile_client.model.Room;
+import lombok.AllArgsConstructor;
 
 /**
  * An adapter that is using the recycler method.
  * The class extends the generic inner class implementation of the ViewHolder.
  */
+@AllArgsConstructor
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapter.ViewHolder> {
+    private Context ctx;
     private List<Room> rooms;
 
     /**
@@ -71,6 +79,12 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         placeImage(R.drawable.coins, holder.ivCoin);
         placeImage(R.drawable.timer, holder.ivTimer);
         placeImage(R.drawable.not_full, holder.ivCap);
+        
+        holder.roomCard.setOnClickListener(e -> {
+            Intent intent = new Intent(ctx, RoomActivity.class);
+            intent.putExtra(ctx.getString(R.string.room_id), room.getRoomId());
+            ctx.startActivity(intent);
+        });
     }
 
 
@@ -103,6 +117,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
      * they can be recycled.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
+        CardView roomCard;
         TextView tvRoomName;
         TextView tvBuyIn;
         TextView tvBlinds;
@@ -122,6 +137,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             ivCoin = itemView.findViewById(R.id.ivCoin);
             ivTimer = itemView.findViewById(R.id.ivTimer);
             ivCap = itemView.findViewById(R.id.ivCap);
+            roomCard = itemView.findViewById(R.id.roomCard);
         }
     }
 }

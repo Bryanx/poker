@@ -26,7 +26,8 @@ public class RoomActivity extends BaseActivity {
     @BindView(R.id.llFragment) LinearLayout llFragment;
     @Inject FragmentManager fragmentManager;
     @Inject SharedPrefService sharedPrefService;
-    private Fragment chatFragment;
+    private ChatFragment chatFragment;
+    private int roomNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +36,15 @@ public class RoomActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
         ButterKnife.bind(this);
-        chatFragment = fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
-        hideFragment(chatFragment); // initially hide the chatfragment
+        initialiseViews();
         handleShowChatButton();
+    }
+
+    private void initialiseViews() {
+        chatFragment = (ChatFragment) fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
+        roomNumber = getIntent().getIntExtra(getString(R.string.room_id), 0);
+        chatFragment.setRoomNumber(roomNumber);
+        hideFragment(chatFragment); // initially hide the chatfragment
     }
 
     private void handleShowChatButton() {

@@ -41,4 +41,8 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<User> friends;
+
+    public void addNotification(Notification notification) {
+        notifications.add(notification);
+    }
 }

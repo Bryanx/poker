@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -17,6 +18,7 @@ public class Notification {
     private int id;
     private String message;
     private NotificationType type;
+    private LocalDateTime timestamp;
     @Setter
     private boolean approved;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -27,5 +29,6 @@ public class Notification {
         this.type = type;
         this.sender = sender;
         this.approved = false;
+        this.timestamp = LocalDateTime.now();
     }
 }

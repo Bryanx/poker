@@ -9,6 +9,7 @@ import be.kdg.userservice.user.dto.UserDto;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.service.api.UserService;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,18 +31,13 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class UserApiController {
+    private static final String ID_KEY = "uuid";
     private final ResourceServerTokenServices resourceTokenServices;
     private final AuthorizationServerTokenServices authorizationServerTokenServices;
     private final UserService userService;
     private final ModelMapper modelMapper;
-
-    public UserApiController(ResourceServerTokenServices resourceTokenServices, AuthorizationServerTokenServices authorizationServerTokenServices, UserService userServiceImpl, ModelMapper modelMapper) {
-        this.resourceTokenServices = resourceTokenServices;
-        this.authorizationServerTokenServices = authorizationServerTokenServices;
-        this.userService = userServiceImpl;
-        this.modelMapper = modelMapper;
-    }
 
     /**
      * Rest endpoint that returns the user based on his JWT.
@@ -49,9 +45,7 @@ public class UserApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/user")
     public ResponseEntity<UserDto> getUser(OAuth2Authentication authentication) {
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        Map<String, Object> additionalInfo = resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
-        User user = userService.findUserById(additionalInfo.get("uuid").toString());
+        User user = userService.findUserById(getUserInfo(authentication).get(ID_KEY).toString());
         UserDto userDto = modelMapper.map(user, UserDto.class);
 
         if (user.getProfilePictureBinary() != null) {
@@ -63,6 +57,11 @@ public class UserApiController {
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
+    /**
+     * Gives back all the users that have a user-role.
+     *
+     * @return The users with a 200 status code if successful.
+     */
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/users")
     public ResponseEntity<UserDto[]> getUsers() {
@@ -71,6 +70,12 @@ public class UserApiController {
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
     }
 
+    /**
+     * This api method will search all the users for a matching string in their name.
+     *
+     * @param name The regex that we need to user for our search.
+     * @return All the users that corresponded with the name and status code 200 if succeeded.
+     */
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/users/{name}")
     public ResponseEntity<UserDto[]> getUsersByName(@PathVariable String name) {
@@ -146,6 +151,15 @@ public class UserApiController {
         User userOut = userService.checkSocialUser(userIn);
 
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
+    }
+
+    /**
+     * @param authentication Needed as authentication.
+     * @return Gives back the details of a specific user.
+     */
+    private Map<String, Object> getUserInfo(OAuth2Authentication authentication) {
+        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
+        return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
     }
 
     /**

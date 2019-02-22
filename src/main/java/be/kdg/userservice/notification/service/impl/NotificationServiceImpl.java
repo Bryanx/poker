@@ -60,7 +60,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void deleteAllNotification(int id) throws NotificationException {
+    public void deleteNotification(int id) throws NotificationException {
         Notification notification = getNotification(id);
         notificationRepository.delete(notification);
     }

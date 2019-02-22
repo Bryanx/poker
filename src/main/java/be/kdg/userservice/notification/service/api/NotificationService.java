@@ -9,8 +9,12 @@ import java.util.List;
 
 public interface NotificationService {
     Notification addNotification(String senderId, String receiverId, String message, NotificationType type) throws UserException;
+
     Notification acceptNotification(int id) throws NotificationException;
+
     List<Notification> getNotificationsForUser(String userId);
+
     void deleteAllNotifications(String userId);
-    void deleteAllNotification(int id) throws NotificationException;
+
+    void deleteNotification(int id) throws NotificationException;
 }

@@ -5,16 +5,20 @@ import {AuthResult} from '../model/authResult';
 import {Observable} from 'rxjs';
 import {User} from '../model/user';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {UrlService} from './url.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
-  socialUrl = 'http://localhost:5000/api/sociallogin';
-  // socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
+  private readonly authUrl: string;
+  private readonly socialUrl: string;
   helper: JwtHelperService = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private urlService: UrlService) {
+    this.authUrl = urlService.authUrl;
+    this.socialUrl = urlService.socialUrl;
+  }
 
   login(loginPayload): Observable<AuthResult> {
     const headers = {

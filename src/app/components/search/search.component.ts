@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit {
   users: User[] = [];
   inputString: String = '';
   subject: Subject<String> = new Subject();
-  myself: User;
+  myself: User = User.create();
 
   constructor(private userService: UserService) {
   }

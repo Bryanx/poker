@@ -4,6 +4,7 @@ import {Observable, of} from 'rxjs';
 import {User} from '../model/user';
 import {catchError} from 'rxjs/operators';
 import {AuthResult} from '../model/authResult';
+import {UrlService} from './url.service';
 
 /**
  * This service is used to make API calls to the user micro service backend.
@@ -12,10 +13,10 @@ import {AuthResult} from '../model/authResult';
   providedIn: 'root'
 })
 export class UserService {
-  url = 'https://poker-user-service.herokuapp.com/api/user';
-  // url = 'http://localhost:5000/api/user';
+  private readonly url: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private urlService: UrlService) {
+    this.url = urlService.userServiceUrl;
   }
 
   /**

@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import * as Stomp from 'stompjs';
+import {UrlService} from './url.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  serverUrl = 'wss://poker-game-service.herokuapp.com/chat/websocket';
-  // serverUrl = 'ws://localhost:5001/chat/websocket';
+  private readonly serverUrl: string;
   server;
 
-  constructor() { }
+  constructor(private urlService: UrlService) {
+    this.serverUrl = urlService.serverUrl;
+  }
 
   join() {
     this.server = Stomp.over(new WebSocket(this.serverUrl));

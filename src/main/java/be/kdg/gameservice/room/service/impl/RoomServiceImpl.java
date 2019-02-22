@@ -1,6 +1,5 @@
 package be.kdg.gameservice.room.service.impl;
 
-import be.kdg.gameservice.room.controller.RoomController;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
@@ -190,7 +189,7 @@ public class RoomServiceImpl implements RoomService {
     public int checkChips(int roomId, int userChips) throws RoomException {
         Room room = getRoom(roomId);
         if (room.getGameRules().getStartingChips() > userChips) {
-            throw new RoomException(RoomController.class ,"User does not have enough chips to join.");
+            throw new RoomException(RoomServiceImpl.class ,"User does not have enough chips to join.");
         }
         return room.getGameRules().getStartingChips();
     }

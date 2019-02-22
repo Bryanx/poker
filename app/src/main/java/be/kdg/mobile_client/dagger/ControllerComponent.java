@@ -11,6 +11,7 @@ import be.kdg.mobile_client.activities.OverviewActivity;
 import be.kdg.mobile_client.activities.RankingsActivity;
 import be.kdg.mobile_client.activities.RegisterActivity;
 import be.kdg.mobile_client.activities.RoomActivity;
+import be.kdg.mobile_client.activities.UserSearchActivity;
 import be.kdg.mobile_client.fragments.ChatFragment;
 import dagger.Subcomponent;
 
@@ -23,11 +24,12 @@ public interface ControllerComponent {
     void inject(MainActivity mainActivity);
     void inject(LoginActivity loginActivity);
     void inject(MenuActivity menuActivity);
-    void inject(RoomActivity menuActivity);
-    void inject(ChatFragment menuActivity);
+    void inject(RoomActivity roomActivity);
+    void inject(ChatFragment chatFragment);
     void inject(RegisterActivity registerActivity);
     void inject(FriendsActivity friendsActivity);
     void inject(OverviewActivity overviewActivity);
     void inject(RankingsActivity rankingsActivity);
     void inject(AccountActivity accountActivity);
+    void inject(UserSearchActivity userSearchActivity);
 }

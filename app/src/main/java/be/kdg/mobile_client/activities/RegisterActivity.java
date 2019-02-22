@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class RegisterActivity extends BaseActivity {
     @BindView(R.id.etEmail) EditText etEmail;
-    @BindView(R.id.etUsername) EditText etUsername;
+    @BindView(R.id.etSearch) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.tvBroMessageRegister) TextView tvBroMessage;
     @BindView(R.id.btnRegister) Button btnRegister;

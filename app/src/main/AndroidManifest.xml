@@ -23,6 +23,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.OverviewActivity" />
         <activity
+            android:name=".activities.UserSearchActivity" />
+        <activity
             android:name=".activities.RoomActivity"
             android:screenOrientation="landscape" />
         <activity android:name=".activities.MainActivity">

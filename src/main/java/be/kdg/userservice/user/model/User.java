@@ -45,4 +45,12 @@ public class User {
     public void addNotification(Notification notification) {
         notifications.add(notification);
     }
+
+    public void deleteAllNotifications() {
+        notifications.clear();
+    }
+
+    public void deleteNotificatio(Notification notification) {
+        notifications.remove(notification);
+    }
 }

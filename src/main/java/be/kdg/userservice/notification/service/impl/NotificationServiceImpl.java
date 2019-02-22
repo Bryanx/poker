@@ -15,6 +15,10 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * This class is used to manage everything that has something to do with notifications.
+ * Some of this methods will be called from a web-socket, others form a normal api.
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -39,11 +43,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Notification acceptNotification(int id) throws NotificationException {
-        //Get data
-        Notification notification = notificationRepository.findById(id)
-                .orElseThrow(() -> new NotificationException(NotificationServiceImpl.class, "Notification was not found in the database."));
-
-        //Update data
+        Notification notification = getNotification(id);
         notification.setApproved(true);
         return notificationRepository.save(notification);
     }
@@ -52,5 +52,21 @@ public class NotificationServiceImpl implements NotificationService {
     public List<Notification> getNotificationsForUser(String userId) {
         List<Notification> notifications = userService.findUserById(userId).getNotifications();
         return Collections.unmodifiableList(notifications);
+    }
+
+    @Override
+    public void deleteAllNotifications(String userId) {
+        userService.findUserById(userId).deleteAllNotifications();
+    }
+
+    @Override
+    public void deleteAllNotification(int id) throws NotificationException {
+        Notification notification = getNotification(id);
+        notificationRepository.delete(notification);
+    }
+
+    private Notification getNotification(int id) throws NotificationException {
+        return notificationRepository.findById(id)
+                .orElseThrow(() -> new NotificationException(NotificationServiceImpl.class, "Notification was not found in the database."));
     }
 }

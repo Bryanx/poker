@@ -6,10 +6,10 @@
   ></app-player>
   <div class="grid-tmiddle"></div>
   <app-chat class="grid-chat" *ngIf="room"
-  [roomId]="room.roomId"></app-chat>
+  [roomId]="room.id"></app-chat>
   <app-actionbar class="grid-actionbar"
                  *ngIf="room"
-                 [roomId]="room.roomId"
+                 [roomId]="room.id"
   [round]="round"></app-actionbar>
   <app-game-table class="grid-item-table" [round]="round"></app-game-table>
 </div>

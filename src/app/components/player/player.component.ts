@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 import {DomSanitizer} from '@angular/platform-browser';
-import {Player} from "../../model/player";
+import {Player} from '../../model/player';
 
 @Component({
   selector: 'app-player',

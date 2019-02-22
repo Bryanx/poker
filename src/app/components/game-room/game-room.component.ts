@@ -51,14 +51,14 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   initializeRoomConnection() {
-    this.roomSubscription = this.websocketService.watch('/room/join/' + this.room.roomId).subscribe((message: Message) => {
+    this.roomSubscription = this.websocketService.watch('/room/join/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         const player = JSON.parse(message.body) as Player;
         if (player.userId === this.authorizationService.getUserId()) {
           this.player = player;
-          this.getRoom(this.room.roomId);
+          this.getRoom(this.room.id);
         } else {
-          this.getRoom(this.room.roomId);
+          this.getRoom(this.room.id);
         }
       }
     }, error => {
@@ -67,7 +67,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   initializeRoundConnection() {
-    this.roundSubscription = this.websocketService.watch('/room/receive-round/' + this.room.roomId).subscribe((message: Message) => {
+    this.roundSubscription = this.websocketService.watch('/room/receive-round/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.round = JSON.parse(message.body) as Round;
         // console.log(this.round);
@@ -89,7 +89,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   getCurrentRound(): void {
     this.websocketService.publish({
-      destination: '/rooms/' + this.room.roomId + '/get-current-round'
+      destination: '/rooms/' + this.room.id + '/get-current-round'
     });
   }
 
@@ -121,7 +121,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    */
   private joinRoom(): void {
     this.websocketService.publish({
-      destination: '/rooms/' + this.room.roomId + '/join',
+      destination: '/rooms/' + this.room.id + '/join',
       body: JSON.stringify({userId: this.authorizationService.getUserId(), access_token: localStorage.getItem('jwt_token')})
     });
   }

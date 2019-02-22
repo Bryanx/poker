@@ -1,5 +1,7 @@
 package be.kdg.mobile_client.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.activities.AccountActivity;
+import be.kdg.mobile_client.activities.FriendsActivity;
 import be.kdg.mobile_client.model.User;
 import lombok.AllArgsConstructor;
 
@@ -19,6 +23,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAdapter.ViewHolder> {
+    private Context ctx;
     private List<User> users;
 
     /**
@@ -35,6 +40,8 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
 
     /**
      * Binds all the information of one friend to one of the view holders.
+     * When clicking on the name -> navigate to user account
+     * When clicking on the delete button -> delete friend
      *
      * @param holder   The holder that "holds" the views that are created so they can be recycled.
      * @param position The position in the array.
@@ -43,6 +50,16 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
         holder.tvName.setText(user.getUsername());
+        holder.tvName.setOnClickListener(e -> {
+            Intent intent = new Intent(ctx, AccountActivity.class);
+            intent.putExtra(ctx.getString(R.string.userid), user.getId());
+            ctx.startActivity(intent);
+        });
+        holder.btnRemoveFriend.setOnClickListener(e -> {
+            if (ctx instanceof  FriendsActivity) {
+                ((FriendsActivity) ctx).removeFriend(user);
+            }
+        });
     }
 
     /**
@@ -61,10 +78,12 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
      */
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
+        View btnRemoveFriend;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvFriendsRow);
+            btnRemoveFriend = itemView.findViewById(R.id.btnRemoveFriend);
         }
     }
 }

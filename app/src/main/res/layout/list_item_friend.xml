@@ -41,14 +41,14 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnRemove"
+                app:layout_constraintEnd_toStartOf="@+id/btnRemoveFriend"
                 app:layout_constraintHorizontal_bias="0.421"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.483" />
 
             <Button
-                android:id="@+id/btnRemove"
+                android:id="@+id/btnRemoveFriend"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="77dp"
                 android:layout_height="29dp"

@@ -11,6 +11,7 @@ import {AuthorizationService} from '../../services/authorization.service';
 import {Card} from '../../model/card';
 import {Player} from '../../model/player';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {Room} from '../../model/room';
 
 @Component({
   selector: 'app-actionbar',
@@ -18,7 +19,7 @@ import {el} from '@angular/platform-browser/testing/src/browser_util';
   styleUrls: ['./actionbar.component.scss']
 })
 export class ActionbarComponent implements OnInit, OnDestroy {
-  @Input() roomId: number;
+  @Input() room: Room;
   public actTypes: typeof ActType = ActType;
   actSubscription: Subscription;
   _round: Round;
@@ -26,6 +27,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   myTurn: boolean;
   player: Player;
   currentAct: Act;
+  possibleActs: ActType[];
 
   constructor(private roundService: RoundService, private websocketService: RxStompService,
               private authorizationService: AuthorizationService) {
@@ -40,7 +42,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   initializeGameConnection() {
-    this.actSubscription = this.websocketService.watch('/room/receiveact/' + this.roomId).subscribe((message: Message) => {
+    this.actSubscription = this.websocketService.watch('/room/receiveact/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.currentAct = JSON.parse(message.body) as Act;
         console.log(this.currentAct);
@@ -63,6 +65,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   playAct(actType: ActType) {
+    console.log(actType);
     const act: Act = new Act();
     act.roundId = this._round.id;
     act.type = actType;
@@ -76,15 +79,19 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       act.bet = 0;
     }
 
-    this.websocketService.publish({destination: '/rooms/' + this.roomId + '/sendact', body: JSON.stringify(act)});
+    this.websocketService.publish({destination: '/rooms/' + this.room.id + '/sendact', body: JSON.stringify(act)});
   }
 
-  getPossibleActs() {
-    /*this.roundservice.getPossibleActs(618).subscribe(result => {
-    // TODO: uitwerken
-      console.log(result);
-    });*/
-    return true;
+  isActPossible(acttype: ActType) {
+    if (this.possibleActs !== undefined) {
+      if (this.possibleActs.indexOf(acttype) > -1) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
   @Input() set round(round: Round) {
@@ -105,7 +112,6 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
   checkTurn() {
     this.myTurn = false;
-    // console.log(this.currentAct);
 
     if (this.currentAct === undefined) {
       const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
@@ -124,5 +130,10 @@ export class ActionbarComponent implements OnInit, OnDestroy {
         }
       }
     }
+
+    this.roundService.getPossibleActs(this._round.id).subscribe(actTypes => {
+      this.possibleActs = actTypes;
+      console.log(this.possibleActs);
+    });
   }
 }

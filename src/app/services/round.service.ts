@@ -3,6 +3,7 @@ import {Act} from '../model/act';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Round} from '../model/round';
+import {ActType} from '../model/actType';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class RoundService {
   /**
    * Saves an act that was played by the player to the backend.
    */
-  getPossibleActs(roundId: number): Observable<Act> {
-    return this.http.get<Act>(this.url + roundId + '/possible-acts');
+  getPossibleActs(roundId: number): Observable<ActType[]> {
+    return this.http.get<ActType[]>(this.url + roundId + '/possible-acts');
   }
 }

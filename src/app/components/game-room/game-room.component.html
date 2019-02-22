@@ -9,7 +9,7 @@
   [roomId]="room.id"></app-chat>
   <app-actionbar class="grid-actionbar"
                  *ngIf="room"
-                 [roomId]="room.id"
+                 [room]="room"
   [round]="round"></app-actionbar>
   <app-game-table class="grid-item-table" [round]="round"></app-game-table>
 </div>

@@ -12,4 +12,5 @@ export class Player {
   chipCount: number;
   handType: string;
   seatNumber: number;
+  access_token: string;
 }

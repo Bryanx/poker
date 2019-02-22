@@ -122,7 +122,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   private joinRoom(): void {
     this.websocketService.publish({
       destination: '/rooms/' + this.room.roomId + '/join',
-      body: JSON.stringify({userId: this.authorizationService.getUserId()})
+      body: JSON.stringify({userId: this.authorizationService.getUserId(), access_token: localStorage.getItem('jwt_token')})
     });
   }
 

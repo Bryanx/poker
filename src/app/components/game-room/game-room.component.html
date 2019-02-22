@@ -2,6 +2,7 @@
   <button routerLink="/rooms" class="leave-button"><img src="../../../assets/img/icons/leave1.svg"></button>
   <app-player *ngFor="let player of getAllPlayers(); index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"
               [userId]="player.userId"
+              [player]="player"
   ></app-player>
   <div class="grid-tmiddle"></div>
   <app-chat class="grid-chat" *ngIf="room"

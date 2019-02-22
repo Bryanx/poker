@@ -4,5 +4,5 @@
     <p *ngIf="!usePicture">{{getInitials()}}</p>
     <img *ngIf="usePicture" [src]="getProfilePicture()" alt="Profile picture">
   </div>
-  <div class="money">100K</div>
+  <div class="money">{{player.chipCount}}</div>
 </div>

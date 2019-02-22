@@ -39,7 +39,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       setTimeout(() => {
         this.initializeRoundConnection();
         this.getCurrentRound();
-      }, 500);
+      }, 1000);
       this.done = true;
     }, 500);
   }

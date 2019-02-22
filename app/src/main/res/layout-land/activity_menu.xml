@@ -22,13 +22,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <GridLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="369dp"
+        android:layout_height="198dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="140dp"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,6 +40,9 @@
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:layout_margin="7dp"
             android:layout_marginBottom="12dp"
             android:text="@string/join_game" />
 
@@ -47,6 +51,9 @@
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_margin="7dp"
             android:layout_marginBottom="12dp"
             android:text="@string/stats" />
 
@@ -55,6 +62,9 @@
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_margin="7dp"
             android:layout_marginBottom="12dp"
             android:text="@string/friends" />
 
@@ -63,6 +73,9 @@
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_margin="7dp"
             android:layout_marginBottom="12dp"
             android:text="@string/replays" />
 
@@ -71,6 +84,9 @@
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_margin="7dp"
             android:layout_marginBottom="12dp"
             android:text="@string/rankings" />
 
@@ -79,7 +95,10 @@
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:layout_margin="7dp"
             android:text="@string/logout" />
-    </LinearLayout>
+    </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

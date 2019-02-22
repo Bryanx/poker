@@ -38,7 +38,7 @@
                 android:layout_marginBottom="8dp">
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/etUsername"
+                    android:id="@+id/etSearch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/colorWhite"

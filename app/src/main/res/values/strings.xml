@@ -6,7 +6,6 @@
     <string name="register">REGISTER</string>
     <string name="logo">Logo</string>
     <string name="email">Email</string>
-    <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="preference_file_key">preferenceFileKey</string>
     <string name="token">token</string>
@@ -45,4 +44,8 @@
     <string name="error_message">Something went wrong :-(</string>
     <string name="remove">REMOVE</string>
     <string name="has_an_account">I do have an account bro :)</string>
+    <string name="username">Username</string>
+    <string name="search_placeholder">Search for users</string>
+    <string name="search_bros">Search bros</string>
+    <string name="add">add</string>
 </resources>

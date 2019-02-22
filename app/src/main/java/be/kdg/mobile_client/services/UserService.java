@@ -39,4 +39,14 @@ public interface UserService {
             "Accept: application/json; charset=utf-8"})
     @GET("/api/user/{id}")
     Call<User> getUser(@Path("id") String id);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+            "Accept: application/json; charset=utf-8"})
+    @GET("/api/users")
+    Call<User[]> getUser();
+
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+            "Accept: application/json; charset=utf-8"})
+    @GET("/api/users/{name}")
+    Call<User[]> getUserByName(@Path("name") String name);
 }

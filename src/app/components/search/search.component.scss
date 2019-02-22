@@ -8,6 +8,10 @@
   width: 100%;
 }
 
+h2 {
+  color: white;
+}
+
 .search-bar {
   display: flex;
   align-items: flex-end;
@@ -72,11 +76,6 @@
 
     &:hover {
       background-color: #464867;
-      cursor: pointer;
-    }
-
-    &:active {
-      background-color: #3f4163;
     }
 
     .username-span {
@@ -84,6 +83,13 @@
       color: white;
       font-weight: bold;
       display: inline-block;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &:hover {
+        color: $background-color;
+        transform: scale(1.05);
+      }
     }
 
     .image-wrapper {
@@ -124,4 +130,8 @@
   color: white;
   margin-top: 25px;
   margin-bottom: 25px;
+}
+
+.back-button {
+  margin-bottom: 2rem;
 }

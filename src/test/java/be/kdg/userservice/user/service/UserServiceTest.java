@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -51,7 +50,7 @@ public class UserServiceTest extends UtilTesting {
         User test2 = userRepository.findById(testableUserId2).orElseThrow(Exception::new);
 
         //Add friend
-        test1.replaceFriends(new ArrayList<>(Collections.singletonList(test2)));
+        test1.setFriends(new ArrayList<>(Collections.singletonList(test2)));
         userService.changeUser(test1);
 
         //Test

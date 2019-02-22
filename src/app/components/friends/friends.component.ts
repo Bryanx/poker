@@ -3,7 +3,7 @@ import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 
 /**
- * Component for displaying/searching friends
+ * Component for displaying friends
  */
 @Component({
   selector: 'app-friends',
@@ -11,8 +11,7 @@ import {User} from '../../model/user';
   styleUrls: ['./friends.component.scss']
 })
 export class FriendsComponent implements OnInit {
-
-  myself: User;
+  myself: User = User.create();
 
   constructor(private userService: UserService) { }
 
@@ -22,11 +21,6 @@ export class FriendsComponent implements OnInit {
 
   removeFriend(friend: User) {
     this.myself.friends = this.myself.friends.filter(other => other !== friend);
-    this.userService.changeUser(this.myself).subscribe();
-  }
-
-  addFriend(friend: User) {
-    this.myself.friends.push(friend);
     this.userService.changeUser(this.myself).subscribe();
   }
 }

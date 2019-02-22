@@ -10,8 +10,8 @@ import {JwtHelperService} from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  // socialUrl = 'http://localhost:5000/api/sociallogin';
-  socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
+  socialUrl = 'http://localhost:5000/api/sociallogin';
+  // socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
   helper: JwtHelperService = new JwtHelperService();
 
   constructor(private http: HttpClient) {}
@@ -21,8 +21,8 @@ export class AuthorizationService {
       'Authorization': 'Basic ' + btoa('my-trusted-client:secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     };
-    return this.http.post<AuthResult>('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
-    // return this.http.post<AuthResult>('http://localhost:5000/oauth/token', loginPayload, {headers});
+    // return this.http.post<AuthResult>('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
+    return this.http.post<AuthResult>('http://localhost:5000/oauth/token', loginPayload, {headers});
   }
 
   setSession(authResult: AuthResult) {

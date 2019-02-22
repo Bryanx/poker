@@ -28,6 +28,9 @@
   "FIRSTNAMEREQUIRED": "Voornaam is vereist",
   "LASTNAMEREQUIRED": "Achternaam is vereist",
   "ROOMSOVERVIEWTITLE": "Kies een tafel",
+  "SEARCH_USERS": "Zoek gebruikers",
+  "NO_FRIENDS": "Je hebt geen bros :(",
+  "USERS": "Gebruiks",
   "ADMINROOM": "tafels",
   "ADMINUSER": "gebruikers",
   "ROOM NAME": "tafel name",
@@ -40,7 +43,7 @@
   "PLAYDELAY": "Tijd om een actie te spelen",
   "PLAYDELAYREQUIRED": "Tijd om een actie te spelen boven de 10 seconden is vereist",
   "STARTINGCHIPS": "Inkoopwaarde",
-  "STARTINGCHIPSREQUIRED": "Inkoopwarde boven de 500 is vereist"
+  "STARTINGCHIPSREQUIRED": "Inkoopwarde boven de 500 is vereist",
   "RANK": "rang",
   "WON": "gewonnen",
   "LOST": "verloren",

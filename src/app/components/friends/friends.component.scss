@@ -12,10 +12,8 @@
   margin: 3rem 0;
 }
 
-h1 {
+h2 {
   color: white;
-  margin-top: 4rem;
-  margin-bottom: 2rem;
 }
 
 section {
@@ -57,5 +55,18 @@ section {
     &:hover {
       background: darken($background-color, 3%);
     }
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+
+  button {
+    margin-right: 1rem;
+    margin-left: 1rem;
   }
 }

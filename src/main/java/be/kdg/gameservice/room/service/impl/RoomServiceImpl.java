@@ -159,12 +159,18 @@ public class RoomServiceImpl implements RoomService {
      * Adds a room to the database.
      *
      * @param name The name of the room.
-     * @param gameRules The rules that will be applied in this room.
+     * @param gameRulesIn The rules that will be applied in this room.
      * @return The newly created room.
      */
     @Override
-    public Room addRoom(String name, GameRules gameRules) {
-        Room room = new Room(gameRules, name);
+    public Room addRoom(String name, GameRules gameRulesIn) {
+        GameRules gameRulesOut = new GameRules(
+                gameRulesIn.getSmallBlind(),
+                gameRulesIn.getBigBlind(),
+                gameRulesIn.getPlayDelay(),
+                gameRulesIn.getStartingChips(),
+                gameRulesIn.getMaxPlayerCount());
+        Room room = new Room(gameRulesOut, name);
         return saveRoom(room);
     }
 

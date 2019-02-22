@@ -7,8 +7,8 @@ export class UrlService {
   // userServiceUrl = 'https://poker-user-service.herokuapp.com/api/user';
   userServiceUrl = 'http://localhost:5000/api/user';
 
-  gameServiceUrl = 'https://poker-game-service.herokuapp.com/api/rooms';
-  // gameServiceUrl = 'http://localhost:5001/api/rooms';
+  // gameServiceUrl = 'https://poker-game-service.herokuapp.com/api/rooms';
+  gameServiceUrl = 'http://localhost:5001/api/rooms';
 
   socialUrl = 'http://localhost:5000/api/sociallogin';
   // socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';

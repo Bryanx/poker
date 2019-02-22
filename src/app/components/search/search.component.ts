@@ -3,6 +3,10 @@ import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {Notification} from '../../model/notification';
+import {NotificationType} from '../../model/notificationType';
+import {AuthorizationService} from '../../services/authorization.service';
+import {RxStompService} from '@stomp/ng2-stompjs';
 
 /**
  * This component will be used for searching through all the users
@@ -20,7 +24,7 @@ export class SearchComponent implements OnInit {
   subject: Subject<String> = new Subject();
   myself: User = User.create();
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private webSocketService: RxStompService) {
   }
 
   /**
@@ -70,6 +74,20 @@ export class SearchComponent implements OnInit {
   addFriend(friend: User) {
     this.myself.friends.push(friend);
     this.userService.changeUser(this.myself).subscribe();
+    this.sendFriendRequest(friend.id);
+  }
+
+  private sendFriendRequest(receiverId: string) {
+    const notification: Notification = new Notification();
+    notification.type = NotificationType.FRIEND_REQUEST;
+    notification.sender = this.myself;
+    notification.message = this.myself.username + ' has sent you a friend request!';
+    console.log(notification);
+
+    this.webSocketService.publish({
+      destination: '/user/' + receiverId + '/send-notification',
+      body: JSON.stringify(JSON.stringify(notification))
+    });
   }
 
   /**

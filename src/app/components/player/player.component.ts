@@ -14,18 +14,7 @@ export class PlayerComponent implements OnInit {
   @Input() player: Player;
 
   usePicture: Boolean = false;
-  user: User = {
-    id: '',
-    username: '',
-    firstname: '',
-    lastname: '',
-    password: '',
-    email: '',
-    profilePicture: '',
-    profilePictureSocial: '',
-    provider: '',
-    friends: []
-  };
+  user: User = User.create();
 
   constructor(private userService: UserService, private sanitizer: DomSanitizer) { }
 
@@ -39,14 +28,7 @@ export class PlayerComponent implements OnInit {
   }
 
   getInitials(): string {
-    const words: string[] = this.user.username.split(' ');
-    const initials: string[] = [];
-
-    for (let i = 0; i < words.length; i++) {
-      initials.push(words[i].charAt(0).toUpperCase());
-    }
-
-    return initials.join('');
+    return this.user.username.charAt(0).toUpperCase();
   }
 
   getProfilePicture() {

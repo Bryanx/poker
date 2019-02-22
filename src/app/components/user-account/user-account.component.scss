@@ -1,0 +1,78 @@
+@import "~src/styles.scss";
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+section {
+  width: 70%;
+  display: flex;
+
+  .half-width {
+    width: 50%;
+    position: relative;
+    color: white;
+    padding: 1.5rem;
+
+    .overflow-img {
+      overflow: hidden;
+      width: 14rem;
+      height: 14rem;
+      position: absolute;
+      right: 1rem;
+      bottom: 0;
+      top: 1rem;
+      border-radius: 50%;
+      border: solid 6px white;
+
+      .profile-picture {
+        width: 14rem;
+        height: 14rem;
+      }
+    }
+
+    h2 {
+      color: lighten($background-color, 30%);
+      font-size: .9rem;
+    }
+
+    span {
+      font-size: 1.5rem;
+      margin-bottom: .4rem;
+      display: block;
+      font-weight: bold;
+    }
+  }
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+}
+
+.add-friend {
+  width: auto;
+  margin: 1rem 0 0 1rem;
+  min-width: auto;
+  height: 2rem;
+  font-size: .7rem;
+}
+
+.remove-friend {
+  @extend .add-friend;
+  background: $red;
+  margin: 1rem 0 0 1rem;
+  min-width: auto;
+  height: 2rem;
+  font-size: .7rem;
+  &:hover {
+    background: darken($red, 15%);
+  }
+}
+
+.back-button {
+  margin: 3rem 0;
+}

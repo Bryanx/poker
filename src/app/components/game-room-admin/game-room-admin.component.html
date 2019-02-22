@@ -1,0 +1,69 @@
+<h2>{{'GAMERULES' | translate | titlecase}}</h2>
+
+<form *ngIf="updateRoomForm" [formGroup]="updateRoomForm" (ngSubmit)="onSubmit()">
+  <section class="grid">
+
+    <section class="grid-name">
+      <section class="inputfield">
+        <label for="name">{{'ROOM NAME' | translate | titlecase}}</label>
+        <input type="text" name="name" formControlName="name" id="name" autocomplete="off">
+        <div class="error"
+             *ngIf="validationRequired('name')">
+          {{'ROOMNAMEREQUIRED' | translate}}
+        </div>
+      </section>
+    </section>
+
+    <section class="grid-one">
+      <section class="inputfield">
+        <label for="maxPlayerCount">{{'MAXPLAYERCOUNT' | translate | titlecase}}</label>
+        <select type="form-control" name="maxPlayerCount" formControlName="maxPlayerCount" id="maxPlayerCount">
+          <option *ngFor="let number of maxPlayers" [ngValue]="number">{{number}}</option>
+          <div class="error"
+               *ngIf="validationRequired('maxPlayerCount')">
+            {{'MAXPLAYERCOUNTREQUIRED' | translate}}
+          </div>
+        </select>
+      </section>
+
+      <section class="inputfield">
+        <label for="playDelay">{{'PLAYDELAY' | translate | titlecase}}</label>
+        <input type="number" name="playDelay" formControlName="playDelay" id="playDelay" autocomplete="off">
+        <div class="error"
+             *ngIf="validationRequired('playDelay') || validationMin('playDelay')">
+          {{'PLAYDELAYREQUIRED' | translate}}
+        </div>
+      </section>
+    </section>
+
+    <section class="grid-two">
+      <section class="inputfield">
+        <label for="smallBlind">{{'SMALLBLIND' | translate | titlecase}}</label>
+        <input type="number" name="smallBlind" formControlName="smallBlind" id="smallBlind" autocomplete="off">
+        <div class="error"
+             *ngIf="validationRequired('smallBlind') || validationMin('smallBlind')">
+          {{'SMALLBLINDREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="startingChips">{{'STARTINGCHIPS' | translate | titlecase}}</label>
+        <input type="number" name="startingChips" formControlName="startingChips" id="startingChips" autocomplete="off">
+        <div class="error"
+             *ngIf="validationRequired('startingChips') || validationMin('startingChips')">
+          {{'STARTINGCHIPSREQUIRED' | translate}}
+        </div>
+      </section>
+    </section>
+
+    <section class="grid-save">
+      <section class="buttons">
+        <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid">{{'SAVE' | translate |
+          titlecase}}
+        </button>
+        <button (click)="deleteRoom()" class="btn delete">{{'DELETEROOM' | translate | titlecase}}</button>
+      </section>
+      <button class="btn" routerLink="/game-rooms">{{'BACK' | translate | titlecase}}</button>
+    </section>
+  </section>
+</form>

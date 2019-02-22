@@ -1,7 +1,7 @@
 <h1>{{'ROOMSOVERVIEWTITLE' | translate | uppercase}}</h1>
 <section class="rooms">
   <div *ngFor="let room of rooms; index as room" [class]="'room ' + (isFull(room) ? 'disabled' : 'enabled')"
-       [routerLink]="['/rooms/', room.roomId]">
+       [routerLink]="[room.id]">
     <span class="name">{{room.name | uppercase}}</span>
     <span class="price">Buy-in: {{room.gameRules.startingChips}}</span>
 
@@ -15,4 +15,6 @@
     <img class="cap-img" [src]="determineCapacityIcon(room)" rel="capacity">
   </div>
 </section>
-<button routerLink="/">{{'BACK' | translate | titlecase}}</button>
+<button *ngIf="isAdmin()" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}</button>
+<button routerLink="/" class="back">{{'BACK' | translate | titlecase}}</button>
+

@@ -8,12 +8,6 @@
   height: 100%;
 }
 
-h1 {
-  color: white;
-  margin-top: 5rem;
-  margin-bottom: 3rem;
-}
-
 section {
   display: flex;
   flex-direction: row;
@@ -115,8 +109,8 @@ section {
   }
 }
 
-button {
-  margin-bottom: 35px;
+.back {
+  margin-bottom: 2rem;
 }
 
 @media(max-width: 800px) {

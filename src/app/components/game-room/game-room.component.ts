@@ -113,7 +113,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Calls the leave room API call in the game service.
    */
   private leaveRoom(): void {
-    this.gameService.leaveRoom(this.room.roomId).subscribe();
+    this.gameService.leaveRoom(this.room.id).subscribe();
   }
 
   /**

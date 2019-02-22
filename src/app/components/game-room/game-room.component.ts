@@ -22,6 +22,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   roundSubscription: Subscription;
   done: boolean;
   round: Round;
+  joined: boolean;
+  joinRoomInterval: any;
+  getRoundInterval: any;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
               private websocketService: RxStompService, private authorizationService: AuthorizationService,
@@ -29,20 +32,27 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
    ngOnInit() {
-    const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
+     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
 
-    this.getRoom(roomId as number);
+     this.getRoom(roomId as number);
 
-    setTimeout(() => {
-      this.initializeRoomConnection();
-      this.joinRoom();
-      setTimeout(() => {
-        this.initializeRoundConnection();
-        this.getCurrentRound();
-      }, 1000);
-      this.done = true;
-    }, 500);
-  }
+     this.joinRoomInterval = setInterval(() => {
+       if (this.room) {
+         this.initializeRoomConnection();
+         this.joinRoom();
+         clearInterval(this.joinRoomInterval);
+       }
+     }, 100);
+
+     this.getRoundInterval = setInterval(() => {
+       if (this.joined) {
+         this.initializeRoundConnection();
+         this.getCurrentRound();
+         this.done = true;
+         clearInterval(this.getRoundInterval);
+       }
+     }, 100);
+   }
 
   ngOnDestroy(): void {
     this.leaveRoom();
@@ -57,6 +67,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
         if (player.userId === this.authorizationService.getUserId()) {
           this.player = player;
           this.getRoom(this.room.id);
+          this.joined = true;
         } else {
           this.getRoom(this.room.id);
         }

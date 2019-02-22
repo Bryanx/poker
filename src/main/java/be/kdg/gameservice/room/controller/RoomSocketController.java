@@ -23,7 +23,7 @@ import java.util.Collections;
 
 @Controller
 @RequiredArgsConstructor
-public class RoomController {
+public class RoomSocketController {
     private final SimpMessagingTemplate template;
     private final ModelMapper modelMapper;
     private final RoomService roomService;

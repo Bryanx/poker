@@ -16,7 +16,7 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-public class RoundController {
+public class RoundSocketController {
     private final SimpMessagingTemplate template;
     private final RoundService roundService;
     private final RoomService roomService;

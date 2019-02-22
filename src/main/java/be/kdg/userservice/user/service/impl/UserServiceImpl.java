@@ -1,11 +1,11 @@
 package be.kdg.userservice.user.service.impl;
 
+import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.model.UserRole;
-import be.kdg.userservice.user.persistence.UserRoleRepository;
 import be.kdg.userservice.user.persistence.UserRepository;
-import be.kdg.userservice.shared.security.model.CustomUserDetails;
+import be.kdg.userservice.user.persistence.UserRoleRepository;
 import be.kdg.userservice.user.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +18,6 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -36,52 +35,46 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User was not found in database"));
 
-        if (optionalUser.isPresent()) {
-            List<String> userRoles = userRoleRepository.findRoleByUserName(username);
-            return new CustomUserDetails(optionalUser.get(), userRoles);
-        }
-
-        throw new UsernameNotFoundException("Bad credentials");
+        List<String> userRoles = userRoleRepository.findRoleByUserName(username);
+        return new CustomUserDetails(user, userRoles);
     }
 
     @Override
     public User findUserById(String id) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findById(id);
-
-        if (!user.isPresent()) {
-            throw new UsernameNotFoundException("Bad credentials");
-        } else {
-            return user.get();
-        }
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User was not found in the database"));
     }
 
     @Override
     public List<User> getUsers() {
-        return Collections.unmodifiableList(userRepository.findAll());
+        return userRepository.findAll().stream()
+                .filter(user -> userRoleRepository.findByUserId(user.getId()).getRole().equals("ROLE_USER"))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     @Override
     public List<User> getUsersByName(String name) {
-       return getUsers().stream()
-               .filter(u -> u.getUsername().contains(name))
-               .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+        return getUsers().stream()
+                .filter(u -> u.getUsername().contains(name))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     @Override
-    public User addUser(User user) throws UserException{
+    public User addUser(User user) throws UserException {
+        //Get data
         Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
-
         if (optionalUser.isPresent()) {
             throw new UserException("User already exists");
         }
 
+        //Add user
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setChips(20000);
         user.setEnabled(1);
         user = userRepository.save(user);
-
         UserRole role = new UserRole(user.getId(), "ROLE_USER");
         userRoleRepository.save(role);
 
@@ -90,37 +83,34 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User changeUser(User user) throws UserException {
-        User dbUser = userRepository.findById(user.getId()).orElseThrow(() -> new UserException("User not found"));
+        User userToUpdate = userRepository.findById(user.getId()).orElseThrow(() -> new UserException("User not found"));
+        Optional<User> optionalUserCheck = userRepository.findByUsername(user.getUsername());
 
-        Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
-
-        if (optionalUser.isPresent()) {
-            if (!optionalUser.get().getUsername().equals(user.getUsername()))
-            {
-                throw new UserException("Username already taken");
-            }
+        if (optionalUserCheck.isPresent() && !optionalUserCheck.get().getUsername().equals(user.getUsername())) {
+            throw new UserException("Username already taken");
         }
 
-        dbUser.setUsername(user.getUsername());
-        dbUser.setFirstname(user.getFirstname());
-        dbUser.setLastname(user.getLastname());
-        dbUser.setEmail(user.getEmail());
-        dbUser.setProfilePictureBinary(user.getProfilePictureBinary());
-        dbUser.setFriends(user.getFriends());
+        adjustFriends(user);
+        userToUpdate.setUsername(user.getUsername());
+        userToUpdate.setFirstname(user.getFirstname());
+        userToUpdate.setLastname(user.getLastname());
+        userToUpdate.setEmail(user.getEmail());
+        userToUpdate.setProfilePictureBinary(user.getProfilePictureBinary());
+        userToUpdate.setFriends(user.getFriends());
 
-        return userRepository.save(dbUser);
+        return userRepository.save(userToUpdate);
     }
 
     @Override
     public User changePassword(User user) throws UserException {
-        User dbUser = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new UserException("User not found"));
+        User dbUser = userRepository.findByUsername(user.getUsername())
+                .orElseThrow(() -> new UserException("User not found"));
         dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
-
         return userRepository.save(dbUser);
     }
 
     @Override
-    public User checkSocialUser(User user) throws UserException {
+    public User checkSocialUser(User user) {
         Optional<User> dbUser = userRepository.findBySocialId(user.getSocialId());
 
         if (!dbUser.isPresent()) {
@@ -132,5 +122,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
 
         return dbUser.get();
+    }
+
+    /**
+     * Because the UserDTO is cast to a normal user, the password will be zero, because this field
+     * is not present in the DTO.
+     */
+    private void adjustFriends(User user) {
+        for (User friend : user.getFriends()) {
+            User correct = userRepository.findById(friend.getId())
+                    .orElseThrow(() -> new UsernameNotFoundException("Username was not found"));
+            friend.setPassword(correct.getPassword());
+            friend.setEnabled(correct.getEnabled());
+        }
     }
 }

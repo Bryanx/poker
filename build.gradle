@@ -37,6 +37,8 @@ dependencies {
     compile('javax.xml.bind:jaxb-api:2.3.0')
     compile('javax.activation:activation:1.1')
     compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile ('org.webjars:stomp-websocket:2.3.3')
     compile ('org.modelmapper.extensions:modelmapper-spring:2.3.0')
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
 }

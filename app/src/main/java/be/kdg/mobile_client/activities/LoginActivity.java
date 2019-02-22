@@ -58,7 +58,7 @@ public class LoginActivity extends BaseActivity {
      */
     private void getTokenFromServer(String username, String password) {
         userService.login(username, password, "password").enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response.isSuccessful()) {
+            if (response != null && response.isSuccessful()) {
                 onLoginSuccess(response.body());
             } else {
                 onLoginFailed(throwable == null ? "" : throwable.getMessage());

@@ -63,10 +63,10 @@ public class FriendsActivity extends BaseActivity {
     }
 
     /**
-     * Initializes the rooms adapter to show all the rooms that
-     * were retrieved from the game-service back-end.
+     * Initializes the friend adapter to show all the friends that
+     * were retrieved from the user-service back-end.
      *
-     * @param friends The fri that need to be used by the adapter.
+     * @param friends The friends that need to be used by the adapter.
      */
     private void initializeAdapter(List<User> friends) {
         FriendRecyclerAdapter friendAdapter = new FriendRecyclerAdapter(friends);

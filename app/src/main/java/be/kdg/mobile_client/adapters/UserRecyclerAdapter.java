@@ -1,6 +1,7 @@
 package be.kdg.mobile_client.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.activities.AccountActivity;
 import be.kdg.mobile_client.activities.UserSearchActivity;
 import be.kdg.mobile_client.model.User;
 import lombok.AllArgsConstructor;
@@ -47,6 +49,11 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
         holder.tvName.setText(user.getUsername());
+        holder.tvName.setOnClickListener(e -> {
+            Intent intent = new Intent(ctx, AccountActivity.class);
+            intent.putExtra(ctx.getString(R.string.userid), user.getId());
+            ctx.startActivity(intent);
+        });
         holder.btnAdd.setOnClickListener(e -> {
             if (ctx instanceof  UserSearchActivity) {
                 ((UserSearchActivity) ctx).addFriend(user);

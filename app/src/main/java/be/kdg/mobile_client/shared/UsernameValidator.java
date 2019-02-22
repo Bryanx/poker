@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  */
 public class UsernameValidator implements TextWatcher {
 
-    public static final Pattern USERNAME_PATTERN = Pattern.compile("^([a-z]|[0-9]){4,255}$");
+    public static final Pattern USERNAME_PATTERN = Pattern.compile("^([a-z]|[A-Z]|[0-9]){4,255}$");
 
     private boolean isValid = false;
 

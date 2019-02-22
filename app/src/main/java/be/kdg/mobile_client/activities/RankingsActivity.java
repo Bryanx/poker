@@ -8,6 +8,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
@@ -43,6 +46,7 @@ public class RankingsActivity extends BaseActivity {
     }
 
     private void loadRankingsIntoView(User[] users) {
+        Arrays.sort(users);
         for (int i = 0, usersLength = users.length; i < usersLength; i++) {
             User user = users[i];
             TableRow row = new TableRow(this);

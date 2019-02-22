@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class User {
+public class User implements Comparable<User> {
     private String id;
     private String username;
     private String firstname;
@@ -22,4 +22,9 @@ public class User {
     private int gamesPlayed;
     private String bestHand;
     private List<User> friends;
+
+    @Override
+    public int compareTo(User o) {
+        return o.chips - this.chips;
+    }
 }

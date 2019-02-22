@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
@@ -51,7 +52,7 @@ public class UserServiceTest extends UtilTesting {
         User test2 = userRepository.findById(testableUserId2).orElseThrow(Exception::new);
 
         //Add friend
-        test1.setFriends(new ArrayList<>(Collections.singletonList(test2)));
+        test1.replaceFriends(new ArrayList<>(Collections.singletonList(test2)));
         userService.changeUser(test1);
 
         //Test

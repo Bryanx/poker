@@ -101,19 +101,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userRepository.save(userToUpdate);
     }
 
-    /**
-     * Because the UserDTO is cast to a normal user, the password will be zero, because this field
-     * is not present in the DTO.
-     */
-    private void adjustFriends(User user) {
-        for (User friend : user.getFriends()) {
-            User correct = userRepository.findById(friend.getId())
-                    .orElseThrow(() -> new UsernameNotFoundException("Username was not found"));
-            friend.setPassword(correct.getPassword());
-            friend.setEnabled(correct.getEnabled());
-        }
-    }
-
     @Override
     public User changePassword(User user) throws UserException {
         User dbUser = userRepository.findByUsername(user.getUsername())
@@ -123,7 +110,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User checkSocialUser(User user) throws UserException {
+    public User checkSocialUser(User user) {
         Optional<User> dbUser = userRepository.findBySocialId(user.getSocialId());
 
         if (!dbUser.isPresent()) {
@@ -135,5 +122,18 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
 
         return dbUser.get();
+    }
+
+    /**
+     * Because the UserDTO is cast to a normal user, the password will be zero, because this field
+     * is not present in the DTO.
+     */
+    private void adjustFriends(User user) {
+        for (User friend : user.getFriends()) {
+            User correct = userRepository.findById(friend.getId())
+                    .orElseThrow(() -> new UsernameNotFoundException("Username was not found"));
+            friend.setPassword(correct.getPassword());
+            friend.setEnabled(correct.getEnabled());
+        }
     }
 }

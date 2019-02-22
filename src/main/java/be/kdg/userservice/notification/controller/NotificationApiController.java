@@ -4,6 +4,7 @@ import be.kdg.userservice.notification.controller.dto.NotificationDTO;
 import be.kdg.userservice.notification.exception.NotificationException;
 import be.kdg.userservice.notification.model.Notification;
 import be.kdg.userservice.notification.service.api.NotificationService;
+import be.kdg.userservice.user.exception.UserException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class NotificationApiController {
      * @throws NotificationException Rerouted by handler.
      */
     @PreAuthorize("hasRole('USER_ROLE')")
-    @PatchMapping("/user/notifications/{notificationId}")
+    @PatchMapping("/user/notifications/{notificationId}/accept-notification")
     public ResponseEntity<NotificationDTO> acceptNotification(@PathVariable int notificationId) throws NotificationException {
         Notification notification = notificationService.acceptNotification(notificationId);
         NotificationDTO notificationOut = modelMapper.map(notification, NotificationDTO.class);
@@ -68,8 +69,8 @@ public class NotificationApiController {
      */
     @PreAuthorize("hasRole('USER_ROLE')")
     @DeleteMapping("/user/notification/{notificationId}")
-    public ResponseEntity<Void> deleteNotification(@PathVariable int notificationId) throws NotificationException {
-        notificationService.deleteNotification(notificationId);
+    public ResponseEntity<Void> deleteNotification(@PathVariable int notificationId, OAuth2Authentication authentication) throws NotificationException, UserException {
+        notificationService.deleteNotification(getUserInfo(authentication).get(ID_KEY).toString(), notificationId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
@@ -82,7 +83,7 @@ public class NotificationApiController {
      */
     @PreAuthorize("hasRole('USER_ROLE')")
     @DeleteMapping("/user/notification")
-    public ResponseEntity<Void> deleteNotifications(OAuth2Authentication authentication) {
+    public ResponseEntity<Void> deleteNotifications(OAuth2Authentication authentication) throws UserException {
         notificationService.deleteAllNotifications(getUserInfo(authentication).get(ID_KEY).toString());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

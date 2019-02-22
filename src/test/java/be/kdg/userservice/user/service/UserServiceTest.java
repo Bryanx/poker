@@ -2,7 +2,6 @@ package be.kdg.userservice.user.service;
 
 import be.kdg.userservice.UtilTesting;
 import be.kdg.userservice.user.model.User;
-import be.kdg.userservice.user.model.UserRole;
 import be.kdg.userservice.user.persistence.UserRepository;
 import be.kdg.userservice.user.persistence.UserRoleRepository;
 import be.kdg.userservice.user.service.api.UserService;
@@ -11,12 +10,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;

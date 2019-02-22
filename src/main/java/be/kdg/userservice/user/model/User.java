@@ -1,9 +1,7 @@
 package be.kdg.userservice.user.model;
 
 import be.kdg.userservice.notification.model.Notification;
-import lombok.Data;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -13,7 +11,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "tb_user")
@@ -83,6 +80,7 @@ public class User {
     private List<User> friends;
 
     public User() {
+        this.friends = new ArrayList<>();
         this.notifications = new ArrayList<>();
     }
 
@@ -100,6 +98,10 @@ public class User {
 
     public void addNotification(Notification notification) {
         notifications.add(notification);
+    }
+
+    public void deleteNotification(Notification notification) {
+        notifications.remove(notification);
     }
 
     public void deleteAllNotifications() {

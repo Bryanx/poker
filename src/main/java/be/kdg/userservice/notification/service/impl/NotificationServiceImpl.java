@@ -55,14 +55,24 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void deleteAllNotifications(String userId) {
-        userService.findUserById(userId).deleteAllNotifications();
+    public void deleteAllNotifications(String userId) throws UserException {
+        //Get data
+        User user = userService.findUserById(userId);
+
+        //Update data
+        user.deleteAllNotifications();
+        userService.changeUser(user);
     }
 
     @Override
-    public void deleteNotification(int id) throws NotificationException {
-        Notification notification = getNotification(id);
-        notificationRepository.delete(notification);
+    public void deleteNotification(String userId, int notificationId) throws NotificationException, UserException {
+        //Get data
+        User user = userService.findUserById(userId);
+        Notification notification = getNotification(notificationId);
+
+        //Update data
+        user.deleteNotification(notification);
+        userService.changeUser(user);
     }
 
     private Notification getNotification(int id) throws NotificationException {

@@ -2,6 +2,7 @@ import {Component, HostListener, OnInit} from '@angular/core';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
 import {TranslateService} from '../../services/translate.service';
+import {AuthorizationService} from '../../services/authorization.service';
 
 @Component({
   selector: 'app-rooms-overview',
@@ -11,13 +12,17 @@ import {TranslateService} from '../../services/translate.service';
 export class RoomsOverviewComponent implements OnInit {
   rooms: Room[] = [];
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private authService: AuthorizationService) {
   }
 
   ngOnInit() {
     this.gameService.getRooms().subscribe(rooms => {
       this.rooms = rooms;
     });
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
   }
 
   determineCapacityIcon(room: Room): string {

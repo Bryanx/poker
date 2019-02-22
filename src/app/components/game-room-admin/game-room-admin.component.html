@@ -57,9 +57,12 @@
     </section>
 
     <section class="grid-save">
-      <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid">
-        {{'SAVE' | translate | titlecase}}
-      </button>
+      <section class="buttons">
+        <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid">{{'SAVE' | translate |
+          titlecase}}
+        </button>
+        <button (click)="deleteRoom()" class="btn delete">{{'DELETEROOM' | translate | titlecase}}</button>
+      </section>
       <button class="btn" routerLink="/game-rooms">{{'BACK' | translate | titlecase}}</button>
     </section>
   </section>

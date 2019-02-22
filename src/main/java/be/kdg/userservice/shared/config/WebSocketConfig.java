@@ -5,8 +5,9 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
-public class WebSocketConfig {
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     /**
      * Setup the endpoint players where players can connect to join a room.
      */
@@ -22,7 +23,7 @@ public class WebSocketConfig {
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/chatroom/receive/", "/room/receiveact/", "/room/join/", "/room/receive-round/")
+        registry.enableSimpleBroker("/user/receivenotification")
                 .setHeartbeatValue(new long[]{10000, 10000})
                 .setTaskScheduler(heartBeatScheduler());
     }

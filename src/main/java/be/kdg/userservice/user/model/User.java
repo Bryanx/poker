@@ -1,5 +1,6 @@
 package be.kdg.userservice.user.model;
 
+import be.kdg.userservice.notification.model.Notification;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -32,6 +33,10 @@ public class User {
     private int wins;
     private int gamesPlayed;
     private String bestHand;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<Notification> notifications;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)

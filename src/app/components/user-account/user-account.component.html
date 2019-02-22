@@ -11,8 +11,10 @@
 
 <section>
   <div class="half-width">
-    <img [src]="picture" (error)="setDefaultPicture()"
-         alt="Profile picture" class="profile-picture">
+    <div class="overflow-img">
+      <img [src]="picture" (error)="setDefaultPicture()"
+           alt="Profile picture" class="profile-picture">
+    </div>
   </div>
   <div class="half-width">
     <h2>{{'AMOUNT OF GAMES WON' | translate | uppercase}}</h2>

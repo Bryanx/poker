@@ -16,16 +16,22 @@ section {
     position: relative;
     color: white;
     padding: 1.5rem;
-    overflow: hidden;
 
-    .profile-picture {
+    .overflow-img {
+      overflow: hidden;
+      width: 14rem;
+      height: 14rem;
       position: absolute;
       right: 1rem;
       bottom: 0;
-      width: 14rem;
       top: 1rem;
       border-radius: 50%;
       border: solid 6px white;
+
+      .profile-picture {
+        width: 14rem;
+        height: 14rem;
+      }
     }
 
     h2 {

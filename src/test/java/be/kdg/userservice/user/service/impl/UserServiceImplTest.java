@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 import static org.junit.Assert.assertNotNull;
@@ -25,21 +26,17 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserServiceImplTest {
-
     @Autowired
-    UserRepository userRepository;
-
+    private UserRepository userRepository;
     @Autowired
-    UserService userService;
-
+    private UserService userService;
     @Autowired
-    UserRoleRepository userRoleRepository;
-
+    private UserRoleRepository userRoleRepository;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         userRepository.deleteAll();
         User user1 = new User();
         user1.setEmail("test@testtest.com");
@@ -61,11 +58,15 @@ public class UserServiceImplTest {
 
     @Test
     public void addFriends() throws Exception {
+        //Prep
         User test1 = userRepository.findByUsername("test1").orElseThrow(Exception::new);
         User test2 = userRepository.findByUsername("test2").orElseThrow(Exception::new);
-        test1.setFriends(new ArrayList<>(Arrays.asList(test2))); // test mutual friendship
+
+        //Add friend
+        test1.setFriends(new ArrayList<>(Collections.singletonList(test2)));
         userService.changeUser(test1);
-        userService.changeUser(test2);
+
+        //Test
         test1 = userRepository.findByUsername("test1").orElseThrow(Exception::new);
         assertNotNull(test1.getFriends());
         assertTrue(test1.getFriends().iterator().next().getUsername().equalsIgnoreCase("test2"));

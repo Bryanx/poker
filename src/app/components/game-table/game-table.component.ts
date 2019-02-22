@@ -11,7 +11,7 @@ export class GameTableComponent implements OnInit {
   _round: Round;
   firstCard: boolean;
   secondCard: boolean;
-  thirthCard: boolean;
+  thirdCard: boolean;
   fourthCard: boolean;
   fifthCard: boolean;
 
@@ -33,32 +33,32 @@ export class GameTableComponent implements OnInit {
       case Phase.Flop:
         this.firstCard = true;
         this.secondCard = true;
-        this.thirthCard = true;
+        this.thirdCard = true;
         break;
       case Phase.Turn:
         this.firstCard = true;
         this.secondCard = true;
-        this.thirthCard = true;
+        this.thirdCard = true;
         this.fourthCard = true;
         break;
       case Phase.River:
         this.firstCard = true;
         this.secondCard = true;
-        this.thirthCard = true;
+        this.thirdCard = true;
         this.fourthCard = true;
         this.fifthCard = true;
         break;
       case Phase.Showdown:
         this.firstCard = true;
         this.secondCard = true;
-        this.thirthCard = true;
+        this.thirdCard = true;
         this.fourthCard = true;
         this.fifthCard = true;
         break;
       default:
         this.firstCard = false;
         this.secondCard = false;
-        this.thirthCard = false;
+        this.thirdCard = false;
         this.fourthCard = false;
         this.fifthCard = false;
     }

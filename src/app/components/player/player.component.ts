@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Player} from "../../model/player";
 
 @Component({
   selector: 'app-player',
@@ -10,6 +11,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class PlayerComponent implements OnInit {
   @Input() userId: string;
+  @Input() player: Player;
 
   usePicture: Boolean = false;
   user: User = {

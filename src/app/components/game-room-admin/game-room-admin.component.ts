@@ -4,6 +4,9 @@ import {GameService} from '../../services/game.service';
 import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {Room} from '../../model/room';
+import {until} from 'selenium-webdriver';
+import {Router} from '@angular/router';
+import {GameRules} from '../../model/gamerules';
 
 @Component({
   selector: 'app-game-room-admin',
@@ -19,24 +22,55 @@ export class GameRoomAdminComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private gameService: GameService,
-    private curRouter: ActivatedRoute) {
+    private curRouter: ActivatedRoute,
+    private router: Router) {
     this.maxPlayers = new Array(5).fill(2).map((x, i) => i + 2);
   }
 
   ngOnInit() {
-    this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
-      this.id = +params.get('id');
-      return this.gameService.getRoom(+params.get('id'));
-    })).subscribe((room) => {
-      this.room = room as Room;
-      this.room.id = this.id;
+    if (this.isAdding()) {
+      this.room = new Room();
+      this.room.gameRules = new GameRules();
+      this.room.playersInRoom = [];
+      this.room.id = 0;
+      this.room.name = "";
+      this.room.gameRules.maxPlayerCount = 6;
+      this.room.gameRules.smallBlind = 100;
+      this.room.gameRules.playDelay = 30;
+      this.room.gameRules.startingChips = 1000;
       this.updateRoomForm = this.formBuilder.group({
         name: [this.room.name, Validators.compose([Validators.required])],
         maxPlayerCount: [this.room.gameRules.maxPlayerCount, Validators.compose([Validators.required])],
         smallBlind: [this.room.gameRules.smallBlind, Validators.compose([Validators.required, Validators.min(10)])],
         playDelay: [this.room.gameRules.playDelay, Validators.compose([Validators.required, Validators.min(10)])],
-        startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])],
+        startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])]
       })
+    } else {
+
+      this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
+        this.id = +params.get('id');
+        return this.gameService.getRoom(+params.get('id'));
+      })).subscribe((room) => {
+        this.room = room as Room;
+        this.room.id = this.id;
+        this.updateRoomForm = this.formBuilder.group({
+          name: [this.room.name, Validators.compose([Validators.required])],
+          maxPlayerCount: [this.room.gameRules.maxPlayerCount, Validators.compose([Validators.required])],
+          smallBlind: [this.room.gameRules.smallBlind, Validators.compose([Validators.required, Validators.min(10)])],
+          playDelay: [this.room.gameRules.playDelay, Validators.compose([Validators.required, Validators.min(10)])],
+          startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])]
+        })
+      });
+    }
+  }
+
+  isAdding() {
+    return this.router.url.split('/')[2] === 'add'
+  }
+
+  deleteRoom() {
+    this.gameService.deleteRoom(this.room).subscribe(result => {
+      return this.router.navigate(['/game-rooms'])
     });
   }
 
@@ -47,11 +81,15 @@ export class GameRoomAdminComponent implements OnInit {
     this.room.gameRules.bigBlind = 2 * this.updateRoomForm.controls.smallBlind.value;
     this.room.gameRules.playDelay = this.updateRoomForm.controls.playDelay.value;
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
-    this.gameService.changeRoom(this.room).subscribe(room => {
-      // this.toastText = 'User was updated';
-      // this.toast = true;
-      // setTimeout(() => this.toast = false, 2000);
-    });
+    if (this.isAdding()) {
+      this.gameService.addRoom(this.room).subscribe(result => {
+        return this.router.navigate(['/game-rooms'])
+      });
+    } else {
+      this.gameService.changeRoom(this.room).subscribe(result => {
+        return this.router.navigate(['/game-rooms'])
+      });
+    }
   }
 
   validationRequired(name: string) {

@@ -4,15 +4,21 @@
   display: grid;
   width: 100vw;
   grid-template-columns: auto 20% 5% 20% auto;
-  grid-template-areas: ". name name name ." ". one . two ." ". save save save .";
+  grid-template-areas: ". delete delete delete ." ". name name name ." ". one . two ." ". save save save .";
 }
 
 section {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .grid-name {
   grid-area: name;
+  display: block;
+  width: 100%;
+}
+
+.grid-delete {
+  grid-area: delete;
   display: block;
   width: 100%;
 }
@@ -111,5 +117,21 @@ form {
   .error {
     color: $red;
     position: absolute;
+  }
+}
+
+.buttons {
+  display: flex;
+
+  :first-child {
+    margin-right: 1rem;
+  }
+
+  :last-child {
+    margin-left: 1rem;
+    background-color: $red;
+    &:hover{
+      background-color: darken($red, 15%);
+    }
   }
 }

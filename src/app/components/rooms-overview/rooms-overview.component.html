@@ -15,4 +15,6 @@
     <img class="cap-img" [src]="determineCapacityIcon(room)" rel="capacity">
   </div>
 </section>
-<button routerLink="/">{{'BACK' | translate | titlecase}}</button>
+<button *ngIf="isAdmin()" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}</button>
+<button routerLink="/" class="back">{{'BACK' | translate | titlecase}}</button>
+

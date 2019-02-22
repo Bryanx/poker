@@ -44,6 +44,8 @@
   "PLAYDELAYREQUIRED": "Tijd om een actie te spelen boven de 10 seconden is vereist",
   "STARTINGCHIPS": "Inkoopwaarde",
   "STARTINGCHIPSREQUIRED": "Inkoopwarde boven de 500 is vereist",
+  "ADDROOM": "voeg tafel toe",
+  "DELETEROOM": "verwijder",
   "RANK": "rang",
   "WON": "gewonnen",
   "LOST": "verloren",

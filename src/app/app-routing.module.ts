@@ -17,20 +17,21 @@ import {RankingsComponent} from './components/rankings/rankings.component';
 
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, pathMatch: 'full'},
-  {path: 'login', component: LoginComponent},
-  {path: 'chat', component: ChatComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService]},
+  { path: '', component: HomeComponent, pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'chat', component: ChatComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService] },
+  { path: 'rankings', component: RankingsComponent, canActivate: [AuthGuardService] },
   {path: 'search', component: SearchComponent, canActivate: [AuthGuardService]},
-  {path: 'rankings', component: RankingsComponent, canActivate: [AuthGuardService]},
-  {path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService]},
-  {path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
-  {path: 'game-rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
-  {path: 'game-rooms/:id', component: GameRoomAdminComponent, canActivate: [AuthGuardService]},
-  {path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuardService]},
-  {path: 'user/:id', component: UserAccountComponent, canActivate: [AuthGuardService]},
-  {path: '**', redirectTo: '/login', pathMatch: 'full'}
+  { path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService] },
+  { path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
+  { path: 'game-rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService] },
+  { path: 'game-rooms/:id', component: GameRoomAdminComponent, canActivate: [AuthGuardService] },
+  { path: 'game-rooms/add', component: GameRoomAdminComponent, canActivate: [AuthGuardService] },
+  { path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuardService] },
+  { path: 'user/:id', component: UserAccountComponent, canActivate: [AuthGuardService] },
+  { path: '**', redirectTo: '/login', pathMatch: 'full' }
 ];
 
 @NgModule({

@@ -44,6 +44,8 @@
   "PLAYDELAYREQUIRED": "Time to play an action is required and needs to be 10 or higher",
   "STARTINGCHIPS": "Buy-in amount",
   "STARTINGCHIPSREQUIRED": "Buy-in amount above 500 is required",
+  "ADDROOM": "add room",
+  "DELETEROOM": "delete",
   "RANK": "rank",
   "WON": "won",
   "LOST": "lost",

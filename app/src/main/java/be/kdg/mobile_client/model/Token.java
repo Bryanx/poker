@@ -15,5 +15,10 @@ public class Token {
     @Expose
     private String tokenType;
 
+    @SerializedName("expires_in")
+    @Expose
+    private String expiresIn;
+
     private boolean signedIn;
+
 }

@@ -1,8 +1,10 @@
 package be.kdg.mobile_client.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.activities.UserSearchActivity;
 import be.kdg.mobile_client.model.User;
 import lombok.AllArgsConstructor;
 
@@ -19,6 +22,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapter.ViewHolder> {
+    private Context ctx;
     private List<User> users;
 
     /**
@@ -43,6 +47,11 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
         holder.tvName.setText(user.getUsername());
+        holder.btnAdd.setOnClickListener(e -> {
+            if (ctx instanceof  UserSearchActivity) {
+                ((UserSearchActivity) ctx).addFriend(user);
+            }
+        });
     }
 
     /**
@@ -61,10 +70,12 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
      */
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
+        Button btnAdd;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvUserName);
+            btnAdd = itemView.findViewById(R.id.btnAdd);
         }
     }
 }

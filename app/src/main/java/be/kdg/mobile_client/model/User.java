@@ -8,13 +8,18 @@ import lombok.Data;
 public class User {
     private String id;
     private String username;
-    private String email;
+    private String firstname;
+    private String lastname;
     private String password;
-    private List<User> friends;
+    private String email;
+    private int enabled;
+    private String profilePicture;
+    private String socialId;
+    private String profilePictureSocial;
+    private String provider;
     private int chips;
     private int wins;
     private int gamesPlayed;
     private String bestHand;
-    private String profilePicture;
-    private String profilePictureSocial;
+    private List<User> friends;
 }

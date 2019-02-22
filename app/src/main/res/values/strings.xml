@@ -69,4 +69,8 @@
     <string name="search_placeholder">Search for users</string>
     <string name="search_bros">Search bros</string>
     <string name="add">add</string>
+    <string name="error_getting_users">Error getting users</string>
+    <string name="error_updating_friends">Error updating friends</string>
+    <string name="was_added_as_a_friend">was added as a friend</string>
+    <string name="was_removed_as_a_friend">was removed from friends</string>
 </resources>

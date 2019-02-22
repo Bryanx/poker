@@ -50,7 +50,7 @@ public class OverviewActivity extends BaseActivity {
             if (response.isSuccessful() && response.body() != null) {
                initializeAdapter(Arrays.asList(response.body()));
             } else {
-                Toast.makeText(getApplicationContext(), "Error getting rooms", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.error_getting_rooms), Toast.LENGTH_LONG).show();
             }
         }));
     }

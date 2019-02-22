@@ -1,6 +1,10 @@
 package be.kdg.userservice;
 
 
+import be.kdg.userservice.user.model.User;
+import be.kdg.userservice.user.model.UserRole;
+import be.kdg.userservice.user.persistence.UserRepository;
+import be.kdg.userservice.user.persistence.UserRoleRepository;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,16 +22,50 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * You can extend from this class if you want to do immutability testing in your junit tests.
  */
 public abstract class UtilTesting {
-    //This TOKEN_URL serves for the pipeline.
-     private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
-//    private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
+    //private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
+    private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
+    private static final String TESTABLE_USER_NAME1 = "josef";
+    private static final String TESTABLE_USER_NAME3 = "anne";
+    protected static final String TESTABLE_USER_NAME2 = "jos";
+    private static final String USER_ROLE = "ROLE_USER";
+
+    protected String testableUserId1;
+    protected String testableUserId2;
+
+    /**
+     * This method will provide some test-data that will be used by the test-classes that extend from it.
+     *
+     * @param userRepository     The repository for users.
+     * @param userRoleRepository The repository for user roles.
+     */
+    protected void provideTestingData(UserRepository userRepository, UserRoleRepository userRoleRepository) {
+        User testUser1 = new User();
+        testUser1.setUsername(TESTABLE_USER_NAME1);
+        User testUser2 = new User();
+        testUser2.setUsername(TESTABLE_USER_NAME2);
+        User testUser3 = new User();
+        testUser3.setUsername(TESTABLE_USER_NAME3);
+        userRepository.save(testUser1);
+        userRepository.save(testUser2);
+        userRepository.save(testUser3);
+
+        UserRole ur1 = new UserRole(testUser1.getId(), USER_ROLE);
+        UserRole ur2 = new UserRole(testUser2.getId(), USER_ROLE);
+        UserRole ur3 = new UserRole(testUser3.getId(), USER_ROLE);
+        userRoleRepository.save(ur1);
+        userRoleRepository.save(ur2);
+        userRoleRepository.save(ur3);
+
+        testableUserId1 = testUser1.getId();
+        testableUserId2 = testUser3.getId();
+    }
 
     /**
      * Generic mock mvc integration test builder. Mock needs to be passed to this method because
      *
-     * @param url The API url that needs to be tested.
-     * @param body The content body that will be passed.
-     * @param mock The mock that will be used to make the api request.
+     * @param url         The API url that needs to be tested.
+     * @param body        The content body that will be passed.
+     * @param mock        The mock that will be used to make the api request.
      * @param requestType The type of request that has to be made.
      * @throws Exception Thrown if something goes wrong with the integration test.
      */

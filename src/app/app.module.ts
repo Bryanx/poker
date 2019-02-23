@@ -32,6 +32,7 @@ import { GameRoomAdminComponent } from './components/game-room-admin/game-room-a
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import {MatSnackBarModule, MatTableModule} from '@angular/material';
+import {websocketConfigUserService} from './configs/websocket_user_service.config';
 
 const config = new AuthServiceConfig([
   {
@@ -111,6 +112,10 @@ export function setupTranslateFactory(
     {
       provide: InjectableRxStompConfig,
       useValue: websocketConfig
+    },
+    {
+      provide: InjectableRxStompConfig,
+      useValue: websocketConfigUserService
     },
     {
       provide: RxStompService,

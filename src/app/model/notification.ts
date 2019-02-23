@@ -8,5 +8,4 @@ export class Notification {
   type: NotificationType;
   approved: boolean;
   timestamp: Time;
-  sender: User;
 }

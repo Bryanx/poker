@@ -51,7 +51,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       const notification = new Notification();
       notification.message = user.username + ' has sent you a request to join ' + this.room.name + ' room';
       notification.type = NotificationType.GAME_REQUEST;
-      notification.sender = user;
 
       this.userService.sendNotification(user.id, notification).subscribe();
     });

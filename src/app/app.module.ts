@@ -35,6 +35,7 @@ import {MatSnackBarModule, MatTableModule} from '@angular/material';
 import {websocketConfigUserService} from './configs/websocket_user_service.config';
 import {NotifierModule, NotifierOptions} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
+import { NotificationComponent } from './components/notification/notification.component';
 
 const config = new AuthServiceConfig([
   {
@@ -79,7 +80,8 @@ export function setupTranslateFactory(
     SearchComponent,
     UserAccountComponent,
     GameRoomAdminComponent,
-    RankingsComponent
+    RankingsComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,

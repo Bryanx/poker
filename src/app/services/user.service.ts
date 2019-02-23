@@ -88,6 +88,13 @@ export class UserService {
   }
 
   /**
+   * Gives back all the unread notifications of a specific user.3
+   */
+  getNotifications(): Observable<Notification[]> {
+    return this.http.get<Notification[]>(this.url + '/notifications');
+  }
+
+  /**
    * Changes one or more attributes of the user except the password.
    *
    * @param user The user that needs to be changed.

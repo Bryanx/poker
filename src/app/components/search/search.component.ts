@@ -80,7 +80,6 @@ export class SearchComponent implements OnInit {
   private sendFriendRequest(receiverId: string) {
     const notification: Notification = new Notification();
     notification.type = NotificationType.FRIEND_REQUEST;
-    notification.sender = this.myself;
     notification.message = this.myself.username + ' has sent you a friend request!';
     console.log(receiverId);
 

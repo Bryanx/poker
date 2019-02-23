@@ -30,28 +30,29 @@ export class GameRoomComponent implements OnInit, OnDestroy {
               private roomService: RoomService) {
   }
 
-   ngOnInit() {
-     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
+  ngOnInit() {
+    const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
 
-     this.getRoom(roomId as number);
+    this.getRoom(roomId as number);
 
-     this.joinRoomInterval = setInterval(() => {
-       if (this.room !== undefined) {
-         this.initializeRoomConnection();
-         this.initializeRoundConnection();
-         this.joinRoom();
-         clearInterval(this.joinRoomInterval);
-       }
-     }, 100);
+    this.joinRoomInterval = setInterval(() => {
+      if (this.room !== undefined) {
+        this.initializeRoomConnection();
+        this.initializeRoundConnection();
+        this.initializeWinnerConnection();
+        this.joinRoom();
+        clearInterval(this.joinRoomInterval);
+      }
+    }, 100);
 
-     this.getRoundInterval = setInterval(() => {
-       if (this.player !== undefined) {
-         this.getCurrentRound();
-         this.done = true;
-         clearInterval(this.getRoundInterval);
-       }
-     }, 100);
-   }
+    this.getRoundInterval = setInterval(() => {
+      if (this.player !== undefined) {
+        this.getCurrentRound();
+        this.done = true;
+        clearInterval(this.getRoundInterval);
+      }
+    }, 100);
+  }
 
   ngOnDestroy(): void {
     this.leaveRoom();
@@ -80,6 +81,22 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  initializeWinnerConnection() {
+    this.roundSubscription = this.websocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {
+      if (message) {
+        const winningPlayer = JSON.parse(message.body) as Player;
+        if (winningPlayer.userId === this.player.userId) {
+          console.log('You win, my bro');
+          console.log('You had ' + winningPlayer.handType);
+        } else {
+          console.log('You lose, my bro');
+        }
+      }
+    }, error => {
+      console.log(error.error.error_description);
+    });
+  }
+
   getRoom(id: number): void {
     this.gameService.getRoom(id).subscribe(room => {
       this.room = room as Room;
@@ -91,7 +108,8 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   getCurrentRound(): void {
-    this.roomService.getCurrentRound(this.room.id).subscribe(() => {}, (error => {
+    this.roomService.getCurrentRound(this.room.id).subscribe(() => {
+    }, (error => {
       console.log(error.error.message);
     }));
   }

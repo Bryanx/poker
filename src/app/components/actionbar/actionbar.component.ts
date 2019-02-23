@@ -45,7 +45,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     this.actSubscription = this.websocketService.watch('/room/receive-act/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.currentAct = JSON.parse(message.body) as Act;
-        console.log(this.currentAct);
+        // console.log(this.currentAct);
       }
     }, error => {
       console.log(error.error.error_description);
@@ -65,7 +65,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   playAct(actType: ActType) {
-    console.log(actType);
+    // console.log(actType);
     const act: Act = new Act();
     act.roundId = this._round.id;
     act.type = actType;
@@ -136,7 +136,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
     this.roundService.getPossibleActs(this._round.id).subscribe(actTypes => {
       this.possibleActs = actTypes;
-      console.log(this.possibleActs);
+      // console.log(this.possibleActs);
     });
   }
 }

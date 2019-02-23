@@ -12,11 +12,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initializeNotificationConnection(),
     setTimeout(() => {
       this.showNotification('default', 'Good evening, you lovely person!');
       this.showNotification('default', 'you lovely person!');
       this.showNotification('default', 'Good evening');
     }, 500);
+  }
+
+  private initializeNotificationConnection() {
+
   }
 
   /**
@@ -34,28 +39,28 @@ export class AppComponent implements OnInit {
    * @param type    Notification type
    * @param message Notification message
    */
-  public showNotification(type: string, message: string): void {
+  showNotification(type: string, message: string): void {
     this.notifier.notify(type, message);
   }
 
   /**
    * Hide oldest notification
    */
-  public hideOldestNotification(): void {
+  hideOldestNotification(): void {
     this.notifier.hideOldest();
   }
 
   /**
    * Hide newest notification
    */
-  public hideNewestNotification(): void {
+  hideNewestNotification(): void {
     this.notifier.hideNewest();
   }
 
   /**
    * Hide all notifications at once
    */
-  public hideAllNotifications(): void {
+  hideAllNotifications(): void {
     this.notifier.hideAll();
   }
 
@@ -66,7 +71,7 @@ export class AppComponent implements OnInit {
    * @param message Notification message
    * @param id      Notification ID
    */
-  public showSpecificNotification(type: string, message: string, id: string): void {
+  showSpecificNotification(type: string, message: string, id: string): void {
     this.notifier.show({
       id,
       message,
@@ -79,7 +84,7 @@ export class AppComponent implements OnInit {
    *
    * @param id Notification ID
    */
-  public hideSpecificNotification(id: string): void {
+  hideSpecificNotification(id: string): void {
     this.notifier.hide(id);
   }
 }

@@ -74,6 +74,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.roundSubscription = this.websocketService.watch('/room/receive-round/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.round = JSON.parse(message.body) as Round;
+        this.updatePlayersInRound();
         // console.log(this.round);
       }
     }, error => {
@@ -86,10 +87,17 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       if (message) {
         const winningPlayer = JSON.parse(message.body) as Player;
         if (winningPlayer.userId === this.player.userId) {
+          this.player = winningPlayer;
           console.log('You win, my bro');
-          console.log('You had ' + winningPlayer.handType);
+          console.log('You had ' + this.player.handType);
+          console.log(this.player);
         } else {
-          console.log('You lose, my bro');
+          this.roomService.getPlayer().subscribe((player: Player) => {
+            this.player = player;
+            console.log('You lose, my bro');
+            console.log('You had ' + this.player.handType);
+            console.log(this.player);
+          });
         }
       }
     }, error => {
@@ -115,13 +123,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Returns the players that are in the room including yourself.
-   */
-  getAllPlayers(): Object[] {
-    return this.room.playersInRoom;
-  }
-
-  /**
    * This function is called when a page is refreshed.
    *
    * @param event The refresh event.
@@ -143,6 +144,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   private joinRoom(): void {
     this.roomService.joinRoom(this.room.id).subscribe(player => {
       this.player = player;
+    }, error => {
+      console.log(error.error.message);
+      this.navigateToOverview();
     });
   }
 
@@ -151,5 +155,15 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    */
   private navigateToOverview(): void {
     this.router.navigateByUrl('/rooms').then(/* DO NOTHING WITH PROMISE */);
+  }
+
+  private updatePlayersInRound(): void {
+    for (let i = 0; i < this.room.playersInRoom.length; i++) {
+      for (const roundPlayer of this.round.playersInRound) {
+        if (this.room.playersInRoom[i].userId === roundPlayer.userId) {
+          this.room.playersInRoom[i] = roundPlayer;
+        }
+      }
+    }
   }
 }

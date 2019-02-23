@@ -22,4 +22,8 @@ export class RoomService {
   joinRoom(roomId: number): Observable<Player> {
     return this.http.get<Player>(this.url + roomId + '/join');
   }
+
+  getPlayer(): Observable<Player> {
+    return this.http.get<Player>(this.url + 'players');
+  }
 }

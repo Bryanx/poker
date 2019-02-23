@@ -1,6 +1,11 @@
 import {ApplicationRef, Component, OnInit} from '@angular/core';
 import {TranslateService} from './services/translate.service';
 import {NotifierService} from 'angular-notifier';
+import {Subscriber, Subscription} from 'rxjs';
+import {Message} from '@stomp/stompjs';
+import {User} from './model/user';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {Notification} from './model/notification';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +13,16 @@ import {NotifierService} from 'angular-notifier';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  constructor(private translate: TranslateService, private notifier: NotifierService) {
+  notificationSub: Subscription;
+  myself: User = User.create();
+
+  constructor(private translate: TranslateService,
+              private notifier: NotifierService,
+              private webSocketService: RxStompService) {
   }
 
   ngOnInit(): void {
-    this.initializeNotificationConnection(),
+    this.initializeNotificationConnection();
     setTimeout(() => {
       this.showNotification('default', 'Good evening, you lovely person!');
       this.showNotification('default', 'you lovely person!');
@@ -21,7 +31,14 @@ export class AppComponent implements OnInit {
   }
 
   private initializeNotificationConnection() {
-
+    this.notificationSub = this.webSocketService.watch('/user/receive-notification/' + this.myself.id).subscribe((message: Message) => {
+      if (message) {
+        const not: Notification = JSON.parse(message.body) as Notification;
+        this.showNotification('default', not.message);
+      }
+    }, error => {
+      console.log(error.error.error_description);
+    });
   }
 
   /**

@@ -4,6 +4,7 @@ import {switchMap} from 'rxjs/operators';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
 import {Player} from '../../model/player';
+import {RxStompService} from '@stomp/ng2-stompjs';
 
 @Component({
   selector: 'app-room',
@@ -14,7 +15,10 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   room: Room = Room.create();
   player: Player = Player.create();
 
-  constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService) {
+  constructor(private curRouter: ActivatedRoute,
+              private router: Router,
+              private gameService: GameService,
+              private webSocketService: RxStompService) {
   }
 
   ngOnInit() {
@@ -40,6 +44,10 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    */
   getAllPlayers(): Object[] {
     return this.room.playersInRoom.concat(this.player);
+  }
+
+  sendGameRequest() {
+    
   }
 
   /**

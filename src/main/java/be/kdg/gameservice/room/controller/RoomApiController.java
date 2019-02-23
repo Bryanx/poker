@@ -74,11 +74,19 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/rooms/{roomId}/leave-room")
     public ResponseEntity<PlayerDTO> leaveRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
-        roomService.leaveRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
-        Room roomIn = roomService.getRoom(roomId);
-        RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);
-        this.template.convertAndSend("/room/receive-room/" + roomId, roomOut);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        Player player = roomService.leaveRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
+        String token = getTokenFromAuthentication(authentication);
+        UserDto userDto = getUser(token);
+        userDto.setChips(userDto.getChips() + player.getChipCount());
+
+        if (updateUser(token, userDto) != null) {
+            Room roomIn = roomService.getRoom(roomId);
+            RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);
+            this.template.convertAndSend("/room/receive-room/" + roomId, roomOut);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

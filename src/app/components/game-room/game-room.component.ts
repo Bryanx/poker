@@ -5,6 +5,8 @@ import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
 import {Player} from '../../model/player';
 import {RxStompService} from '@stomp/ng2-stompjs';
+import {Notification} from '../../model/notification';
+import {NotificationType} from '../../model/notificationType';
 
 @Component({
   selector: 'app-room',
@@ -45,11 +47,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   getAllPlayers(): Object[] {
     return this.room.playersInRoom.concat(this.player);
   }
-
-  sendGameRequest() {
-    
-  }
-
+  
   /**
    * This function is called when a page is refreshed.
    *

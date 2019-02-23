@@ -60,7 +60,7 @@ public class NotificationApiController {
                 getUserInfo(authentication).get(ID_KEY).toString(), receiverId,
                 notificationDTO.getMessage(), notificationDTO.getType());
         NotificationDTO notificationOut = modelMapper.map(notificationIn, NotificationDTO.class);
-        this.template.convertAndSend("/user/receive-notification", notificationOut);
+        this.template.convertAndSend("/user/receive-notification/" + receiverId, notificationOut);
     }
 
     /**
@@ -72,9 +72,9 @@ public class NotificationApiController {
      * @throws NotificationException Rerouted by handler.
      */
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/user/notifications/{notificationId}/accept-notification")
-    public ResponseEntity<NotificationDTO> acceptNotification(@PathVariable int notificationId) throws NotificationException {
-        Notification notification = notificationService.acceptNotification(notificationId);
+    @PatchMapping("/user/notifications/{notificationId}/read-notification")
+    public ResponseEntity<NotificationDTO> readNotification(@PathVariable int notificationId) throws NotificationException {
+        Notification notification = notificationService.readNotification(notificationId);
         NotificationDTO notificationOut = modelMapper.map(notification, NotificationDTO.class);
         return new ResponseEntity<>(notificationOut, HttpStatus.ACCEPTED);
     }

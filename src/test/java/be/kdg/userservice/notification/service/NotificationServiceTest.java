@@ -1,11 +1,9 @@
 package be.kdg.userservice.notification.service;
 
 import be.kdg.userservice.UtilTesting;
-import be.kdg.userservice.notification.exception.NotificationException;
 import be.kdg.userservice.notification.model.Notification;
 import be.kdg.userservice.notification.persistence.NotificationRepository;
 import be.kdg.userservice.notification.service.api.NotificationService;
-import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.persistence.UserRepository;
 import be.kdg.userservice.user.persistence.UserRoleRepository;
@@ -45,10 +43,10 @@ public class NotificationServiceTest extends UtilTesting {
     }
 
     @Test
-    public void acceptNotification() throws Exception {
-        notificationService.acceptNotification(testableNotificationId1);
+    public void readNotification() throws Exception {
+        notificationService.readNotification(testableNotificationId1);
         Notification notification = notificationRepository.findById(testableNotificationId1).orElseThrow(Exception::new);
-        assertTrue(notification.isApproved());
+        assertTrue(notification.isRead());
     }
 
     @Test

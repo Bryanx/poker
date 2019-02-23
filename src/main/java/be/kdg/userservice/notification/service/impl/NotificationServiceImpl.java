@@ -43,9 +43,9 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Notification acceptNotification(int id) throws NotificationException {
+    public Notification readNotification(int id) throws NotificationException {
         Notification notification = getNotification(id);
-        notification.setApproved(true);
+        notification.setRead(true);
         return notificationRepository.save(notification);
     }
 

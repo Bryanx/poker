@@ -45,7 +45,7 @@ public class NotificationApiControllerTest extends UtilTesting {
         testMockMvc("/user/notifications/" + testableNotificationId1 + "/accept-notification", "",
                 mockMvc, RequestType.PATCH, user, authorizationServerTokenServices);
         Notification notification = notificationRepository.findById(testableNotificationId1).orElseThrow(Exception::new);
-        assertTrue(notification.isApproved());
+        assertTrue(notification.isRead());
         */
     }
 }

@@ -20,7 +20,7 @@ public class Notification {
     private NotificationType type;
     private LocalDateTime timestamp;
     @Setter
-    private boolean approved;
+    private boolean read;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private User sender;
 
@@ -28,7 +28,7 @@ public class Notification {
         this.message = message;
         this.type = type;
         this.sender = sender;
-        this.approved = false;
+        this.read = false;
         this.timestamp = LocalDateTime.now();
     }
 }

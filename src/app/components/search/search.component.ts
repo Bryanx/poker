@@ -84,10 +84,12 @@ export class SearchComponent implements OnInit {
     notification.message = this.myself.username + ' has sent you a friend request!';
     console.log(notification);
 
+    /*
     this.webSocketService.publish({
       destination: '/user/' + receiverId + '/send-notification',
       body: JSON.stringify(JSON.stringify(notification))
     });
+    */
   }
 
   /**

@@ -1,4 +1,5 @@
-@import "~src/styles.scss";
+@import "../../../styles";
+@include custom_button
 
 .empty-card {
   background-color: mix($darker-gray, transparent, 60%);

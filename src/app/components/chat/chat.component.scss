@@ -1,4 +1,5 @@
-@import "~src/styles.scss";
+@import "../../../styles";
+@include custom_button
 
 :host {
   min-height: 100%;

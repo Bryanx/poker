@@ -33,6 +33,8 @@ import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import {MatSnackBarModule, MatTableModule} from '@angular/material';
 import {websocketConfigUserService} from './configs/websocket_user_service.config';
+import {NotifierModule, NotifierOptions} from 'angular-notifier';
+import {customNotifierOptions} from './notifierOptions';
 
 const config = new AuthServiceConfig([
   {
@@ -56,6 +58,7 @@ export function setupTranslateFactory(
     }
   };
 }
+
 
 @NgModule({
   declarations: [
@@ -90,7 +93,8 @@ export function setupTranslateFactory(
     SocialLoginModule,
     AngularFontAwesomeModule,
     MatTableModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   providers: [
     {

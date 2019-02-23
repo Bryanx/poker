@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -19,4 +20,5 @@ public class NotificationDTO {
     @Valid
     private NotificationType type;
     private boolean read;
+    private LocalDateTime timestamp;
 }

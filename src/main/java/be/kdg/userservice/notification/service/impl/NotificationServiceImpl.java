@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 /**
  * This class is used to manage everything that has something to do with notifications.
@@ -53,6 +57,13 @@ public class NotificationServiceImpl implements NotificationService {
     public List<Notification> getNotificationsForUser(String userId) {
         List<Notification> notifications = userService.findUserById(userId).getNotifications();
         return Collections.unmodifiableList(notifications);
+    }
+
+    @Override
+    public List<Notification> getUnreadNotificationsForUser(String userId) {
+        return userService.findUserById(userId).getNotifications().stream()
+                .filter(not -> !not.isRead())
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     @Override

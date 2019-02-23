@@ -48,6 +48,20 @@ public class NotificationApiController {
     }
 
     /**
+     * This api will give back all the unread notifications of a specific user.
+     *
+     * @param authentication Used for retrieving the user id of the current user.
+     * @return All the notifications of the user and status code 200 if succeeded.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/user/notifications/un-read")
+    public ResponseEntity<NotificationDTO[]> getUnreadNotifications(OAuth2Authentication authentication) {
+        List<Notification> notifications = notificationService.getUnreadNotificationsForUser(getUserInfo(authentication).get(ID_KEY).toString());
+        NotificationDTO[] notificationsOut = modelMapper.map(notifications, NotificationDTO[].class);
+        return new ResponseEntity<>(notificationsOut, HttpStatus.OK);
+    }
+
+    /**
      * This api will sent a notification via a web socket to another person
      *
      * @param authentication Used for retrieving the user id of the current user.

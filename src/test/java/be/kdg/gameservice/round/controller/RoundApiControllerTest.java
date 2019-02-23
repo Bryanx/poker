@@ -35,16 +35,17 @@ public class RoundApiControllerTest extends UtilTesting {
        provideTestDataRound(roundRepository);
     }
 
-//    @Test
-//    public void saveAct() throws Exception {
-//        ActDTO actDTO = new ActDTO(testableUserId, testableRoundIdWithPlayers, ActType.BET, Phase.PRE_FLOP, 10);
-//        String json = new Gson().toJson(actDTO);
-//        testMockMvc("/rounds/" + actDTO.getRoundId(),
+    @Test
+    public void saveAct() throws Exception {
+        ActDTO actDTO = new ActDTO(testableUserId, testableRoundIdWithPlayers, ActType.BET, Phase.PRE_FLOP, 10);
+        String json = new Gson().toJson(actDTO);
+        // TODO: Fix test
+//        testMockMvc("/rounds/act",
 //                json, mockMvc, RequestType.POST);
 //
 //        int numberOfActs = roundRepository.findById(testableRoundIdWithPlayers)
 //                .orElseThrow(Exception::new)
 //                .getActs().size();
 //        assertEquals(1, numberOfActs);
-//    }
+    }
 }

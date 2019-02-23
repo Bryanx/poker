@@ -47,7 +47,7 @@
     cursor: pointer;
     user-select: none;
 
-    img {
+    .not-icon {
       width: 50px;
       height: 50px;
       margin-right: 20px;
@@ -73,6 +73,12 @@
       }
     }
 
+    .del-icon {
+      width: 30px;
+      height: 30px;
+      margin-left: 20px;
+      margin-top: 10px;
+    }
 
     &:hover {
       background-color: darken(#fff, 15%);

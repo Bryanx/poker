@@ -4,11 +4,12 @@
 
 <section *ngIf="showBell" [@simpleFadeAnimation]="'in'" class="not-panel">
   <div class="not" *ngFor="let not of notifications; index as i">
-    <img src="../../../assets/img/icons/friend_request_icon.svg">
+    <img class="not-icon" src="../../../assets/img/icons/friend_request_icon.svg">
     <div class="info">
       <span class="message">{{not.message}}</span>
       <span class="time">{{formatTime(not.timestamp.toString())}}</span>
     </div>
+    <img class="del-icon" src="../../../assets/img/icons/delete.svg">
   </div>
 </section>
 

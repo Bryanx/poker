@@ -6,7 +6,7 @@ import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.persistence.RoundRepository;
-import be.kdg.gameservice.shared.TokenDto;
+import be.kdg.gameservice.shared.AuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -93,13 +93,13 @@ public abstract class UtilTesting {
         this.testableUserId = userIdMock;
     }
 
-    private TokenDto getMockToken() {
+    private AuthDTO getMockToken() {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setBasicAuth("my-trusted-client", "secret");
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return restTemplate.postForObject(TOKEN_URL, entity, TokenDto.class);
+        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class UtilTesting {
      * @throws Exception Thrown if something goes wrong with the integration test.
      */
     protected void testMockMvc(String url, String body, MockMvc mock, RequestType requestType) throws Exception {
-        TokenDto tokenDto = getMockToken();
+        AuthDTO authDto = getMockToken();
 
         MockHttpServletRequestBuilder requestBuilder;
         ResultMatcher resultMatcher;
@@ -143,7 +143,7 @@ public abstract class UtilTesting {
 
 
         mock.perform(requestBuilder
-                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", tokenDto.getAccess_token()))
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", authDto.getAccess_token()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body)
                 .accept(MediaType.APPLICATION_JSON))

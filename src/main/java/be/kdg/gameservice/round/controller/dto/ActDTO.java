@@ -15,6 +15,7 @@ public class ActDTO {
     private String userId;
     private int roundId;
     private int playerId;
+    private int roomId;
     private ActType type;
     private Phase phase;
     private int bet;

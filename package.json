@@ -27,6 +27,7 @@
     "@auth0/angular-jwt": "^2.1.0",
     "angular-font-awesome": "^3.1.2",
     "angularx-social-login": "^1.2.4",
+    "angular-notifier": "4.0.0",
     "core-js": "^2.5.4",
     "express": "^4.16.4",
     "font-awesome": "^4.7.0",

@@ -7,5 +7,5 @@ export class Notification {
   message: string;
   type: NotificationType;
   approved: boolean;
-  timestamp: Time;
+  timestamp: Date;
 }

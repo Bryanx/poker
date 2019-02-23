@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {User} from '../../model/user';
 import {NotifierService} from 'angular-notifier';
@@ -18,7 +18,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
       state('in', style({opacity: 1})),
       transition(':enter', [
         style({opacity: 0}),
-        animate(75 )
+        animate(75)
       ]),
       transition(':leave',
         animate(75, style({opacity: 0})))
@@ -52,7 +52,36 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   private getAllNotifications() {
-    this.userService.getNotifications().subscribe(nots => this.notifications = nots);
+    this.userService.getNotifications().subscribe(nots => {
+      this.notifications = nots;
+      console.log(nots);
+    });
+  }
+
+  formatTime(dateTime: string) {
+    const monthNames = [
+      'January', 'February', 'March',
+      'April', 'May', 'June', 'July',
+      'August', 'September', 'October',
+      'November', 'December'
+    ];
+
+    const data = dateTime.split('T');
+
+    // get date
+    const date = data[0].split('-');
+    const day = date[2];
+    const month = date[1].startsWith('0') ? date[1].charAt(1) : date[1];
+    const monthConverted = monthNames[month - 1];
+    const dateConstructed = day + ' ' + monthConverted;
+
+    // time constructed
+    const time = data[1].split(':');
+    const hours = time[0];
+    const minutes = time[1];
+    const timeConstructed = hours + ':' + minutes;
+
+    return dateConstructed + ' ' + timeConstructed;
   }
 
   /**
@@ -68,7 +97,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
         this.getCredentials();
         this.checkIfNotAuthenticated();
       }
-    }, 5000);
+    }, 750);
   }
 
   /**
@@ -83,7 +112,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
         this.notificationSub.unsubscribe();
         this.checkIfAuthenticated();
       }
-    }, 5000);
+    }, 750);
   }
 
   /**

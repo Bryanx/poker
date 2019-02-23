@@ -37,11 +37,42 @@
   border-radius: 1rem;
 
   .not {
-    margin: 10px;
+    display: flex;
+    flex-direction: row;
+
+    margin: 5px 10px;
+
     padding: 15px;
     border-radius: 1rem;
     cursor: pointer;
     user-select: none;
+
+    img {
+      width: 50px;
+      height: 50px;
+      margin-right: 20px;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+
+      .message {
+        margin-top: 3px;
+        font-size: 1rem;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        vertical-align: center;
+      }
+
+      .time {
+        font-size: 0.8rem;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #969696
+      }
+    }
+
 
     &:hover {
       background-color: darken(#fff, 15%);
@@ -49,11 +80,6 @@
 
     &:active {
       background-color: darken(#fff, 25%);
-    }
-
-    .message {
-      font-family: 'Open Sans', sans-serif;
-      font-weight: bold;
     }
   }
 }

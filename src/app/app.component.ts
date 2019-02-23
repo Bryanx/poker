@@ -77,11 +77,12 @@ export class AppComponent implements OnInit, OnDestroy {
   /**
    * Shows notifications to the screen if any are pushed by the web socket.
    */
-  private initializeNotificationConnection() {;
+  private initializeNotificationConnection() {
     this.notificationSub = this.webSocketService.watch('/user/receive-notification/' + this.myself.id).subscribe((message: Message) => {
       if (message) {
         console.log('YES');
         const not: Notification = JSON.parse(message.body) as Notification;
+        this.userService.readNotification(not.id).subscribe();
         this.showNotification('default', not.message);
       }
     }, error => {

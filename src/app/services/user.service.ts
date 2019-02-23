@@ -61,8 +61,30 @@ export class UserService {
     return this.http.post<AuthResult>(this.url, user);
   }
 
-  sendNotification(receiver: string, not: Notification): Observable<Notification> {
-    return this.http.post<Notification>(this.url + '/' + receiver + '/send-notification', not);
+  /**
+   * Sent a notification to a specific user
+   *
+   * @param receiverId The id of the person that needs to receive it.
+   * @param not The notification that is coupled to the receiver.
+   */
+  sendNotification(receiverId: string, not: Notification): Observable<Notification> {
+    return this.http.post<Notification>(this.url + '/' + receiverId + '/send-notification', not);
+  }
+
+  /**
+   * Sets a specific notification to read.
+   *
+   * @param notId The if of the notification that needs be set to read.
+   */
+  readNotification(notId: number): Observable<Notification> {
+    return this.http.patch<Notification>(this.url + '/notifications/' + notId + '/read-notification', '');
+  }
+
+  /**
+   * Gives back all the unread notifications of a specific user.3
+   */
+  getUnReadNotifications(): Observable<Notification[]> {
+    return this.http.get<Notification[]>(this.url + '/notifications/un-read');
   }
 
   /**

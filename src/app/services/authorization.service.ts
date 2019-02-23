@@ -6,6 +6,8 @@ import {Observable} from 'rxjs';
 import {User} from '../model/user';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {UrlService} from './url.service';
+import {NotifierService} from 'angular-notifier';
+import {UserService} from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,10 @@ export class AuthorizationService {
   private readonly socialUrl: string;
   helper: JwtHelperService = new JwtHelperService();
 
-  constructor(private http: HttpClient, private urlService: UrlService) {
+  constructor(private http: HttpClient,
+              private urlService: UrlService,
+              private userService: UserService,
+              private notifier: NotifierService) {
     this.authUrl = urlService.authUrl;
     this.socialUrl = urlService.socialUrl;
   }
@@ -33,6 +38,7 @@ export class AuthorizationService {
 
     localStorage.setItem('jwt_token', authResult.access_token);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+    this.getUnreadNotifications();
   }
 
   logout() {
@@ -74,5 +80,18 @@ export class AuthorizationService {
       userId = this.helper.decodeToken(localStorage.getItem('jwt_token')).uuid;
     }
     return userId;
+  }
+
+  /**
+   * Shows all the unread notifications of a specific user with al little welcome message.
+   */
+  private getUnreadNotifications() {
+    this.userService.getUnReadNotifications().subscribe(nots => {
+      this.notifier.notify('success', 'Welcome back bro! you received ' + nots.length + ' notification while you were away');
+      nots.forEach(not => {
+        this.notifier.notify('default', not.message);
+        this.userService.readNotification(not.id).subscribe();
+      });
+    });
   }
 }

@@ -4,9 +4,9 @@ import {switchMap} from 'rxjs/operators';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
 import {Player} from '../../model/player';
-import {RxStompService} from '@stomp/ng2-stompjs';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-room',
@@ -19,6 +19,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   constructor(private curRouter: ActivatedRoute,
               private router: Router,
+              private userService: UserService,
               private gameService: GameService) {
   }
 
@@ -38,6 +39,22 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.leaveRoom();
+  }
+
+  /**
+   * Sent a notification to someone for joining a game of poker.
+   *
+   * @param someoneId The person that needs to receive the request.
+   */
+  sendGameRequest(someoneId: string) {
+    this.userService.getUser(someoneId).subscribe(user => {
+      const notification = new Notification();
+      notification.message = user.username + ' has sent you a request to join ' + this.room.name + ' room';
+      notification.type = NotificationType.GAME_REQUEST;
+      notification.sender = user;
+
+      this.userService.sendNotification(user.id, notification).subscribe();
+    });
   }
 
   /**

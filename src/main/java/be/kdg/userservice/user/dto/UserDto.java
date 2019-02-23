@@ -1,6 +1,5 @@
 package be.kdg.userservice.user.dto;
 
-import be.kdg.userservice.notification.controller.dto.NotificationDTO;
 import lombok.Data;
 
 @Data
@@ -14,7 +13,6 @@ public class UserDto {
     private String profilePictureSocial;
     private String provider;
     private UserDto[] friends;
-    private NotificationDTO[] notifications;
     private int chips;
     private int wins;
     private int gamesPlayed;

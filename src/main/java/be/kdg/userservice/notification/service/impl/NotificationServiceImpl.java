@@ -38,6 +38,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         //Save data
         userService.changeUser(receiver);
+        notification = notificationRepository.save(notification);
         return notification;
     }
 

@@ -39,7 +39,7 @@ public class NotificationApiController {
      * @param authentication Used for retrieving the user id of the current user.
      * @return All the notifications of the user and status code 200 if succeeded.
      */
-    @PreAuthorize("hasRole('USER_ROLE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/user/notifications")
     public ResponseEntity<NotificationDTO[]> getNotifications(OAuth2Authentication authentication) {
         List<Notification> notifications = notificationService.getNotificationsForUser(getUserInfo(authentication).get(ID_KEY).toString());
@@ -53,14 +53,14 @@ public class NotificationApiController {
      * @param authentication Used for retrieving the user id of the current user.
      * @param receiverId The person we need to send the notification to.
      */
-    @PreAuthorize("hasRole('USER_ROLE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/user/{receiverId}/send-notification")
-    public void getNotifications(@PathVariable String receiverId, @RequestBody @Valid NotificationDTO notificationDTO, OAuth2Authentication authentication) throws UserException {
+    public void sendNotification(@PathVariable String receiverId, @RequestBody @Valid NotificationDTO notificationDTO, OAuth2Authentication authentication) throws UserException {
         Notification notificationIn = notificationService.addNotification(
-                receiverId, getUserInfo(authentication).get(ID_KEY).toString(),
+                getUserInfo(authentication).get(ID_KEY).toString(), receiverId,
                 notificationDTO.getMessage(), notificationDTO.getType());
         NotificationDTO notificationOut = modelMapper.map(notificationIn, NotificationDTO.class);
-        this.template.convertAndSend("/user/receive-notification/" + receiverId, notificationOut);
+        this.template.convertAndSend("/user/receive-notification", notificationOut);
     }
 
     /**
@@ -71,7 +71,7 @@ public class NotificationApiController {
      * @return The patched notification and status code 202 if succeeded.
      * @throws NotificationException Rerouted by handler.
      */
-    @PreAuthorize("hasRole('USER_ROLE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/user/notifications/{notificationId}/accept-notification")
     public ResponseEntity<NotificationDTO> acceptNotification(@PathVariable int notificationId) throws NotificationException {
         Notification notification = notificationService.acceptNotification(notificationId);
@@ -86,7 +86,7 @@ public class NotificationApiController {
      * @return status code 202 if the request was accepted.
      * @throws NotificationException Rerouted by handler.
      */
-    @PreAuthorize("hasRole('USER_ROLE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/user/notification/{notificationId}")
     public ResponseEntity<Void> deleteNotification(@PathVariable int notificationId, OAuth2Authentication authentication) throws NotificationException, UserException {
         notificationService.deleteNotification(getUserInfo(authentication).get(ID_KEY).toString(), notificationId);
@@ -100,7 +100,7 @@ public class NotificationApiController {
      * @param authentication Used for retrieving the user id of the current user.
      * @return status code 202 if the request was accepted.
      */
-    @PreAuthorize("hasRole('USER_ROLE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/user/notification")
     public ResponseEntity<Void> deleteNotifications(OAuth2Authentication authentication) throws UserException {
         notificationService.deleteAllNotifications(getUserInfo(authentication).get(ID_KEY).toString());

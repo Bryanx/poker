@@ -82,7 +82,7 @@ export class SearchComponent implements OnInit {
     notification.type = NotificationType.FRIEND_REQUEST;
     notification.sender = this.myself;
     notification.message = this.myself.username + ' has sent you a friend request!';
-    console.log(notification);
+    console.log(receiverId);
 
     this.userService.sendNotification(receiverId, notification).subscribe();
   }

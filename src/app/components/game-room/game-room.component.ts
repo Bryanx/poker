@@ -19,8 +19,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   constructor(private curRouter: ActivatedRoute,
               private router: Router,
-              private gameService: GameService,
-              private webSocketService: RxStompService) {
+              private gameService: GameService) {
   }
 
   ngOnInit() {

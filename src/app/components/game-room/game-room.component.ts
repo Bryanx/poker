@@ -47,7 +47,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   getAllPlayers(): Object[] {
     return this.room.playersInRoom.concat(this.player);
   }
-  
+
   /**
    * This function is called when a page is refreshed.
    *

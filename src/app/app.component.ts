@@ -31,14 +31,17 @@ export class AppComponent implements OnInit {
   }
 
   private initializeNotificationConnection() {
-    this.notificationSub = this.webSocketService.watch('/user/receive-notification/' + this.myself.id).subscribe((message: Message) => {
+    console.log('initializing connection...');
+    this.notificationSub = this.webSocketService.watch('/user/receive-notification').subscribe((message: Message) => {
       if (message) {
+        console.log('JAAAA');
         const not: Notification = JSON.parse(message.body) as Notification;
         this.showNotification('default', not.message);
       }
     }, error => {
       console.log(error.error.error_description);
     });
+    console.log(this.notificationSub);
   }
 
   /**

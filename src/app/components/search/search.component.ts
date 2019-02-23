@@ -24,7 +24,7 @@ export class SearchComponent implements OnInit {
   subject: Subject<String> = new Subject();
   myself: User = User.create();
 
-  constructor(private userService: UserService, private webSocketService: RxStompService) {
+  constructor(private userService: UserService) {
   }
 
   /**
@@ -84,12 +84,7 @@ export class SearchComponent implements OnInit {
     notification.message = this.myself.username + ' has sent you a friend request!';
     console.log(notification);
 
-    /*
-    this.webSocketService.publish({
-      destination: '/user/' + receiverId + '/send-notification',
-      body: JSON.stringify(JSON.stringify(notification))
-    });
-    */
+    this.userService.sendNotification(receiverId, notification).subscribe();
   }
 
   /**

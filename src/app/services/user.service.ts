@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
-import {User} from '../model/user';
-import {catchError} from 'rxjs/operators';
-import {AuthResult} from '../model/authResult';
 import {UrlService} from './url.service';
+import {Observable} from 'rxjs';
+import {User} from '../model/user';
+import {AuthResult} from '../model/authResult';
+import {Notification} from '../model/notification';
 
 /**
  * This service is used to make API calls to the user micro service backend.
@@ -59,6 +59,10 @@ export class UserService {
    */
   addUser(user: User): Observable<AuthResult> {
     return this.http.post<AuthResult>(this.url, user);
+  }
+
+  sendNotification(receiver: string, not: Notification): Observable<Notification> {
+    return this.http.post<Notification>(this.url + '/' + receiver + '/send-notification', not);
   }
 
   /**

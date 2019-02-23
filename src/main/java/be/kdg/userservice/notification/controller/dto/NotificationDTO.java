@@ -15,8 +15,6 @@ import javax.validation.Valid;
 public class NotificationDTO {
     private int id;
     @Valid
-    private UserDto sender;
-    @Valid
     private String message;
     @Valid
     private NotificationType type;

@@ -33,11 +33,10 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Notification addNotification(String senderId, String receiverId, String message, NotificationType type) throws UserException {
         //Get data
-        User sender = userService.findUserById(senderId);
         User receiver = userService.findUserById(receiverId);
 
         //Construct message
-        Notification notification = new Notification(message, type, sender);
+        Notification notification = new Notification(message, type);
         receiver.addNotification(notification);
 
         //Save data

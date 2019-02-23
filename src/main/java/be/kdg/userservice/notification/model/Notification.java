@@ -21,13 +21,10 @@ public class Notification {
     private LocalDateTime timestamp;
     @Setter
     private boolean read;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private User sender;
 
-    public Notification(String message, NotificationType type, User sender) {
+    public Notification(String message, NotificationType type) {
         this.message = message;
         this.type = type;
-        this.sender = sender;
         this.read = false;
         this.timestamp = LocalDateTime.now();
     }

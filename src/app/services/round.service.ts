@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Act} from '../model/act';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {Round} from '../model/round';
 import {ActType} from '../model/actType';
 
 @Injectable({
@@ -20,5 +19,13 @@ export class RoundService {
    */
   getPossibleActs(roundId: number): Observable<ActType[]> {
     return this.http.get<ActType[]>(this.url + roundId + '/possible-acts');
+  }
+
+
+  /**
+   * Ads an act to the current round.
+   */
+  addAct(act: Act): Observable<Act> {
+    return this.http.post<Act>(this.url + 'act', act);
   }
 }

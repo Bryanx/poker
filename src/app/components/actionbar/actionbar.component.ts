@@ -42,7 +42,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   initializeGameConnection() {
-    this.actSubscription = this.websocketService.watch('/room/receiveact/' + this.room.id).subscribe((message: Message) => {
+    this.actSubscription = this.websocketService.watch('/room/receive-act/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.currentAct = JSON.parse(message.body) as Act;
         console.log(this.currentAct);
@@ -72,6 +72,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     act.phase = this._round.currentPhase;
     act.playerId = this.player.id;
     act.userId = this.player.userId;
+    act.roomId = this.room.id;
 
     if (act.type === 'BET' || act.type === 'RAISE') {
       act.bet = this.sliderValue;
@@ -79,7 +80,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       act.bet = 0;
     }
 
-    this.websocketService.publish({destination: '/rooms/' + this.room.id + '/sendact', body: JSON.stringify(act)});
+    this.roundService.addAct(act).subscribe(() => {}, error => {
+      console.log(error.error.message);
+    });
   }
 
   isActPossible(acttype: ActType) {

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
 import {Round} from '../model/round';
 import {HttpClient} from '@angular/common/http';
+import {Player} from '../model/player';
+import {Auth} from '../model/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +16,10 @@ export class RoomService {
   }
 
   getCurrentRound(roomId: number): Observable<Round> {
-    return this.http.get<Round>(this.url + roomId + '/currentround');
+    return this.http.get<Round>(this.url + roomId + '/current-round');
+  }
+
+  joinRoom(roomId: number): Observable<Player> {
+    return this.http.get<Player>(this.url + roomId + '/join');
   }
 }

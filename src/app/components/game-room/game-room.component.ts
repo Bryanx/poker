@@ -22,7 +22,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   roundSubscription: Subscription;
   done: boolean;
   round: Round;
-  joined: boolean;
   joinRoomInterval: any;
   getRoundInterval: any;
 
@@ -37,16 +36,16 @@ export class GameRoomComponent implements OnInit, OnDestroy {
      this.getRoom(roomId as number);
 
      this.joinRoomInterval = setInterval(() => {
-       if (this.room) {
+       if (this.room !== undefined) {
          this.initializeRoomConnection();
+         this.initializeRoundConnection();
          this.joinRoom();
          clearInterval(this.joinRoomInterval);
        }
      }, 100);
 
      this.getRoundInterval = setInterval(() => {
-       if (this.joined) {
-         this.initializeRoundConnection();
+       if (this.player !== undefined) {
          this.getCurrentRound();
          this.done = true;
          clearInterval(this.getRoundInterval);
@@ -61,16 +60,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   initializeRoomConnection() {
-    this.roomSubscription = this.websocketService.watch('/room/join/' + this.room.id).subscribe((message: Message) => {
+    this.roomSubscription = this.websocketService.watch('/room/receive-room/' + this.room.id).subscribe((message: Message) => {
       if (message) {
-        const player = JSON.parse(message.body) as Player;
-        if (player.userId === this.authorizationService.getUserId()) {
-          this.player = player;
-          this.getRoom(this.room.id);
-          this.joined = true;
-        } else {
-          this.getRoom(this.room.id);
-        }
+        this.room = JSON.parse(message.body) as Room;
       }
     }, error => {
       console.log(error.error.error_description);
@@ -99,9 +91,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   getCurrentRound(): void {
-    this.websocketService.publish({
-      destination: '/rooms/' + this.room.id + '/get-current-round'
-    });
+    this.roomService.getCurrentRound(this.room.id).subscribe(() => {}, (error => {
+      console.log(error.error.message);
+    }));
   }
 
   /**
@@ -131,9 +123,8 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Joins the web-instance user to this room.
    */
   private joinRoom(): void {
-    this.websocketService.publish({
-      destination: '/rooms/' + this.room.id + '/join',
-      body: JSON.stringify({userId: this.authorizationService.getUserId(), access_token: localStorage.getItem('jwt_token')})
+    this.roomService.joinRoom(this.room.id).subscribe(player => {
+      this.player = player;
     });
   }
 

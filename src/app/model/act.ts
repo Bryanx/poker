@@ -5,6 +5,7 @@ export class Act {
   roundId: number;
   userId: string;
   playerId: number;
+  roomId: number;
   type: ActType;
   phase: Phase;
   bet: number;

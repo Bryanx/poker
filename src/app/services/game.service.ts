@@ -55,7 +55,7 @@ export class GameService {
   }
 
   changeRoom(room: Room): Observable<Room> {
-    return this.http.put<Room>(this.url + "/" + room.id, room);
+    return this.http.put<Room>(this.url + '/' + room.id, room);
   }
 
   addRoom(room: Room): Observable<Room> {
@@ -63,7 +63,7 @@ export class GameService {
   }
 
   deleteRoom(room: Room): Observable<Room> {
-    return this.http.delete<Room>(this.url + "/" + room.id);
+    return this.http.delete<Room>(this.url + '/' + room.id);
   }
 
   getPlayer(): Observable<Player> {

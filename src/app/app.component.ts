@@ -1,20 +1,16 @@
-import {ApplicationRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {TranslateService} from './services/translate.service';
-import {NotifierService} from 'angular-notifier';
-import {Subscriber, Subscription} from 'rxjs';
-import {Message} from '@stomp/stompjs';
-import {User} from './model/user';
-import {RxStompService} from '@stomp/ng2-stompjs';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Notification} from './model/notification';
-import {AuthorizationService} from './services/authorization.service';
-import {UserService} from './services/user.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent{
+export class AppComponent {
+  showBell: boolean;
+
   constructor(private translate: TranslateService) {
   }
 
@@ -26,6 +22,5 @@ export class AppComponent{
   setLang(lang: string) {
     this.translate.use(lang);
   }
-
 }
 

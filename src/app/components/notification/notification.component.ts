@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {User} from '../../model/user';
 import {NotifierService} from 'angular-notifier';
@@ -7,15 +7,29 @@ import {UserService} from '../../services/user.service';
 import {Message} from '@stomp/stompjs';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Notification} from '../../model/notification';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-notification',
   templateUrl: './notification.component.html',
-  styleUrls: ['./notification.component.scss']
+  styleUrls: ['./notification.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({opacity: 1})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(75 )
+      ]),
+      transition(':leave',
+        animate(75, style({opacity: 0})))
+    ])
+  ]
 })
 export class NotificationComponent implements OnInit, OnDestroy {
+  notifications: Notification[] = [];
   notificationSub: Subscription;
   myself: User = User.create();
+  showBell: boolean;
 
   constructor(private notifier: NotifierService,
               private webSocketService: RxStompService,
@@ -24,11 +38,21 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.showBell = false;
     this.checkIfAuthenticated();
+    this.getAllNotifications();
   }
 
   ngOnDestroy(): void {
     this.notificationSub.unsubscribe();
+  }
+
+  handleClick() {
+    this.showBell = !this.showBell;
+  }
+
+  private getAllNotifications() {
+    this.userService.getNotifications().subscribe(nots => this.notifications = nots);
   }
 
   /**

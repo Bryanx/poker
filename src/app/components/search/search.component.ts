@@ -5,8 +5,6 @@ import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
-import {AuthorizationService} from '../../services/authorization.service';
-import {RxStompService} from '@stomp/ng2-stompjs';
 
 /**
  * This component will be used for searching through all the users
@@ -77,6 +75,11 @@ export class SearchComponent implements OnInit {
     this.sendFriendRequest(friend.id);
   }
 
+  /**
+   * Sent a friend request to the requested user.
+   *
+   * @param receiverId The person who needs to receive the request.
+   */
   private sendFriendRequest(receiverId: string) {
     const notification: Notification = new Notification();
     notification.type = NotificationType.FRIEND_REQUEST;

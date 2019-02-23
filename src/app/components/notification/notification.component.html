@@ -1,0 +1,13 @@
+<div (click)="handleClick()" class="bell-container">
+  <img src="../../../assets/img/icons/bell.svg">
+</div>
+
+<section *ngIf="showBell" [@simpleFadeAnimation]="'in'" class="not-panel">
+  <div class="not" *ngFor="let not of notifications; index as i">
+   <span class="message">{{not.message}}</span>
+  </div>
+</section>
+
+
+
+

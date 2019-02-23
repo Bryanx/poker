@@ -7,389 +7,637 @@
     android:background="@color/colorBackground"
     tools:context=".activities.RoomActivity">
 
-        <LinearLayout
-            android:id="@+id/llFragment"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/llFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:translationZ="999dp"
+        android:weightSum="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <fragment
+            android:id="@+id/fragmentChat"
+            android:name="be.kdg.mobile_client.fragments.ChatFragment"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:baselineAligned="false"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            android:translationZ="999dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_weight=".5"
+            android:tag="@string/chat_fragment_tag" />
+    </LinearLayout>
 
-            <fragment
-                android:id="@+id/fragmentChat"
-                android:name="be.kdg.mobile_client.fragments.ChatFragment"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight=".5"
-                android:tag="@string/chat_fragment_tag" />
-        </LinearLayout>
+    <Button
+        android:id="@+id/btnShowChat"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_background"
+        android:text="@string/chat"
+        android:textColor="@color/colorLighterBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/vToolBarRight"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnShowChat"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/circle_background"
-            android:text="@string/chat"
-            android:textColor="@color/colorLighterBackground"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/view4"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <View
-            android:id="@+id/vTable"
-            android:layout_width="280dp"
-            android:layout_height="150dp"
-            android:background="@drawable/poker_table"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvPot"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="18dp"
-            android:background="@drawable/circle_filled_white"
-            android:paddingStart="10dp"
-            android:paddingTop="1dp"
-            android:paddingEnd="10dp"
-            android:paddingBottom="1dp"
-            android:text="190"
-            android:textAlignment="center"
-            android:textColor="@color/colorDarkerBackground"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/vTable"
-            app:layout_constraintEnd_toEndOf="@+id/vTable"
-            app:layout_constraintStart_toStartOf="@+id/vTable"
-            app:layout_constraintTop_toBottomOf="@+id/vCard3" />
-
-        <!-- CARDS -->
-        <View
-            android:id="@+id/vCard1"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="61dp"
-            android:background="@color/colorDarkestGreen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/vCard2"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="23dp"
-            android:background="@color/colorDarkestGreen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/vCard3"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:background="@color/colorDarkestGreen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/vCard4"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="23dp"
-            android:background="@color/colorDarkestGreen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/vCard5"
-            android:layout_width="30dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="61dp"
-            android:background="@color/colorDarkestGreen"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/view4"
-            android:layout_width="90dp"
-            android:layout_height="0dp"
-            android:background="@color/colorDarkerBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/view5"
-            android:layout_width="90dp"
-            android:layout_height="0dp"
-            android:background="@color/colorDarkerBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <FrameLayout
-            android:id="@+id/frameLayout2"
-            android:layout_width="32dp"
-            android:layout_height="180dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/view5"
-            app:layout_constraintEnd_toEndOf="@+id/view5"
-            app:layout_constraintStart_toStartOf="parent">
-
-                <SeekBar
-                    android:id="@+id/camera_sb_expose"
-                    android:layout_width="180dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:rotation="270" />
-
-        </FrameLayout>
-
-        <!-- BUTTONS -->
-        <Button
-            android:id="@+id/btnBet"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/circle_yellow"
-            android:text="100"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
-            app:layout_constraintEnd_toEndOf="@+id/view5"
-            app:layout_constraintStart_toStartOf="@+id/view5" />
-
-        <Button
-            android:id="@+id/btnCall"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/circle_green"
-            android:text="@string/call"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toTopOf="@+id/btnFold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/view4" />
-
-        <Button
-            android:id="@+id/btnFold"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/circle_red"
-            android:text="@string/fold"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toBottomOf="@+id/view4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/view4" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 
+    <!-- POKER TABLE -->
+    <View
+        android:id="@+id/vTable"
+        android:layout_width="280dp"
+        android:layout_height="150dp"
+        android:background="@drawable/poker_table"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Player1 -->
-        <TextView
-            android:id="@+id/tvCashPlayer1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="20k"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPlayer1" />
-
-        <Button
-            android:id="@+id/btnPlayer1"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@drawable/circle_white"
-            android:text="A"
-            android:textSize="32sp"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toTopOf="@+id/vTable"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tvStatusPlayer1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="CALL"
-            android:textAlignment="center"
-            android:textColor="@color/colorGreen"
-            app:layout_constraintBottom_toTopOf="@+id/btnPlayer1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/tvPot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/circle_filled_white"
+        android:paddingStart="10dp"
+        android:paddingTop="0dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="0dp"
+        android:text="190"
+        android:textAlignment="center"
+        android:textColor="@color/colorDarkerBackground"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/vTable"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toBottomOf="@+id/vCard3" />
 
 
+    <!-- CARDS -->
+    <View
+        android:id="@+id/vCard1"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="61dp"
+        android:background="@drawable/rounded_corners_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Player2 -->
-        <TextView
-            android:id="@+id/tvCashPlayer2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="20k"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toStartOf="@+id/view4"
-            app:layout_constraintStart_toEndOf="@+id/vTable"
-            app:layout_constraintTop_toBottomOf="@+id/btnPlayer2" />
+    <View
+        android:id="@+id/vCard2"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="23dp"
+        android:background="@drawable/rounded_corners_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btnPlayer2"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/circle_white"
-            android:text="J"
-            android:textColor="@color/colorWhite"
-            android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/view4"
-            app:layout_constraintStart_toEndOf="@+id/vTable"
-            app:layout_constraintTop_toTopOf="parent" />
+    <View
+        android:id="@+id/vCard3"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rounded_corners_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvStatusPlayer2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:text="FOLD"
-            android:textAlignment="center"
-            android:textColor="@color/colorRed"
-            app:layout_constraintBottom_toTopOf="@+id/btnPlayer2"
-            app:layout_constraintEnd_toStartOf="@+id/view4"
-            app:layout_constraintStart_toEndOf="@+id/vTable" />
+    <View
+        android:id="@+id/vCard4"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="23dp"
+        android:background="@drawable/rounded_corners_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vCard5"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="61dp"
+        android:background="@drawable/rounded_corners_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vToolBarRight"
+        android:layout_width="90dp"
+        android:layout_height="0dp"
+        android:background="@color/colorDarkerBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/vToolBarLeft"
+        android:layout_width="90dp"
+        android:layout_height="0dp"
+        android:background="@color/colorDarkerBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="32dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/vToolBarLeft"
+        app:layout_constraintEnd_toEndOf="@+id/vToolBarLeft"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <SeekBar
+            android:id="@+id/camera_sb_expose"
+            android:layout_width="180dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center"
+            android:rotation="270" />
+
+    </FrameLayout>
+
+    <!-- BUTTONS -->
+    <Button
+        android:id="@+id/btnBet"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_yellow"
+        android:text="100"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+        app:layout_constraintEnd_toEndOf="@+id/vToolBarLeft"
+        app:layout_constraintStart_toStartOf="@+id/vToolBarLeft" />
+
+    <Button
+        android:id="@+id/btnCall"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/circle_green"
+        android:text="@string/call"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/btnFold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/vToolBarRight" />
+
+    <Button
+        android:id="@+id/btnFold"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/circle_red"
+        android:text="@string/fold"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/vToolBarRight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/vToolBarRight" />
 
 
+    <!-- Player1 -->
+    <TextView
+        android:id="@+id/tvStatusPlayerTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="RAISE"
+        android:textAlignment="center"
+        android:textColor="@color/colorYellow"
+        app:layout_constraintBottom_toTopOf="@+id/btnPlayerTop"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/vTable" />
 
-        <!-- Player3 -->
-        <TextView
-            android:id="@+id/tvCashPlayer3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="20k"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPlayer3" />
-        <Button
-            android:id="@+id/btnPlayer3"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/circle_white"
-            android:text="R"
-            android:textColor="@color/colorWhite"
-            android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vTable" />
+    <Button
+        android:id="@+id/btnPlayerTop"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_white"
+        android:text="P"
+        android:textColor="@color/colorWhite"
+        android:textSize="32sp"
+        android:typeface="sans"
+        app:layout_constraintBottom_toTopOf="@+id/vTable"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvStatusPlayer3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:text="CALL"
-            android:textAlignment="center"
-            android:textColor="@color/colorGreen"
-            app:layout_constraintBottom_toTopOf="@+id/btnPlayer3"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/tvCashPlayerTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="20k"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toBottomOf="@+id/btnPlayerTop" />
+
+    <TextView
+        android:id="@+id/tvBetPlayerTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_filled_white"
+        android:paddingStart="5dp"
+        android:paddingTop="1dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="1dp"
+        android:text="45"
+        android:textAlignment="center"
+        android:textColor="@color/colorDarkerBackground"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/vTable"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toTopOf="@+id/vTable" />
+
+    <TextView
+        android:id="@+id/tvStatusPlayerTopRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="RAISE"
+        android:textAlignment="center"
+        android:textColor="@color/colorYellow"
+        app:layout_constraintBottom_toTopOf="@+id/btnPlayerTopRight"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+    <Button
+        android:id="@+id/btnPlayerTopRight"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_white"
+        android:text="G"
+        android:textColor="@color/colorWhite"
+        android:textSize="32sp"
+        android:typeface="sans"
+        app:layout_constraintBottom_toTopOf="@+id/vTable"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCashPlayerTopRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="20k"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/btnPlayerTopRight" />
+
+    <TextView
+        android:id="@+id/tvBetPlayerTopRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_filled_white"
+        android:paddingStart="5dp"
+        android:paddingTop="1dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="1dp"
+        android:text="45"
+        android:textAlignment="center"
+        android:textColor="@color/colorDarkerBackground"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/vTable"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/vTable" />
+
+    <TextView
+        android:id="@+id/tvStatusPlayerTopLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="CALL"
+        android:textAlignment="center"
+        android:textColor="@color/colorGreen"
+        app:layout_constraintBottom_toTopOf="@+id/btnPlayerTopLeft"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/vTable" />
+
+    <Button
+        android:id="@+id/btnPlayerTopLeft"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_white"
+        android:text="A"
+        android:textColor="@color/colorWhite"
+        android:textSize="32sp"
+        android:typeface="sans"
+        app:layout_constraintBottom_toTopOf="@+id/vTable"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCashPlayerTopLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="20k"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toBottomOf="@+id/btnPlayerTopLeft" />
+
+    <TextView
+        android:id="@+id/tvBetPlayerTopLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_filled_white"
+        android:paddingStart="5dp"
+        android:paddingTop="1dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="1dp"
+        android:text="45"
+        android:textAlignment="center"
+        android:textColor="@color/colorDarkerBackground"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/vTable"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toTopOf="@+id/vTable" />
 
 
+    <!-- Player2 -->
+    <TextView
+        android:id="@+id/tvBetPlayerRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_filled_white"
+        android:paddingStart="5dp"
+        android:paddingTop="1dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="1dp"
+        android:text="45"
+        android:textAlignment="center"
+        android:textColor="@color/colorDarkerBackground"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/vTable"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintStart_toEndOf="@+id/vTable"
+        app:layout_constraintTop_toTopOf="@+id/vTable" />
 
-        <!-- Player4 -->
-        <TextView
-            android:id="@+id/tvCashPlayer4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:text="20k"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintEnd_toStartOf="@+id/vTable"
-            app:layout_constraintStart_toEndOf="@+id/view5"
-            app:layout_constraintTop_toBottomOf="@+id/btnPlayer4" />
-        <Button
-            android:id="@+id/btnPlayer4"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/circle_white"
-            android:text="B"
-            android:textColor="@color/colorWhite"
-            android:textSize="32sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/vTable"
-            app:layout_constraintStart_toEndOf="@+id/view5"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/tvStatusPlayerRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="FOLD"
+        android:textAlignment="center"
+        android:textColor="@color/colorRed"
+        app:layout_constraintBottom_toTopOf="@+id/btnPlayerRight"
+        app:layout_constraintEnd_toStartOf="@+id/vToolBarRight"
+        app:layout_constraintStart_toEndOf="@+id/vTable" />
 
-        <TextView
-            android:id="@+id/tvStatusPlayer4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:text="RAISE"
-            android:textAlignment="center"
-            android:textColor="@color/colorYellow"
-            app:layout_constraintBottom_toTopOf="@+id/btnPlayer4"
-            app:layout_constraintEnd_toStartOf="@+id/vTable"
-            app:layout_constraintStart_toEndOf="@+id/view5" />
+    <Button
+        android:id="@+id/btnPlayerRight"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_white"
+        android:text="J"
+        android:textColor="@color/colorWhite"
+        android:textSize="32sp"
+        android:typeface="sans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/vToolBarRight"
+        app:layout_constraintStart_toEndOf="@+id/vTable"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCashPlayerRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="20k"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/vToolBarRight"
+        app:layout_constraintStart_toEndOf="@+id/vTable"
+        app:layout_constraintTop_toBottomOf="@+id/btnPlayerRight" />
+
+
+    <!-- Player3 -->
+
+
+    <!-- Player4 -->
+
+    <TextView
+        android:id="@+id/tvStatusPlayerLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="RAISE"
+        android:textAlignment="center"
+        android:textColor="@color/colorYellow"
+        app:layout_constraintBottom_toTopOf="@+id/btnPlayerLeft"
+        app:layout_constraintEnd_toStartOf="@+id/vTable"
+        app:layout_constraintStart_toEndOf="@+id/vToolBarLeft" />
+
+    <Button
+        android:id="@+id/btnPlayerLeft"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_white"
+        android:text="B"
+        android:textColor="@color/colorWhite"
+        android:textSize="32sp"
+        android:typeface="sans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/vTable"
+        app:layout_constraintStart_toEndOf="@+id/vToolBarLeft"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCashPlayerLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="20k"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/vTable"
+        app:layout_constraintStart_toEndOf="@+id/vToolBarLeft"
+        app:layout_constraintTop_toBottomOf="@+id/btnPlayerLeft" />
+
+    <TextView
+        android:id="@+id/tvBetPlayerLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_filled_white"
+        android:paddingStart="5dp"
+        android:paddingTop="1dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="1dp"
+        android:text="45"
+        android:textAlignment="center"
+        android:textColor="@color/colorDarkerBackground"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/vTable"
+        app:layout_constraintEnd_toStartOf="@+id/vTable"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toTopOf="@+id/vTable" />
+
+
+    <!-- Player5 -->
+
+
+    <!-- Player6 -->
+
+
+    <!-- Own cards -->
+
+    <TextView
+        android:id="@+id/tvBetPlayerPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/circle_filled_white"
+        android:paddingStart="5dp"
+        android:paddingTop="1dp"
+        android:paddingEnd="5dp"
+        android:paddingBottom="1dp"
+        android:text="45"
+        android:textAlignment="center"
+        android:textColor="@color/colorDarkerBackground"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/vTable"
+        app:layout_constraintEnd_toEndOf="@+id/vTable"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="@+id/vTable"
+        app:layout_constraintTop_toBottomOf="@+id/vTable" />
+
+    <TextView
+        android:id="@+id/tvStatusPlayerPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="CALL"
+        android:textAlignment="center"
+        android:textColor="@color/colorGreen"
+        app:layout_constraintBottom_toTopOf="@+id/btnPlayerPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnPlayerPrimary"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/circle_white"
+        android:text="R"
+        android:textColor="@color/colorWhite"
+        android:textSize="32sp"
+        android:typeface="sans"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vTable" />
+
+    <TextView
+        android:id="@+id/tvCashPlayerPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:text="20k"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnPlayerPrimary" />
+
+    <View
+        android:id="@+id/vOwnCard1"
+        android:layout_width="60dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_corners_white"
+        app:layout_constraintBottom_toBottomOf="@+id/vOwnCard2"
+        app:layout_constraintEnd_toStartOf="@+id/vOwnCard2" />
+
+    <View
+        android:id="@+id/vOwnCard2"
+        android:layout_width="60dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="68dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/rounded_corners_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/vToolBarRight"
+        app:layout_constraintStart_toEndOf="@+id/btnPlayerPrimary"
+        app:layout_constraintTop_toBottomOf="@+id/vTable" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

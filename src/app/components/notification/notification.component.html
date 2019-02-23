@@ -9,7 +9,7 @@
       <span class="message">{{not.message}}</span>
       <span class="time">{{formatTime(not.timestamp.toString())}}</span>
     </div>
-    <img class="del-icon" src="../../../assets/img/icons/delete.svg">
+    <img (click)="handleDelete(not.id)" class="del-icon" src="../../../assets/img/icons/delete.svg">
   </div>
 </section>
 

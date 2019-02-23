@@ -111,4 +111,8 @@ export class UserService {
   changePassword(user: any): Observable<AuthResult> {
     return this.http.patch<any>(this.url, user);
   }
+
+  deleteNotification(id: number): Observable<Notification> {
+    return this.http.delete<Notification>(this.url + '/notification/' + id);
+  }
 }

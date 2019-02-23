@@ -72,7 +72,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
     const date = data[0].split('-');
     const day = date[2];
     const month = date[1].startsWith('0') ? date[1].charAt(1) : date[1];
-    const monthConverted = monthNames[month - 1];
+    const monthConverted = monthNames[(month as unknown as number) - 1];
     const dateConstructed = day + ' ' + monthConverted;
 
     // time constructed
@@ -148,5 +148,10 @@ export class NotificationComponent implements OnInit, OnDestroy {
    */
   showNotification(type: string, message: string): void {
     this.notifier.notify(type, message);
+  }
+
+  handleDelete(id: number) {
+    this.notifications = this.notifications.filter(not => not.id !== id);
+    this.userService.deleteNotification(id).subscribe(() => this.getAllNotifications());
   }
 }

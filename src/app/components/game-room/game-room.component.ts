@@ -11,19 +11,8 @@ import {Player} from '../../model/player';
   styleUrls: ['./game-room.component.scss']
 })
 export class GameRoomComponent implements OnInit, OnDestroy {
-  room: Room = {
-    id: 0,
-    name: '',
-    gameRules: null,
-    playersInRoom: []
-  };
-  player: Player = {
-    id: 1,
-    userId: '1',
-    inRoom: false,
-    handType: '',
-    chipCount: 0
-  };
+  room: Room = Room.create();
+  player: Player = Player.create();
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService) {
   }

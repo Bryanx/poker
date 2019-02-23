@@ -13,8 +13,8 @@ export class UrlService {
   socialUrl = 'http://localhost:5000/api/sociallogin';
   // socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
 
-  serverUrl = 'wss://poker-game-service.herokuapp.com/chat/websocket';
-  // serverUrl = 'ws://localhost:5001/chat/websocket';
+  // serverUrl = 'wss://poker-game-service.herokuapp.com/chat/websocket';
+  serverUrl = 'ws://localhost:5001/chat/websocket';
 
   // authUrl = 'https://poker-user-service.herokuapp.com/oauth/token';
   authUrl = 'http://localhost:5000/oauth/token';

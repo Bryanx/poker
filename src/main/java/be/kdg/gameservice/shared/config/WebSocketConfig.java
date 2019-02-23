@@ -27,7 +27,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/chatroom/receive/", "/room/receive-act/", "/room/receive-room/", "/room/receive-round/")
+        registry.enableSimpleBroker("/chatroom/receive/", "/room/receive-act/", "/room/receive-room/", "/room/receive-round/", "/room/receive-winner/")
                 .setHeartbeatValue(new long[]{10000, 10000})
                 .setTaskScheduler(heartBeatScheduler());
     }

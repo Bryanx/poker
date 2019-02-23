@@ -321,6 +321,7 @@ public class RoundServiceImplTest extends UtilTesting {
         assertEquals(Phase.SHOWDOWN, round.getCurrentPhase());
 
         final Player winner = roundService.determineWinner(round.getId());
+        System.out.println(winner);
 
         int coinSum = round.getActivePlayers().stream().mapToInt(p -> p.getChipCount()).sum() + round.getPot();
 

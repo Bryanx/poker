@@ -1,6 +1,8 @@
 package be.kdg.gameservice.round.controller;
 
+import be.kdg.gameservice.room.controller.dto.PlayerDTO;
 import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.controller.dto.ActDTO;
 import be.kdg.gameservice.round.controller.dto.RoundDTO;
@@ -65,6 +67,11 @@ public class RoundApiController {
     public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO) throws RoundException, RoomException {
         this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet());
+
+        Player player = roundService.checkEndOfRound(actDTO.getRoundId());
+        if(player != null) {
+            this.template.convertAndSend("/room/receive-winner/" + actDTO.getRoomId(), modelMapper.map(player, PlayerDTO.class));
+        }
 
         actDTO.setNextUserId(roundService.determineNextUserId(actDTO.getRoundId(), actDTO.getUserId()));
         this.template.convertAndSend("/room/receive-act/" + actDTO.getRoomId(), actDTO);

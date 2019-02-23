@@ -65,19 +65,17 @@ public class RoundServiceImpl implements RoundService {
             round.setPot(round.getPot() + bet);
             player.setLastAct(type);
             player.setChipCount(player.getChipCount() - bet);
-            checkEndOfRound(round);
+            checkEndOfPhase(round);
             //update database
             saveRound(round);
         } else throw new RoundException(RoundServiceImpl.class, "The act was not possible to make.");
-
-
     }
 
     /**
      *
      * @param round
      */
-    private void checkEndOfRound(Round round) {
+    private void checkEndOfPhase(Round round) {
         Phase currentPhase = round.getCurrentPhase();
         if (round.getActs().stream()
                 .filter(a -> a.getPhase() == currentPhase)
@@ -104,6 +102,16 @@ public class RoundServiceImpl implements RoundService {
                 }
             }
         }
+    }
+
+    public Player checkEndOfRound(int roundId) throws RoundException{
+        Round round = getRound(roundId);
+        Phase currentPhase = round.getCurrentPhase();
+
+        if (currentPhase == Phase.SHOWDOWN) {
+            return determineWinner(roundId);
+        }
+        return null;
     }
 
     /**
@@ -319,15 +327,17 @@ public class RoundServiceImpl implements RoundService {
         Player winningPlayer = null;
 
         for (Player player: participatingPlayers) {
-            HandType bestHandForPlayer = this.bestHandForPlayer(player, round);
-
+            player.setHandType(this.bestHandForPlayer(player, round));
             if(bestHand == null) {
-                bestHand = bestHandForPlayer;
-            } else if(bestHandForPlayer.compareTo(bestHand) > 0) {
                 winningPlayer = player;
-                bestHand = bestHandForPlayer;
+                bestHand = player.getHandType();
+            } else if(player.getHandType().compareTo(bestHand) > 0) {
+                winningPlayer = player;
+                bestHand = player.getHandType();
             }
         }
+        round.setFinished(true);
+        saveRound(round);
         return winningPlayer;
     }
 

@@ -105,6 +105,7 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    @Override
     public Player checkEndOfRound(int roundId) throws RoundException{
         Round round = getRound(roundId);
         Phase currentPhase = round.getCurrentPhase();
@@ -307,7 +308,8 @@ public class RoundServiceImpl implements RoundService {
      * @param roundId
      * @param player
      */
-    private Player distributeCoins(int roundId, Player player) throws RoundException {
+    @Override
+    public Player distributeCoins(int roundId, Player player) throws RoundException {
         //Get data
         Round round = getRound(roundId);
         Player winningPlayer = round.getPlayersInRound().stream().filter(player1 ->

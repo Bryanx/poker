@@ -22,4 +22,6 @@ public interface RoundService {
     String determineNextUserId(int roundId, String userId) throws RoundException;
 
     Player checkEndOfRound(int roundId) throws RoundException;
+
+    Player distributeCoins(int roundId, Player player) throws RoundException ;
 }

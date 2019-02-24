@@ -6,6 +6,8 @@ import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
+import be.kdg.gameservice.round.exception.RoundException;
+import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
@@ -85,7 +87,7 @@ public class RoomServiceImpl implements RoomService {
      * @throws RoomException Thrown if the player was not found in the room.
      */
     @Override
-    public Player leaveRoom(int roomId, String userId) throws RoomException {
+    public Player leaveRoom(int roomId, String userId) throws RoomException, RoundException {
         //Get data
         Room room = getRoom(roomId);
         Optional<Player> playerOpt = room.getPlayersInRoom().stream()
@@ -95,6 +97,13 @@ public class RoomServiceImpl implements RoomService {
         //Check optional player
         if (!playerOpt.isPresent())
             throw new RoomException(RoomServiceImpl.class, "Player was not in the room.");
+
+        //Removes player from current round
+        if (room.getRounds().size() > 0) {
+            if (!room.getCurrentRound().isFinished() && room.getCurrentRound().getPlayersInRound().contains(playerOpt.get())) {
+                room.getCurrentRound().removePlayer(playerOpt.get());
+            }
+        }
 
         //Remove player from the room
         room.removePlayer(playerOpt.get());
@@ -192,5 +201,17 @@ public class RoomServiceImpl implements RoomService {
             throw new RoomException(RoomServiceImpl.class ,"User does not have enough chips to join.");
         }
         return room.getGameRules().getStartingChips();
+    }
+
+    @Override
+    public void enoughRoundPlayers(int roomId) throws RoomException, RoundException {
+        Room room = getRoom(roomId);
+
+        if (room.getRounds().size() > 0) {
+            if (!room.getCurrentRound().isFinished() && room.getCurrentRound().getPlayersInRound().size() < 2) {
+                room.getCurrentRound().setFinished(true);
+                roundService.distributeCoins(room.getCurrentRound().getId(), room.getCurrentRound().getPlayersInRound().get(0));
+            }
+        }
     }
 }

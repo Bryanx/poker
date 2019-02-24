@@ -331,17 +331,18 @@ public class RoundServiceImpl implements RoundService {
         Round round = getRound(roundId);
         List<Player> participatingPlayers = round.getPlayersInRound();
 
-        HandType bestHand = null;
+        Hand bestHand = null;
         Player winningPlayer = null;
 
         for (Player player: participatingPlayers) {
-            player.setHandType(this.bestHandForPlayer(player, round));
+            Hand playerHand = this.bestHandForPlayer(player, round);
+            player.setHandType(playerHand.getHandType());
             if(bestHand == null) {
                 winningPlayer = player;
-                bestHand = player.getHandType();
-            } else if(player.getHandType().compareTo(bestHand) > 0) {
+                bestHand = playerHand;
+            } else if(playerHand.compareTo(bestHand) > 0) {
                 winningPlayer = player;
-                bestHand = player.getHandType();
+                bestHand = playerHand;
             }
         }
         saveRound(round);
@@ -354,7 +355,7 @@ public class RoundServiceImpl implements RoundService {
      * @param round
      * @return
      */
-    private HandType bestHandForPlayer(Player player, Round round) {
+    private Hand bestHandForPlayer(Player player, Round round) {
         // Array of 7  cards -> 5 (boardCards) + 1 (player FirstCard) + 1 (player SecondCard)
         List<Card> playerCards = new ArrayList<>(round.getCards());
         playerCards.addAll(Arrays.asList(player.getFirstCard(), player.getSecondCard()));

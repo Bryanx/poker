@@ -75,10 +75,8 @@ public class NotificationApiController {
                 notificationDTO.getMessage(), notificationDTO.getType());
         NotificationDTO notificationOut = modelMapper.map(notificationIn, NotificationDTO.class);
 
-        List<Notification> notifications = notificationService.getNotificationsForUser(receiverId);
-        NotificationDTO[] notificationsOut = modelMapper.map(notifications, NotificationDTO[].class);
+        pushNotifications(receiverId);
         this.template.convertAndSend("/user/receive-notification/" + receiverId, notificationOut);
-        this.template.convertAndSend("/user/notifications/" + receiverId, notificationsOut);
     }
 
     /**
@@ -107,7 +105,9 @@ public class NotificationApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/user/notification/{notificationId}")
     public ResponseEntity<Void> deleteNotification(@PathVariable int notificationId, OAuth2Authentication authentication) throws NotificationException, UserException {
-        notificationService.deleteNotification(getUserInfo(authentication).get(ID_KEY).toString(), notificationId);
+        String userId = getUserInfo(authentication).get(ID_KEY).toString();
+        notificationService.deleteNotification(userId, notificationId);
+        pushNotifications(userId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
@@ -121,7 +121,9 @@ public class NotificationApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/user/notification")
     public ResponseEntity<Void> deleteNotifications(OAuth2Authentication authentication) throws UserException {
-        notificationService.deleteAllNotifications(getUserInfo(authentication).get(ID_KEY).toString());
+        String userId = getUserInfo(authentication).get(ID_KEY).toString();
+        notificationService.deleteAllNotifications(userId);
+        pushNotifications(userId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
@@ -132,5 +134,16 @@ public class NotificationApiController {
     private Map<String, Object> getUserInfo(OAuth2Authentication authentication) {
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
         return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
+    }
+
+    /**
+     * This will push the new notifications to the user
+     *
+     * @param userId The id of the user that the notifications need to be pushed to.
+     */
+    private void pushNotifications(String userId) {
+        List<Notification> notifications = notificationService.getNotificationsForUser(userId);
+        NotificationDTO[] notificationsOut = modelMapper.map(notifications, NotificationDTO[].class);
+        this.template.convertAndSend("/user/notifications/" + userId, notificationsOut);
     }
 }

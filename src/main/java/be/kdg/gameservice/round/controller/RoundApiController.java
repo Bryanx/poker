@@ -62,6 +62,9 @@ public class RoundApiController {
      * Saves an act that is played by a player in the back end.
      * The act is validated in the round service for a last time.
      * The players act will than be sent to the rest of the room.
+     * If the round has ended then a winner will be broadcasted.
+     * The current round will be broadcasted.
+     * If the round has ended then a new round will be broadcasted.
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rounds/act")

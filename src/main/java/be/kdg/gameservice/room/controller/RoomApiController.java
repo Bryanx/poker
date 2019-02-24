@@ -110,7 +110,10 @@ public class RoomApiController {
     }
 
     /**
-     * If a player joins a room, it is received here. All players in the same room will be notified.
+     * If a player joins a room, it is received here.
+     * The user service will be used to check if the user has enough chips.
+     * If that is the case then the chips will be transferred to the player.
+     * All players in the same room will be notified.
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rooms/{roomId}/join")

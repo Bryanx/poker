@@ -7,11 +7,9 @@ import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.exception.RoundException;
-import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -203,6 +201,10 @@ public class RoomServiceImpl implements RoomService {
         return room.getGameRules().getStartingChips();
     }
 
+    /**
+     * Checks if there are enough players left to play.
+     * If this is not the case then the last player will receive the pot.
+     */
     @Override
     public void enoughRoundPlayers(int roomId) throws RoomException, RoundException {
         Room room = getRoom(roomId);

@@ -126,7 +126,7 @@ public final class HandServiceImpl implements HandService {
             solution.add(new HashSet<>(current));
             return;
         }
-        //unseccessful stop clause
+        //unsuccessful stop clause
         if (idx == superSet.size()) return;
         Card x = superSet.get(idx);
         current.add(x);

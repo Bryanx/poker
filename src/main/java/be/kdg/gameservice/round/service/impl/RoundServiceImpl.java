@@ -367,6 +367,9 @@ public class RoundServiceImpl implements RoundService {
         return Collections.unmodifiableList(roundRepository.findAll());
     }
 
+    /**
+     * Checks which player should play the next act.
+     */
     @Override
     public String determineNextUserId(int roundId, String userId) throws RoundException{
         Round round = getRound(roundId);

@@ -50,5 +50,6 @@
   "RANK": "rang",
   "WON": "gewonnen",
   "LOST": "verloren",
-  "UNKNOWN": "onbekend"
+  "UNKNOWN": "onbekend",
+  "WAITINGFORPLAYERS": "Wachten op spelers.."
 }

@@ -1,5 +1,8 @@
 <div [className]="myTurn ? 'actionbar' : 'actionbar-disabled'">
-  <p *ngIf="!myTurn">
+  <p *ngIf="room.playersInRoom.length < 2">
+     {{'WAITINGFORPLAYERS' | translate | uppercase}}
+  </p>
+  <p *ngIf="!myTurn && room.playersInRoom.length >= 2">
     {{'BROTURN' | translate | uppercase}}
   </p>
   <div class="cards" *ngIf="player">

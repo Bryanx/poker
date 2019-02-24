@@ -50,5 +50,6 @@
   "RANK": "rank",
   "WON": "won",
   "LOST": "lost",
-  "UNKNOWN": "unknown"
+  "UNKNOWN": "unknown",
+  "WAITINGFORPLAYERS": "Waiting for players..."
 }

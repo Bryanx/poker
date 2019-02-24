@@ -8,15 +8,17 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.User;
-import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.UserService;
+import be.kdg.mobile_client.viewmodels.UserViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,28 +29,27 @@ import butterknife.ButterKnife;
 public class RankingsActivity extends BaseActivity {
     @BindView(R.id.tblRankings) TableLayout tblRankings;
     @Inject UserService userService;
+    @Inject ViewModelProvider.Factory factory;
+    private UserViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rankings);
+        viewModel = ViewModelProviders.of(this,factory).get(UserViewModel.class);
         ButterKnife.bind(this);
         fetchRankings();
     }
 
     private void fetchRankings() {
-        userService.getUsers().enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response.isSuccessful() && response.body() != null) {
-                loadRankingsIntoView(response.body());
-            }
-        }));
+        viewModel.getUsers().observe(this, this::loadRankingsIntoView);
     }
 
-    private void loadRankingsIntoView(User[] users) {
-        Arrays.sort(users);
-        for (int i = 0, usersLength = users.length; i < usersLength; i++) {
-            User user = users[i];
+    private void loadRankingsIntoView(List<User> users) {
+        Collections.sort(users);
+        for (int i = 0, usersLength = users.size(); i < usersLength; i++) {
+            User user = users.get(i);
             TableRow row = new TableRow(this);
             row.addView(newTextView(String.valueOf(i + 1) + '.'));
             row.addView(newTextView(user.getUsername()));

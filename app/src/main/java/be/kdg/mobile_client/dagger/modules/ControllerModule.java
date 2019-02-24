@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.GameService;
@@ -13,6 +14,8 @@ import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import be.kdg.mobile_client.shared.EmailValidator;
 import be.kdg.mobile_client.shared.UsernameValidator;
+import be.kdg.mobile_client.shared.ViewModelProviderFactory;
+import be.kdg.mobile_client.viewmodels.UserViewModel;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -76,8 +79,8 @@ public class ControllerModule {
     public UsernameValidator usernameValidator() { return new UsernameValidator(); }
 
     @Provides
-    public OkHttpClient okHttpClient(SharedPrefService sharedPrefService) {
-        Token token = sharedPrefService.getToken(activity());
+    public OkHttpClient okHttpClient() {
+        Token token = sharedPrefService().getToken(activity());
         if (token == null) return new OkHttpClient();
         return new OkHttpClient().newBuilder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder()
@@ -88,10 +91,10 @@ public class ControllerModule {
     }
 
     @Provides
-    public UserService userService(OkHttpClient client) {
+    public UserService userService() {
         return new Retrofit
                 .Builder()
-                .client(client)
+                .client(okHttpClient())
                 .addConverterFactory(gsonConverter())
                 .baseUrl(API_BASE_URL_USER)
                 .build()
@@ -112,5 +115,15 @@ public class ControllerModule {
     @Provides
     public ChatService stompService() {
         return new ChatService();
+    }
+
+    @Provides
+    UserViewModel userViewModel(){
+        return new UserViewModel(userService());
+    }
+
+    @Provides
+    ViewModelProvider.Factory userViewModelFactory(UserViewModel viewModel){
+        return new ViewModelProviderFactory<>(viewModel);
     }
 }

@@ -1,5 +1,7 @@
 package be.kdg.mobile_client.services;
 
+import java.util.List;
+
 import be.kdg.mobile_client.model.Register;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.model.User;
@@ -44,7 +46,7 @@ public interface UserService {
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})
     @GET("/api/users")
-    Call<User[]> getUsers();
+    Call<List<User>> getUsers();
 
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})

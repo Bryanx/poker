@@ -13,25 +13,26 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.UserRecyclerAdapter;
-import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.model.User;
 import be.kdg.mobile_client.services.UserService;
 import be.kdg.mobile_client.shared.CallbackWrapper;
+import be.kdg.mobile_client.viewmodels.UserViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class UserSearchActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.etSearch) EditText etSearch;
     @BindView(R.id.lvUser) RecyclerView lvUser;
     @Inject UserService userService;
+    @Inject ViewModelProvider.Factory factory;
+    private UserViewModel viewModel;
     private User myself;
 
     @Override
@@ -40,6 +41,7 @@ public class UserSearchActivity extends BaseActivity {
         getControllerComponent().inject(this);
         setContentView(R.layout.activity_usersearch);
         ButterKnife.bind(this);
+        viewModel = ViewModelProviders.of(this,factory).get(UserViewModel.class);
         addEventHandlers();
         getMySelf();
         getUsers();
@@ -81,13 +83,7 @@ public class UserSearchActivity extends BaseActivity {
      * a list adapter.
      */
     private void getUsers() {
-        userService.getUsers().enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response.isSuccessful() && response.body() != null) {
-                initializeAdapter(Arrays.asList(response.body()));
-            } else {
-                Toast.makeText(getApplicationContext(), getString(R.string.error_getting_users), Toast.LENGTH_LONG).show();
-            }
-        }));
+        viewModel.getUsers().observe(this, this::initializeAdapter);
     }
 
     /**

@@ -8,6 +8,7 @@ import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.controller.dto.RoundDTO;
+import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.shared.AuthDTO;
 import lombok.RequiredArgsConstructor;
@@ -73,12 +74,23 @@ public class RoomApiController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/rooms/{roomId}/leave-room")
-    public ResponseEntity<PlayerDTO> leaveRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
-        roomService.leaveRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
-        Room roomIn = roomService.getRoom(roomId);
-        RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);
-        this.template.convertAndSend("/room/receive-room/" + roomId, roomOut);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    public ResponseEntity<PlayerDTO> leaveRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException, RoundException {
+        Player player = roomService.leaveRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
+
+        roomService.enoughRoundPlayers(roomId);
+
+        String token = getTokenFromAuthentication(authentication);
+        UserDto userDto = getUser(token);
+        userDto.setChips(userDto.getChips() + player.getChipCount());
+
+        if (updateUser(token, userDto) != null) {
+            Room roomIn = roomService.getRoom(roomId);
+            RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);
+            this.template.convertAndSend("/room/receive-room/" + roomId, roomOut);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+
+        return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

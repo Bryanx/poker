@@ -8,6 +8,7 @@ import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.round.service.api.HandService;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.apache.bcel.util.Play;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -104,12 +105,14 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
+    @Override
     public Player checkEndOfRound(int roundId) throws RoundException{
         Round round = getRound(roundId);
         Phase currentPhase = round.getCurrentPhase();
 
         if (currentPhase == Phase.SHOWDOWN) {
-            return determineWinner(roundId);
+            Player winningPlayer = determineWinner(roundId);
+            return distributeCoins(roundId, winningPlayer);
         }
         return null;
     }
@@ -305,11 +308,16 @@ public class RoundServiceImpl implements RoundService {
      * @param roundId
      * @param player
      */
-    public void distributeCoins(int roundId, Player player) throws RoundException {
+    @Override
+    public Player distributeCoins(int roundId, Player player) throws RoundException {
         //Get data
         Round round = getRound(roundId);
-        player.setChipCount(player.getChipCount() + round.getPot());
-        round.setPot(0);
+        Player winningPlayer = round.getPlayersInRound().stream().filter(player1 ->
+                player1.getUserId().equals(player.getUserId())).findFirst().orElseThrow(()
+                -> new RoundException(RoundServiceImpl.class, "The winning player was not found in the round."));
+        winningPlayer.setChipCount(player.getChipCount() + round.getPot());
+        roundRepository.save(round);
+        return winningPlayer;
     }
 
     /**
@@ -337,7 +345,6 @@ public class RoundServiceImpl implements RoundService {
                 bestHand = playerHand;
             }
         }
-        round.setFinished(true);
         saveRound(round);
         return winningPlayer;
     }

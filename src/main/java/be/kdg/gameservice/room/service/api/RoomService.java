@@ -3,6 +3,7 @@ package be.kdg.gameservice.room.service.api;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
+import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Round;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface RoomService {
     Player joinRoom(int roomId, String userId) throws RoomException;
 
-    Player leaveRoom(int roomId, String userId) throws RoomException;
+    Player leaveRoom(int roomId, String userId) throws RoomException, RoundException;
 
     Player savePlayer(Player player);
 
@@ -29,4 +30,6 @@ public interface RoomService {
     Room getRoomByName(String roomName);
 
     int checkChips (int roomId, int userChips) throws RoomException;
+
+    void enoughRoundPlayers (int roomId) throws RoomException, RoundException;
 }

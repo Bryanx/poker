@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {TranslateService} from './services/translate.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Notification} from './model/notification';
+import {AuthorizationService} from './services/authorization.service';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +10,11 @@ import {Notification} from './model/notification';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  showBell: boolean;
+  constructor(private translate: TranslateService, private auth: AuthorizationService) {
+  }
 
-  constructor(private translate: TranslateService) {
+  hasAuthentication(): boolean {
+    return this.auth.isAuthenticated();
   }
 
   /**

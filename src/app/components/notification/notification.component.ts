@@ -27,7 +27,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class NotificationComponent implements OnInit, OnDestroy {
   notifications: Notification[] = [];
-  notificationSub: Subscription;
+  receiveSub: Subscription;
+  notificationsSub: Subscription;
   myself: User = User.create();
   showBell: boolean;
 
@@ -44,7 +45,8 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.notificationSub.unsubscribe();
+    this.receiveSub.unsubscribe();
+    this.notificationsSub.unsubscribe();
   }
 
   handleClick() {
@@ -54,7 +56,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
   private getAllNotifications() {
     this.userService.getNotifications().subscribe(nots => {
       this.notifications = nots;
-      console.log(nots);
     });
   }
 
@@ -92,7 +93,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
   private checkIfAuthenticated() {
     const intervalId = setInterval(() => {
       if (this.authorizationService.isAuthenticated()) {
-        console.log('authenticated!');
         clearInterval(intervalId);
         this.getCredentials();
         this.checkIfNotAuthenticated();
@@ -107,9 +107,9 @@ export class NotificationComponent implements OnInit, OnDestroy {
   private checkIfNotAuthenticated() {
     const intervalId = setInterval(() => {
       if (!this.authorizationService.isAuthenticated()) {
-        console.log('not authenticated!');
         clearInterval(intervalId);
-        this.notificationSub.unsubscribe();
+        this.receiveSub.unsubscribe();
+        this.notificationsSub.unsubscribe();
         this.checkIfAuthenticated();
       }
     }, 750);
@@ -129,11 +129,20 @@ export class NotificationComponent implements OnInit, OnDestroy {
    * Shows notifications to the screen if any are pushed by the web socket.
    */
   private initializeNotificationConnection() {
-    this.notificationSub = this.webSocketService.watch('/user/receive-notification/' + this.myself.id).subscribe((message: Message) => {
+    this.receiveSub = this.webSocketService.watch('/user/receive-notification/' + this.myself.id).subscribe((message: Message) => {
       if (message) {
         const not: Notification = JSON.parse(message.body) as Notification;
         this.userService.readNotification(not.id).subscribe();
         this.showNotification('default', not.message);
+      }
+    }, error => {
+      console.log(error.error.error_description);
+    });
+
+    this.notificationsSub = this.webSocketService.watch('/user/notifications/' + this.myself.id).subscribe((message: Message) => {
+      if (message) {
+        console.log('GELUKT!');
+        this.notifications = JSON.parse(message.body) as Notification[];
       }
     }, error => {
       console.log(error.error.error_description);

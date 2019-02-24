@@ -1,8 +1,7 @@
 package be.kdg.gameservice.round.model;
 
 import be.kdg.gameservice.card.Card;
-import be.kdg.gameservice.card.Rank;
-import lombok.AllArgsConstructor;
+import be.kdg.gameservice.shared.SortComparator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

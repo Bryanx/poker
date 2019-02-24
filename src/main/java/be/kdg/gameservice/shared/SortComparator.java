@@ -1,14 +1,14 @@
-package be.kdg.gameservice.round.model;
+package be.kdg.gameservice.shared;
 
 import java.util.Comparator;
 import java.util.Map;
 
 // Implement Comparator Interface to sort the values
-class SortComparator implements Comparator<Integer> {
+public class SortComparator implements Comparator<Integer> {
     private final Map<Integer, Integer> freqMap;
 
     // Assign the specified map
-    SortComparator(Map<Integer, Integer> tFreqMap)
+    public SortComparator(Map<Integer, Integer> tFreqMap)
     {
         this.freqMap = tFreqMap;
     }

@@ -8,8 +8,8 @@ import {ActType} from '../model/actType';
   providedIn: 'root'
 })
 export class RoundService {
-  // url = 'https://poker-game-service.herokuapp.com/api/rounds/';
-  url = 'http://localhost:5001/api/rounds/';
+  url = 'https://poker-game-service.herokuapp.com/api/rounds/';
+  // url = 'http://localhost:5001/api/rounds/';
 
   constructor(private http: HttpClient) {
   }

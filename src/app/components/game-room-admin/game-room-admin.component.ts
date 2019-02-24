@@ -33,7 +33,7 @@ export class GameRoomAdminComponent implements OnInit {
       this.room.gameRules = new GameRules();
       this.room.playersInRoom = [];
       this.room.id = 0;
-      this.room.name = "";
+      this.room.name = '';
       this.room.gameRules.maxPlayerCount = 6;
       this.room.gameRules.smallBlind = 100;
       this.room.gameRules.playDelay = 30;

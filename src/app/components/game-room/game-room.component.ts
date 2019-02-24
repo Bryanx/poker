@@ -66,6 +66,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.roundSubscription.unsubscribe();
   }
 
+  /**
+   * Subscribes to the room channel. All room changes will now be received here.
+   */
   initializeRoomConnection() {
     this.roomSubscription = this.websocketService.watch('/room/receive-room/' + this.room.id).subscribe((message: Message) => {
       if (message) {
@@ -76,6 +79,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Subscribes to the round channel. All round changes will now be received here.
+   */
   initializeRoundConnection() {
     this.roundSubscription = this.websocketService.watch('/room/receive-round/' + this.room.id).subscribe((message: Message) => {
       if (message) {
@@ -88,6 +94,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Subscribes to the winner channel. Every time someone wins it is received here.
+   */
   initializeWinnerConnection() {
     this.roundSubscription = this.websocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {
       if (message) {

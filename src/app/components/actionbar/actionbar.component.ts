@@ -43,6 +43,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     this.actSubscription.unsubscribe();
   }
 
+  /**
+   * Subscribes to the act channel. All played acts will now be received here.
+   */
   initializeGameConnection() {
     this.actSubscription = this.websocketService.watch('/room/receive-act/' + this.room.id).subscribe((message: Message) => {
       if (message) {
@@ -68,6 +71,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     return value;
   }
 
+  /**
+   * Builds an act and sends it to the game service.
+   */
   playAct(actType: ActType) {
     // console.log(actType);
     const act: Act = new Act();

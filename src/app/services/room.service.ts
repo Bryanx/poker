@@ -9,8 +9,8 @@ import {Auth} from '../model/auth';
   providedIn: 'root'
 })
 export class RoomService {
-  // url = 'https://poker-game-service.herokuapp.com/api/rooms/';
-  url = 'http://localhost:5001/api/rooms/';
+  url = 'https://poker-game-service.herokuapp.com/api/rooms/';
+  // url = 'http://localhost:5001/api/rooms/';
 
   constructor(private http: HttpClient) {
   }

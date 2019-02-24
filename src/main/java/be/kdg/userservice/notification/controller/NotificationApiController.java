@@ -74,7 +74,11 @@ public class NotificationApiController {
                 getUserInfo(authentication).get(ID_KEY).toString(), receiverId,
                 notificationDTO.getMessage(), notificationDTO.getType());
         NotificationDTO notificationOut = modelMapper.map(notificationIn, NotificationDTO.class);
+
+        List<Notification> notifications = notificationService.getNotificationsForUser(receiverId);
+        NotificationDTO[] notificationsOut = modelMapper.map(notifications, NotificationDTO[].class);
         this.template.convertAndSend("/user/receive-notification/" + receiverId, notificationOut);
+        this.template.convertAndSend("/user/notifications/" + receiverId, notificationsOut);
     }
 
     /**

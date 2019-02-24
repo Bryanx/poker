@@ -28,7 +28,6 @@
 .not-panel {
   display: flex;
   flex-direction: column;
-
   width: 500px;
   background-color: white;
   position: absolute;
@@ -38,6 +37,7 @@
   box-shadow: 5px 5px 5px #222;
   overflow: auto;
   border-radius: 1rem;
+  user-select: none;
 
   .not {
     display: flex;
@@ -112,6 +112,47 @@
     &:active {
       text-underline: darken(#969696, 25%);
       color: darken(#969696, 25%);
+    }
+  }
+
+  .splash-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin: 25px;
+    user-select: none;
+
+    img {
+      width: 150px;
+      height: 150px;
+      margin-bottom: 25px;
+    }
+
+    .main-message {
+      font-size: 1.5rem;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: bold;
+    }
+
+    .second-message {
+      font-size: 0.8rem;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #969696;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+        text-underline: darken(#969696, 15%);
+        color: darken(#969696, 15%);
+      }
+
+      &:active {
+        text-underline: darken(#969696, 25%);
+        color: darken(#969696, 25%);
+      }
     }
   }
 }

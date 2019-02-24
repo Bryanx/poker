@@ -30,7 +30,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   receiveSub: Subscription;
   notificationsSub: Subscription;
   myself: User = User.create();
-  showBell: boolean;
+  showPanel: boolean;
 
   constructor(private notifier: NotifierService,
               private webSocketService: RxStompService,
@@ -39,7 +39,7 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.showBell = false;
+    this.showPanel = false;
     this.checkIfAuthenticated();
     this.getAllNotifications();
   }
@@ -47,10 +47,6 @@ export class NotificationComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.receiveSub.unsubscribe();
     this.notificationsSub.unsubscribe();
-  }
-
-  handleClick() {
-    this.showBell = !this.showBell;
   }
 
   private getAllNotifications() {

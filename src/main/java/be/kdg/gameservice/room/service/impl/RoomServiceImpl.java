@@ -1,6 +1,7 @@
 package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.PlayerRepository;
@@ -180,6 +181,56 @@ public class RoomServiceImpl implements RoomService {
     public Room getRoom(int roomId) throws RoomException {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomException(RoomServiceImpl.class, "The room was not found in the database."));
+    }
+
+    /**
+     * Adds a room to the database.
+     *
+     * @param name The name of the room.
+     * @param gameRulesIn The rules that will be applied in this room.
+     * @return The newly created room.
+     */
+    @Override
+    public Room addRoom(String name, GameRules gameRulesIn) {
+        GameRules gameRulesOut = new GameRules(
+                gameRulesIn.getSmallBlind(),
+                gameRulesIn.getBigBlind(),
+                gameRulesIn.getPlayDelay(),
+                gameRulesIn.getStartingChips(),
+                gameRulesIn.getMaxPlayerCount());
+        Room room = new Room(gameRulesOut, name);
+        return saveRoom(room);
+    }
+
+    /**
+     * Changes a room in the database.
+     *
+     * @param room The room with adjusted values that needs to be updated.
+     * @return The updated room.
+     */
+    @Override
+    public Room changeRoom(int roomId, Room room) throws RoomException {
+        //Get data
+        Room roomToUpdate = getRoom(roomId);
+
+        //Update room
+        roomToUpdate.setName(room.getName());
+        roomToUpdate.getGameRules().setSmallBlind(room.getGameRules().getSmallBlind());
+        roomToUpdate.getGameRules().setBigBlind(room.getGameRules().getBigBlind());
+        roomToUpdate.getGameRules().setMaxPlayerCount(room.getGameRules().getMaxPlayerCount());
+        roomToUpdate.getGameRules().setPlayDelay(room.getGameRules().getPlayDelay());
+        roomToUpdate.getGameRules().setStartingChips(room.getGameRules().getStartingChips());
+        return saveRoom(roomToUpdate);
+    }
+
+    /**
+     * Deletes a room from database.
+     *
+     * @param id The id of the room that needs to be deleted.
+     */
+    @Override
+    public void deleteRoom(int id) {
+        roomRepository.deleteById(id);
     }
 
     /**

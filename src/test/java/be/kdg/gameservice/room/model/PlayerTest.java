@@ -17,12 +17,12 @@ public final class PlayerTest {
 
     @Before
     public void setup() {
-        this.player = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "1", 0);
+        this.player = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "1");
     }
 
     @Test
     public void createPlayer() {
-        assertEquals(player.getChipCount(), GameRules.TEXAS_HOLD_EM.getStartingChips());
+        assertEquals(player.getChipCount(), new GameRules(8, 16, 25, 2500, 5).getStartingChips());
         assertEquals(player.getHandType(), HandType.BAD);
         assertEquals(player.getLastAct(), ActType.UNDECIDED);
         assertEquals(player.getUserId(), "1");

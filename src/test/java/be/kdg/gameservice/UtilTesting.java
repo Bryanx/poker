@@ -53,11 +53,11 @@ public abstract class UtilTesting {
 
         String userIdMock = resourceServerTokenServices.readAccessToken(getMockToken().getAccess_token())
                 .getAdditionalInformation().get("uuid").toString();
-        Room room1 = new Room(GameRules.TEXAS_HOLD_EM, "test room 1");
-        Room room2 = new Room(GameRules.TEXAS_HOLD_EM, "test room 2");
-        Room room3 = new Room(GameRules.TEXAS_HOLD_EM_DIFFICULT, "test room 3");
-        room1.addPlayer(new Player(500, userIdMock, room1.getFirstEmptySeat()));
-        room1.addPlayer(new Player(500, "2", room1.getFirstEmptySeat()));
+        Room room1 = new Room(new GameRules(4, 8, 30, 500, 6), "test room 1");
+        Room room2 = new Room(new GameRules(8, 16, 25, 2500, 5), "test room 2");
+        Room room3 = new Room(new GameRules(16, 32, 20, 5000, 4), "test room 3");
+        room1.addPlayer(new Player(500, userIdMock));
+        room1.addPlayer(new Player(500, "2"));
 
         roomRepository.save(room1);
         roomRepository.save(room2);

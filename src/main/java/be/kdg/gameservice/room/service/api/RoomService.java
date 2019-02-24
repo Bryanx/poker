@@ -1,6 +1,7 @@
 package be.kdg.gameservice.room.service.api;
 
 import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.round.exception.RoundException;
@@ -25,11 +26,15 @@ public interface RoomService {
 
     Room getRoom(int roomId) throws RoomException;
 
-    Room addRoom(Room room);
-
     Room getRoomByName(String roomName);
 
     int checkChips (int roomId, int userChips) throws RoomException;
 
     void enoughRoundPlayers (int roomId) throws RoomException, RoundException;
+
+    Room addRoom(String name, GameRules gameRules);
+
+    Room changeRoom(int roomId, Room room) throws RoomException;
+
+    void deleteRoom(int id) throws RoomException;
 }

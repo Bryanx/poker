@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.dagger;
+package be.kdg.mobile_client.dagger.components;
 
 import javax.inject.Singleton;
 
@@ -12,7 +12,9 @@ import be.kdg.mobile_client.activities.RankingsActivity;
 import be.kdg.mobile_client.activities.RegisterActivity;
 import be.kdg.mobile_client.activities.RoomActivity;
 import be.kdg.mobile_client.activities.UserSearchActivity;
+import be.kdg.mobile_client.dagger.modules.ControllerModule;
 import be.kdg.mobile_client.fragments.ChatFragment;
+import be.kdg.mobile_client.viewmodels.RankingsViewModel;
 import dagger.Subcomponent;
 
 /**
@@ -32,4 +34,5 @@ public interface ControllerComponent {
     void inject(RankingsActivity rankingsActivity);
     void inject(AccountActivity accountActivity);
     void inject(UserSearchActivity userSearchActivity);
+    void inject(RankingsViewModel rankingsViewModel);
 }

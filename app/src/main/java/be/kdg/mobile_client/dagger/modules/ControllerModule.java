@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.dagger;
+package be.kdg.mobile_client.dagger.modules;
 
 import android.content.Context;
 
@@ -40,43 +40,43 @@ public class ControllerModule {
     }
 
     @Provides
-    Context context() {
+    public Context context() {
         return mActivity;
     }
 
     @Provides
-    FragmentActivity activity() {
+    public FragmentActivity activity() {
         return mActivity;
     }
 
     @Provides
-    FragmentManager fragmentManager() {
+    public FragmentManager fragmentManager() {
         return mActivity.getSupportFragmentManager();
     }
 
     @Provides
-    SharedPrefService sharedPrefService() {
+    public SharedPrefService sharedPrefService() {
         return sharedPrefService;
     }
 
     @Provides
-    GsonConverterFactory gsonConverter() {
+    public GsonConverterFactory gsonConverter() {
         return GsonConverterFactory.create();
     }
 
     @Provides
-    Gson gson() {
+    public Gson gson() {
         return new Gson();
     }
 
     @Provides
-    EmailValidator emailValidator() { return new EmailValidator(); }
+    public EmailValidator emailValidator() { return new EmailValidator(); }
 
     @Provides
-    UsernameValidator usernameValidator() { return new UsernameValidator(); }
+    public UsernameValidator usernameValidator() { return new UsernameValidator(); }
 
     @Provides
-    OkHttpClient okHttpClient(SharedPrefService sharedPrefService) {
+    public OkHttpClient okHttpClient(SharedPrefService sharedPrefService) {
         Token token = sharedPrefService.getToken(activity());
         if (token == null) return new OkHttpClient();
         return new OkHttpClient().newBuilder().addInterceptor(chain -> {
@@ -88,7 +88,7 @@ public class ControllerModule {
     }
 
     @Provides
-    UserService userService(OkHttpClient client) {
+    public UserService userService(OkHttpClient client) {
         return new Retrofit
                 .Builder()
                 .client(client)
@@ -99,7 +99,7 @@ public class ControllerModule {
     }
 
     @Provides
-    GameService gameService(OkHttpClient client) {
+    public GameService gameService(OkHttpClient client) {
         return new Retrofit
                 .Builder()
                 .client(client)
@@ -110,7 +110,7 @@ public class ControllerModule {
     }
 
     @Provides
-    ChatService stompService() {
+    public ChatService stompService() {
         return new ChatService();
     }
 }

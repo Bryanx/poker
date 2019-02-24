@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.dagger;
+package be.kdg.mobile_client.dagger.modules;
 
 import android.app.Application;
 
@@ -21,7 +21,7 @@ public class AppModule {
 
     @Provides
     @Singleton
-    Application application() {
+    public Application application() {
         return mApplication;
     }
 

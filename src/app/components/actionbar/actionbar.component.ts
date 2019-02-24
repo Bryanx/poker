@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
 import {Phase} from '../../model/phase';
@@ -28,6 +28,8 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   player: Player;
   currentAct: Act;
   possibleActs: ActType[];
+  bettedChipsThisFase = 0;
+  @Output() actEvent: EventEmitter<Act> = new EventEmitter<Act>();
 
   constructor(private roundService: RoundService, private websocketService: RxStompService,
               private authorizationService: AuthorizationService) {
@@ -45,6 +47,8 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     this.actSubscription = this.websocketService.watch('/room/receive-act/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.currentAct = JSON.parse(message.body) as Act;
+        this.sliderValue = this.currentAct.totalBet;
+        this.actEvent.emit(this.currentAct);
         // console.log(this.currentAct);
       }
     }, error => {
@@ -74,13 +78,16 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     act.userId = this.player.userId;
     act.roomId = this.room.id;
 
-    if (act.type === 'BET' || act.type === 'RAISE') {
-      act.bet = this.sliderValue;
+    if (act.type === 'BET' || act.type === 'RAISE' || act.type === 'CALL') {
+      act.bet = this.sliderValue - this.bettedChipsThisFase;
+      this.bettedChipsThisFase = this.bettedChipsThisFase + this.sliderValue;
     } else {
       act.bet = 0;
     }
+    act.totalBet = this.sliderValue;
 
-    this.roundService.addAct(act).subscribe(() => {}, error => {
+    this.roundService.addAct(act).subscribe(() => {
+    }, error => {
       console.log(error.error.message);
     });
   }
@@ -98,8 +105,17 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   @Input() set round(round: Round) {
-    this._round = round;
-    if (this._round) {
+    if (round !== undefined) {
+      if (this._round === undefined) {
+        this.bettedChipsThisFase = 0;
+      } else {
+        if (round.currentPhase !== this._round.currentPhase) {
+          this.bettedChipsThisFase = 0;
+        }
+      }
+
+      this._round = round;
+
       this.getPlayer();
       this.checkTurn();
     }
@@ -138,5 +154,13 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       this.possibleActs = actTypes;
       // console.log(this.possibleActs);
     });
+  }
+
+  getMimimumRaise() {
+    if (this.currentAct !== undefined) {
+      return this.currentAct.bet;
+    } else {
+      return 0;
+    }
   }
 }

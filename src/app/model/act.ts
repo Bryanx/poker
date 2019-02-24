@@ -9,5 +9,6 @@ export class Act {
   type: ActType;
   phase: Phase;
   bet: number;
+  totalBet: number;
   nextUserId: string;
 }

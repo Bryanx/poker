@@ -56,4 +56,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   systemMessage(message: ChatMessage) {
     return message.name === 'system';
   }
+
+  addMessage(message: string) {
+    const chatMessage = new ChatMessage();
+    chatMessage.name = 'system';
+    chatMessage.content = message;
+    this.messages.push(chatMessage);
+  }
 }

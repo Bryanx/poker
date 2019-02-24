@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
@@ -9,6 +9,9 @@ import {Player} from '../../model/player';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Round} from '../../model/round';
 import {RoomService} from '../../services/room.service';
+import {ChatComponent} from '../chat/chat.component';
+import {Act} from '../../model/act';
+import {PlayerComponent} from '../player/player.component';
 
 @Component({
   selector: 'app-room',
@@ -24,6 +27,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   round: Round;
   joinRoomInterval: any;
   getRoundInterval: any;
+  @ViewChild(ChatComponent) chatChild: ChatComponent;
+  @ViewChildren(PlayerComponent) playerChildren: QueryList<PlayerComponent>;
+  lastAct: Act;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
               private websocketService: RxStompService, private authorizationService: AuthorizationService,
@@ -88,15 +94,13 @@ export class GameRoomComponent implements OnInit, OnDestroy {
         const winningPlayer = JSON.parse(message.body) as Player;
         if (winningPlayer.userId === this.player.userId) {
           this.player = winningPlayer;
-          console.log('You win, my bro');
-          console.log('You had ' + this.player.handType);
-          console.log(this.player);
+          this.chatChild.addMessage('You win, my bro');
+          this.chatChild.addMessage('You had ' + this.player.handType);
         } else {
           this.roomService.getPlayer().subscribe((player: Player) => {
             this.player = player;
-            console.log('You lose, my bro');
-            console.log('You had ' + this.player.handType);
-            console.log(this.player);
+            this.chatChild.addMessage('You lose, my bro');
+            this.chatChild.addMessage('You had ' + this.player.handType);
           });
         }
       }
@@ -165,5 +169,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  onActEvent(act: Act): void {
+    this.lastAct = act;
   }
 }

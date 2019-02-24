@@ -165,7 +165,7 @@ public class RoomApiController {
         headers.setBearerAuth(token);
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
-        return restTemplate.exchange(LOCALUSERURL, HttpMethod.GET, entity, UserDto.class).getBody();
+        return restTemplate.exchange(USERURL, HttpMethod.GET, entity, UserDto.class).getBody();
     }
 
     private UserDto updateUser(String token, UserDto userDto) {
@@ -175,6 +175,6 @@ public class RoomApiController {
         headers.setBearerAuth(token);
         HttpEntity<UserDto> entity = new HttpEntity<>(userDto, headers);
 
-        return restTemplate.exchange(LOCALUSERURL, HttpMethod.PUT, entity, UserDto.class).getBody();
+        return restTemplate.exchange(USERURL, HttpMethod.PUT, entity, UserDto.class).getBody();
     }
 }

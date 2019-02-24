@@ -24,35 +24,32 @@ public class Hand implements Comparable<Hand> {
         this.sortCardRanks();
     }
 
-    public void sortCards(List<Integer> cards) {
-        // Declare and Initialize an array
-        //int[] array = input;
-
-        List<Integer> array = cards;
+    private void sortCards(List<Integer> cards) {
 
         Map<Integer, Integer> map = new HashMap<>();
         List<Integer> outputArray = new ArrayList<>();
 
         // Assign elements and their count in the list and map
-        for (int current : array) {
+        cards.forEach(current -> {
             int count = map.getOrDefault(current, 0);
             map.put(current, count + 1);
             outputArray.add(current);
-        }
+        });
 
         // Compare the map by value
         SortComparator comp = new SortComparator(map);
 
-        // Sort the map using Collections CLass
-        Collections.sort(outputArray, comp);
+        // Sort the list based on custom comparator
+        outputArray.sort(comp);
 
-        // Final Output
-        for (Integer i : outputArray) {
-            System.out.print(i + " ");
-        }
+        cardRankValue = outputArray;
+//        // Final Output
+//        for (Integer i : outputArray) {
+//            System.out.print(i + " ");
+//        }
     }
 
-    public void sortCardRanks() {
+    void sortCardRanks() {
         List<String> cardRanks = cards.stream().map(c -> c.getType().getRank().getName()).collect(Collectors.toList());
         cardRankValue = cardRanks.stream().map(r -> ranks.indexOf(r)).collect(Collectors.toList());
         this.sortCards(cardRankValue);

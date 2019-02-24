@@ -17,7 +17,7 @@ public final class PlayerTest {
 
     @Before
     public void setup() {
-        this.player = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "1");
+        this.player = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "1", 1);
     }
 
     @Test
@@ -26,7 +26,7 @@ public final class PlayerTest {
         assertEquals(player.getHandType(), HandType.BAD);
         assertEquals(player.getLastAct(), ActType.UNDECIDED);
         assertEquals(player.getUserId(), "1");
-        assertEquals(player.getSeatNumber(), 0);
+        assertEquals(player.getSeatNumber(), 1);
         assertTrue(player.isInRoom());
         assertFalse(player.isInRound());
     }

@@ -74,11 +74,6 @@ public class RoomApiControllerTest extends UtilTesting {
         assertEquals(new GameRules(16, 32, 20, 5000, 4).getStartingChips(), roomRepository.findById(testableRoomIdWithoutPlayers).orElseThrow(Exception::new).getGameRules().getStartingChips());
     }
 
-    @Test
-    public void startNewRound() throws Exception {
-        testMockMvc("/rooms/" + testableRoomIdWithPlayers + "/start-new-round", "", mockMvc, RequestType.POST);
-        assertEquals(1, roomService.getRoom(testableRoomIdWithPlayers).getRounds().size());
-    }
 
     @Test
     public void getCurrentRound() throws Exception {

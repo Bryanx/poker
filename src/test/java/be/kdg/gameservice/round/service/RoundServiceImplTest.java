@@ -76,12 +76,11 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithCheck() throws RoomException, RoundException {
-        Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
-        roomService.addRoom(roomMade);
+        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
+        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
+        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -135,12 +134,11 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithFold() throws RoomException, RoundException {
-        Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
-        roomService.addRoom(roomMade);
+        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
+        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
+        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -194,12 +192,12 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithBet() throws RoomException, RoundException {
-        Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
-        roomService.addRoom(roomMade);
+        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
+        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
+        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -258,12 +256,12 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithDetermineWinner() throws RoomException, RoundException {
-        Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
-        roomService.addRoom(roomMade);
+        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
 
-        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
-        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
-        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
+        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
+        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+
 
         Room room = roomService.getRoomByName("Test room");
 

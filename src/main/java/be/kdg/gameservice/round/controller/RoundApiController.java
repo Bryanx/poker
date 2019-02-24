@@ -8,6 +8,7 @@ import be.kdg.gameservice.round.controller.dto.ActDTO;
 import be.kdg.gameservice.round.controller.dto.RoundDTO;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.ActType;
+import be.kdg.gameservice.round.model.Phase;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,14 @@ public class RoundApiController {
         RoundDTO roundOut = modelMapper.map(round, RoundDTO.class);
 
         this.template.convertAndSend("/room/receive-round/" + actDTO.getRoomId(), roundOut);
+
+        if (round.getCurrentPhase() == Phase.SHOWDOWN) {
+            round = roomService.startNewRoundForRoom(actDTO.getRoomId());
+            roundOut = modelMapper.map(round, RoundDTO.class);
+
+            this.template.convertAndSend("/room/receive-round/" + actDTO.getRoomId(), roundOut);
+        }
+
         return new ResponseEntity<>(actDTO, HttpStatus.CREATED);
     }
 

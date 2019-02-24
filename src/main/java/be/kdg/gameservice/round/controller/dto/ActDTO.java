@@ -19,6 +19,7 @@ public class ActDTO {
     private ActType type;
     private Phase phase;
     private int bet;
+    private int totalBet;
     private String nextUserId;
 
     public ActDTO(String userId, int roundId, ActType type, Phase phase, int bet) {

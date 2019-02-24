@@ -160,7 +160,12 @@ export class NotificationComponent implements OnInit, OnDestroy {
   }
 
   handleDelete(id: number) {
-    this.notifications = this.notifications.filter(not => not.id !== id);
-    this.userService.deleteNotification(id).subscribe(() => this.getAllNotifications());
+    this.notifications = this.notifications.filter(not => not.id !== id); // filter for speed
+    this.userService.deleteNotification(id).subscribe();
+  }
+
+  handleDeleteAll() {
+    this.notifications = [];
+    this.userService.deleteNotifications().subscribe();
   }
 }

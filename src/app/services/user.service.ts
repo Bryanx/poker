@@ -115,4 +115,8 @@ export class UserService {
   deleteNotification(id: number): Observable<Notification> {
     return this.http.delete<Notification>(this.url + '/notification/' + id);
   }
+
+  deleteNotifications(): Observable<Notification> {
+    return this.http.delete<Notification>(this.url + '/notification');
+  }
 }

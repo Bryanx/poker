@@ -26,6 +26,9 @@
 }
 
 .not-panel {
+  display: flex;
+  flex-direction: column;
+
   width: 500px;
   background-color: white;
   position: absolute;
@@ -87,6 +90,28 @@
 
     &:active {
       background-color: darken(#fff, 25%);
+    }
+  }
+
+  .delete-all {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #969696;
+    justify-self: center;
+    margin-left: 185px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline: darken(#969696, 15%);
+      color: darken(#969696, 15%);
+    }
+
+    &:active {
+      text-underline: darken(#969696, 25%);
+      color: darken(#969696, 25%);
     }
   }
 }

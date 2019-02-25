@@ -4,6 +4,7 @@ import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
+import be.kdg.gameservice.round.exception.RoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +37,7 @@ public class RoomServiceImplTest extends UtilTesting {
     }
 
     @Test(expected = RoomException.class)
-    public void deletePlayerFail() throws RoomException {
+    public void deletePlayerFail() throws RoomException, RoundException {
         roomService.leaveRoom(testableRoomIdWithoutPlayers, "2");
         fail("The player with userId '2' should not be present in this room");
     }

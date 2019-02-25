@@ -1,6 +1,7 @@
 package be.kdg.gameservice.round.service.impl;
 
 import be.kdg.gameservice.card.Card;
+import be.kdg.gameservice.round.model.Hand;
 import be.kdg.gameservice.round.model.HandType;
 import be.kdg.gameservice.round.service.api.HandService;
 import org.springframework.stereotype.Service;
@@ -19,19 +20,18 @@ public final class HandServiceImpl implements HandService {
     private final static String suits = "hdsc";
 
     /**
-     *  TODO: finish documentation.
      * Generate all subsets of 5 out of 5-7 and return best HandType out of all combinations
      * @param playerCards list of 5-7 cards
      * @return
      */
     @Override
-    public HandType determineBestPossibleHand(List<Card> playerCards) {
+    public Hand determineBestPossibleHand(List<Card> playerCards) {
         List<Set<Card>> res = new ArrayList<>();
         getSubsets(playerCards, 5, 0, new HashSet<Card>(), res);
 
-        List<HandType> allHands = new ArrayList<>();
+        List<Hand> allHands = new ArrayList<>();
         for (Set<Card> handPossibility : res) {
-            HandType hand = this.determineHandType(new ArrayList<>(handPossibility));
+            Hand hand = this.determineHandType(new ArrayList<>(handPossibility));
             allHands.add(hand);
         }
 
@@ -40,16 +40,14 @@ public final class HandServiceImpl implements HandService {
     }
 
     /**
-     * TODO: expand documentation
-     * TODO: split method into manageable chucks.
      * Determine HandType based on list of 5 cards.
      * @param hand
      * @return
      */
-    private HandType determineHandType(List<Card> hand) {
+    private Hand determineHandType(List<Card> hand) {
         // This algorithms only works for 5 cards
         if(hand.size() != 5)
-            return HandType.BAD;
+            return new Hand(HandType.BAD, hand);
 
         int[] faceCount = new int[ranks.length()];
         long straight = 0;
@@ -60,7 +58,7 @@ public final class HandServiceImpl implements HandService {
 
             // Non existing face detected
             if (face == -1) {
-                return HandType.BAD;
+                return new Hand(HandType.BAD, hand);
             }
 
             straight |= (1 << face);
@@ -69,7 +67,7 @@ public final class HandServiceImpl implements HandService {
 
             // Non existing suit detected
             if(!suits.contains(card.getType().getSuit().getName())) {
-                return HandType.BAD;
+                return new Hand(HandType.BAD, hand);
             }
             flush |= (1 << card.getType().getSuit().getName().charAt(0));
         }
@@ -85,13 +83,13 @@ public final class HandServiceImpl implements HandService {
         boolean hasFlush = (flush & (flush - 1)) == 0;
 
         if(hasStraight && hasFlush)
-            return HandType.STRAIGHT_FLUSH;
+            return new Hand(HandType.STRAIGHT_FLUSH, hand);
 
         int total = 0;
 
         for(int count : faceCount) {
             if(count == 4) {
-                return HandType.FOUR_OF_A_KIND;
+                return new Hand(HandType.FOUR_OF_A_KIND, hand);
             } if(count ==3 ) {
                 total += 3;
             } else if (count == 2) {
@@ -100,23 +98,22 @@ public final class HandServiceImpl implements HandService {
         }
 
         if(total == 5) {
-            return HandType.FULL_HOUSE;
+            return new Hand(HandType.FULL_HOUSE, hand);
         } else if(hasFlush) {
-            return HandType.FLUSH;
+            return new Hand(HandType.FLUSH, hand);
         } else if(hasStraight) {
-            return HandType.STRAIGHT;
+            return new Hand(HandType.STRAIGHT, hand);
         } else if(total == 3) {
-            return HandType.THREE_OF_A_KIND;
+            return new Hand(HandType.THREE_OF_A_KIND, hand);
         } else if(total == 4) {
-            return HandType.TWO_PAIR;
+            return new Hand(HandType.TWO_PAIR, hand);
         } else if(total == 2) {
-            return HandType.PAIR;
+            return new Hand(HandType.PAIR, hand);
         }
-        return HandType.HIGH_CARD;
+        return new Hand(HandType.HIGH_CARD, hand);
     }
 
     /**
-     * TODO: finish documentation.
      * Creates all subsets of size k based on superSet
      * @param superSet
      * @param k
@@ -130,7 +127,7 @@ public final class HandServiceImpl implements HandService {
             solution.add(new HashSet<>(current));
             return;
         }
-        //unseccessful stop clause
+        //unsuccessful stop clause
         if (idx == superSet.size()) return;
         Card x = superSet.get(idx);
         current.add(x);

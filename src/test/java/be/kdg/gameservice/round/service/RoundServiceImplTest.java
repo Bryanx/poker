@@ -1,7 +1,13 @@
 package be.kdg.gameservice.round.service;
 
 import be.kdg.gameservice.UtilTesting;
+import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.GameRules;
+import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.room.model.Room;
+import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.exception.RoundException;
+import be.kdg.gameservice.round.model.Act;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Phase;
 import be.kdg.gameservice.round.model.Round;
@@ -30,12 +36,20 @@ public class RoundServiceImplTest extends UtilTesting {
     private RoundService roundService;
     @Autowired
     private RoundRepository roundRepository;
+    @Autowired
+    private RoomService roomService;
 
     @Before
     public void setup() {
         provideTestDataRound(roundRepository);
     }
 
+    @Test
+    public void getRounds() {
+        List<Round> rounds = roundService.getRounds();
+        System.out.println(rounds.size());
+        System.out.println(rounds);
+    }
     @Test
     public void startNewRound() {
         Round round = roundService.startNewRound(new ArrayList<>(), 2);
@@ -59,4 +73,298 @@ public class RoundServiceImplTest extends UtilTesting {
                 && possibleActs.contains(ActType.CHECK)
                 && possibleActs.contains(ActType.FOLD));
     }
+
+    @Test
+    public void playRoundWithCheck() throws RoomException, RoundException {
+        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
+
+        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
+        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+
+        Room room = roomService.getRoomByName("Test room");
+
+        roomService.joinRoom(room.getId(),player1.getUserId() );
+        roomService.joinRoom(room.getId(),player2.getUserId());
+        roomService.joinRoom(room.getId(),player3.getUserId() );
+
+        roomService.startNewRoundForRoom(room.getId());
+
+        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+
+        assertEquals(0, round.getActs().size());
+        assertEquals(5, round.getCards().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(Phase.PRE_FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(3, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+
+        assertEquals(Phase.FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(6, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(Phase.TURN, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(9, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(Phase.RIVER, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(0, round.getPot());
+        assertEquals(12, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(Phase.SHOWDOWN, round.getCurrentPhase());
+    }
+
+    @Test
+    public void playRoundWithFold() throws RoomException, RoundException {
+        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
+
+        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
+        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+
+        Room room = roomService.getRoomByName("Test room");
+
+        roomService.joinRoom(room.getId(),player1.getUserId() );
+        roomService.joinRoom(room.getId(),player2.getUserId());
+        roomService.joinRoom(room.getId(),player3.getUserId() );
+
+        roomService.startNewRoundForRoom(room.getId());
+
+        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+
+        assertEquals(0, round.getActs().size());
+        assertEquals(5, round.getCards().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(Phase.PRE_FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.FOLD, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(3, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(5, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.TURN, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(7, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.RIVER, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(9, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.SHOWDOWN, round.getCurrentPhase());
+    }
+
+    @Test
+    public void playRoundWithBet() throws RoomException, RoundException {
+        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
+
+        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
+        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+
+
+        Room room = roomService.getRoomByName("Test room");
+
+        roomService.joinRoom(room.getId(),player1.getUserId() );
+        roomService.joinRoom(room.getId(),player2.getUserId());
+        roomService.joinRoom(room.getId(),player3.getUserId() );
+
+        roomService.startNewRoundForRoom(room.getId());
+
+        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+
+        assertEquals(0, round.getActs().size());
+        assertEquals(5, round.getCards().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(Phase.PRE_FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.BET, round.getCurrentPhase(), 50);
+        roundService.saveAct(round.getId(), "Remi", ActType.CALL, round.getCurrentPhase(), 50);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CALL, round.getCurrentPhase(), 50);
+
+        assertEquals(3, round.getActs().size());
+        assertEquals(150, round.getPot());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(Phase.FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(6, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(Phase.TURN, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(9, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(Phase.RIVER, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(150, round.getPot());
+        assertEquals(12, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(Phase.SHOWDOWN, round.getCurrentPhase());
+    }
+
+    @Test
+    public void playRoundWithDetermineWinner() throws RoomException, RoundException {
+        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
+
+        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
+        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
+        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+
+
+        Room room = roomService.getRoomByName("Test room");
+
+        roomService.joinRoom(room.getId(),player1.getUserId() );
+        roomService.joinRoom(room.getId(),player2.getUserId());
+        roomService.joinRoom(room.getId(),player3.getUserId() );
+
+        roomService.startNewRoundForRoom(room.getId());
+
+        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+
+        assertEquals(0, round.getActs().size());
+        assertEquals(5, round.getCards().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(Phase.PRE_FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.BET, round.getCurrentPhase(), 50);
+        roundService.saveAct(round.getId(), "Remi", ActType.CALL, round.getCurrentPhase(), 50);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CALL, round.getCurrentPhase(), 50);
+
+        assertEquals(150, round.getPot());
+        assertEquals(3, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(3, round.getActivePlayers().size());
+        assertEquals(Phase.FLOP, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Maarten", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.BET, round.getCurrentPhase(), 50);
+        roundService.saveAct(round.getId(), "Dirk", ActType.RAISE, round.getCurrentPhase(), 100);
+        roundService.saveAct(round.getId(), "Maarten", ActType.FOLD, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Remi", ActType.CALL, round.getCurrentPhase(), 50);
+
+        assertEquals(350, round.getPot());
+        assertEquals(8, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.TURN, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(10, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.RIVER, round.getCurrentPhase());
+
+        roundService.saveAct(round.getId(), "Remi", ActType.CHECK, round.getCurrentPhase(), 0);
+        roundService.saveAct(round.getId(), "Dirk", ActType.CHECK, round.getCurrentPhase(), 0);
+
+        assertEquals(350, round.getPot());
+        assertEquals(12, round.getActs().size());
+        assertEquals(3, round.getPlayersInRound().size());
+        assertEquals(2, round.getActivePlayers().size());
+        assertEquals(Phase.SHOWDOWN, round.getCurrentPhase());
+
+        final Player winner = roundService.determineWinner(round.getId());
+        System.out.println(winner);
+
+        int coinSum = round.getActivePlayers().stream().mapToInt(p -> p.getChipCount()).sum() + round.getPot();
+
+        //roundService.distributeCoins(round.getId(), winner);
+        //assertEquals(coinSum, round.getActivePlayers().stream().mapToInt(p -> p.getChipCount()).sum());
+    }
+
+//    @Test
+//    public void distributeCoins() throws RoomException, RoundException {
+//        /*
+//            EasyMock
+//         */
+//        Room roomMade = new Room(GameRules.TEXAS_HOLD_EM, "Test room");
+//        roomService.addRoom(roomMade);
+//
+//        Player player1 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Maarten", 0);
+//        Player player2 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Remi", 1);
+//        Player player3 = new Player(GameRules.TEXAS_HOLD_EM.getStartingChips(), "Dirk", 2);
+//
+//        Room room = roomService.getRoomByName("Test room");
+//
+//        roomService.joinRoom(room.getId(),player1.getUserId() );
+//        roomService.joinRoom(room.getId(),player2.getUserId());
+//        roomService.joinRoom(room.getId(),player3.getUserId() );
+//
+//        roomService.startNewRoundForRoom(room.getId());
+//
+//        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+//
+//        roundService.saveAct(round.getId(), "Maarten", ActType.BET, round.getCurrentPhase(), 50);
+//        roundService.saveAct(round.getId(), "Remi", ActType.CALL, round.getCurrentPhase(), 50);
+//        roundService.saveAct(round.getId(), "Dirk", ActType.CALL, round.getCurrentPhase(), 50);
+//
+//        // Check if pot is correct after 3x 50 bet/call
+//        assertEquals(150, round.getPot());
+//
+//        Player winner = roundService.determineWinner(round.getId());
+//
+//        int coinSum = round.getActivePlayers().stream().mapToInt(p -> p.getChipCount()).sum() + round.getPot();
+//
+//        //roundService.distributeCoins(round.getId(), winner);
+//
+//        //Sum before distribution of the pot and after should be the same
+//        assertEquals(coinSum, round.getActivePlayers().stream().mapToInt(p -> p.getChipCount()).sum() + round.getPot());
+//        // Pot should be empty because winner got all the coins
+//        assertEquals(0, round.getPot());
+//    }
 }

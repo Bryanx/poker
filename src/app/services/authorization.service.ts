@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
 import {Auth} from '../model/auth';
@@ -51,8 +51,10 @@ export class AuthorizationService {
   }
 
   isAdmin() {
-    // TODO: For testing only admin1 = admin
-    return this.getUsername().toLowerCase() === 'admin1';
+    if (localStorage.getItem('jwt_token')) {
+      return this.helper.decodeToken(localStorage.getItem('jwt_token')).role === 'ROLE_ADMIN';
+    }
+    return false;
   }
 
   socialLogin(user: User) {

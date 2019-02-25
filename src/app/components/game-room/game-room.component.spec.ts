@@ -12,6 +12,8 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from '../../notifierOptions';
+import {TranslatePipe} from '../../translate.pipe';
+import {RxStompService} from '@stomp/ng2-stompjs';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -26,14 +28,16 @@ describe('GameRoomComponent', () => {
         GameTableComponent,
         ActionbarComponent,
         CardComponent,
-        MatSlider
+        MatSlider,
+        TranslatePipe
       ],
       imports: [
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
         NotifierModule.withConfig(customNotifierOptions)
-      ]
+      ],
+      providers: [RxStompService]
     })
       .compileComponents();
   }));

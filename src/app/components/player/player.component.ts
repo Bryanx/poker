@@ -2,6 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 import {DomSanitizer} from '@angular/platform-browser';
+import {Player} from '../../model/player';
+import {ActType} from '../../model/actType';
+import {Act} from '../../model/act';
+import {Phase} from '../../model/phase';
 
 @Component({
   selector: 'app-player',
@@ -9,15 +13,16 @@ import {DomSanitizer} from '@angular/platform-browser';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  @Input() userId: string;
-
+  @Input() player: Player = Player.create();
   usePicture: Boolean = false;
   user: User = User.create();
+  _currentAct: ActType;
+  currentActStyle: string;
 
   constructor(private userService: UserService, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.userService.getUser(this.userId).subscribe(user => {
+    this.userService.getUser(this.player.userId).subscribe(user => {
       this.user = user;
       if (this.user.profilePicture !== null) {
         this.usePicture = true;
@@ -34,6 +39,18 @@ export class PlayerComponent implements OnInit {
       return this.user.profilePictureSocial;
     } else {
       return this.sanitizer.bypassSecurityTrustResourceUrl('data:image/jpg;base64,' + this.user.profilePicture);
+    }
+  }
+
+  @Input() set currentAct(act: Act) {
+    if (act !== undefined) {
+      if (act.phase === Phase.Showdown) {
+        this._currentAct = ActType.Undecided;
+      } else {
+        if (act.userId === this.player.userId) {
+          this._currentAct = act.type;
+        }
+      }
     }
   }
 }

@@ -56,7 +56,7 @@ export class GameService {
   }
 
   changeRoom(room: Room): Observable<Room> {
-    return this.http.put<Room>(this.url + "/" + room.id, room);
+    return this.http.put<Room>(this.url + '/' + room.id, room);
   }
 
   addRoom(room: Room): Observable<Room> {
@@ -64,7 +64,7 @@ export class GameService {
   }
 
   deleteRoom(room: Room): Observable<Room> {
-    return this.http.delete<Room>(this.url + "/" + room.id);
+    return this.http.delete<Room>(this.url + '/' + room.id);
   }
 
   getPlayer(): Observable<Player> {
@@ -75,12 +75,4 @@ export class GameService {
     return this.http.put<Player>(this.url + '/players', player);
   }
 
-  /**
-   * Saves an act that was played by the player to the backend.
-   *
-   * @param act The act that needs to be saved.
-   */
-  addAct(act: Act): Observable<Act> {
-    return this.http.post<Act>(this.url, act);
-  }
 }

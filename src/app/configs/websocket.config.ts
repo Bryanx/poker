@@ -1,8 +1,9 @@
 import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
 
 export const websocketConfig: InjectableRxStompConfig = {
-  // brokerUrl = 'wss://poker-game-service.herokuapp.com/chat/websocket',
-  brokerURL: 'ws://localhost:5001/connect/websocket',
+  // brokerURL: 'ws://localhost:5001/connect/websocket',
+  brokerURL: 'wss://poker-game-service.herokuapp.com/connect/websocket',
+
 
   // Headers
   // Typical keys: login, passcode, host

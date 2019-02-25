@@ -1,7 +1,6 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
-import {TranslateService} from '../../services/translate.service';
 import {AuthorizationService} from '../../services/authorization.service';
 
 @Component({

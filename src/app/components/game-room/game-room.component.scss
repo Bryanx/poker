@@ -33,7 +33,7 @@
   width: 100vw;
   grid-template-columns: 25% 15% auto 15% 25%;
   grid-template-rows: 20% 20% 6% 20% 20% auto;
-  grid-template-areas: ". . two . ." "three table table table four" "tmiddle table table table ." "five table table table six" "chat . one . ." "actionbar actionbar actionbar actionbar actionbar";
+  grid-template-areas: ". . one . ." "two table table table three" "tmiddle table table table ." "four table table table five" "chat . zero . ." "actionbar actionbar actionbar actionbar actionbar";
 }
 
 .grid-person {
@@ -43,33 +43,33 @@
   align-items: center;
 }
 
+.grid-person-0 {
+  grid-area: zero;
+  align-items: start;
+}
+
 .grid-person-1 {
   grid-area: one;
-  align-items: start;
+  align-items: end;
 }
 
 .grid-person-2 {
   grid-area: two;
-  align-items: end;
+  justify-content: flex-end;
 }
 
 .grid-person-3 {
   grid-area: three;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .grid-person-4 {
   grid-area: four;
-  justify-content: flex-start;
+  justify-content: flex-end;
 }
 
 .grid-person-5 {
   grid-area: five;
-  justify-content: flex-end;
-}
-
-.grid-person-6 {
-  grid-area: six;
   justify-content: flex-start;
 }
 

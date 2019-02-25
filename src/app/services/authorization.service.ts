@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
-import {AuthResult} from '../model/authResult';
+import {Auth} from '../model/auth';
 import {Observable} from 'rxjs';
 import {User} from '../model/user';
 import {JwtHelperService} from '@auth0/angular-jwt';
@@ -13,7 +13,7 @@ import {UserService} from './user.service';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  private readonly authUrl: string;
+  private readonly tokenUrl: string;
   private readonly socialUrl: string;
   helper: JwtHelperService = new JwtHelperService();
 
@@ -21,19 +21,20 @@ export class AuthorizationService {
               private urlService: UrlService,
               private userService: UserService,
               private notifier: NotifierService) {
-    this.authUrl = urlService.authUrl;
+    this.tokenUrl = urlService.authUrl;
     this.socialUrl = urlService.socialUrl;
   }
 
-  login(loginPayload): Observable<AuthResult> {
+
+  login(loginPayload): Observable<Auth> {
     const headers = {
       'Authorization': 'Basic ' + btoa('my-trusted-client:secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     };
-    return this.http.post<AuthResult>(this.authUrl, loginPayload, {headers});
+    return this.http.post<Auth>(this.tokenUrl, loginPayload, {headers});
   }
 
-  setSession(authResult: AuthResult) {
+  setSession(authResult: Auth) {
     const expiresAt = moment().add(authResult.expires_in, 'second');
 
     localStorage.setItem('jwt_token', authResult.access_token);
@@ -58,12 +59,14 @@ export class AuthorizationService {
   }
 
   isAdmin() {
-    // TODO: For testing only admin1 = admin
-      return this.getUsername().toLowerCase() === 'admin1';
+    if (localStorage.getItem('jwt_token')) {
+      return this.helper.decodeToken(localStorage.getItem('jwt_token')).role === 'ROLE_ADMIN';
+    }
+    return false;
   }
 
   socialLogin(user: User) {
-    return this.http.post<AuthResult>(this.socialUrl, user);
+    return this.http.post<Auth>(this.socialUrl, user);
   }
 
   getUsername() {
@@ -94,4 +97,11 @@ export class AuthorizationService {
       });
     });
   }
+
+  getJwtToken() {
+    if (localStorage.getItem('jwt_token')) {
+      return localStorage.getItem('jwt_token');
+    }
+  }
 }
+

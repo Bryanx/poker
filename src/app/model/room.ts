@@ -9,10 +9,10 @@ export class Room {
 
   static create() {
     return {
-      id: -1,
-      name: '',
-      gameRules: null,
-      playersInRoom: []
+      id: 0,
+      name: 'test room',
+      gameRules: undefined,
+      playersInRoom: [Player.create()]
     };
   }
 }

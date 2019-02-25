@@ -1,44 +1,43 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ChatService} from '../../services/chat.service';
-import {Message} from '../../model/message';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChatMessage} from '../../model/chat-message';
 import {AuthorizationService} from '../../services/authorization.service';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {Message} from '@stomp/stompjs';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
   error: Boolean = false;
-  messages: Message[] = [];
+  messages: ChatMessage[] = [];
   inputMessage: string;
-  @Input() roomNumber: Number = 1;
+  @Input() roomId: number;
   playerName: String;
+  chatSubscription: Subscription;
 
-  constructor(private chatService: ChatService, private authorizationService: AuthorizationService) {
-  }
+  constructor(private authorizationService: AuthorizationService, private websocketService: RxStompService) {}
 
   ngOnInit() {
-    this.initializeWebSocketConnection();
     this.playerName = this.authorizationService.getUsername();
+    this.initializeChatConnection();
   }
 
-  initializeWebSocketConnection() {
-    const server = this.chatService.join();
-    server.connect({}, () => {
-      server.subscribe('/chatroom/receive/' + this.roomNumber, message => {
-        message = JSON.parse(message.body);
-        if (message) {
-          this.messages.push(message);
-        }
-      }, e => {
-        this.error = true;
-      });
-      // TODO: Send message from the server when the player actually joins.
-      this.sendMessage('system', this.playerName + ' joined the room.');
-    }, e => {
+  ngOnDestroy() {
+    this.chatSubscription.unsubscribe();
+  }
+
+  initializeChatConnection() {
+    this.chatSubscription = this.websocketService.watch('/chatroom/receive/' + this.roomId).subscribe((message: Message) => {
+      if (message) {
+        this.messages.push(JSON.parse(message.body));
+      }
+    }, error => {
       this.error = true;
     });
+    setTimeout(() => this.sendMessage('system', this.playerName + ' joined the room.'), 500);
   }
 
   sendMessage(name: String = this.playerName, messageString: String = this.inputMessage) {
@@ -46,15 +45,22 @@ export class ChatComponent implements OnInit {
       return;
     }
     this.inputMessage = '';
-    const message = JSON.stringify({name: name, content: messageString});
-    this.chatService.send('/chatroom/send/' + this.roomNumber, message);
+    const chatMessage = JSON.stringify({name: name, content: messageString});
+    this.websocketService.publish({destination: '/chatrooms/' + this.roomId + '/send', body: chatMessage});
   }
 
-  myMessage(message: Message) {
+  myMessage(message: ChatMessage) {
     return message.name === this.playerName;
   }
 
-  systemMessage(message: Message) {
+  systemMessage(message: ChatMessage) {
     return message.name === 'system';
+  }
+
+  addMessage(message: string) {
+    const chatMessage = new ChatMessage();
+    chatMessage.name = 'system';
+    chatMessage.content = message;
+    this.messages.push(chatMessage);
   }
 }

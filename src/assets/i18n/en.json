@@ -28,6 +28,7 @@
   "FIRSTNAMEREQUIRED": "Firstname is required",
   "LASTNAMEREQUIRED": "Lastname is required",
   "ROOMSOVERVIEWTITLE": "Choose a room",
+  "BROTURN": "It's your bro's turn, bro",
   "SEARCH_USERS": "Search users",
   "NO_FRIENDS": "You have no bros :(",
   "USERS": "Users",
@@ -49,5 +50,6 @@
   "RANK": "rank",
   "WON": "won",
   "LOST": "lost",
-  "UNKNOWN": "unknown"
+  "UNKNOWN": "unknown",
+  "WAITINGFORPLAYERS": "Waiting for players..."
 }

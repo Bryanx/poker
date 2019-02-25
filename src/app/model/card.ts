@@ -1,4 +1,4 @@
 export class Card {
+  id: number;
   type: string;
-  // TODO: rewrite properties.
 }

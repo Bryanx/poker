@@ -1,11 +1,11 @@
 package be.kdg.userservice.notification.model;
 
-import be.kdg.userservice.user.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -17,15 +17,16 @@ public class Notification {
     private int id;
     private String message;
     private NotificationType type;
+    private LocalDateTime timestamp;
     @Setter
-    private boolean approved;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private User sender;
+    private boolean read;
+    private String ref;
 
-    public Notification(String message, NotificationType type, User sender) {
+    public Notification(String message, NotificationType type, String ref) {
         this.message = message;
         this.type = type;
-        this.sender = sender;
-        this.approved = false;
+        this.read = false;
+        this.timestamp = LocalDateTime.now();
+        this.ref = ref;
     }
 }

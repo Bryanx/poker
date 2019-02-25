@@ -33,6 +33,6 @@ public class HandTest {
         cards.add(new Card(CardType.JACK_OF_HEARTS));
         hand.setCards(cards);
 
-        hand.sortCardRanks();
+        hand.generateCardRanks();
     }
 }

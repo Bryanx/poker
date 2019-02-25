@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This API is used for API connections that have somthing to do
@@ -72,10 +73,9 @@ public class RoundApiController {
         this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet());
 
-        Player player = roundService.checkEndOfRound(actDTO.getRoundId());
-        if(player != null) {
-            this.template.convertAndSend("/room/receive-winner/" + actDTO.getRoomId(), modelMapper.map(player, PlayerDTO.class));
-        }
+        Optional<Player> playerOptional = roundService.checkEndOfRound(actDTO.getRoundId());
+
+        playerOptional.ifPresent(player -> this.template.convertAndSend("/room/receive-winner/" + actDTO.getRoomId(), modelMapper.map(player, PlayerDTO.class)));
 
         actDTO.setNextUserId(roundService.determineNextUserId(actDTO.getRoundId(), actDTO.getUserId()));
         this.template.convertAndSend("/room/receive-act/" + actDTO.getRoomId(), actDTO);

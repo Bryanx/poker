@@ -1,9 +1,13 @@
-package be.kdg.gameservice.shared;
+package be.kdg.gameservice.round.service.util;
 
 import java.util.Comparator;
 import java.util.Map;
 
-// Implement Comparator Interface to sort the values
+/**
+ * Used to sort a list of Integers on frequency and then on value both descending order
+ * For example
+ * List: 12 13 13 4 4 4 13 5 will be sorted as: 13 13 13 4 4 4 12 5
+ */
 public class SortComparator implements Comparator<Integer> {
     private final Map<Integer, Integer> freqMap;
 

@@ -1,4 +1,4 @@
-package be.kdg.gameservice.chat;
+package be.kdg.gameservice.shared.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,14 +11,13 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 
 @Configuration
 @EnableWebSocketMessageBroker
-public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
-
+public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     /**
      * Setup the endpoint players where players can connect to join a room.
      */
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/chat")
+        registry.addEndpoint("/connect")
                 .setAllowedOrigins("*")
                 .withSockJS();
     }
@@ -28,7 +27,7 @@ public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer 
      */
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/chatroom/receive/")
+        registry.enableSimpleBroker("/chatroom/receive/", "/room/receive-act/", "/room/receive-room/", "/room/receive-round/", "/room/receive-winner/")
                 .setHeartbeatValue(new long[]{10000, 10000})
                 .setTaskScheduler(heartBeatScheduler());
     }

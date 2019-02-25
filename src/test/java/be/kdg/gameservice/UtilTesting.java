@@ -6,7 +6,7 @@ import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.persistence.RoundRepository;
-import be.kdg.gameservice.shared.TokenDto;
+import be.kdg.gameservice.shared.AuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -56,8 +56,8 @@ public abstract class UtilTesting {
         Room room1 = new Room(new GameRules(4, 8, 30, 500, 6), "test room 1");
         Room room2 = new Room(new GameRules(8, 16, 25, 2500, 5), "test room 2");
         Room room3 = new Room(new GameRules(16, 32, 20, 5000, 4), "test room 3");
-        room1.addPlayer(new Player(500, userIdMock));
-        room1.addPlayer(new Player(500, "2"));
+        room1.addPlayer(new Player(500, userIdMock, 1));
+        room1.addPlayer(new Player(500, "2", 2));
 
         roomRepository.save(room1);
         roomRepository.save(room2);
@@ -80,8 +80,8 @@ public abstract class UtilTesting {
                 .getAdditionalInformation().get("uuid").toString();
         Round round1 = new Round(new ArrayList<>(), 2);
         Round round2 = new Round(new ArrayList<>(Arrays.asList(
-                new Player(5000, userIdMock),
-                new Player(5000, "2")
+                new Player(5000, userIdMock, 0),
+                new Player(5000, "2", 1)
         )), 1);
         Round round3 = new Round(new ArrayList<>(), 5);
 
@@ -93,13 +93,13 @@ public abstract class UtilTesting {
         this.testableUserId = userIdMock;
     }
 
-    private TokenDto getMockToken() {
+    private AuthDTO getMockToken() {
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setBasicAuth("my-trusted-client", "secret");
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return restTemplate.postForObject(TOKEN_URL, entity, TokenDto.class);
+        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class UtilTesting {
      * @throws Exception Thrown if something goes wrong with the integration test.
      */
     protected void testMockMvc(String url, String body, MockMvc mock, RequestType requestType) throws Exception {
-        TokenDto tokenDto = getMockToken();
+        AuthDTO authDto = getMockToken();
 
         MockHttpServletRequestBuilder requestBuilder;
         ResultMatcher resultMatcher;
@@ -143,7 +143,7 @@ public abstract class UtilTesting {
 
 
         mock.perform(requestBuilder
-                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", tokenDto.getAccess_token()))
+                .header(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", authDto.getAccess_token()))
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(body)
                 .accept(MediaType.APPLICATION_JSON))

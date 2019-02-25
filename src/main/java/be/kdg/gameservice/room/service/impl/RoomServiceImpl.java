@@ -7,10 +7,10 @@ import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
+import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,6 +29,27 @@ public class RoomServiceImpl implements RoomService {
     private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
     private final RoundService roundService;
+
+
+    /**
+     * Creates a new room based on room object passed to roomRepository save method
+     * @param room
+     * @return
+     */
+    public Room addRoom(Room room) {
+        return roomRepository.save(room);
+    }
+
+    /**
+     * Returns room based on roomName
+     * Carefull, roomname should be unique.
+     * @param roomName
+     * @return
+     */
+    @Override
+    public Room getRoomByName(String roomName) {
+        return roomRepository.getRoomByName(roomName);
+    }
 
     /**
      * Adds a player to a room.
@@ -50,7 +71,7 @@ public class RoomServiceImpl implements RoomService {
             throw new RoomException(RoomServiceImpl.class, "Maximum player capacity is reached.");
 
         //Add player to room
-        Player player = new Player(room.getGameRules().getStartingChips(), userId);
+        Player player = new Player(room.getGameRules().getStartingChips(), userId, room.getFirstEmptySeat());
         player = playerRepository.save(player);
         room.addPlayer(player);
         saveRoom(room);
@@ -65,7 +86,7 @@ public class RoomServiceImpl implements RoomService {
      * @throws RoomException Thrown if the player was not found in the room.
      */
     @Override
-    public Player leaveRoom(int roomId, String userId) throws RoomException {
+    public Player leaveRoom(int roomId, String userId) throws RoomException, RoundException {
         //Get data
         Room room = getRoom(roomId);
         Optional<Player> playerOpt = room.getPlayersInRoom().stream()
@@ -75,6 +96,13 @@ public class RoomServiceImpl implements RoomService {
         //Check optional player
         if (!playerOpt.isPresent())
             throw new RoomException(RoomServiceImpl.class, "Player was not in the room.");
+
+        //Removes player from current round
+        if (room.getRounds().size() > 0) {
+            if (!room.getCurrentRound().isFinished() && room.getCurrentRound().getPlayersInRound().contains(playerOpt.get())) {
+                room.getCurrentRound().removePlayer(playerOpt.get());
+            }
+        }
 
         //Remove player from the room
         room.removePlayer(playerOpt.get());
@@ -114,7 +142,7 @@ public class RoomServiceImpl implements RoomService {
         if (room.getRounds().size() > 0) room.getCurrentRound().setFinished(true);
         room.addRound(round);
         saveRoom(room);
-        return round;
+        return getCurrentRound(roomId);
     }
 
     /**
@@ -138,7 +166,7 @@ public class RoomServiceImpl implements RoomService {
         Room room = getRoom(roomId);
 
         //Determine which round to give back
-        if (room.getRounds().size() <= 0) return startNewRoundForRoom(roomId);
+        if (room.getRounds().size() <= 0 || room.getCurrentRound().isFinished()) return startNewRoundForRoom(roomId);
         else return room.getCurrentRound();
     }
 
@@ -210,5 +238,33 @@ public class RoomServiceImpl implements RoomService {
      */
     private Room saveRoom(Room room) {
         return roomRepository.save(room);
+    }
+
+    /**
+     * Checks if the user has enough chips to join a room.
+     */
+    @Override
+    public int checkChips(int roomId, int userChips) throws RoomException {
+        Room room = getRoom(roomId);
+        if (room.getGameRules().getStartingChips() > userChips) {
+            throw new RoomException(RoomServiceImpl.class ,"User does not have enough chips to join.");
+        }
+        return room.getGameRules().getStartingChips();
+    }
+
+    /**
+     * Checks if there are enough players left to play.
+     * If this is not the case then the last player will receive the pot.
+     */
+    @Override
+    public void enoughRoundPlayers(int roomId) throws RoomException, RoundException {
+        Room room = getRoom(roomId);
+
+        if (room.getRounds().size() > 0) {
+            if (!room.getCurrentRound().isFinished() && room.getCurrentRound().getPlayersInRound().size() < 2) {
+                room.getCurrentRound().setFinished(true);
+                roundService.distributeCoins(room.getCurrentRound().getId(), room.getCurrentRound().getPlayersInRound().get(0));
+            }
+        }
     }
 }

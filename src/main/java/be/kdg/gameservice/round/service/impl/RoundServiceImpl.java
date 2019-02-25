@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.*;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+
 /**
  * This service will be used to manage the ongoing activity of a specific round.
  * It will also take care of the CRUD operations with its persistence dependency.
@@ -61,10 +64,73 @@ public class RoundServiceImpl implements RoundService {
             round.setPot(round.getPot() + bet);
             player.setLastAct(type);
             player.setChipCount(player.getChipCount() - bet);
-
+            checkEndOfPhase(round);
             //update database
             saveRound(round);
         } else throw new RoundException(RoundServiceImpl.class, "The act was not possible to make.");
+    }
+
+    /**
+     * Check if the current Phase of round is finished
+     * @param round
+     */
+    private void checkEndOfPhase(Round round) {
+        Phase currentPhase = round.getCurrentPhase();
+        int checkCount = round.getActs().stream()
+                .filter(a -> a.getPhase() == currentPhase)
+                .filter(a -> a.getType() == ActType.CHECK || a.getType() == ActType.FOLD)
+                .toArray()
+                .length;
+        // Check if enough Checks of Folds are made
+        if (checkCount == round.getActivePlayers().size()) {
+            round.nextPhase();
+        } else {
+            checkEndOfPhaseWithBetOrRaise(round);
+        }
+    }
+
+    /**
+     * Check if phase has ended when enough Call/Folds are followed by a Bet of Raise
+     * @param round
+     * @return
+     */
+    private void checkEndOfPhaseWithBetOrRaise(Round round) {
+        Phase currentPhase = round.getCurrentPhase();
+        int lastAct = -1;
+        for (Act act: round.getActs()) {
+            if(act.getPhase() == currentPhase) {
+                if(act.getType() == ActType.BET || act.getType() == ActType.RAISE) {
+                    lastAct = round.getActs().indexOf(act);
+                }
+            }
+        }
+        for (int i = 0; i < round.getActs().size(); i++) {
+            if(round.getActs().get(i).getPhase() == currentPhase) {
+                if(round.getActs().get(i).getType() == ActType.BET || round.getActs().get(i).getType() == ActType.RAISE) {
+                    lastAct = i;
+                }
+            }
+        }
+
+        if(lastAct != -1) {
+            List<Act> lastActs = round.getActs().subList(lastAct, round.getActs().size());
+
+            if(lastActs.stream().filter(a -> a.getType() == ActType.CALL).toArray().length == round.getActivePlayers().size() - 1) {
+                round.nextPhase();
+            }
+        }
+    }
+
+    @Override
+    public Optional<Player> checkEndOfRound(int roundId) throws RoundException{
+        Round round = getRound(roundId);
+        Phase currentPhase = round.getCurrentPhase();
+
+        if (currentPhase == Phase.SHOWDOWN) {
+            Player winningPlayer = determineWinner(roundId);
+            return Optional.of(distributeCoins(roundId, winningPlayer));
+        }
+        return Optional.empty();
     }
 
     /**
@@ -98,7 +164,7 @@ public class RoundServiceImpl implements RoundService {
             case CALL:
                 return checkCall(round.getOtherPlayers(player));
             case CHECK:
-                return checkCheck(round.getOtherPlayers(player));
+                return checkCheck(round, round.getOtherPlayers(player));
             case RAISE:
                 return checkRaise(round);
             default:
@@ -136,7 +202,7 @@ public class RoundServiceImpl implements RoundService {
 
         if (checkBet(round)) types.add(ActType.BET);
         if (checkCall(round.getOtherPlayers(player))) types.add(ActType.CALL);
-        if (checkCheck(round.getOtherPlayers(player))) types.add(ActType.CHECK);
+        if (checkCheck(round, round.getOtherPlayers(player))) types.add(ActType.CHECK);
         if (checkRaise(round)) types.add(ActType.RAISE);
 
         return Collections.unmodifiableList(types);
@@ -150,7 +216,7 @@ public class RoundServiceImpl implements RoundService {
      */
     @Override
     public Round startNewRound(List<Player> participatingPlayers, int button) {
-        button = button >= participatingPlayers.size() - 1 ? 1 : button + 1;
+        button = button >= participatingPlayers.size() - 1 ? 0 : button + 1;
         participatingPlayers.forEach(Player::resetPlayer);
         return new Round(participatingPlayers, button);
     }
@@ -176,18 +242,26 @@ public class RoundServiceImpl implements RoundService {
      * Checks if the CHECK-act is possible at this point in the round.
      * You can CHECK if other players didn't BET, RAISE or CALL.
      *
+     * @param round
      * @param others All the other players in the round.
      * @return True if a CHECK is possible.
      * @see ActType To get insight in the types of acts that are possbile.
      */
-    private boolean checkCheck(List<Player> others) {
-        Optional<Player> playerOpt = others.stream()
-                .filter(p -> p.getLastAct().equals(ActType.RAISE) ||
-                        p.getLastAct().equals(ActType.CALL) ||
-                        p.getLastAct().equals(ActType.BET))
-                .findAny();
+    private boolean checkCheck(Round round, List<Player> others) {
+        int lastBetRaiseAct = -1;
+        for (int i = 0; i < round.getActs().size(); i++) {
+            if(round.getActs().get(i).getPhase() == round.getCurrentPhase()) {
+                if(round.getActs().get(i).getType() == ActType.BET || round.getActs().get(i).getType() == ActType.RAISE) {
+                    lastBetRaiseAct = i;
+                }
+            }
+        }
 
-        return !playerOpt.isPresent();
+        if(lastBetRaiseAct == -1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -245,7 +319,26 @@ public class RoundServiceImpl implements RoundService {
     }
 
     /**
+     * Distributes the pot to the winner and resets the pot
+     *
+     * @param roundId
+     * @param player
+     */
+    @Override
+    public Player distributeCoins(int roundId, Player player) throws RoundException {
+        //Get data
+        Round round = getRound(roundId);
+        Player winningPlayer = round.getPlayersInRound().stream().filter(player1 ->
+                player1.getUserId().equals(player.getUserId())).findFirst().orElseThrow(()
+                -> new RoundException(RoundServiceImpl.class, "The winning player was not found in the round."));
+        winningPlayer.setChipCount(player.getChipCount() + round.getPot());
+        roundRepository.save(round);
+        return winningPlayer;
+    }
+
+    /**
      * Determines winning player based on all hand combinations of all the players
+     *
      * @param roundId
      * @return
      * @throws RoundException
@@ -253,35 +346,78 @@ public class RoundServiceImpl implements RoundService {
     public Player determineWinner(int roundId) throws RoundException {
         //Get data
         Round round = getRound(roundId);
-        List<Player> participatingPlayers = round.getPlayersInRound();
+        List<Player> participatingPlayers = round.getPlayersInRound()
+                .stream()
+                .filter(player -> player.getLastAct() != ActType.FOLD)
+                .collect(toList());
 
-        HandType bestHand = null;
+        Hand bestHand = null;
         Player winningPlayer = null;
 
         for (Player player: participatingPlayers) {
-            HandType bestHandForPlayer = this.bestHandForPlayer(player, round);
-
+            Hand playerHand = this.bestHandForPlayer(player, round);
+            player.setHandType(playerHand.getHandType());
             if(bestHand == null) {
-                bestHand = bestHandForPlayer;
-            } else if(bestHandForPlayer.compareTo(bestHand) > 0) {
                 winningPlayer = player;
-                bestHand = bestHandForPlayer;
+                bestHand = playerHand;
+            } else if(playerHand.compareTo(bestHand) > 0) {
+                winningPlayer = player;
+                bestHand = playerHand;
             }
         }
+        saveRound(round);
         return winningPlayer;
     }
 
     /**
-     * Returns best handType based on all possibilities out of 7 cards for player.
+     * Returns best Hand based on all possibilities out of 7 cards for player.
      * @param player
      * @param round
      * @return
      */
-    private HandType bestHandForPlayer(Player player, Round round) {
+    private Hand bestHandForPlayer(Player player, Round round) {
         // Array of 7  cards -> 5 (boardCards) + 1 (player FirstCard) + 1 (player SecondCard)
         List<Card> playerCards = new ArrayList<>(round.getCards());
         playerCards.addAll(Arrays.asList(player.getFirstCard(), player.getSecondCard()));
 
         return handService.determineBestPossibleHand(playerCards);
+    }
+
+    @Override
+    public List<Round> getRounds() {
+        return Collections.unmodifiableList(roundRepository.findAll());
+    }
+
+    /**
+     * Checks which player should play the next act.
+     */
+    @Override
+    public String determineNextUserId(int roundId, String userId) throws RoundException{
+        Round round = getRound(roundId);
+        Optional<Player> playerOpt = round.getPlayersInRound().stream()
+                .filter(p -> p.getUserId().equals(userId))
+                .findAny();
+
+        if (!playerOpt.isPresent())
+            throw new RoundException(RoundServiceImpl.class, "playerId could not be associated with round.");
+
+        Player player = playerOpt.get();
+
+        List<Player> sortedActivePlayers = round.getActivePlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getSeatNumber))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+
+        for (Player activePlayer : sortedActivePlayers) {
+            if (activePlayer.getSeatNumber() > player.getSeatNumber()) {
+                return activePlayer.getUserId();
+            }
+        }
+
+        Optional<Player> optionalPlayer = round.getActivePlayers().stream().min(Comparator.comparing(Player::getSeatNumber));
+        if (optionalPlayer.isPresent()) {
+            return optionalPlayer.get().getUserId();
+        } else {
+            throw new RoundException(RoundServiceImpl.class, "No suitable players found.");
+        }
     }
 }

@@ -10,6 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -116,5 +117,46 @@ public class Room {
      */
     public Round getCurrentRound() {
         return rounds.get(rounds.size() - 1);
+    }
+
+    /**
+     * Return number between 0 and maxRoomSize.
+     * @return available seatNumber
+     */
+    public int getFirstEmptySeat() {
+        playersInRoom.sort(Comparator.comparingInt(Player::getSeatNumber));
+        int[] occupiedSeats = playersInRoom.stream().mapToInt(Player::getSeatNumber).toArray();
+        return findFirstPositiveMissingOccurrence(occupiedSeats);
+    }
+
+    /**
+     * Finds the first missing positive number in an array of ints
+     * @param occupiedSeats
+     * @return
+     */
+    private int findFirstPositiveMissingOccurrence(int[] occupiedSeats) {
+        int size = occupiedSeats.length;
+
+        for (int i = 0; i < size; i++) {
+            while (occupiedSeats[i] != i + 1) {
+                if (occupiedSeats[i] <= 0 || occupiedSeats[i] >= size)
+                    break;
+
+                if(occupiedSeats[i]==occupiedSeats[occupiedSeats[i]-1])
+                    break;
+
+                int temp = occupiedSeats[i];
+                occupiedSeats[i] = occupiedSeats[temp - 1];
+                occupiedSeats[temp - 1] = temp;
+            }
+        }
+
+        for (int i = 0; i < size; i++){
+            if (occupiedSeats[i] != i + 1){
+                return i + 1;
+            }
+        }
+
+        return size+1;
     }
 }

@@ -1,14 +1,22 @@
 package be.kdg.gameservice.round.controller;
 
+import be.kdg.gameservice.room.controller.dto.PlayerDTO;
+import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.controller.dto.ActDTO;
+import be.kdg.gameservice.round.controller.dto.RoundDTO;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.ActType;
+import be.kdg.gameservice.round.model.Phase;
+import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
@@ -18,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * This API is used for API connections that have somthing to do
@@ -31,6 +40,8 @@ public class RoundApiController {
     private final ResourceServerTokenServices resourceTokenServices;
     private final ModelMapper modelMapper;
     private final RoundService roundService;
+    private final RoomService roomService;
+    private final SimpMessagingTemplate template;
 
     /**
      * Gets all the possible acts that can be played for a specific player
@@ -51,18 +62,36 @@ public class RoundApiController {
     /**
      * Saves an act that is played by a player in the back end.
      * The act is validated in the round service for a last time.
-     *
-     * @param actDTO The information needed to make a new Act.
-     * @return Status code 201 if the post succeeded.
-     * @throws RoundException Rerouted to handler.
-     * @see ActDTO
+     * The players act will than be sent to the rest of the room.
+     * If the round has ended then a winner will be broadcasted.
+     * The current round will be broadcasted.
+     * If the round has ended then a new round will be broadcasted.
      */
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/rounds/{roundId}/acts")
-    public ResponseEntity<ActDTO> doAct(@RequestBody @Valid ActDTO actDTO, @PathVariable int roundId,
-                                        OAuth2Authentication authentication) throws RoundException {
-        roundService.saveAct(roundId, getUserInfo(authentication).get(ID_KEY).toString(),
+    @PostMapping("/rounds/act")
+    public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO) throws RoundException, RoomException {
+        this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet());
+
+        Optional<Player> playerOptional = roundService.checkEndOfRound(actDTO.getRoundId());
+
+        playerOptional.ifPresent(player -> this.template.convertAndSend("/room/receive-winner/" + actDTO.getRoomId(), modelMapper.map(player, PlayerDTO.class)));
+
+        actDTO.setNextUserId(roundService.determineNextUserId(actDTO.getRoundId(), actDTO.getUserId()));
+        this.template.convertAndSend("/room/receive-act/" + actDTO.getRoomId(), actDTO);
+
+        Round round = roomService.getCurrentRound(actDTO.getRoomId());
+        RoundDTO roundOut = modelMapper.map(round, RoundDTO.class);
+
+        this.template.convertAndSend("/room/receive-round/" + actDTO.getRoomId(), roundOut);
+
+        if (round.getCurrentPhase() == Phase.SHOWDOWN) {
+            round = roomService.startNewRoundForRoom(actDTO.getRoomId());
+            roundOut = modelMapper.map(round, RoundDTO.class);
+
+            this.template.convertAndSend("/room/receive-round/" + actDTO.getRoomId(), roundOut);
+        }
+
         return new ResponseEntity<>(actDTO, HttpStatus.CREATED);
     }
 

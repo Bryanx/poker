@@ -1,6 +1,11 @@
 <header class="language">
+  <app-notification *ngIf="hasAuthentication()"
+                    [notifications]="newNotification"
+                    (deleteEvent)="getAllNotifications()"
+  ></app-notification>
   <button (click)="setLang('nl')">NL</button>
   <button (click)="setLang('en')">EN</button>
 </header>
 
+<notifier-container></notifier-container>
 <router-outlet></router-outlet>

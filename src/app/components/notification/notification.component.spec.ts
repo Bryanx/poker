@@ -1,28 +1,27 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {ChatComponent} from './chat.component';
-import {FormsModule} from '@angular/forms';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {NotificationComponent} from './notification.component';
+import {RouterTestingModule} from '@angular/router/testing';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from '../../notifierOptions';
 import {RxStompService} from '@stomp/ng2-stompjs';
-import {TranslatePipe} from '../../translate.pipe';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-describe('ChatComponent', () => {
-  let component: ChatComponent;
-  let fixture: ComponentFixture<ChatComponent>;
+describe('NotificationComponent', () => {
+  let component: NotificationComponent;
+  let fixture: ComponentFixture<NotificationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ChatComponent, TranslatePipe],
-      imports: [FormsModule, HttpClientTestingModule, NotifierModule.withConfig(customNotifierOptions)],
+      declarations: [NotificationComponent],
+      imports: [RouterTestingModule, HttpClientTestingModule, NotifierModule.withConfig(customNotifierOptions)],
       providers: [RxStompService]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ChatComponent);
+    fixture = TestBed.createComponent(NotificationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,14 +1,14 @@
 import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
 
-export const websocketConfig: InjectableRxStompConfig = {
-  brokerURL: 'wss://poker-game-service.herokuapp.com/connect/websocket',
-  // brokerURL: 'ws://localhost:5001/connect/websocket',
+export const webSocketConfigUserService: InjectableRxStompConfig = {
+  // brokerURL: 'ws://localhost:5000/connect/websocket',
+  brokerURL: 'wss://poker-user-service.herokuapp.com/connect/websocket',
 
   // Headers
   // Typical keys: login, passcode, host
   connectHeaders: {
-    login: 'guest',
-    passcode: 'guest'
+    login: 'guest1',
+    passcode: 'guest1'
   },
 
   // How often to heartbeat?
@@ -20,6 +20,4 @@ export const websocketConfig: InjectableRxStompConfig = {
   // Set to 0 to disable
   // Typical value 500 (500 milli seconds)
   reconnectDelay: 200,
-
-
 };

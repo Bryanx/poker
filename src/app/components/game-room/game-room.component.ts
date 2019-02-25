@@ -6,12 +6,16 @@ import {Subscription} from 'rxjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
 import {Player} from '../../model/player';
+
+import {Notification} from '../../model/notification';
+import {NotificationType} from '../../model/notificationType';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Round} from '../../model/round';
 import {RoomService} from '../../services/room.service';
 import {ChatComponent} from '../chat/chat.component';
 import {Act} from '../../model/act';
 import {PlayerComponent} from '../player/player.component';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-room',
@@ -19,8 +23,8 @@ import {PlayerComponent} from '../player/player.component';
   styleUrls: ['./game-room.component.scss']
 })
 export class GameRoomComponent implements OnInit, OnDestroy {
-  room: Room;
-  player: Player;
+  room: Room = Room.create();
+  player: Player = Player.create();
   roomSubscription: Subscription;
   roundSubscription: Subscription;
   done: boolean;
@@ -32,8 +36,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   lastAct: Act;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
-              private websocketService: RxStompService, private authorizationService: AuthorizationService,
-              private roomService: RoomService) {
+              private webSocketService: RxStompService, private authorizationService: AuthorizationService,
+              private roomService: RoomService, private userService: UserService) {
+
   }
 
   ngOnInit() {
@@ -74,7 +79,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Subscribes to the room channel. All room changes will now be received here.
    */
   initializeRoomConnection() {
-    this.roomSubscription = this.websocketService.watch('/room/receive-room/' + this.room.id).subscribe((message: Message) => {
+    this.roomSubscription = this.webSocketService.watch('/room/receive-room/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.room = JSON.parse(message.body) as Room;
       }
@@ -87,7 +92,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Subscribes to the round channel. All round changes will now be received here.
    */
   initializeRoundConnection() {
-    this.roundSubscription = this.websocketService.watch('/room/receive-round/' + this.room.id).subscribe((message: Message) => {
+    this.roundSubscription = this.webSocketService.watch('/room/receive-round/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.round = JSON.parse(message.body) as Round;
         this.updatePlayersInRound();
@@ -99,10 +104,29 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   /**
+   <<<<<<< HEAD
+   * Sent a notification to someone for joining a game of poker.
+   *
+   * @param someoneId The person that needs to receive the request.
+   */
+  sendGameRequest(someoneId: string) {
+    this.userService.getUser(someoneId).subscribe(user => {
+      const notification = new Notification();
+      notification.message = user.username + ' has sent you a request to join ' + this.room.name + ' room';
+      notification.type = NotificationType.GAME_REQUEST;
+
+      this.userService.sendNotification(user.id, notification).subscribe();
+    });
+  }
+
+  /**
+   * Returns the players that are in the room including yourself.
+   =======
    * Subscribes to the winner channel. Every time someone wins it is received here.
+   >>>>>>> master
    */
   initializeWinnerConnection() {
-    this.roundSubscription = this.websocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {
+    this.roundSubscription = this.webSocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         const winningPlayer = JSON.parse(message.body) as Player;
         if (winningPlayer.userId === this.player.userId) {

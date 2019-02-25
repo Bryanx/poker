@@ -5,6 +5,8 @@ import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {MatSnackBar} from '@angular/material';
+import {NotificationType} from '../../model/notificationType';
+import {Notification} from '../../model/notification';
 
 @Component({
   selector: 'app-user-account',
@@ -52,6 +54,21 @@ export class UserAccountComponent implements OnInit {
         duration: 3000
       });
     });
+    this.sendFriendRequest(this.user.id);
+  }
+
+  /**
+   * Sent a friend request to the requested user.
+   *
+   * @param receiverId The person who needs to receive the request.
+   */
+  private sendFriendRequest(receiverId: string) {
+    const notification: Notification = new Notification();
+    notification.type = NotificationType.FRIEND_REQUEST;
+    notification.message = this.myself.username + ' has sent you a friend request!';
+    notification.ref = this.myself.id;
+
+    this.userService.sendNotification(receiverId, notification).subscribe();
   }
 
   removeFriend() {

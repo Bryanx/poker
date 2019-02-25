@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {Room} from '../model/room';
 import {Act} from '../model/act';
 import {Player} from '../model/player';
+import {UrlService} from './url.service';
 
 /**
  * This service is used to manage all the HTTP traffic of the
@@ -13,10 +14,10 @@ import {Player} from '../model/player';
   providedIn: 'root'
 })
 export class GameService {
-  url = 'https://poker-game-service.herokuapp.com/api/rooms';
-  // url = 'http://localhost:5001/api/rooms';
+  private readonly url: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private urlService: UrlService) {
+    this.url = urlService.gameServiceUrl;
   }
 
   /**

@@ -1,3 +1,4 @@
+/*£
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserSettingsComponent } from './user-settings.component';
@@ -5,6 +6,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TranslatePipe} from '../../translate.pipe';
+import {NotifierModule} from 'angular-notifier';
+import {customNotifierOptions} from '../../notifierOptions';
 
 describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;
@@ -13,7 +16,8 @@ describe('UserSettingsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UserSettingsComponent, TranslatePipe ],
-      imports: [ RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule ]
+      imports: [FormsModule, ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule,
+       NotifierModule.withConfig(customNotifierOptions) ]
     })
     .compileComponents();
   }));
@@ -28,3 +32,4 @@ describe('UserSettingsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+*/

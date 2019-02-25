@@ -7,7 +7,7 @@
 </section>
 
 <section *ngIf="users.length > 0" class="results">
-  <div *ngFor="let user of users; index as i ">
+  <div *ngFor="let user of users; index as i">
     <div class="image-wrapper">
       {{getInitials(user)}}
     </div>

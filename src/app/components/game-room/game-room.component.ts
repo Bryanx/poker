@@ -15,6 +15,7 @@ import {RoomService} from '../../services/room.service';
 import {ChatComponent} from '../chat/chat.component';
 import {Act} from '../../model/act';
 import {PlayerComponent} from '../player/player.component';
+import {UserService} from '../../services/user.service';
 
 @Component({
   selector: 'app-room',
@@ -35,8 +36,8 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   lastAct: Act;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
-              private websocketService: RxStompService, private authorizationService: AuthorizationService,
-              private roomService: RoomService) {
+              private webSocketService: RxStompService, private authorizationService: AuthorizationService,
+              private roomService: RoomService, private userService: UserService) {
 
   }
 
@@ -78,7 +79,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Subscribes to the room channel. All room changes will now be received here.
    */
   initializeRoomConnection() {
-    this.roomSubscription = this.websocketService.watch('/room/receive-room/' + this.room.id).subscribe((message: Message) => {
+    this.roomSubscription = this.webSocketService.watch('/room/receive-room/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.room = JSON.parse(message.body) as Room;
       }
@@ -91,7 +92,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Subscribes to the round channel. All round changes will now be received here.
    */
   initializeRoundConnection() {
-    this.roundSubscription = this.websocketService.watch('/room/receive-round/' + this.room.id).subscribe((message: Message) => {
+    this.roundSubscription = this.webSocketService.watch('/room/receive-round/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.round = JSON.parse(message.body) as Round;
         this.updatePlayersInRound();
@@ -125,7 +126,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    >>>>>>> master
    */
   initializeWinnerConnection() {
-    this.roundSubscription = this.websocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {
+    this.roundSubscription = this.webSocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         const winningPlayer = JSON.parse(message.body) as Player;
         if (winningPlayer.userId === this.player.userId) {

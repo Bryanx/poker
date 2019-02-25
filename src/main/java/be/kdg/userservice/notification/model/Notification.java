@@ -1,6 +1,5 @@
 package be.kdg.userservice.notification.model;
 
-import be.kdg.userservice.user.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,11 +20,13 @@ public class Notification {
     private LocalDateTime timestamp;
     @Setter
     private boolean read;
+    private String ref;
 
-    public Notification(String message, NotificationType type) {
+    public Notification(String message, NotificationType type, String ref) {
         this.message = message;
         this.type = type;
         this.read = false;
         this.timestamp = LocalDateTime.now();
+        this.ref = ref;
     }
 }

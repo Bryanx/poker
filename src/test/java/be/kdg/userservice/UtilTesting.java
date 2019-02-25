@@ -56,8 +56,8 @@ public abstract class UtilTesting {
         testUser2.setUsername(TESTABLE_USER_NAME2);
         User testUser3 = new User();
         testUser3.setUsername(TESTABLE_USER_NAME3);
-        testUser1.addNotification(new Notification("Test message", NotificationType.FRIEND_REQUEST));
-        testUser1.addNotification(new Notification("Test message", NotificationType.GAME_REQUEST));
+        testUser1.addNotification(new Notification("Test message", NotificationType.FRIEND_REQUEST, ""));
+        testUser1.addNotification(new Notification("Test message", NotificationType.GAME_REQUEST, ""));
         userRepository.save(testUser1);
         userRepository.save(testUser2);
         userRepository.save(testUser3);

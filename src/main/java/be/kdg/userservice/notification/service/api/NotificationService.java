@@ -8,7 +8,7 @@ import be.kdg.userservice.user.exception.UserException;
 import java.util.List;
 
 public interface NotificationService {
-    Notification addNotification(String senderId, String receiverId, String message, NotificationType type) throws UserException;
+    Notification addNotification(String senderId, String receiverId, String message, NotificationType type, String ref) throws UserException;
 
     Notification readNotification(int id) throws NotificationException;
 

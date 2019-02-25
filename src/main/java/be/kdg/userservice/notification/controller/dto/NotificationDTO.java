@@ -1,8 +1,6 @@
 package be.kdg.userservice.notification.controller.dto;
 
 import be.kdg.userservice.notification.model.NotificationType;
-import be.kdg.userservice.user.dto.UserDto;
-import be.kdg.userservice.user.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +19,5 @@ public class NotificationDTO {
     private NotificationType type;
     private boolean read;
     private LocalDateTime timestamp;
+    private String ref;
 }

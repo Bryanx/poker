@@ -31,12 +31,12 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationRepository notificationRepository;
 
     @Override
-    public Notification addNotification(String senderId, String receiverId, String message, NotificationType type) throws UserException {
+    public Notification addNotification(String senderId, String receiverId, String message, NotificationType type, String ref) throws UserException {
         //Get data
         User receiver = userService.findUserById(receiverId);
 
         //Construct message
-        Notification notification = new Notification(message, type);
+        Notification notification = new Notification(message, type, ref);
         receiver.addNotification(notification);
 
         //Save data

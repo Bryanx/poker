@@ -72,7 +72,7 @@ public class NotificationApiController {
     public void sendNotification(@PathVariable String receiverId, @RequestBody @Valid NotificationDTO notificationDTO, OAuth2Authentication authentication) throws UserException {
         Notification notificationIn = notificationService.addNotification(
                 getUserInfo(authentication).get(ID_KEY).toString(), receiverId,
-                notificationDTO.getMessage(), notificationDTO.getType());
+                notificationDTO.getMessage(), notificationDTO.getType(), notificationDTO.getRef());
         NotificationDTO notificationOut = modelMapper.map(notificationIn, NotificationDTO.class);
 
         pushNotifications(receiverId);

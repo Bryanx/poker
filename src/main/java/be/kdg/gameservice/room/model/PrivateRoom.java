@@ -18,8 +18,8 @@ public final class PrivateRoom extends Room {
     @Fetch(value = FetchMode.SUBSELECT)
     private List<WhiteListedPlayer> whiteListedPlayers;
 
-    public PrivateRoom(GameRules gameRules, String name) {
-        super(gameRules, name);
+    public PrivateRoom(String name) {
+        super(new GameRules(), name);
         this.whiteListedPlayers = new ArrayList<>();
     }
 

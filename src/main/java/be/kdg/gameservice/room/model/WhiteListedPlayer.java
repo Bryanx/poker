@@ -13,7 +13,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "white_listed_player")
 @Getter
-public final class WhiteListedPlayer {
+
+public final class WhiteListedPlayer { //TODO: change name to whitelisteduser.
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

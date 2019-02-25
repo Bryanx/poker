@@ -45,7 +45,7 @@ public class RoomServiceImpl implements RoomService {
         WhiteListedPlayer whiteListedPlayer2 = new WhiteListedPlayer("2");
         WhiteListedPlayer whiteListedPlayer3 = new WhiteListedPlayer("3");
 
-        PrivateRoom room = new PrivateRoom(new GameRules(), "test private room");
+        PrivateRoom room = new PrivateRoom("test private room");
         room.addWhiteListedPlayer(whiteListedPlayer1);
         room.addWhiteListedPlayer(whiteListedPlayer2);
         room.addWhiteListedPlayer(whiteListedPlayer3);
@@ -56,6 +56,7 @@ public class RoomServiceImpl implements RoomService {
 
     /**
      * Creates a new room based on room object passed to roomRepository save method
+     *
      * @param room
      * @return
      */
@@ -66,6 +67,7 @@ public class RoomServiceImpl implements RoomService {
     /**
      * Returns room based on roomName
      * Carefull, roomname should be unique.
+     *
      * @param roomName
      * @return
      */
@@ -170,6 +172,7 @@ public class RoomServiceImpl implements RoomService {
 
     /**
      * The rooms returned by this method are cached locally.
+     *
      * @return An unmodifiable collection of all the rooms from the database.
      */
     @Override
@@ -206,10 +209,66 @@ public class RoomServiceImpl implements RoomService {
                 .orElseThrow(() -> new RoomException(RoomServiceImpl.class, "The room was not found in the database."));
     }
 
+    @Override
+    public PrivateRoom getPrivateRoom(int roomId, String userId) throws RoomException {
+        //Get data
+        PrivateRoom room = (PrivateRoom) getRoom(roomId);
+
+        //Do check
+        room.getWhiteListedPlayers().stream()
+                .filter(p -> p.getUserId().equals(userId))
+                .findAny()
+                .orElseThrow(() -> new RoomException(RoomServiceImpl.class, "user with userId " + userId + " was not found on the list"));
+
+        return room;
+    }
+
+    @Override
+    public PrivateRoom addPrivateRoom(String userId, String name) {
+        //Make room
+        PrivateRoom room = new PrivateRoom(name);
+        room.addWhiteListedPlayer(new WhiteListedPlayer(userId));
+
+        //update database
+        roomRepository.save(room);
+        return room;
+    }
+
+    @Override
+    public void addUserToWhiteList(int roomId, String userId) throws RoomException {
+        //Get data
+        PrivateRoom room = (PrivateRoom) getRoom(roomId);
+
+        //Do check
+        Optional<WhiteListedPlayer> whiteListedPlayerOpt = room.getWhiteListedPlayers().stream()
+                .filter(p -> p.getUserId().equals(userId))
+                .findAny();
+
+        if (whiteListedPlayerOpt.isPresent())
+            throw new RoomException(RoomServiceImpl.class, "User with id " + userId + " was already whitelisted");
+
+
+        //update database
+        room.addWhiteListedPlayer(new WhiteListedPlayer(userId));
+        roomRepository.save(room);
+    }
+
+    @Override
+    public void removeUserFromWhiteList(int roomId, String userId) throws RoomException {
+        //Get data
+        PrivateRoom room = (PrivateRoom) getRoom(roomId);
+        Optional<WhiteListedPlayer> userOpt = room.getWhiteListedPlayers().stream()
+                .filter(u -> u.getUserId().equals(userId))
+                .findAny();
+
+        //Update database
+        userOpt.ifPresent(whiteListedPlayerRepository::delete);
+    }
+
     /**
      * Adds a room to the database.
      *
-     * @param name The name of the room.
+     * @param name        The name of the room.
      * @param gameRulesIn The rules that will be applied in this room.
      * @return The newly created room.
      */
@@ -270,7 +329,7 @@ public class RoomServiceImpl implements RoomService {
     public int checkChips(int roomId, int userChips) throws RoomException {
         Room room = getRoom(roomId);
         if (room.getGameRules().getStartingChips() > userChips) {
-            throw new RoomException(RoomServiceImpl.class ,"User does not have enough chips to join.");
+            throw new RoomException(RoomServiceImpl.class, "User does not have enough chips to join.");
         }
         return room.getGameRules().getStartingChips();
     }

@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue(value = "PRIVATE")
-public class PrivateRoom extends Room {
+public final class PrivateRoom extends Room {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     @Fetch(value = FetchMode.SUBSELECT)
@@ -27,7 +27,13 @@ public class PrivateRoom extends Room {
         this.whiteListedPlayers.add(player);
     }
 
+    public void deleteWhiteListedPlayer(WhiteListedPlayer player) {
+        this.whiteListedPlayers.remove(player);
+    }
+
     public List<WhiteListedPlayer> getWhiteListedPlayers() {
         return Collections.unmodifiableList(whiteListedPlayers);
     }
+
+
 }

@@ -4,6 +4,7 @@ import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.*;
 import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
+import be.kdg.gameservice.room.persistence.WhiteListedPlayerRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Round;
@@ -27,8 +28,13 @@ import java.util.Optional;
 public class RoomServiceImpl implements RoomService {
     private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
+    private final WhiteListedPlayerRepository whiteListedPlayerRepository;
     private final RoundService roundService;
 
+    /**
+     * used for quality check
+     * TODO: remove this when everything works properly.
+     */
     @PostConstruct
     public void testData() {
         //make public room
@@ -38,11 +44,14 @@ public class RoomServiceImpl implements RoomService {
         WhiteListedPlayer whiteListedPlayer1 = new WhiteListedPlayer("1");
         WhiteListedPlayer whiteListedPlayer2 = new WhiteListedPlayer("2");
         WhiteListedPlayer whiteListedPlayer3 = new WhiteListedPlayer("3");
+
         PrivateRoom room = new PrivateRoom(new GameRules(), "test private room");
         room.addWhiteListedPlayer(whiteListedPlayer1);
         room.addWhiteListedPlayer(whiteListedPlayer2);
         room.addWhiteListedPlayer(whiteListedPlayer3);
+
         roomRepository.save(room);
+        whiteListedPlayerRepository.delete(whiteListedPlayer1);
     }
 
     /**

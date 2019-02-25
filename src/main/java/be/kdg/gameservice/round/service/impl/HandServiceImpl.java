@@ -36,7 +36,7 @@ public final class HandServiceImpl implements HandService {
         }
 
         Collections.sort(allHands);
-        return allHands.get(allHands.size() - 1);
+        return allHands.get(0);
     }
 
     /**

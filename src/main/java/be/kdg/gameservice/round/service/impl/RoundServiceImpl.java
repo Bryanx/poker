@@ -370,7 +370,7 @@ public class RoundServiceImpl implements RoundService {
     }
 
     /**
-     * Returns best handType based on all possibilities out of 7 cards for player.
+     * Returns best Hand based on all possibilities out of 7 cards for player.
      * @param player
      * @param round
      * @return

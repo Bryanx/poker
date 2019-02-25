@@ -10,6 +10,8 @@ import {CardComponent} from '../card/card.component';
 import {MatSlider} from '@angular/material';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {NotifierModule} from 'angular-notifier';
+import {customNotifierOptions} from '../../notifierOptions';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -29,7 +31,8 @@ describe('GameRoomComponent', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        NotifierModule.withConfig(customNotifierOptions)
       ]
     })
       .compileComponents();

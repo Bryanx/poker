@@ -1,8 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ChatComponent } from './chat.component';
+import {ChatComponent} from './chat.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {NotifierModule} from 'angular-notifier';
+import {customNotifierOptions} from '../../notifierOptions';
 
 describe('ChatComponent', () => {
   let component: ChatComponent;
@@ -10,11 +12,10 @@ describe('ChatComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChatComponent ],
-      imports: [ FormsModule,
-        HttpClientTestingModule]
+      declarations: [ChatComponent],
+      imports: [FormsModule, HttpClientTestingModule, NotifierModule.withConfig(customNotifierOptions)]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

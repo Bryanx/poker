@@ -1,9 +1,7 @@
 package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
-import be.kdg.gameservice.room.model.GameRules;
-import be.kdg.gameservice.room.model.Player;
-import be.kdg.gameservice.room.model.Room;
+import be.kdg.gameservice.room.model.*;
 import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
@@ -13,6 +11,7 @@ import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +29,21 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final RoundService roundService;
 
+    @PostConstruct
+    public void testData() {
+        //make public room
+        roomRepository.save(new Room(new GameRules(), "test room"));
+
+        //make private room
+        WhiteListedPlayer whiteListedPlayer1 = new WhiteListedPlayer("1");
+        WhiteListedPlayer whiteListedPlayer2 = new WhiteListedPlayer("2");
+        WhiteListedPlayer whiteListedPlayer3 = new WhiteListedPlayer("3");
+        PrivateRoom room = new PrivateRoom(new GameRules(), "test private room");
+        room.addWhiteListedPlayer(whiteListedPlayer1);
+        room.addWhiteListedPlayer(whiteListedPlayer2);
+        room.addWhiteListedPlayer(whiteListedPlayer3);
+        roomRepository.save(room);
+    }
 
     /**
      * Creates a new room based on room object passed to roomRepository save method

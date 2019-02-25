@@ -20,6 +20,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "room")
+@DiscriminatorColumn(name = "type")
+@DiscriminatorValue(value = "PUBLIC")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Room {
     /**
      * The id of room, used for persistence.

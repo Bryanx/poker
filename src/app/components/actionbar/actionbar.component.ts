@@ -12,6 +12,7 @@ import {Card} from '../../model/card';
 import {Player} from '../../model/player';
 import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {Room} from '../../model/room';
+import {CurrentPhaseBet} from '../../model/currentPhaseBet';
 
 @Component({
   selector: 'app-actionbar',
@@ -28,9 +29,10 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   player: Player;
   currentAct: Act;
   possibleActs: ActType[];
-  bettedChipsThisFase = 0;
+  currentPhaseBet: CurrentPhaseBet = CurrentPhaseBet.create();
   @Output() actEvent: EventEmitter<Act> = new EventEmitter<Act>();
   canAct = true;
+  @Output() currentPhaseBetEvent: EventEmitter<CurrentPhaseBet> = new EventEmitter<CurrentPhaseBet>();
 
   constructor(private roundService: RoundService, private websocketService: RxStompService,
               private authorizationService: AuthorizationService) {
@@ -90,8 +92,10 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       act.roomId = this.room.id;
 
       if (act.type === 'BET' || act.type === 'RAISE' || act.type === 'CALL') {
-        act.bet = this.sliderValue - this.bettedChipsThisFase;
-        this.bettedChipsThisFase = this.bettedChipsThisFase + this.sliderValue;
+        act.bet = this.sliderValue - this.currentPhaseBet.bet;
+        this.currentPhaseBet.bet = this.currentPhaseBet.bet + this.sliderValue;
+        this.currentPhaseBet.seatNumber = this.player.seatNumber;
+        this.currentPhaseBetEvent.emit(this.currentPhaseBet);
       } else {
         act.bet = 0;
       }
@@ -120,10 +124,10 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   @Input() set round(round: Round) {
     if (round !== undefined) {
       if (this._round === undefined) {
-        this.bettedChipsThisFase = 0;
+        this.currentPhaseBet.bet = 0;
       } else {
         if (round.currentPhase !== this._round.currentPhase) {
-          this.bettedChipsThisFase = 0;
+          this.currentPhaseBet.bet = 0;
         }
       }
 
@@ -138,6 +142,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     for (let i = 0; i < this._round.playersInRound.length; i++) {
       if (this._round.playersInRound[i].userId === this.authorizationService.getUserId()) {
         this.player = this._round.playersInRound[i];
+        this.currentPhaseBet.userId = this.player.userId;
       }
     }
   }

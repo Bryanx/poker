@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Round} from '../../model/round';
 import {Phase} from '../../model/phase';
+import {CurrentPhaseBet} from '../../model/currentPhaseBet';
 
 @Component({
   selector: 'app-game-table',
@@ -14,6 +15,12 @@ export class GameTableComponent implements OnInit {
   thirdCard: boolean;
   fourthCard: boolean;
   fifthCard: boolean;
+  firstPlayer: CurrentPhaseBet;
+  secondPlayer: CurrentPhaseBet;
+  thirdPlayer: CurrentPhaseBet;
+  fourthPlayer: CurrentPhaseBet;
+  fifthPlayer: CurrentPhaseBet;
+  sixthPlayer: CurrentPhaseBet;
 
   constructor() { }
 
@@ -63,4 +70,6 @@ export class GameTableComponent implements OnInit {
         this.fifthCard = false;
     }
   }
+
+
 }

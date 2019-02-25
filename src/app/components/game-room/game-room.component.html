@@ -11,6 +11,7 @@
                  *ngIf="room"
                  [room]="room"
   [round]="round"
-  (actEvent)="onActEvent($event)"></app-actionbar>
+  (actEvent)="onActEvent($event)"
+  (currentPhaseBetEvent)="onCurrentPhaseBetEvent($event)"></app-actionbar>
   <app-game-table class="grid-item-table" [round]="round"></app-game-table>
 </div>

@@ -12,6 +12,8 @@ import {RoomService} from '../../services/room.service';
 import {ChatComponent} from '../chat/chat.component';
 import {Act} from '../../model/act';
 import {PlayerComponent} from '../player/player.component';
+import {CurrentPhaseBet} from '../../model/currentPhaseBet';
+import {GameTableComponent} from '../game-table/game-table.component';
 
 @Component({
   selector: 'app-room',
@@ -28,7 +30,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   joinRoomInterval: any;
   getRoundInterval: any;
   @ViewChild(ChatComponent) chatChild: ChatComponent;
-  @ViewChildren(PlayerComponent) playerChildren: QueryList<PlayerComponent>;
+  @ViewChild(GameTableComponent) gameTableChild: GameTableComponent;
   lastAct: Act;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
@@ -186,5 +188,32 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   onActEvent(act: Act): void {
     this.lastAct = act;
+  }
+
+  onCurrentPhaseBetEvent(currentPhaseBet: CurrentPhaseBet) {
+    for (const player of this.room.playersInRoom ) {
+      if (player.userId === currentPhaseBet.userId) {
+        switch (currentPhaseBet.seatNumber) {
+          case 0:
+            this.gameTableChild.firstPlayer = currentPhaseBet;
+            break;
+          case 1:
+            this.gameTableChild.secondPlayer = currentPhaseBet;
+            break;
+          case 2:
+            this.gameTableChild.thirdPlayer = currentPhaseBet;
+            break;
+          case 3:
+            this.gameTableChild.fourthPlayer = currentPhaseBet;
+            break;
+          case 4:
+            this.gameTableChild.fifthPlayer = currentPhaseBet;
+            break;
+          case 5:
+            this.gameTableChild.sixthPlayer = currentPhaseBet;
+            break;
+        }
+      }
+    }
   }
 }

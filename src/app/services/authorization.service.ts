@@ -49,8 +49,7 @@ export class AuthorizationService {
   }
 
   isAdmin() {
-    // TODO: For testing only admin1 = admin
-      return this.getUsername().toLowerCase() === 'admin1';
+      return this.helper.decodeToken(localStorage.getItem('jwt_token')).role === 'ROLE_ADMIN';
   }
 
   socialLogin(user: User) {

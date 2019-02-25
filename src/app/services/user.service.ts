@@ -12,8 +12,8 @@ import {AuthResult} from '../model/authResult';
   providedIn: 'root'
 })
 export class UserService {
-  url = 'https://poker-user-service.herokuapp.com/api/user';
-  // url = 'http://localhost:5000/api/user';
+  // url = 'https://poker-user-service.herokuapp.com/api/user';
+  url = 'http://localhost:5000/api/user';
 
   constructor(private http: HttpClient) {
   }

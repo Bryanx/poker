@@ -15,7 +15,7 @@
 
   <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'REPLAYS' | translate | uppercase}}</button>
 
-  <button *ngIf="isAuthenticated()" routerLink="/rankings">{{'RANKINGS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rankings">{{'RANKINGS' | translate | uppercase}}</button>
 
   <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/settings/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
 

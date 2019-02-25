@@ -1,8 +1,8 @@
 <div class="wrapper">
-  <div class="action">CHECK</div>
+  <div class="action">{{_currentAct}}</div>
   <div [class]="'avatar ' + (usePicture ? 'image-use' : 'init-use')">
     <p *ngIf="!usePicture">{{getInitials()}}</p>
-    <img *ngIf="usePicture" [src]="getProfilePicture()" [alt]="test">
+    <img *ngIf="usePicture" [src]="getProfilePicture()" alt="Profile picture">
   </div>
-  <div class="money">100K</div>
+  <div class="money">{{player.chipCount}}</div>
 </div>

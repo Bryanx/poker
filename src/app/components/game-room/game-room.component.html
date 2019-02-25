@@ -1,12 +1,16 @@
-<div class="grid-container">
+<div class="grid-container" *ngIf="done">
   <button routerLink="/rooms" class="leave-button"><img src="../../../assets/img/icons/leave1.svg"></button>
-  <app-player *ngFor="let player of getAllPlayers(); index as i" [class]="'grid-person grid-person-' + (i + 1)"
-              [userId]="player.userId"
+  <app-player *ngFor="let player of room.playersInRoom; index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"
+              [player]="player"
+              [currentAct]="lastAct"
   ></app-player>
   <div class="grid-tmiddle"></div>
-  <app-chat class="grid-chat"
-  [roomNumber]="room.id"></app-chat>
+  <app-chat class="grid-chat" *ngIf="room"
+  [roomId]="room.id"></app-chat>
   <app-actionbar class="grid-actionbar"
-  ></app-actionbar>
-  <app-game-table class="grid-item-table"></app-game-table>
+                 *ngIf="room"
+                 [room]="room"
+  [round]="round"
+  (actEvent)="onActEvent($event)"></app-actionbar>
+  <app-game-table class="grid-item-table" [round]="round"></app-game-table>
 </div>

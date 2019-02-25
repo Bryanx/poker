@@ -4,6 +4,9 @@ import {ActionbarComponent} from './actionbar.component';
 import {CardComponent} from '../card/card.component';
 import {MatSlider} from '@angular/material';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {TranslatePipe} from '../../translate.pipe';
+import {RxStompService} from '@stomp/ng2-stompjs';
+
 
 describe('ActionbarComponent', () => {
   let component: ActionbarComponent;
@@ -11,8 +14,9 @@ describe('ActionbarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ActionbarComponent, CardComponent, MatSlider],
-      imports: [HttpClientTestingModule]
+      declarations: [ActionbarComponent, CardComponent, MatSlider, TranslatePipe],
+      imports: [HttpClientTestingModule],
+      providers: [RxStompService]
     })
       .compileComponents();
   }));

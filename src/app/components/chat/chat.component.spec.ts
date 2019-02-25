@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChatComponent } from './chat.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RxStompService} from '@stomp/ng2-stompjs';
+import {TranslatePipe} from '../../translate.pipe';
 
 describe('ChatComponent', () => {
   let component: ChatComponent;
@@ -10,9 +12,10 @@ describe('ChatComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ChatComponent ],
+      declarations: [ ChatComponent, TranslatePipe ],
       imports: [ FormsModule,
-        HttpClientTestingModule]
+        HttpClientTestingModule],
+      providers: [RxStompService]
     })
     .compileComponents();
   }));

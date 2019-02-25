@@ -1,4 +1,4 @@
-export class Message {
+export class ChatMessage {
   name: string;
   content: string;
 }

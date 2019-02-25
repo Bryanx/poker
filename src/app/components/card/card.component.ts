@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Card} from '../../model/card';
 
 @Component({
   selector: 'app-card',
@@ -6,10 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./card.component.scss']
 })
 export class CardComponent implements OnInit {
+  @Input() card: Card;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  getSrc(): string {
+    return '/assets/img/cards/' + this.card.type.toLowerCase() + '.svg';
+  }
 }

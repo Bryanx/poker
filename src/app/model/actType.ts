@@ -1,6 +1,8 @@
 export enum ActType {
-  Fold,
-  Call,
-  Bet,
-  Raise
+  Fold = 'FOLD',
+  Call = 'CALL',
+  Bet = 'BET',
+  Raise = 'RAISE',
+  Check = 'CHECK',
+  Undecided = 'UNDECIDED'
 }

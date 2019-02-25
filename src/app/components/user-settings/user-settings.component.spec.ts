@@ -5,6 +5,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TranslatePipe} from '../../translate.pipe';
+import {NotifierModule} from 'angular-notifier';
+import {customNotifierOptions} from '../../notifierOptions';
 
 describe('UserSettingsComponent', () => {
   let component: UserSettingsComponent;
@@ -13,7 +15,7 @@ describe('UserSettingsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UserSettingsComponent, TranslatePipe ],
-      imports: [ RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule ]
+      imports: [FormsModule, RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule, NotifierModule.withConfig(customNotifierOptions) ]
     })
     .compileComponents();
   }));

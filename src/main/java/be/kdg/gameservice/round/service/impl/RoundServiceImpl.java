@@ -8,14 +8,12 @@ import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.round.service.api.HandService;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.apache.bcel.util.Play;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -124,15 +122,15 @@ public class RoundServiceImpl implements RoundService {
     }
 
     @Override
-    public Player checkEndOfRound(int roundId) throws RoundException{
+    public Optional<Player> checkEndOfRound(int roundId) throws RoundException{
         Round round = getRound(roundId);
         Phase currentPhase = round.getCurrentPhase();
 
         if (currentPhase == Phase.SHOWDOWN) {
             Player winningPlayer = determineWinner(roundId);
-            return distributeCoins(roundId, winningPlayer);
+            return Optional.of(distributeCoins(roundId, winningPlayer));
         }
-        return null;
+        return Optional.empty();
     }
 
     /**
@@ -244,7 +242,6 @@ public class RoundServiceImpl implements RoundService {
      * Checks if the CHECK-act is possible at this point in the round.
      * You can CHECK if other players didn't BET, RAISE or CALL.
      *
-     *
      * @param round
      * @param others All the other players in the round.
      * @return True if a CHECK is possible.
@@ -323,6 +320,7 @@ public class RoundServiceImpl implements RoundService {
 
     /**
      * Distributes the pot to the winner and resets the pot
+     *
      * @param roundId
      * @param player
      */
@@ -340,6 +338,7 @@ public class RoundServiceImpl implements RoundService {
 
     /**
      * Determines winning player based on all hand combinations of all the players
+     *
      * @param roundId
      * @return
      * @throws RoundException

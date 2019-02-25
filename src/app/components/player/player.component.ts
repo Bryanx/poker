@@ -13,7 +13,7 @@ import {Phase} from '../../model/phase';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent implements OnInit {
-  @Input() player: Player;
+  @Input() player: Player = Player.create();
   usePicture: Boolean = false;
   user: User = User.create();
   _currentAct: ActType;

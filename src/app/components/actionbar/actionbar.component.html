@@ -1,4 +1,4 @@
-<div [className]="myTurn ? 'actionbar' : 'actionbar-disabled'">
+<div [className]="myTurn ? 'actionbar' : 'actionbar-disabled'" *ngIf="room || room.playersInRoom.length < 2">
   <p *ngIf="room.playersInRoom.length < 2">
      {{'WAITINGFORPLAYERS' | translate | uppercase}}
   </p>

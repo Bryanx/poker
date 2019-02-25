@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
 import {Phase} from '../../model/phase';
@@ -19,7 +19,7 @@ import {Room} from '../../model/room';
   styleUrls: ['./actionbar.component.scss']
 })
 export class ActionbarComponent implements OnInit, OnDestroy {
-  @Input() room: Room;
+  @Input() room: Room = Room.create();
   public actTypes: typeof ActType = ActType;
   actSubscription: Subscription;
   _round: Round;
@@ -40,7 +40,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.actSubscription.unsubscribe();
+    if (this.actSubscription !== undefined) {
+      this.actSubscription.unsubscribe();
+    }
   }
 
   /**

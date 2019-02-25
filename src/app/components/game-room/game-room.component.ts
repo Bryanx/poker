@@ -61,9 +61,13 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.leaveRoom();
-    this.roomSubscription.unsubscribe();
-    this.roundSubscription.unsubscribe();
+    if (this.roomSubscription !== undefined) {
+      this.leaveRoom();
+      this.roomSubscription.unsubscribe();
+    }
+    if (this.roundSubscription !== undefined) {
+      this.roundSubscription.unsubscribe();
+    }
   }
 
   /**

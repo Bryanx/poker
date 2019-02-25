@@ -27,7 +27,7 @@ public enum HandType {
      * Two sets of two cards of the same denomination and two unmatched cards.
      * Example: 4s, 4h, Jc, Jd, 9d
      */
-    TWO_PAIR(2),
+    TWO_PAIR(3),
 
     /**
      * Three cards of the same denomination and two unmatched cards.

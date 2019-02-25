@@ -1,7 +1,7 @@
 import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
 
 export const websocketConfig: InjectableRxStompConfig = {
-  brokerURL: 'wss://poker-game-service.herokuapp.com/chat/websocket',
+  brokerURL: 'wss://poker-game-service.herokuapp.com/connect/websocket',
   // brokerURL: 'ws://localhost:5001/connect/websocket',
 
   // Headers

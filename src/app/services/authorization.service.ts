@@ -83,7 +83,7 @@ export class AuthorizationService {
   }
 
   /**
-   * Shows all the unread notifications of a specific user with al little welcome message.
+   * Shows all the unread _notifications of a specific user with al little welcome message.
    */
   private getUnreadNotifications() {
     this.userService.getUnReadNotifications().subscribe(nots => {

@@ -1,11 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {User} from '../../model/user';
 import {NotifierService} from 'angular-notifier';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {UserService} from '../../services/user.service';
-import {Message} from '@stomp/stompjs';
-import {AuthorizationService} from '../../services/authorization.service';
 import {Notification} from '../../model/notification';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
@@ -25,33 +23,32 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ])
   ]
 })
-export class NotificationComponent implements OnInit, OnDestroy {
-  notifications: Notification[] = [];
-  receiveSub: Subscription;
-  notificationsSub: Subscription;
-  myself: User = User.create();
+export class NotificationComponent implements OnInit {
+  _notifications: Notification[] = [];
   showPanel: boolean;
 
   constructor(private notifier: NotifierService,
               private webSocketService: RxStompService,
-              private userService: UserService,
-              private authorizationService: AuthorizationService) {
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
     this.showPanel = false;
-    this.checkIfAuthenticated();
     this.getAllNotifications();
   }
 
-  ngOnDestroy(): void {
-    this.receiveSub.unsubscribe();
-    this.notificationsSub.unsubscribe();
+  @Input()
+  set notifications(notification: Notification) {
+    if (notification !== undefined) {
+      this._notifications.push(notification);
+      console.log(notification);
+    }
   }
 
   private getAllNotifications() {
     this.userService.getNotifications().subscribe(nots => {
-      this.notifications = nots;
+      this._notifications = nots;
+      console.log(nots);
     });
   }
 
@@ -81,87 +78,13 @@ export class NotificationComponent implements OnInit, OnDestroy {
     return dateConstructed + ' ' + timeConstructed;
   }
 
-  /**
-   * Constantly checks if a client is authenticated.
-   * If that is the case, the credentials will be loaded and a connection will be established with a
-   * web socket connection.
-   */
-  private checkIfAuthenticated() {
-    const intervalId = setInterval(() => {
-      if (this.authorizationService.isAuthenticated()) {
-        clearInterval(intervalId);
-        this.getCredentials();
-        this.checkIfNotAuthenticated();
-      }
-    }, 750);
-  }
-
-  /**
-   * Constantly checks if a client is not authenticated.
-   * If that is the case, the subscription with the web socket will be terminated.
-   */
-  private checkIfNotAuthenticated() {
-    const intervalId = setInterval(() => {
-      if (!this.authorizationService.isAuthenticated()) {
-        clearInterval(intervalId);
-        this.receiveSub.unsubscribe();
-        this.notificationsSub.unsubscribe();
-        this.checkIfAuthenticated();
-      }
-    }, 750);
-  }
-
-  /**
-   * Gets the user-credentials so that the connection with the web socket can be established.
-   */
-  private getCredentials() {
-    this.userService.getMyself().subscribe(user => {
-      this.myself = user;
-      this.initializeNotificationConnection();
-    });
-  }
-
-  /**
-   * Shows notifications to the screen if any are pushed by the web socket.
-   */
-  private initializeNotificationConnection() {
-    this.receiveSub = this.webSocketService.watch('/user/receive-notification/' + this.myself.id).subscribe((message: Message) => {
-      if (message) {
-        const not: Notification = JSON.parse(message.body) as Notification;
-        this.userService.readNotification(not.id).subscribe();
-        this.showNotification('default', not.message);
-      }
-    }, error => {
-      console.log(error.error.error_description);
-    });
-
-    this.notificationsSub = this.webSocketService.watch('/user/notifications/' + this.myself.id).subscribe((message: Message) => {
-      if (message) {
-        console.log('GELUKT!');
-        this.notifications = JSON.parse(message.body) as Notification[];
-      }
-    }, error => {
-      console.log(error.error.error_description);
-    });
-  }
-
-  /**
-   * Show a notification
-   *
-   * @param type    Notification type
-   * @param message Notification message
-   */
-  showNotification(type: string, message: string): void {
-    this.notifier.notify(type, message);
-  }
-
   handleDelete(id: number) {
-    this.notifications = this.notifications.filter(not => not.id !== id); // filter for speed
+    this._notifications = this._notifications.filter(not => not.id !== id); // filter for speed
     this.userService.deleteNotification(id).subscribe();
   }
 
   handleDeleteAll() {
-    this.notifications = [];
+    this._notifications = [];
     this.userService.deleteNotifications().subscribe();
   }
 }

@@ -3,7 +3,7 @@
 </div>
 
 <section *ngIf="showPanel" [@simpleFadeAnimation]="'in'" class="not-panel">
-  <div class="not" *ngFor="let not of notifications; index as i">
+  <div class="not" *ngFor="let not of _notifications.reverse(); index as i" (click)="showPanel = false" routerLink="/user/{{not.ref}}">
     <img class="not-icon" src="../../../assets/img/icons/friend_request_icon.svg">
     <div class="info">
       <span class="message">{{not.message}}</span>
@@ -11,9 +11,9 @@
     </div>
     <img (click)="handleDelete(not.id)" class="del-icon" src="../../../assets/img/icons/delete.svg">
   </div>
-  <span *ngIf="notifications.length > 0" (click)="handleDeleteAll()" class="delete-all">Delete all notifications</span>
+  <span *ngIf="_notifications.length > 0" (click)="handleDeleteAll()" class="delete-all">Delete all notifications</span>
 
-  <div *ngIf="notifications.length <= 0" class="splash-screen">
+  <div *ngIf="_notifications.length <= 0" class="splash-screen">
     <img src="../../../assets/img/icons/splash.svg">
     <span class="main-message">YOU ARE UP TO DATE BRO!</span>
     <span (click)="showPanel = false" routerLink="/search" class="second-message">Befriend bros to receive more notifications</span>

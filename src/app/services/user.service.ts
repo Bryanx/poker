@@ -81,14 +81,14 @@ export class UserService {
   }
 
   /**
-   * Gives back all the unread notifications of a specific user.3
+   * Gives back all the unread _notifications of a specific user.3
    */
   getUnReadNotifications(): Observable<Notification[]> {
     return this.http.get<Notification[]>(this.url + '/notifications/un-read');
   }
 
   /**
-   * Gives back all the unread notifications of a specific user.3
+   * Gives back all the unread _notifications of a specific user.3
    */
   getNotifications(): Observable<Notification[]> {
     return this.http.get<Notification[]>(this.url + '/notifications');

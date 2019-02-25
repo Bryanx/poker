@@ -346,7 +346,10 @@ public class RoundServiceImpl implements RoundService {
     public Player determineWinner(int roundId) throws RoundException {
         //Get data
         Round round = getRound(roundId);
-        List<Player> participatingPlayers = round.getPlayersInRound();
+        List<Player> participatingPlayers = round.getPlayersInRound()
+                .stream()
+                .filter(player -> player.getLastAct() != ActType.FOLD)
+                .collect(toList());
 
         Hand bestHand = null;
         Player winningPlayer = null;

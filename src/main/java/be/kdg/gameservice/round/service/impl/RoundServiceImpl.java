@@ -73,34 +73,52 @@ public class RoundServiceImpl implements RoundService {
     }
 
     /**
-     *
+     * Check if the current Phase of round is finished
      * @param round
      */
     private void checkEndOfPhase(Round round) {
         Phase currentPhase = round.getCurrentPhase();
-        if (round.getActs().stream()
+        int checkCount = round.getActs().stream()
                 .filter(a -> a.getPhase() == currentPhase)
                 .filter(a -> a.getType() == ActType.CHECK || a.getType() == ActType.FOLD)
                 .toArray()
-                .length == round.getActivePlayers().size()) {
-
+                .length;
+        // Check if enough Checks of Folds are made
+        if (checkCount == round.getActivePlayers().size()) {
             round.nextPhase();
         } else {
-            int lastAct = -1;
-            for (int i = 0; i < round.getActs().size(); i++) {
-                if(round.getActs().get(i).getPhase() == currentPhase) {
-                    if(round.getActs().get(i).getType() == ActType.BET || round.getActs().get(i).getType() == ActType.RAISE) {
-                        lastAct = i;
-                    }
+            checkEndOfPhaseWithBetOrRaise(round);
+        }
+    }
+
+    /**
+     * Check if phase has ended when enough Call/Folds are followed by a Bet of Raise
+     * @param round
+     * @return
+     */
+    private void checkEndOfPhaseWithBetOrRaise(Round round) {
+        Phase currentPhase = round.getCurrentPhase();
+        int lastAct = -1;
+        for (Act act: round.getActs()) {
+            if(act.getPhase() == currentPhase) {
+                if(act.getType() == ActType.BET || act.getType() == ActType.RAISE) {
+                    lastAct = round.getActs().indexOf(act);
                 }
             }
-
-            if(lastAct != -1) {
-                List<Act> lastActs = round.getActs().subList(lastAct, round.getActs().size());
-
-                if(lastActs.stream().filter(a -> a.getType() == ActType.CALL).toArray().length == round.getActivePlayers().size() - 1) {
-                    round.nextPhase();
+        }
+        for (int i = 0; i < round.getActs().size(); i++) {
+            if(round.getActs().get(i).getPhase() == currentPhase) {
+                if(round.getActs().get(i).getType() == ActType.BET || round.getActs().get(i).getType() == ActType.RAISE) {
+                    lastAct = i;
                 }
+            }
+        }
+
+        if(lastAct != -1) {
+            List<Act> lastActs = round.getActs().subList(lastAct, round.getActs().size());
+
+            if(lastActs.stream().filter(a -> a.getType() == ActType.CALL).toArray().length == round.getActivePlayers().size() - 1) {
+                round.nextPhase();
             }
         }
     }

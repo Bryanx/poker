@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.activities.RankingsActivity;
 import be.kdg.mobile_client.activities.RoomActivity;
 import be.kdg.mobile_client.model.Room;
 import lombok.AllArgsConstructor;

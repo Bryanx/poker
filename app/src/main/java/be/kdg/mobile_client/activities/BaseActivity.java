@@ -29,7 +29,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Retrieve ControllerComponent so services become injectable.
-     * @return
      */
     @UiThread
     protected ControllerComponent getControllerComponent() {

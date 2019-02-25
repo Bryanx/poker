@@ -7,6 +7,9 @@ import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
 
+/**
+ * Adds new databinding to layout files so byte streams can be implemented directly into layout files.
+ */
 public class DataBindingAdapters {
 
     @BindingAdapter("android:src")

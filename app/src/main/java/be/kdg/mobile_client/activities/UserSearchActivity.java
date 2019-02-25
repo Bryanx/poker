@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.UserRecyclerAdapter;
 import be.kdg.mobile_client.model.User;
-import be.kdg.mobile_client.services.UserService;
-import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.viewmodels.UserViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,10 +27,8 @@ public class UserSearchActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.etSearch) EditText etSearch;
     @BindView(R.id.lvUser) RecyclerView lvUser;
-    @Inject UserService userService;
     @Inject ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
-    private User myself;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +38,6 @@ public class UserSearchActivity extends BaseActivity {
         ButterKnife.bind(this);
         viewModel = ViewModelProviders.of(this,factory).get(UserViewModel.class);
         addEventHandlers();
-        getMySelf();
-        getUsers();
-    }
-
-    private void getMySelf() {
-        userService.getMySelf().enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response != null && response.isSuccessful()) {
-                if (response.body() != null) {
-                    myself = response.body();
-                }
-            } else {
-                Toast.makeText(getApplicationContext(), getString(R.string.error_getting_users), Toast.LENGTH_LONG).show();
-            }
-        }));
     }
 
     private void addEventHandlers() {
@@ -76,14 +57,9 @@ public class UserSearchActivity extends BaseActivity {
             }
             return false;
         });
-    }
-
-    /**
-     * Gets all the users for the user micro-service and puts them into
-     * a list adapter.
-     */
-    private void getUsers() {
-        viewModel.getUsers().observe(this, this::initializeAdapter);
+        viewModel.getMessage().observe(this, message -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        });
     }
 
     /**
@@ -93,13 +69,7 @@ public class UserSearchActivity extends BaseActivity {
      * @param name The search string.
      */
     private void getUsersByName(String name) {
-        userService.getUserByName(name).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response.isSuccessful() && response.body() != null) {
-                initializeAdapter(Arrays.asList(response.body()));
-            } else {
-                Toast.makeText(getApplicationContext(), getString(R.string.error_getting_users), Toast.LENGTH_LONG).show();
-            }
-        }));
+        viewModel.getUsers(name).observe(this, this::initializeAdapter);
     }
 
     /**
@@ -120,16 +90,9 @@ public class UserSearchActivity extends BaseActivity {
      * @param friend friend to be added
      */
     public void addFriend(User friend) {
-        myself.getFriends().add(friend);
-        userService.changeUser(myself).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response != null && response.isSuccessful()) {
-                Toast.makeText(getApplicationContext(), friend.getUsername() + " " +
-                        getString(R.string.was_added_as_a_friend), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FriendsActivity.class);
-                startActivity(intent);
-            } else {
-                Toast.makeText(getApplicationContext(), getString(R.string.error_updating_friends), Toast.LENGTH_LONG).show();
-            }
-        }));
+        viewModel.getUser("").observe(this, me -> {
+            me.getFriends().add(friend);
+            viewModel.changeUser(me);
+        });
     }
 }

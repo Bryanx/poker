@@ -3,6 +3,10 @@ package be.kdg.mobile_client.shared;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+/**
+ * Provides a new viewmodel (at the moment only to the controllermodule)
+ * @param <V> ViewModel class
+ */
 public class ViewModelProviderFactory<V> implements ViewModelProvider.Factory {
     private V viewModel;
 

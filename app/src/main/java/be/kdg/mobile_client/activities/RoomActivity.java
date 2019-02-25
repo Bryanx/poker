@@ -1,8 +1,6 @@
 package be.kdg.mobile_client.activities;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -10,7 +8,6 @@ import javax.inject.Inject;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.fragments.ChatFragment;
 import be.kdg.mobile_client.services.SharedPrefService;

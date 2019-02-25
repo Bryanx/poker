@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.User;
-import be.kdg.mobile_client.services.UserService;
 import be.kdg.mobile_client.viewmodels.UserViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +27,6 @@ import butterknife.ButterKnife;
  */
 public class RankingsActivity extends BaseActivity {
     @BindView(R.id.tblRankings) TableLayout tblRankings;
-    @Inject UserService userService;
     @Inject ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
 
@@ -43,7 +41,7 @@ public class RankingsActivity extends BaseActivity {
     }
 
     private void fetchRankings() {
-        viewModel.getUsers().observe(this, this::loadRankingsIntoView);
+        viewModel.getUsers("").observe(this, this::loadRankingsIntoView);
     }
 
     private void loadRankingsIntoView(List<User> users) {

@@ -79,4 +79,8 @@ public class ChatFragment extends BaseFragment {
             }
         });
     }
+
+    public void setRoomNumber(int roomNumber) {
+        this.roomNumber = roomNumber;
+    }
 }

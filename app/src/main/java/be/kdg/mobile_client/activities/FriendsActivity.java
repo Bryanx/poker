@@ -9,14 +9,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.FriendRecyclerAdapter;
 import be.kdg.mobile_client.model.User;
-import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
-import be.kdg.mobile_client.services.UserService;
+import be.kdg.mobile_client.viewmodels.UserViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -28,8 +29,8 @@ public class FriendsActivity extends BaseActivity {
     @BindView(R.id.btnSearch) Button btnSearch;
     @BindView(R.id.btnBack) Button btnBack;
     @Inject SharedPrefService sharedPrefService;
-    @Inject UserService userService;
-    private User myself;
+    @Inject ViewModelProvider.Factory factory;
+    private UserViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class FriendsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         ButterKnife.bind(this);
+        viewModel = ViewModelProviders.of(this,factory).get(UserViewModel.class);
         addEventListners();
         getFriends();
     }
@@ -51,17 +53,13 @@ public class FriendsActivity extends BaseActivity {
             Intent intent = new Intent(this,  MenuActivity.class);
             startActivity(intent);
         });
+        viewModel.getMessage().observe(this, message -> {
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+        });
     }
 
     private void getFriends() {
-        userService.getMySelf().enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response.isSuccessful() && response.body() != null) {
-                myself = response.body();
-                initializeAdapter(response.body().getFriends());
-            } else {
-                Toast.makeText(getBaseContext(), getString(R.string.error_message), Toast.LENGTH_LONG).show();
-            }
-        }));
+        viewModel.getUser("").observe(this, user -> initializeAdapter(user.getFriends()));
     }
 
     /**
@@ -77,16 +75,9 @@ public class FriendsActivity extends BaseActivity {
     }
 
     public void removeFriend(User friend) {
-        myself.getFriends().remove(friend);
-        userService.changeUser(myself).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response != null && response.isSuccessful()) {
-                Toast.makeText(getApplicationContext(), friend.getUsername() + " " +
-                        getString(R.string.was_removed_as_a_friend), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(getApplicationContext(), FriendsActivity.class);
-                startActivity(intent);
-            } else {
-                Toast.makeText(getApplicationContext(), getString(R.string.error_updating_friends), Toast.LENGTH_LONG).show();
-            }
-        }));
+        viewModel.getUser("").observe(this, me -> {
+            me.getFriends().remove(friend);
+            viewModel.changeUser(me);
+        });
     }
 }

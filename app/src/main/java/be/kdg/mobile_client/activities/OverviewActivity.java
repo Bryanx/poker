@@ -62,7 +62,7 @@ public class OverviewActivity extends BaseActivity {
      * @param rooms The rooms that need to be used by the adapter.
      */
     private void initializeAdapter(List<Room> rooms) {
-        RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(rooms);
+        RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(this, rooms);
         lvRoom.setAdapter(roomAdapter);
         lvRoom.setLayoutManager(new LinearLayoutManager(this));
     }

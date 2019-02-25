@@ -5,8 +5,8 @@ import java.util.Objects;
 import androidx.annotation.UiThread;
 import androidx.fragment.app.Fragment;
 import be.kdg.mobile_client.App;
-import be.kdg.mobile_client.dagger.ControllerComponent;
-import be.kdg.mobile_client.dagger.ControllerModule;
+import be.kdg.mobile_client.dagger.components.ControllerComponent;
+import be.kdg.mobile_client.dagger.modules.ControllerModule;
 
 /**
  * Base class for all fragments that require dependency injection.

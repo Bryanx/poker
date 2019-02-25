@@ -1,8 +1,10 @@
-package be.kdg.mobile_client.dagger;
+package be.kdg.mobile_client.dagger.components;
 
 import javax.inject.Singleton;
 
 import be.kdg.mobile_client.App;
+import be.kdg.mobile_client.dagger.modules.AppModule;
+import be.kdg.mobile_client.dagger.modules.ControllerModule;
 import dagger.Component;
 
 /**

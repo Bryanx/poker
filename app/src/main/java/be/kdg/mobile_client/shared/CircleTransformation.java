@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.adapters;
+package be.kdg.mobile_client.shared;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;

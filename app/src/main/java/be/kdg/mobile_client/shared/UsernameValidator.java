@@ -19,7 +19,7 @@ public class UsernameValidator implements TextWatcher {
     }
 
     /**
-     * Validates if the given input is a valid email address.
+     * Validates if the given input is a valid username.
      * System username is not allowed.
      */
     public static boolean isValidUsername(CharSequence username) {

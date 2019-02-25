@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.dagger;
+package be.kdg.mobile_client.dagger.modules;
 
 import android.content.Context;
 
@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.GameService;
@@ -13,6 +14,8 @@ import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import be.kdg.mobile_client.shared.EmailValidator;
 import be.kdg.mobile_client.shared.UsernameValidator;
+import be.kdg.mobile_client.shared.ViewModelProviderFactory;
+import be.kdg.mobile_client.viewmodels.UserViewModel;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
@@ -40,44 +43,44 @@ public class ControllerModule {
     }
 
     @Provides
-    Context context() {
+    public Context context() {
         return mActivity;
     }
 
     @Provides
-    FragmentActivity activity() {
+    public FragmentActivity activity() {
         return mActivity;
     }
 
     @Provides
-    FragmentManager fragmentManager() {
+    public FragmentManager fragmentManager() {
         return mActivity.getSupportFragmentManager();
     }
 
     @Provides
-    SharedPrefService sharedPrefService() {
+    public SharedPrefService sharedPrefService() {
         return sharedPrefService;
     }
 
     @Provides
-    GsonConverterFactory gsonConverter() {
+    public GsonConverterFactory gsonConverter() {
         return GsonConverterFactory.create();
     }
 
     @Provides
-    Gson gson() {
+    public Gson gson() {
         return new Gson();
     }
 
     @Provides
-    EmailValidator emailValidator() { return new EmailValidator(); }
+    public EmailValidator emailValidator() { return new EmailValidator(); }
 
     @Provides
-    UsernameValidator usernameValidator() { return new UsernameValidator(); }
+    public UsernameValidator usernameValidator() { return new UsernameValidator(); }
 
     @Provides
-    OkHttpClient okHttpClient(SharedPrefService sharedPrefService) {
-        Token token = sharedPrefService.getToken(activity());
+    public OkHttpClient okHttpClient() {
+        Token token = sharedPrefService().getToken(activity());
         if (token == null) return new OkHttpClient();
         return new OkHttpClient().newBuilder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder()
@@ -88,10 +91,10 @@ public class ControllerModule {
     }
 
     @Provides
-    UserService userService(OkHttpClient client) {
+    public UserService userService() {
         return new Retrofit
                 .Builder()
-                .client(client)
+                .client(okHttpClient())
                 .addConverterFactory(gsonConverter())
                 .baseUrl(API_BASE_URL_USER)
                 .build()
@@ -99,7 +102,7 @@ public class ControllerModule {
     }
 
     @Provides
-    GameService gameService(OkHttpClient client) {
+    public GameService gameService(OkHttpClient client) {
         return new Retrofit
                 .Builder()
                 .client(client)
@@ -110,7 +113,17 @@ public class ControllerModule {
     }
 
     @Provides
-    ChatService stompService() {
+    public ChatService stompService() {
         return new ChatService();
+    }
+
+    @Provides
+    UserViewModel userViewModel(){
+        return new UserViewModel(userService());
+    }
+
+    @Provides
+    ViewModelProvider.Factory userViewModelFactory(UserViewModel viewModel){
+        return new ViewModelProviderFactory<>(viewModel);
     }
 }

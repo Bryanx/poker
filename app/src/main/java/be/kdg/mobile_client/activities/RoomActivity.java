@@ -1,8 +1,6 @@
 package be.kdg.mobile_client.activities;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
@@ -10,7 +8,6 @@ import javax.inject.Inject;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.fragments.ChatFragment;
 import be.kdg.mobile_client.services.SharedPrefService;
@@ -26,7 +23,8 @@ public class RoomActivity extends BaseActivity {
     @BindView(R.id.llFragment) LinearLayout llFragment;
     @Inject FragmentManager fragmentManager;
     @Inject SharedPrefService sharedPrefService;
-    private Fragment chatFragment;
+    private ChatFragment chatFragment;
+    private int roomNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +33,15 @@ public class RoomActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room);
         ButterKnife.bind(this);
-        chatFragment = fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
-        hideFragment(chatFragment); // initially hide the chatfragment
+        initialiseViews();
         handleShowChatButton();
+    }
+
+    private void initialiseViews() {
+        chatFragment = (ChatFragment) fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
+        roomNumber = getIntent().getIntExtra(getString(R.string.room_id), 0);
+        chatFragment.setRoomNumber(roomNumber);
+        hideFragment(chatFragment); // initially hide the chatfragment
     }
 
     private void handleShowChatButton() {

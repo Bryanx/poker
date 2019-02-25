@@ -4,6 +4,8 @@ import be.kdg.gameservice.card.Card;
 import be.kdg.gameservice.card.CardType;
 import be.kdg.gameservice.round.model.Hand;
 import be.kdg.gameservice.round.model.HandType;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,15 @@ public class HandServiceImplTest {
     @Autowired
     HandServiceImpl handService;
 
+    List<Card> cards;
+
+    @Before
+    public void setup() {
+        cards = new ArrayList<>();
+    }
+
     @Test
     public void determineHighCardHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.QUEEN_OF_HEARTS));
         cards.add(new Card(CardType.THREE_OF_CLUBS));
         cards.add(new Card(CardType.TEN_OF_SPADES));
@@ -42,7 +50,6 @@ public class HandServiceImplTest {
 
     @Test
     public void determinePairHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.FOUR_OF_CLUBS));
         cards.add(new Card(CardType.THREE_OF_CLUBS));
         cards.add(new Card(CardType.TEN_OF_SPADES));
@@ -58,7 +65,6 @@ public class HandServiceImplTest {
 
     @Test
     public void determineDoublePairHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.FOUR_OF_CLUBS));
         cards.add(new Card(CardType.SEVEN_OF_SPADES));
         cards.add(new Card(CardType.TEN_OF_SPADES));
@@ -74,7 +80,6 @@ public class HandServiceImplTest {
 
     @Test
     public void determineThreeOfAKindHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.FOUR_OF_CLUBS));
         cards.add(new Card(CardType.TEN_OF_CLUBS));
         cards.add(new Card(CardType.TEN_OF_SPADES));
@@ -90,7 +95,6 @@ public class HandServiceImplTest {
 
     @Test
     public void determineStraightHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.FOUR_OF_CLUBS));
         cards.add(new Card(CardType.SEVEN_OF_HEARTS));
         cards.add(new Card(CardType.EIGHT_OF_HEARTS));
@@ -111,7 +115,6 @@ public class HandServiceImplTest {
      */
     @Test
     public void determineStraightAceToFiveHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.TWO_OF_DIAMONDS));
         cards.add(new Card(CardType.ACE_OF_DIAMONDS));
         cards.add(new Card(CardType.EIGHT_OF_HEARTS));
@@ -128,7 +131,6 @@ public class HandServiceImplTest {
 
     @Test
     public void determineFlushHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.FOUR_OF_CLUBS));
         cards.add(new Card(CardType.SEVEN_OF_HEARTS));
         cards.add(new Card(CardType.EIGHT_OF_CLUBS));
@@ -145,7 +147,6 @@ public class HandServiceImplTest {
 
     @Test
     public void determineFullHouseHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.FOUR_OF_CLUBS)); // 2
         cards.add(new Card(CardType.THREE_OF_CLUBS)); // 1
         cards.add(new Card(CardType.FOUR_OF_DIAMONDS)); // 2
@@ -162,7 +163,6 @@ public class HandServiceImplTest {
 
     @Test
     public void determineFourOfAKindHand() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.QUEEN_OF_HEARTS));
         cards.add(new Card(CardType.QUEEN_OF_DIAMONDS));
         cards.add(new Card(CardType.FOUR_OF_DIAMONDS));
@@ -180,7 +180,6 @@ public class HandServiceImplTest {
 
     @Test
     public void determineStraightFlush() {
-        List<Card> cards = new ArrayList<>();
         cards.add(new Card(CardType.QUEEN_OF_HEARTS));
         cards.add(new Card(CardType.KING_OF_HEARTS));
         cards.add(new Card(CardType.FOUR_OF_DIAMONDS));

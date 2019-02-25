@@ -9,14 +9,14 @@ import org.springframework.stereotype.Controller;
 
 @Controller
 @RequiredArgsConstructor
-public class ChatController {
+public class ChatSocketController {
     private final SimpMessagingTemplate template;
 
     /**
      * If a player sends a chat message to a room, it is received here.
      * The message is then send to all players in the same room.
      */
-    @MessageMapping("/chatroom/send/{roomId}")
+    @MessageMapping("/chatrooms/{roomId}/send")
     public void onReceiveMessage(MessageDTO message, @DestinationVariable("roomId") String roomId) {
         this.template.convertAndSend("/chatroom/receive/" + roomId, message);
     }

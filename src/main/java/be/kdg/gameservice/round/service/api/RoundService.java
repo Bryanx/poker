@@ -7,6 +7,7 @@ import be.kdg.gameservice.round.model.Phase;
 import be.kdg.gameservice.round.model.Round;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface RoundService {
     void saveAct(int roundId, String userId, ActType type, Phase phase, int bet) throws RoundException;
@@ -16,4 +17,12 @@ public interface RoundService {
     Round startNewRound(List<Player> playersForRound, int button);
 
     Player determineWinner(int roundId) throws RoundException;
+
+    List<Round> getRounds();
+
+    String determineNextUserId(int roundId, String userId) throws RoundException;
+
+    Optional<Player> checkEndOfRound(int roundId) throws RoundException;
+
+    Player distributeCoins(int roundId, Player player) throws RoundException ;
 }

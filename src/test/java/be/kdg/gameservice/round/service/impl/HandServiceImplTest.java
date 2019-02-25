@@ -26,22 +26,26 @@ public class HandServiceImplTest {
     @Autowired
     HandServiceImpl handService;
 
-    List<Card> cards;
+    private List<Card> cards;
 
     @Before
     public void setup() {
         cards = new ArrayList<>();
     }
 
+    private void addCard(CardType cardType) {
+        this.cards.add(new Card(cardType));
+    }
+
     @Test
     public void determineHighCardHand() {
-        cards.add(new Card(CardType.QUEEN_OF_HEARTS));
-        cards.add(new Card(CardType.THREE_OF_CLUBS));
-        cards.add(new Card(CardType.TEN_OF_SPADES));
-        cards.add(new Card(CardType.EIGHT_OF_DIAMONDS));
-        cards.add(new Card(CardType.FIVE_OF_SPADES));
-        cards.add(new Card(CardType.KING_OF_CLUBS));
-        cards.add(new Card(CardType.SEVEN_OF_HEARTS));
+        addCard(CardType.QUEEN_OF_HEARTS);
+        addCard(CardType.THREE_OF_CLUBS);
+        addCard(CardType.TEN_OF_SPADES);
+        addCard(CardType.EIGHT_OF_DIAMONDS);
+        addCard(CardType.FIVE_OF_SPADES);
+        addCard(CardType.KING_OF_CLUBS);
+        addCard(CardType.SEVEN_OF_HEARTS);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.HIGH_CARD);
@@ -50,13 +54,13 @@ public class HandServiceImplTest {
 
     @Test
     public void determinePairHand() {
-        cards.add(new Card(CardType.FOUR_OF_CLUBS));
-        cards.add(new Card(CardType.THREE_OF_CLUBS));
-        cards.add(new Card(CardType.TEN_OF_SPADES));
-        cards.add(new Card(CardType.EIGHT_OF_DIAMONDS));
-        cards.add(new Card(CardType.KING_OF_DIAMONDS));
-        cards.add(new Card(CardType.TEN_OF_SPADES));
-        cards.add(new Card(CardType.SEVEN_OF_HEARTS));
+        addCard(CardType.FOUR_OF_CLUBS);
+        addCard(CardType.THREE_OF_CLUBS);
+        addCard(CardType.TEN_OF_SPADES);
+        addCard(CardType.EIGHT_OF_DIAMONDS);
+        addCard(CardType.KING_OF_DIAMONDS);
+        addCard(CardType.TEN_OF_SPADES);
+        addCard(CardType.SEVEN_OF_HEARTS);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.PAIR);
@@ -65,13 +69,13 @@ public class HandServiceImplTest {
 
     @Test
     public void determineDoublePairHand() {
-        cards.add(new Card(CardType.FOUR_OF_CLUBS));
-        cards.add(new Card(CardType.SEVEN_OF_SPADES));
-        cards.add(new Card(CardType.TEN_OF_SPADES));
-        cards.add(new Card(CardType.EIGHT_OF_DIAMONDS));
-        cards.add(new Card(CardType.KING_OF_DIAMONDS));
-        cards.add(new Card(CardType.TEN_OF_SPADES));
-        cards.add(new Card(CardType.SEVEN_OF_HEARTS));
+        addCard(CardType.FOUR_OF_CLUBS);
+        addCard(CardType.SEVEN_OF_SPADES);
+        addCard(CardType.TEN_OF_SPADES);
+        addCard(CardType.EIGHT_OF_DIAMONDS);
+        addCard(CardType.KING_OF_DIAMONDS);
+        addCard(CardType.TEN_OF_SPADES);
+        addCard(CardType.SEVEN_OF_HEARTS);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.TWO_PAIR);
@@ -80,13 +84,13 @@ public class HandServiceImplTest {
 
     @Test
     public void determineThreeOfAKindHand() {
-        cards.add(new Card(CardType.FOUR_OF_CLUBS));
-        cards.add(new Card(CardType.TEN_OF_CLUBS));
-        cards.add(new Card(CardType.TEN_OF_SPADES));
-        cards.add(new Card(CardType.EIGHT_OF_DIAMONDS));
-        cards.add(new Card(CardType.KING_OF_DIAMONDS));
-        cards.add(new Card(CardType.TEN_OF_HEARTS));
-        cards.add(new Card(CardType.SEVEN_OF_HEARTS));
+        addCard(CardType.FOUR_OF_CLUBS);
+        addCard(CardType.TEN_OF_CLUBS);
+        addCard(CardType.TEN_OF_SPADES);
+        addCard(CardType.EIGHT_OF_DIAMONDS);
+        addCard(CardType.KING_OF_DIAMONDS);
+        addCard(CardType.TEN_OF_HEARTS);
+        addCard(CardType.SEVEN_OF_HEARTS);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.THREE_OF_A_KIND);
@@ -95,14 +99,13 @@ public class HandServiceImplTest {
 
     @Test
     public void determineStraightHand() {
-        cards.add(new Card(CardType.FOUR_OF_CLUBS));
-        cards.add(new Card(CardType.SEVEN_OF_HEARTS));
-        cards.add(new Card(CardType.EIGHT_OF_HEARTS));
-        cards.add(new Card(CardType.FIVE_OF_DIAMONDS));
-        cards.add(new Card(CardType.SIX_OF_DIAMONDS));
-        cards.add(new Card(CardType.KING_OF_DIAMONDS));
-        cards.add(new Card(CardType.TEN_OF_HEARTS));
-
+        addCard(CardType.FOUR_OF_CLUBS);
+        addCard(CardType.SEVEN_OF_HEARTS);
+        addCard(CardType.EIGHT_OF_HEARTS);
+        addCard(CardType.FIVE_OF_DIAMONDS);
+        addCard(CardType.SIX_OF_DIAMONDS);
+        addCard(CardType.KING_OF_DIAMONDS);
+        addCard(CardType.TEN_OF_HEARTS);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.STRAIGHT);
@@ -115,14 +118,13 @@ public class HandServiceImplTest {
      */
     @Test
     public void determineStraightAceToFiveHand() {
-        cards.add(new Card(CardType.TWO_OF_DIAMONDS));
-        cards.add(new Card(CardType.ACE_OF_DIAMONDS));
-        cards.add(new Card(CardType.EIGHT_OF_HEARTS));
-        cards.add(new Card(CardType.FOUR_OF_DIAMONDS));
-        cards.add(new Card(CardType.SIX_OF_DIAMONDS));
-        cards.add(new Card(CardType.THREE_OF_CLUBS));
-        cards.add(new Card(CardType.FIVE_OF_CLUBS));
-
+        addCard(CardType.TWO_OF_DIAMONDS);
+        addCard(CardType.ACE_OF_DIAMONDS);
+        addCard(CardType.EIGHT_OF_HEARTS);
+        addCard(CardType.FOUR_OF_DIAMONDS);
+        addCard(CardType.SIX_OF_DIAMONDS);
+        addCard(CardType.THREE_OF_CLUBS);
+        addCard(CardType.FIVE_OF_CLUBS);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.STRAIGHT);
@@ -131,14 +133,13 @@ public class HandServiceImplTest {
 
     @Test
     public void determineFlushHand() {
-        cards.add(new Card(CardType.FOUR_OF_CLUBS));
-        cards.add(new Card(CardType.SEVEN_OF_HEARTS));
-        cards.add(new Card(CardType.EIGHT_OF_CLUBS));
-        cards.add(new Card(CardType.FIVE_OF_CLUBS));
-        cards.add(new Card(CardType.SIX_OF_DIAMONDS));
-        cards.add(new Card(CardType.KING_OF_CLUBS));
-        cards.add(new Card(CardType.TEN_OF_CLUBS));
-
+        addCard(CardType.FOUR_OF_CLUBS);
+        addCard(CardType.SEVEN_OF_HEARTS);
+        addCard(CardType.EIGHT_OF_CLUBS);
+        addCard(CardType.FIVE_OF_CLUBS);
+        addCard(CardType.SIX_OF_DIAMONDS);
+        addCard(CardType.KING_OF_CLUBS);
+        addCard(CardType.TEN_OF_CLUBS);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.FLUSH);
@@ -147,14 +148,13 @@ public class HandServiceImplTest {
 
     @Test
     public void determineFullHouseHand() {
-        cards.add(new Card(CardType.FOUR_OF_CLUBS)); // 2
-        cards.add(new Card(CardType.THREE_OF_CLUBS)); // 1
-        cards.add(new Card(CardType.FOUR_OF_DIAMONDS)); // 2
-        cards.add(new Card(CardType.THREE_OF_SPADES)); // 1
-        cards.add(new Card(CardType.TWO_OF_CLUBS)); // 0
-        cards.add(new Card(CardType.FOUR_OF_SPADES)); // 2
-        cards.add(new Card(CardType.TWO_OF_HEARTS)); // 0
-
+        addCard(CardType.FOUR_OF_CLUBS); // 2
+        addCard(CardType.THREE_OF_CLUBS); // 1
+        addCard(CardType.FOUR_OF_DIAMONDS); // 2
+        addCard(CardType.THREE_OF_SPADES); // 1
+        addCard(CardType.TWO_OF_CLUBS); // 0
+        addCard(CardType.FOUR_OF_SPADES); // 2
+        addCard(CardType.TWO_OF_HEARTS); // 0
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.FULL_HOUSE);
@@ -163,14 +163,13 @@ public class HandServiceImplTest {
 
     @Test
     public void determineFourOfAKindHand() {
-        cards.add(new Card(CardType.QUEEN_OF_HEARTS));
-        cards.add(new Card(CardType.QUEEN_OF_DIAMONDS));
-        cards.add(new Card(CardType.FOUR_OF_DIAMONDS));
-        cards.add(new Card(CardType.THREE_OF_CLUBS));
-        cards.add(new Card(CardType.QUEEN_OF_CLUBS));
-        cards.add(new Card(CardType.ACE_OF_SPADES));
-        cards.add(new Card(CardType.QUEEN_OF_SPADES));
-
+        addCard(CardType.QUEEN_OF_HEARTS);
+        addCard(CardType.QUEEN_OF_DIAMONDS);
+        addCard(CardType.FOUR_OF_DIAMONDS);
+        addCard(CardType.THREE_OF_CLUBS);
+        addCard(CardType.QUEEN_OF_CLUBS);
+        addCard(CardType.ACE_OF_SPADES);
+        addCard(CardType.QUEEN_OF_SPADES);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.FOUR_OF_A_KIND);
@@ -180,14 +179,13 @@ public class HandServiceImplTest {
 
     @Test
     public void determineStraightFlush() {
-        cards.add(new Card(CardType.QUEEN_OF_HEARTS));
-        cards.add(new Card(CardType.KING_OF_HEARTS));
-        cards.add(new Card(CardType.FOUR_OF_DIAMONDS));
-        cards.add(new Card(CardType.ACE_OF_HEARTS));
-        cards.add(new Card(CardType.TEN_OF_HEARTS));
-        cards.add(new Card(CardType.FOUR_OF_SPADES));
-        cards.add(new Card(CardType.JACK_OF_HEARTS));
-
+        addCard(CardType.QUEEN_OF_HEARTS);
+        addCard(CardType.KING_OF_HEARTS);
+        addCard(CardType.FOUR_OF_DIAMONDS);
+        addCard(CardType.ACE_OF_HEARTS);
+        addCard(CardType.TEN_OF_HEARTS);
+        addCard(CardType.FOUR_OF_SPADES);
+        addCard(CardType.JACK_OF_HEARTS);
 
         Hand hand = handService.determineBestPossibleHand(cards);
         assertEquals(hand.getHandType(), HandType.STRAIGHT_FLUSH);

@@ -30,6 +30,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   possibleActs: ActType[];
   bettedChipsThisFase = 0;
   @Output() actEvent: EventEmitter<Act> = new EventEmitter<Act>();
+  canAct = true;
 
   constructor(private roundService: RoundService, private websocketService: RxStompService,
               private authorizationService: AuthorizationService) {
@@ -78,26 +79,30 @@ export class ActionbarComponent implements OnInit, OnDestroy {
    */
   playAct(actType: ActType) {
     // console.log(actType);
-    const act: Act = new Act();
-    act.roundId = this._round.id;
-    act.type = actType;
-    act.phase = this._round.currentPhase;
-    act.playerId = this.player.id;
-    act.userId = this.player.userId;
-    act.roomId = this.room.id;
+    if (this.canAct) {
+      this.canAct = false;
+      const act: Act = new Act();
+      act.roundId = this._round.id;
+      act.type = actType;
+      act.phase = this._round.currentPhase;
+      act.playerId = this.player.id;
+      act.userId = this.player.userId;
+      act.roomId = this.room.id;
 
-    if (act.type === 'BET' || act.type === 'RAISE' || act.type === 'CALL') {
-      act.bet = this.sliderValue - this.bettedChipsThisFase;
-      this.bettedChipsThisFase = this.bettedChipsThisFase + this.sliderValue;
-    } else {
-      act.bet = 0;
+      if (act.type === 'BET' || act.type === 'RAISE' || act.type === 'CALL') {
+        act.bet = this.sliderValue - this.bettedChipsThisFase;
+        this.bettedChipsThisFase = this.bettedChipsThisFase + this.sliderValue;
+      } else {
+        act.bet = 0;
+      }
+      act.totalBet = this.sliderValue;
+
+      this.roundService.addAct(act).subscribe(() => {
+      }, error => {
+        console.log(error.error.message);
+      });
+      setTimeout(() => this.canAct = true, 3000);
     }
-    act.totalBet = this.sliderValue;
-
-    this.roundService.addAct(act).subscribe(() => {
-    }, error => {
-      console.log(error.error.message);
-    });
   }
 
   isActPossible(acttype: ActType) {

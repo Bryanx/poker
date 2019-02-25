@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, of} from 'rxjs';
 import {User} from '../model/user';
 import {catchError} from 'rxjs/operators';
-import {AuthResult} from '../model/authResult';
+import {Auth} from '../model/auth';
 
 /**
  * This service is used to make API calls to the user micro service backend.
@@ -56,8 +56,8 @@ export class UserService {
    *
    * @param user The newly registered user.
    */
-  addUser(user: User): Observable<AuthResult> {
-    return this.http.post<AuthResult>(this.url, user);
+  addUser(user: User): Observable<Auth> {
+    return this.http.post<Auth>(this.url, user);
   }
 
   /**
@@ -65,8 +65,8 @@ export class UserService {
    *
    * @param user The user that needs to be changed.
    */
-  changeUser(user: User): Observable<AuthResult> {
-    return this.http.put<AuthResult>(this.url, user);
+  changeUser(user: User): Observable<Auth> {
+    return this.http.put<Auth>(this.url, user);
   }
 
   /**
@@ -74,7 +74,7 @@ export class UserService {
    *
    * @param user The user with the new password.
    */
-  changePassword(user: any): Observable<AuthResult> {
+  changePassword(user: any): Observable<Auth> {
     return this.http.patch<any>(this.url, user);
   }
 }

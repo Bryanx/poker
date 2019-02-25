@@ -28,6 +28,7 @@
   "FIRSTNAMEREQUIRED": "Voornaam is vereist",
   "LASTNAMEREQUIRED": "Achternaam is vereist",
   "ROOMSOVERVIEWTITLE": "Kies een tafel",
+  "BROTURN": "Het is je bro zijn beurt, bro",
   "SEARCH_USERS": "Zoek gebruikers",
   "NO_FRIENDS": "Je hebt geen bros :(",
   "USERS": "Gebruiks",
@@ -49,5 +50,6 @@
   "RANK": "rang",
   "WON": "gewonnen",
   "LOST": "verloren",
-  "UNKNOWN": "onbekend"
+  "UNKNOWN": "onbekend",
+  "WAITINGFORPLAYERS": "Wachten op spelers.."
 }

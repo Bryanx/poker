@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
-import {AuthResult} from '../model/authResult';
+import {Auth} from '../model/auth';
 import {Observable} from 'rxjs';
 import {User} from '../model/user';
 import {JwtHelperService} from '@auth0/angular-jwt';
@@ -10,22 +10,24 @@ import {JwtHelperService} from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthorizationService {
-  socialUrl = 'http://localhost:5000/api/sociallogin';
-  // socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
-  helper: JwtHelperService = new JwtHelperService();
+  // socialUrl = 'http://localhost:5000/api/sociallogin';
+  socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
+  // tokenUrl = 'http://localhost:5000/oauth/token';
+  tokenUrl = 'https://poker-user-service.herokuapp.com/oauth/token';
+    helper: JwtHelperService = new JwtHelperService();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
-  login(loginPayload): Observable<AuthResult> {
+  login(loginPayload): Observable<Auth> {
     const headers = {
       'Authorization': 'Basic ' + btoa('my-trusted-client:secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     };
-    // return this.http.post<AuthResult>('https://poker-user-service.herokuapp.com/oauth/token', loginPayload, {headers});
-    return this.http.post<AuthResult>('http://localhost:5000/oauth/token', loginPayload, {headers});
+    return this.http.post<Auth>(this.tokenUrl, loginPayload, {headers});
   }
 
-  setSession(authResult: AuthResult) {
+  setSession(authResult: Auth) {
     const expiresAt = moment().add(authResult.expires_in, 'second');
 
     localStorage.setItem('jwt_token', authResult.access_token);
@@ -53,7 +55,7 @@ export class AuthorizationService {
   }
 
   socialLogin(user: User) {
-    return this.http.post<AuthResult>(this.socialUrl, user);
+    return this.http.post<Auth>(this.socialUrl, user);
   }
 
   getUsername() {
@@ -70,5 +72,11 @@ export class AuthorizationService {
       userId = this.helper.decodeToken(localStorage.getItem('jwt_token')).uuid;
     }
     return userId;
+  }
+
+  getJwtToken() {
+    if (localStorage.getItem('jwt_token')) {
+      return localStorage.getItem('jwt_token');
+    }
   }
 }

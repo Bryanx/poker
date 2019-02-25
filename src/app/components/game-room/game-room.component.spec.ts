@@ -10,6 +10,8 @@ import {CardComponent} from '../card/card.component';
 import {MatSlider} from '@angular/material';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
+import {TranslatePipe} from '../../translate.pipe';
+import {RxStompService} from '@stomp/ng2-stompjs';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -24,13 +26,15 @@ describe('GameRoomComponent', () => {
         GameTableComponent,
         ActionbarComponent,
         CardComponent,
-        MatSlider
+        MatSlider,
+        TranslatePipe
       ],
       imports: [
         FormsModule,
         HttpClientTestingModule,
-        RouterTestingModule
-      ]
+        RouterTestingModule,
+      ],
+      providers: [RxStompService]
     })
       .compileComponents();
   }));

@@ -27,16 +27,6 @@ public interface RoomService {
 
     Room getRoom(int roomId) throws RoomException;
 
-    PrivateRoom getPrivateRoom(int roomId, String userId) throws RoomException;
-
-    List<PrivateRoom> getPrivateRooms(String userId);
-
-    PrivateRoom addPrivateRoom(String userId, String name);
-
-    void addUserToWhiteList(int roomId, String userId) throws RoomException;
-
-    void removeUserFromWhiteList(int roomId, String userId) throws RoomException;
-
     Room getRoomByName(String roomName);
 
     Room addRoom(String name, GameRules gameRules);

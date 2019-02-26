@@ -137,19 +137,6 @@ public class RoomServiceImpl implements RoomService {
         return playerOpt.get();
     }
 
-    /**
-     * Gives back all the private rooms that the user is owner or whitelisted for.
-     */
-    @Override
-    public List<PrivateRoom> getPrivateRooms(String userId) {
-       return getRooms().stream()
-                .filter(PrivateRoom.class::isInstance)
-                .map(PrivateRoom.class::cast)
-                .filter(room -> room.getWhiteListedPlayers().stream()
-                        .anyMatch(p -> p.getUserId().equals(userId)))
-                .collect(Collectors.toList());
-    }
-
     @Override
     public Player savePlayer(Player player) {
         return playerRepository.save(player);
@@ -221,62 +208,6 @@ public class RoomServiceImpl implements RoomService {
     public Room getRoom(int roomId) throws RoomException {
         return roomRepository.findById(roomId)
                 .orElseThrow(() -> new RoomException(RoomServiceImpl.class, "The room was not found in the database."));
-    }
-
-    @Override
-    public PrivateRoom getPrivateRoom(int roomId, String userId) throws RoomException {
-        //Get data
-        PrivateRoom room = (PrivateRoom) getRoom(roomId);
-
-        //Do check
-        room.getWhiteListedPlayers().stream()
-                .filter(p -> p.getUserId().equals(userId))
-                .findAny()
-                .orElseThrow(() -> new RoomException(RoomServiceImpl.class, "user with userId " + userId + " was not found on the whitelist"));
-
-        return room;
-    }
-
-    @Override
-    public PrivateRoom addPrivateRoom(String userId, String name) {
-        //Make room
-        PrivateRoom room = new PrivateRoom(name, userId);
-
-        //update database
-        roomRepository.save(room);
-        return room;
-    }
-
-    @Override
-    public void addUserToWhiteList(int roomId, String userId) throws RoomException {
-        //Get data
-        PrivateRoom room = (PrivateRoom) getRoom(roomId);
-
-        //Do check
-        Optional<WhiteListedUser> whiteListedPlayerOpt = room.getWhiteListedPlayers().stream()
-                .filter(p -> p.getUserId().equals(userId))
-                .findAny();
-
-        if (whiteListedPlayerOpt.isPresent())
-            throw new RoomException(RoomServiceImpl.class, "User with id " + userId + " was already whitelisted");
-        if (room.getWhiteListedPlayers().size() + 1 > 6)
-            throw new RoomException(RoomServiceImpl.class, "The private room with id " + room.getId() + " is full!");
-
-        //update database
-        room.addWhiteListedPlayer(new WhiteListedUser(userId));
-        roomRepository.save(room);
-    }
-
-    @Override
-    public void removeUserFromWhiteList(int roomId, String userId) throws RoomException {
-        //Get data
-        PrivateRoom room = (PrivateRoom) getRoom(roomId);
-        Optional<WhiteListedUser> userOpt = room.getWhiteListedPlayers().stream()
-                .filter(u -> u.getUserId().equals(userId))
-                .findAny();
-
-        //Update database
-        userOpt.ifPresent(whiteListedPlayerRepository::delete);
     }
 
     /**

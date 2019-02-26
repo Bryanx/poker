@@ -2,7 +2,6 @@ package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.*;
-import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.persistence.WhiteListedPlayerRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
@@ -16,8 +15,6 @@ import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * This service will be used to manage the ongoing activity of a specific room.

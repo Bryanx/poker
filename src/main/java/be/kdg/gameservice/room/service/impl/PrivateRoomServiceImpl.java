@@ -3,14 +3,9 @@ package be.kdg.gameservice.room.service.impl;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.PrivateRoom;
 import be.kdg.gameservice.room.model.WhiteListedUser;
-import be.kdg.gameservice.room.persistence.PlayerRepository;
-import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.persistence.WhiteListedPlayerRepository;
 import be.kdg.gameservice.room.service.api.PrivateRoomService;
-import be.kdg.gameservice.room.service.api.RoomService;
-import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -22,11 +17,8 @@ import java.util.stream.Collectors;
 @Transactional
 @Service
 public class PrivateRoomServiceImpl implements PrivateRoomService{
-    private final PlayerRepository playerRepository;
-    private final RoomRepository roomRepository;
     private final WhiteListedPlayerRepository whiteListedPlayerRepository;
-    private final RoundService roundService;
-    private final RoomService roomService;
+    private final RoomServiceImpl roomService;
 
     @Override
     public PrivateRoom getPrivateRoom(int roomId, String userId) throws RoomException {
@@ -48,7 +40,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
         PrivateRoom room = new PrivateRoom(name, userId);
 
         //update database
-        roomRepository.save(room);
+        roomService.saveRoom(room);
         return room;
     }
 
@@ -69,7 +61,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
 
         //update database
         room.addWhiteListedPlayer(new WhiteListedUser(userId));
-        roomRepository.save(room);
+        roomService.saveRoom(room);
     }
 
     @Override

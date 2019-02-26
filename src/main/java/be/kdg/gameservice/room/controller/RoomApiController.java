@@ -10,9 +10,9 @@ import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.controller.dto.RoundDTO;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Round;
-import be.kdg.gameservice.shared.AuthDTO;
-import lombok.RequiredArgsConstructor;
+import be.kdg.gameservice.shared.config.WebConfig;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -30,17 +30,29 @@ import java.util.Map;
 /**
  * This API is used for managing all the rooms.
  */
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class RoomApiController {
     private static final String ID_KEY = "uuid";
+    private final String USER_SERVICE_URL;
+
     private final ResourceServerTokenServices resourceTokenServices;
     private final ModelMapper modelMapper;
     private final RoomService roomService;
     private final SimpMessagingTemplate template;
-    private final String LOCALUSERURL = "http://localhost:5000/api/user";
-    private final String USERURL = "https://poker-user-service.herokuapp.com/api/user";
+
+    @Autowired
+    public RoomApiController(ResourceServerTokenServices resourceTokenServices,
+                             ModelMapper modelMapper,
+                             RoomService roomService,
+                             SimpMessagingTemplate template,
+                             WebConfig webConfig) {
+        this.resourceTokenServices = resourceTokenServices;
+        this.modelMapper = modelMapper;
+        this.roomService = roomService;
+        this.template = template;
+        this.USER_SERVICE_URL = webConfig.getUserServiceUrl();
+    }
 
     /**
      * @return Status code 200 with all the rooms from the database.
@@ -203,7 +215,7 @@ public class RoomApiController {
         headers.setBearerAuth(token);
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
-        return restTemplate.exchange(USERURL, HttpMethod.GET, entity, UserDto.class).getBody();
+        return restTemplate.exchange(USER_SERVICE_URL, HttpMethod.GET, entity, UserDto.class).getBody();
     }
 
     private UserDto updateUser(String token, UserDto userDto) {
@@ -213,6 +225,6 @@ public class RoomApiController {
         headers.setBearerAuth(token);
         HttpEntity<UserDto> entity = new HttpEntity<>(userDto, headers);
 
-        return restTemplate.exchange(USERURL, HttpMethod.PUT, entity, UserDto.class).getBody();
+        return restTemplate.exchange(USER_SERVICE_URL, HttpMethod.PUT, entity, UserDto.class).getBody();
     }
 }

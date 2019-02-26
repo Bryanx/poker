@@ -14,7 +14,9 @@ export class RankingsComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getUsers().subscribe(users => this.users = users);
+    this.userService.getUsers().subscribe(users => {
+      this.users = users.sort((o1, o2) => o2.chips - o1.chips);
+    });
   }
 
 }

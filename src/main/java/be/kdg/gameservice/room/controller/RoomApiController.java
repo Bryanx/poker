@@ -6,6 +6,7 @@ import be.kdg.gameservice.room.controller.dto.UserDto;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
+import be.kdg.gameservice.room.service.api.PlayerService;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.controller.dto.RoundDTO;
 import be.kdg.gameservice.round.exception.RoundException;
@@ -39,6 +40,7 @@ public class RoomApiController {
     private final ResourceServerTokenServices resourceTokenServices;
     private final ModelMapper modelMapper;
     private final RoomService roomService;
+    private final PlayerService playerService;
     private final SimpMessagingTemplate template;
 
     @Autowired
@@ -46,12 +48,14 @@ public class RoomApiController {
                              ModelMapper modelMapper,
                              RoomService roomService,
                              SimpMessagingTemplate template,
-                             WebConfig webConfig) {
+                             WebConfig webConfig,
+                             PlayerService playerService) {
         this.resourceTokenServices = resourceTokenServices;
         this.modelMapper = modelMapper;
         this.roomService = roomService;
         this.template = template;
         this.USER_SERVICE_URL = webConfig.getUserServiceUrl();
+        this.playerService = playerService;
     }
 
     /**
@@ -125,7 +129,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @DeleteMapping("/rooms/{roomId}/leave-room")
     public ResponseEntity<PlayerDTO> leaveRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException, RoundException {
-        Player player = roomService.leaveRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
+        Player player = playerService.leaveRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
 
         roomService.enoughRoundPlayers(roomId);
 
@@ -146,7 +150,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PutMapping("/rooms/players")
     public ResponseEntity<PlayerDTO> changePlayer(@RequestBody @Valid PlayerDTO playerDTO) {
-        Player playerIn = roomService.savePlayer(modelMapper.map(playerDTO, Player.class));
+        Player playerIn = playerService.savePlayer(modelMapper.map(playerDTO, Player.class));
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
         return new ResponseEntity<>(playerOut, HttpStatus.ACCEPTED);
     }
@@ -154,7 +158,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/rooms/players")
     public ResponseEntity<PlayerDTO> getPlayer(OAuth2Authentication authentication) {
-        Player playerIn = roomService.getPlayer(getUserInfo(authentication).get(ID_KEY).toString());
+        Player playerIn = playerService.getPlayer(getUserInfo(authentication).get(ID_KEY).toString());
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
         return new ResponseEntity<>(playerOut, HttpStatus.OK);
     }
@@ -172,7 +176,7 @@ public class RoomApiController {
         UserDto userDto = getUser(token);
         userDto.setChips(userDto.getChips() - roomService.checkChips(roomId, userDto.getChips()));
         if (updateUser(token, userDto) != null) {
-            Player playerIn = roomService.joinRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
+            Player playerIn = playerService.joinRoom(roomId, getUserInfo(authentication).get(ID_KEY).toString());
             PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
             Room roomIn = roomService.getRoom(roomId);
             RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);

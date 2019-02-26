@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 @Transactional
 @Service
 public class RoomServiceImpl implements RoomService {
-    private final PlayerRepository playerRepository;
     private final RoomRepository roomRepository;
     private final WhiteListedPlayerRepository whiteListedPlayerRepository;
     private final RoundService roundService;
@@ -77,65 +76,7 @@ public class RoomServiceImpl implements RoomService {
         return roomRepository.getRoomByName(roomName);
     }
 
-    /**
-     * Adds a player to a room.
-     *
-     * @param roomId The id of the room the player needs to be added to
-     * @param userId The id of the user.
-     * @return The newly created player.
-     * @throws RoomException Thrown if the maximum capacity for the room is reached.
-     * @see Player for extra information about player constructor
-     * @see Room for extra information about helper methods.
-     */
-    @Override
-    public Player joinRoom(int roomId, String userId) throws RoomException {
-        //Get room
-        Room room = getRoom(roomId);
 
-        //Determine if room is full
-        if (room.getPlayersInRoom().size() > room.getGameRules().getMaxPlayerCount())
-            throw new RoomException(RoomServiceImpl.class, "Maximum player capacity is reached.");
-
-        //Add player to room
-        Player player = new Player(room.getGameRules().getStartingChips(), userId, room.getFirstEmptySeat());
-        player = playerRepository.save(player);
-        room.addPlayer(player);
-        saveRoom(room);
-        return player;
-    }
-
-    /**
-     * Removes the player form the room and the current round.
-     *
-     * @param roomId The id of the room were the players needs to be removed from
-     * @param userId The id of the player we want to delete.
-     * @throws RoomException Thrown if the player was not found in the room.
-     */
-    @Override
-    public Player leaveRoom(int roomId, String userId) throws RoomException, RoundException {
-        //Get data
-        Room room = getRoom(roomId);
-        Optional<Player> playerOpt = room.getPlayersInRoom().stream()
-                .filter(player -> player.getUserId().equals(userId))
-                .findAny();
-
-        //Check optional player
-        if (!playerOpt.isPresent())
-            throw new RoomException(RoomServiceImpl.class, "Player was not in the room.");
-
-        //Removes player from current round
-        if (room.getRounds().size() > 0) {
-            if (!room.getCurrentRound().isFinished() && room.getCurrentRound().getPlayersInRound().contains(playerOpt.get())) {
-                room.getCurrentRound().removePlayer(playerOpt.get());
-            }
-        }
-
-        //Remove player from the room
-        room.removePlayer(playerOpt.get());
-        saveRoom(room);
-        playerRepository.delete(playerOpt.get());
-        return playerOpt.get();
-    }
 
     /**
      * Gives back all the private rooms that the user is owner or whitelisted for.
@@ -148,16 +89,6 @@ public class RoomServiceImpl implements RoomService {
                 .filter(room -> room.getWhiteListedPlayers().stream()
                         .anyMatch(p -> p.getUserId().equals(userId)))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public Player savePlayer(Player player) {
-        return playerRepository.save(player);
-    }
-
-    @Override
-    public Player getPlayer(String userId) {
-        return playerRepository.getByUserId(userId);
     }
 
     /**
@@ -332,7 +263,7 @@ public class RoomServiceImpl implements RoomService {
     /**
      * @param room The room that needs to be updated or saved.
      */
-    private Room saveRoom(Room room) {
+    public Room saveRoom(Room room) {
         return roomRepository.save(room);
     }
 

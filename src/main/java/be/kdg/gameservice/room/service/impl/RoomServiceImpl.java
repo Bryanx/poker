@@ -16,6 +16,9 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
+
 /**
  * This service will be used to manage the ongoing activity of a specific room.
  * It will also take care of the CRUD operations with its persistence dependency.
@@ -104,7 +107,9 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<Room> getRooms() {
-        return Collections.unmodifiableList(roomRepository.findAll());
+        return roomRepository.findAll().stream()
+                .filter(room -> room.getClass().getSimpleName().equalsIgnoreCase(Room.class.getSimpleName()))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     /**

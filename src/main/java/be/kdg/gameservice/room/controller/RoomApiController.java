@@ -147,6 +147,12 @@ public class RoomApiController {
         return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
     }
 
+    /**
+     *
+     *
+     * @param playerDTO The player DTO that
+     * @return status code 202 if the player was successfully updated in the database.
+     */
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PutMapping("/rooms/players")
     public ResponseEntity<PlayerDTO> changePlayer(@RequestBody @Valid PlayerDTO playerDTO) {

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Getter
 public class WebConfig {
-    @Value("userservice_url")
+    @Value("${userservice.url}")
     private String userServiceUrl;
 
     @Bean

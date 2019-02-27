@@ -13,7 +13,7 @@ public interface RoomService {
 
     Round getCurrentRound(int roomId) throws RoomException;
 
-    List<Room> getRooms();
+    <T extends Room> List<Room> getRooms(Class<T> aClass);
 
     Room getRoom(int roomId) throws RoomException;
 

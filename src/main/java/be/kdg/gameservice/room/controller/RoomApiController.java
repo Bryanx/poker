@@ -64,7 +64,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/rooms")
     public ResponseEntity<RoomDTO[]> getRooms() {
-        List<Room> roomsIn = roomService.getRooms();
+        List<Room> roomsIn = roomService.getRooms(Room.class);
         RoomDTO[] roomsOut = modelMapper.map(roomsIn, RoomDTO[].class);
         return new ResponseEntity<>(roomsOut, HttpStatus.OK);
     }

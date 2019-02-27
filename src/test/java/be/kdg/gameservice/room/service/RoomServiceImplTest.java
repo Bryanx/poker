@@ -2,6 +2,7 @@ package be.kdg.gameservice.room.service;
 
 import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.PlayerService;
 import be.kdg.gameservice.room.service.api.RoomService;
@@ -36,7 +37,7 @@ public class RoomServiceImplTest extends UtilTesting {
 
     @Test
     public void getRooms() {
-        assertEquals(3, roomService.getRooms().size());
+        assertEquals(3, roomService.getRooms(Room.class).size());
     }
 
     @Test(expected = RoomException.class)

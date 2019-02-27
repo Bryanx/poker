@@ -54,22 +54,13 @@ public class RoomServiceImpl implements RoomService {
         whiteListedPlayerRepository.delete(whiteListedPlayer1);
     }
 
-    /**
-     * Creates a new room based on room object passed to roomRepository save method
-     *
-     * @param room
-     * @return
-     */
-    public Room addRoom(Room room) {
-        return roomRepository.save(room);
-    }
-
+    //TODO: remove this method and user id's instead.
     /**
      * Returns room based on roomName
      * Carefull, roomname should be unique.
      *
-     * @param roomName
-     * @return
+     * @param roomName The name of the room we need to search for.
+     * @return The room
      */
     @Override
     public Room getRoomByName(String roomName) {
@@ -106,9 +97,9 @@ public class RoomServiceImpl implements RoomService {
      * @return An unmodifiable collection of all the rooms from the database.
      */
     @Override
-    public List<Room> getRooms() {
+    public <T extends Room> List<Room> getRooms(Class<T> aClass) {
         return roomRepository.findAll().stream()
-                .filter(room -> room.getClass().getSimpleName().equalsIgnoreCase(Room.class.getSimpleName()))
+                .filter(room -> room.getClass().getSimpleName().equals(aClass.getSimpleName()))
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 

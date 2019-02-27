@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+/**
+ * This service is used for everything that has something to do with players.
+ */
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -35,7 +38,7 @@ public class PlayerServiceImpl implements PlayerService {
 
         //Determine if room is full
         if (room.getPlayersInRoom().size() > room.getGameRules().getMaxPlayerCount())
-            throw new RoomException(RoomServiceImpl.class, "Maximum player capacity is reached.");
+            throw new RoomException(PlayerServiceImpl.class, "Maximum player capacity is reached.");
 
         //Add player to room
         Player player = new Player(room.getGameRules().getStartingChips(), userId, room.getFirstEmptySeat());
@@ -62,7 +65,7 @@ public class PlayerServiceImpl implements PlayerService {
 
         //Check optional player
         if (!playerOpt.isPresent())
-            throw new RoomException(RoomServiceImpl.class, "Player was not in the room.");
+            throw new RoomException(PlayerServiceImpl.class, "Player was not in the room.");
 
         //Removes player from current round
         if (room.getRounds().size() > 0) {
@@ -78,13 +81,27 @@ public class PlayerServiceImpl implements PlayerService {
         return playerOpt.get();
     }
 
+    /**
+     * Saves a player to the database.
+     *
+     * @param player The player that needs to be added to the database
+     * @return The newly added player with an Id.
+     */
     @Override
     public Player savePlayer(Player player) {
         return playerRepository.save(player);
     }
 
+    /**
+     * Gets a player from the database.
+     *
+     * @param userId The id of the user that needs be retrieved.
+     * @return The requested player.
+     * @throws RoomException Thrown if the player with the specified user id was not found in the database.
+     */
     @Override
-    public Player getPlayer(String userId) {
-        return playerRepository.getByUserId(userId);
+    public Player getPlayer(String userId) throws RoomException {
+        return playerRepository.getByUserId(userId)
+                .orElseThrow(() -> new RoomException(PlayerServiceImpl.class, "The player with user id " + userId + " was not found in the database"));
     }
 }

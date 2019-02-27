@@ -1,52 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
     tools:context=".activities.RoomActivity">
 
-    <LinearLayout
-        android:id="@+id/llFragment"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:translationZ="999dp"
-        android:weightSum="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/colorBackground">
 
-        <fragment
-            android:id="@+id/fragmentChat"
-            android:name="be.kdg.mobile_client.fragments.ChatFragment"
+        <LinearLayout
+            android:id="@+id/llFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:translationZ="999dp"
+            android:weightSum="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <fragment
+                android:id="@+id/fragmentChat"
+                android:name="be.kdg.mobile_client.fragments.ChatFragment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".5"
+                android:tag="@string/chat_fragment_tag" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/toolBarLeft"
+            layout="@layout/room_toolbar_left"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <include
+            android:id="@+id/toolBarRight"
+            layout="@layout/room_toolbar_right"
+            android:layout_width="90dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <include
+            android:id="@+id/centerLayout"
+            layout="@layout/room_center"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".5"
-            android:tag="@string/chat_fragment_tag" />
-    </LinearLayout>
+            app:layout_constraintEnd_toStartOf="@+id/toolBarRight"
+            app:layout_constraintStart_toEndOf="@+id/toolBarLeft" />
 
-    <include
-        android:id="@+id/toolBarLeft"
-        layout="@layout/room_toolbar_left"
-        android:layout_width="90dp"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <include
-        android:id="@+id/toolBarRight"
-        layout="@layout/room_toolbar_right"
-        android:layout_width="90dp"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <include
-        layout="@layout/room_center"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toStartOf="@+id/toolBarRight"
-        app:layout_constraintStart_toEndOf="@+id/toolBarLeft" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

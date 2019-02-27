@@ -35,18 +35,8 @@ public interface UserService {
 
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})
-    @GET("/api/user")
-    Call<User> getMySelf();
-
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Accept: application/json; charset=utf-8"})
     @GET("/api/user/{id}")
     Call<User> getUser(@Path("id") String id);
-
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Accept: application/json; charset=utf-8"})
-    @GET("/api/users")
-    Call<List<User>> getUsers();
 
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Accept: application/json; charset=utf-8"})

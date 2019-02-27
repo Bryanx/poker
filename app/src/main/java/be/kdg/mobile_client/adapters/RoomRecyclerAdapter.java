@@ -81,7 +81,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         
         holder.roomCard.setOnClickListener(e -> {
             Intent intent = new Intent(ctx, RoomActivity.class);
-            intent.putExtra(ctx.getString(R.string.room_id), room.getRoomId());
+            intent.putExtra(ctx.getString(R.string.room_id), room.getId());
             ctx.startActivity(intent);
         });
     }

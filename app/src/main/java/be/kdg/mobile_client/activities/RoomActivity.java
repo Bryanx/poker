@@ -5,12 +5,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.databinding.ActivityRoomBinding;
 import be.kdg.mobile_client.fragments.ChatFragment;
+import be.kdg.mobile_client.model.Player;
+import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.SharedPrefService;
+import be.kdg.mobile_client.services.WebSocketService;
+import be.kdg.mobile_client.viewmodels.RoomViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -23,7 +32,10 @@ public class RoomActivity extends BaseActivity {
     @BindView(R.id.llFragment) LinearLayout llFragment;
     @Inject FragmentManager fragmentManager;
     @Inject SharedPrefService sharedPrefService;
+    @Inject ChatService chatService;
+    @Inject @Named("RoomViewModel") ViewModelProvider.Factory factory;
     private ChatFragment chatFragment;
+    private RoomViewModel viewModel;
     private int roomNumber;
 
     @Override
@@ -31,7 +43,11 @@ public class RoomActivity extends BaseActivity {
         getControllerComponent().inject(this);
         checkIfAuthorized(sharedPrefService);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_room);
+        roomNumber = getIntent().getIntExtra(getString(R.string.room_id), 0);
+        viewModel = ViewModelProviders.of(this,factory).get(RoomViewModel.class);
+        ActivityRoomBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_room);
+        viewModel.init(roomNumber, binding);
+        binding.setLifecycleOwner(this);
         ButterKnife.bind(this);
         initialiseViews();
         handleShowChatButton();
@@ -39,8 +55,7 @@ public class RoomActivity extends BaseActivity {
 
     private void initialiseViews() {
         chatFragment = (ChatFragment) fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
-        roomNumber = getIntent().getIntExtra(getString(R.string.room_id), 0);
-        chatFragment.setRoomNumber(roomNumber);
+        chatFragment.connectChat(roomNumber, chatService);
         hideFragment(chatFragment); // initially hide the chatfragment
     }
 

@@ -9,8 +9,8 @@ import lombok.Data;
  */
 @Data
 public class Room {
-    private int roomId;
+    private int id;
     private String name;
     private GameRules gameRules;
-    private List<Object> playersInRoom;
+    private List<Player> playersInRoom;
 }

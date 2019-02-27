@@ -1,10 +1,12 @@
 package be.kdg.mobile_client.dagger.modules;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -28,6 +30,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import ua.naiksoftware.stomp.Stomp;
+import ua.naiksoftware.stomp.StompClient;
 
 /**
  * Comparable to @Configuration class in Spring.
@@ -37,9 +41,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ControllerModule {
     private static final String API_BASE_URL_USER = "https://poker-user-service.herokuapp.com";
-    private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
+//    private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
 //    private static final String API_BASE_URL_USER = "http://10.0.2.2:5000";
-    //private static final String API_BASE_URL_GAME = "http://localhost:5001";
+    private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 
@@ -119,23 +123,35 @@ public class ControllerModule {
     }
 
     @Provides
-    ChatService chatService() {
-        return new ChatService();
+    @Singleton
+    StompClient stompClient() {
+        StompClient stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, "wss://poker-game-service.herokuapp.com/connect/websocket");
+        stompClient.withClientHeartbeat(10000).withServerHeartbeat(10000);
+        stompClient.connect();
+        return stompClient;
     }
 
     @Provides
-    WebSocketService webSocketService() {
-        return new WebSocketService();
+    @Singleton
+    WebSocketService webSocketService(StompClient stompClient) {
+        return new WebSocketService(stompClient);
     }
 
     @Provides
-    UserViewModel userViewModel(){
-        return new UserViewModel(userService());
+    @Singleton
+    ChatService chatService(WebSocketService webSocketService) {
+        return new ChatService(webSocketService);
     }
 
     @Provides
-    RoomViewModel roomViewModel(){
-        return new RoomViewModel(webSocketService(), gameService());
+    @Singleton
+    RoomViewModel roomViewModel(WebSocketService webSocketService){
+        return new RoomViewModel(webSocketService, gameService());
+    }
+
+    @Provides
+    UserViewModel userViewModel(UserService userService){
+        return new UserViewModel(userService);
     }
 
     @Provides

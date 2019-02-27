@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -27,7 +28,7 @@ public class UserSearchActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.etSearch) EditText etSearch;
     @BindView(R.id.lvUser) RecyclerView lvUser;
-    @Inject ViewModelProvider.Factory factory;
+    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
 
     @Override

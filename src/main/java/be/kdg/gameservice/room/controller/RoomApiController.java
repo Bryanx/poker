@@ -113,14 +113,14 @@ public class RoomApiController {
     public ResponseEntity<PrivateRoomDTO[]> getPrivateRooms(OAuth2Authentication authentication) {
         List<PrivateRoom> privateRooms = privateRoomService.getPrivateRooms(getUserId(authentication));
         PrivateRoomDTO[] privateRoomOut = modelMapper.map(privateRooms, PrivateRoomDTO[].class);
-        return  new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
+        return new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
     }
 
     /**
      * Retrieves a private room from the database. This will only happen if the user
      * has the right credentials.
      *
-     * @param roomId The id of the room.
+     * @param roomId         The id of the room.
      * @param authentication The token used for retrieving the userId.
      * @return Status code 200 with the requested room.
      * @throws RoomException Rerouted to handler
@@ -131,6 +131,22 @@ public class RoomApiController {
         PrivateRoom privateRoom = privateRoomService.getPrivateRoom(roomId, getUserId(authentication));
         PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
         return new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
+    }
+
+    /**
+     * Creates a private room for a specific user and adds that user
+     * automatically to the whitelist.
+     *
+     * @param roomName       The name of the room.
+     * @param authentication The token used for retrieving the userId.
+     * @return Status code 201 with the newly created room.
+     */
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PostMapping("/rooms/private/{roomName}")
+    public ResponseEntity<PrivateRoomDTO> addPrivateRoom(@PathVariable String roomName, OAuth2Authentication authentication) {
+        PrivateRoom privateRoom = privateRoomService.addPrivateRoom(getUserId(authentication), roomName);
+        PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
+        return new ResponseEntity<>(privateRoomOut, HttpStatus.CREATED);
     }
 
     /**

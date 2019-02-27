@@ -8,6 +8,7 @@ import {User} from './model/user';
 import {Message} from '@stomp/stompjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {NotifierService} from 'angular-notifier';
+import {HomeVisibleService} from './services/home-visible.service';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,7 @@ import {NotifierService} from 'angular-notifier';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  homeVisible: Boolean;
   newNotification: Notification;
   notificationsSub: Subscription;
   myself: User;
@@ -23,10 +25,12 @@ export class AppComponent implements OnInit {
               private userService: UserService,
               private webSocketService: RxStompService,
               private notifier: NotifierService,
+              private homeObservable: HomeVisibleService,
               private auth: AuthorizationService) {
   }
 
   ngOnInit(): void {
+    this.homeObservable.getState().subscribe(state => this.homeVisible = state);
     this.checkIfAuthenticated();
   }
 

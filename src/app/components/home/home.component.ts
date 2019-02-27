@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Router} from '@angular/router';
+import {HomeVisibleService} from '../../services/home-visible.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-  constructor(public authorizationService: AuthorizationService, private router: Router) { }
+  constructor(public authorizationService: AuthorizationService, private router: Router, private homeObservable: HomeVisibleService) { }
 
   ngOnInit() {
+   this.homeObservable.emitNewState(true);
+  }
+
+  ngOnDestroy(): void {
+    this.homeObservable.emitNewState(false);
   }
 
   isAuthenticated() {

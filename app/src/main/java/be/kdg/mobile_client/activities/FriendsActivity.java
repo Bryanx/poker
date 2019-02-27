@@ -8,6 +8,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -29,7 +30,7 @@ public class FriendsActivity extends BaseActivity {
     @BindView(R.id.btnSearch) Button btnSearch;
     @BindView(R.id.btnBack) Button btnBack;
     @Inject SharedPrefService sharedPrefService;
-    @Inject ViewModelProvider.Factory factory;
+    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
 
     @Override

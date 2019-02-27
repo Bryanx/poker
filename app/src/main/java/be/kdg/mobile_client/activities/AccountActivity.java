@@ -17,7 +17,7 @@ import be.kdg.mobile_client.viewmodels.UserViewModel;
  * The user's data is fetched from the server and loaded in the view components.
  */
 public class AccountActivity extends BaseActivity {
-    @Inject ViewModelProvider.Factory factory;
+    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -134,22 +134,6 @@ public class RoomApiController {
     }
 
     /**
-     * Creates a private room for a specific user and adds that user
-     * automatically to the whitelist.
-     *
-     * @param roomName       The name of the room.
-     * @param authentication The token used for retrieving the userId.
-     * @return Status code 201 with the newly created room.
-     */
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    @PostMapping("/rooms/private/{roomName}")
-    public ResponseEntity<PrivateRoomDTO> addPrivateRoom(@PathVariable String roomName, OAuth2Authentication authentication) {
-        PrivateRoom privateRoom = privateRoomService.addPrivateRoom(getUserId(authentication), roomName);
-        PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
-        return new ResponseEntity<>(privateRoomOut, HttpStatus.CREATED);
-    }
-
-    /**
      * If a player joins a room, it is received here.
      * The user service will be used to check if the user has enough chips.
      * If that is the case then the chips will be transferred to the player.
@@ -197,6 +181,22 @@ public class RoomApiController {
     }
 
     /**
+     * Creates a private room for a specific user and adds that user
+     * automatically to the whitelist.
+     *
+     * @param roomName       The name of the room.
+     * @param authentication The token used for retrieving the userId.
+     * @return Status code 201 with the newly created room.
+     */
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PostMapping("/rooms/private/{roomName}")
+    public ResponseEntity<PrivateRoomDTO> addPrivateRoom(@PathVariable String roomName, OAuth2Authentication authentication) {
+        PrivateRoom privateRoom = privateRoomService.addPrivateRoom(getUserId(authentication), roomName);
+        PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
+        return new ResponseEntity<>(privateRoomOut, HttpStatus.CREATED);
+    }
+
+    /**
      * @param roomId  The id of the room that needs to be updated.
      * @param roomDTO The DTO that contains the updated data.
      * @return Status code 202 if the room was successfully updated.
@@ -210,7 +210,6 @@ public class RoomApiController {
         return new ResponseEntity<>(roomOut, HttpStatus.ACCEPTED);
     }
 
-
     /**
      * @param playerDTO The player DTO that
      * @return status code 202 if the player was successfully updated in the database.
@@ -221,6 +220,36 @@ public class RoomApiController {
         Player playerIn = playerService.savePlayer(modelMapper.map(playerDTO, Player.class));
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
         return new ResponseEntity<>(playerOut, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Removes a player from the white list
+     *
+     * @param roomId The id of the room
+     * @param userId The id of the user that needs to be removed from the whitelist.
+     * @return Status code 202.
+     * @throws RoomException Rerouted to handler.
+     */
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PatchMapping("/rooms/private/{roomId}/remove-player/{userId}")
+    public ResponseEntity<Void> removeFromWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
+        privateRoomService.removeUserFromWhiteList(roomId, userId);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Adds a player from the white list
+     *
+     * @param roomId The id of the room
+     * @param userId The id of the user that needs to be removed from the whitelist.
+     * @return Status code 202.
+     * @throws RoomException Rerouted to handler.
+     */
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PatchMapping("/rooms/private/{roomId}/add-player/{userId}")
+    public ResponseEntity<Void> addFromWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
+        privateRoomService.addUserToWhiteList(roomId, userId);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     /**

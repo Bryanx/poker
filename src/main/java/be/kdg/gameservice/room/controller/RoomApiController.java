@@ -117,6 +117,20 @@ public class RoomApiController {
     }
 
     /**
+     * Gives back all private rooms that a specific user owns.
+     *
+     * @param authentication The token used for retrieving the userId.
+     * @return Status code 200 with all the private rooms.
+     */
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/rooms/private/owner")
+    public ResponseEntity<PrivateRoomDTO[]> getPrivateRoomsFromOwner(OAuth2Authentication authentication) {
+        List<PrivateRoom> privateRooms = privateRoomService.getPrivateRoomsFromOwner(getUserId(authentication));
+        PrivateRoomDTO[] privateRoomOut = modelMapper.map(privateRooms, PrivateRoomDTO[].class);
+        return new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
+    }
+
+    /**
      * Retrieves a private room from the database. This will only happen if the user
      * has the right credentials.
      *

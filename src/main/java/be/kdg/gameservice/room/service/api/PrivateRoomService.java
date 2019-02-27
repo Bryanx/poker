@@ -10,6 +10,8 @@ public interface PrivateRoomService {
 
     List<PrivateRoom> getPrivateRooms(String userId);
 
+    List<PrivateRoom> getPrivateRoomsFromOwner(String userId);
+
     PrivateRoom addPrivateRoom(String userId, String name);
 
     void addUserToWhiteList(int roomId, String userId) throws RoomException;

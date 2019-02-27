@@ -9,9 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 /**
  * This class is used for the management of private rooms
@@ -124,6 +128,21 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
                 .map(PrivateRoom.class::cast)
                 .filter(room -> room.getWhiteListedPlayers().stream()
                         .anyMatch(p -> p.getUserId().equals(userId)))
-                .collect(Collectors.toList());
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+    }
+
+    /**
+     * Gets all the private rooms form the database that the given user is the
+     * owner of.
+     *
+     * @param userId The id of the owner.
+     * @return A list of private rooms that
+     */
+    @Override
+    public List<PrivateRoom> getPrivateRoomsFromOwner(String userId) {
+       return roomService.getRooms(PrivateRoom.class).stream()
+               .map(PrivateRoom.class::cast)
+               .filter(room -> room.getOwnerId().equals(userId))
+               .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 }

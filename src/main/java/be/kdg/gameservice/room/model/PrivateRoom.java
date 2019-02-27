@@ -1,5 +1,6 @@
 package be.kdg.gameservice.room.model;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -17,25 +18,26 @@ public final class PrivateRoom extends Room {
     @JoinColumn(name = "room_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<WhiteListedUser> whiteListedPlayers;
-    private String ownerUserId;
+    @Getter
+    private String ownerId;
 
-    public PrivateRoom(GameRules gameRules, String name, String ownerUserId) {
+    public PrivateRoom(GameRules gameRules, String name, String ownerId) {
         super(gameRules, name);
-        this.ownerUserId = ownerUserId;
+        this.ownerId = ownerId;
         this.whiteListedPlayers = new ArrayList<>();
-        this.whiteListedPlayers.add(new WhiteListedUser(ownerUserId));
+        this.whiteListedPlayers.add(new WhiteListedUser(ownerId));
     }
 
     public PrivateRoom(String name, String ownerUserId) {
         this(new GameRules(), name, ownerUserId);
     }
 
-    public void addWhiteListedPlayer(WhiteListedUser player) {
-        this.whiteListedPlayers.add(player);
+    public void addWhiteListedPlayer(WhiteListedUser user) {
+        this.whiteListedPlayers.add(user);
     }
 
-    public void deleteWhiteListedPlayer(WhiteListedUser player) {
-        this.whiteListedPlayers.remove(player);
+    public void deleteWhiteListedPlayer(WhiteListedUser user) {
+        this.whiteListedPlayers.remove(user);
     }
 
     public List<WhiteListedUser> getWhiteListedPlayers() {

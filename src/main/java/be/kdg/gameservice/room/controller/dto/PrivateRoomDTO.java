@@ -20,6 +20,4 @@ public class PrivateRoomDTO {
     private GameRules gameRules;
     @NotNull
     private List<Player> playersInRoom;
-    @NotNull
-    private String ownerUserId;
 }

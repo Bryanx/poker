@@ -5,6 +5,7 @@ import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
+import {AuthorizationService} from '../../services/authorization.service';
 
 /**
  * This component will be used for searching through all the users
@@ -22,7 +23,7 @@ export class SearchComponent implements OnInit {
   subject: Subject<String> = new Subject();
   myself: User = User.create();
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private authService: AuthorizationService) {
   }
 
   /**
@@ -33,7 +34,13 @@ export class SearchComponent implements OnInit {
    */
   ngOnInit(): void {
     this.userService.getMyself().subscribe(user => this.myself = user);
-    this.userService.getUsers().subscribe(users => this.users = users);
+    if (this.isAdmin()) {
+      this.userService.getUsersAndAdmins().subscribe(users => this.users = users);
+      console.log(this.users);
+    } else {
+      this.userService.getUsers().subscribe(users => this.users = users);
+
+    }
 
     this.subject.pipe(
       debounceTime(this.debounceTime as number),
@@ -100,5 +107,26 @@ export class SearchComponent implements OnInit {
     } else {
       return !this.myself.friends.some(friend => friend.id === user.id);
     }
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
+  }
+
+  adminDisable(user: User) {
+    if (user.enabled == 1) {
+      user.enabled = 0;
+    } else {
+      user.enabled = 1;
+    }
+    this.userService.disableUser(user).subscribe();
+  }
+
+  makeAdmin(user: User) {
+    this.userService.changeToAdmin(user).subscribe();
+  }
+
+  makeUser(user: User) {
+    this.userService.changeToUser(user).subscribe();
   }
 }

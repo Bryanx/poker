@@ -121,9 +121,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   /**
    * Returns the players that are in the room including yourself.
-   =======
    * Subscribes to the winner channel. Every time someone wins it is received here.
-   >>>>>>> master
    */
   initializeWinnerConnection() {
     this.roundSubscription = this.webSocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {

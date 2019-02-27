@@ -21,5 +21,5 @@
 
   <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/game-rooms">{{'ADMINROOM' | translate | uppercase}}</button>
 
-  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/">{{'ADMINUSER' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/users">{{'ADMINUSER' | translate | uppercase}}</button>
 </section>

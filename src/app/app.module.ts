@@ -81,7 +81,7 @@ export function setupTranslateFactory(
     UserAccountComponent,
     GameRoomAdminComponent,
     RankingsComponent,
-    NotificationComponent
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,

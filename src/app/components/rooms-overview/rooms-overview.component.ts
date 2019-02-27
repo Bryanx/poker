@@ -16,6 +16,7 @@ import {User} from '../../model/user';
 export class RoomsOverviewComponent implements OnInit {
   rooms = [];
   inSettingMode = false;
+  public = false;
 
   constructor(private gameService: GameService,
               private userService: UserService,
@@ -33,28 +34,23 @@ export class RoomsOverviewComponent implements OnInit {
       } else {
         this.gameService.getPrivateRooms().subscribe(rooms => this.rooms = rooms);
       }
-
-      /*
-      const ob1 = this.gameService.getPrivateRooms();
-      const ob2 = this.userService.getMyself();
-      forkJoin(ob1, ob2).subscribe(roomsuser => {
-        const rooms: PrivateRoom[] = roomsuser[0] as PrivateRoom[];
-        const myself: User = roomsuser[1] as User;
-
-        if (url.includes('settings')) {
-          console.log(rooms);
-
-        } else {
-          this.rooms = rooms;
-        }
-      });
-      */
     } else {
+      this.public = true;
       this.gameService.getRooms().subscribe(rooms => this.rooms = rooms);
     }
   }
 
   isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  determineRouterLink() {
+    if (this.isAdmin()) {
+      return '/game-rooms/';
+    } else if (this.inSettingMode) {
+      return '/rooms/private/edit/';
+    } else {
+      return '/rooms/';
+    }
   }
 }

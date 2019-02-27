@@ -27,6 +27,8 @@ const routes: Routes = [
   {path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService]},
   {path: 'rankings', component: RankingsComponent, canActivate: [AuthGuardService]},
   {path: 'search', component: SearchComponent, canActivate: [AuthGuardService]},
+  {path: 'rooms/private/add', component: GameRoomEditComponent, canActivate: [AuthGuardService]},
+  {path: 'rooms/private/edit/:id', component: GameRoomEditComponent, canActivate: [AuthGuardService]},
   {path: 'rooms/private/settings', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   {path: 'rooms/private', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   {path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService]},

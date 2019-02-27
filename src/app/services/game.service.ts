@@ -78,6 +78,10 @@ export class GameService {
     return this.http.post<Room>(this.url, room);
   }
 
+  addPrivateRoom(room: PrivateRoom): Observable<PrivateRoom> {
+    return this.http.post<PrivateRoom>(this.url + '/private', room);
+  }
+
   deleteRoom(room: Room): Observable<Room> {
     return this.http.delete<Room>(this.url + '/' + room.id);
   }
@@ -89,5 +93,6 @@ export class GameService {
   changePlayer(player: Player): Observable<Player> {
     return this.http.put<Player>(this.url + '/players', player);
   }
+
 
 }

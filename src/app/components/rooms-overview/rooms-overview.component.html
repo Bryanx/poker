@@ -1,15 +1,17 @@
-<h1>{{'ROOMSOVERVIEWTITLE' | translate | uppercase}}</h1>
+<h1 *ngIf="public">{{'ROOMSOVERVIEWTITLE PUBLIC' | translate | uppercase}}</h1>
+<h1 *ngIf="!public && !inSettingMode">{{'ROOMSOVERVIEWTITLE PRIVATE' | translate | uppercase}}</h1>
+<h1 *ngIf="inSettingMode">{{'EDITROOMS' | translate | uppercase}}</h1>
 <section class="rooms">
-  <app-room-card *ngFor="let room of rooms; index as i" [routerLink]="[room.id]"
+  <app-room-card *ngFor="let room of rooms; index as i" [routerLink]="determineRouterLink() + room.id"
                  [room]="room"
   ></app-room-card>
 </section>
 <section class="nav">
   <button *ngIf="!inSettingMode" routerLink="/" class="nav-button">{{'BACK' | translate | titlecase}}</button>
   <button *ngIf="inSettingMode" routerLink="/rooms/private" class="nav-button">{{'BACK' | translate | titlecase}}</button>
-
-  <button class="nav-button" *ngIf="isAdmin() || inSettingMode" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}</button>
-  <button class="nav-button" *ngIf="!isAdmin() && !inSettingMode" routerLink="/rooms/private/settings">{{'SETTINGS' | translate | titlecase}}</button>
+  <button class="nav-button" *ngIf="isAdmin()" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}</button>
+  <button class="nav-button" *ngIf="!isAdmin() && inSettingMode" routerLink="/rooms/private/add">{{'ADDROOM' | translate | titlecase}}</button>
+  <button class="nav-button" *ngIf="!isAdmin() && !inSettingMode && !public" routerLink="/rooms/private/settings">{{'SETTINGS' | translate | titlecase}}</button>
 </section>
 
 

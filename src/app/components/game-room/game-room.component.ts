@@ -16,6 +16,7 @@ import {ChatComponent} from '../chat/chat.component';
 import {Act} from '../../model/act';
 import {PlayerComponent} from '../player/player.component';
 import {UserService} from '../../services/user.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-room',
@@ -37,7 +38,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
               private webSocketService: RxStompService, private authorizationService: AuthorizationService,
-              private roomService: RoomService, private userService: UserService) {
+              private roomService: RoomService, private userService: UserService, private location: Location) {
 
   }
 
@@ -152,7 +153,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       this.room = room as Room;
 
       if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
-        this.navigateToOverview();
+        this.navigateBack();
       }
     });
   }
@@ -188,15 +189,15 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       this.player = player;
     }, error => {
       console.log(error.error.message);
-      this.navigateToOverview();
+      this.navigateBack();
     });
   }
 
   /**
    * Navigates to the rooms overview.
    */
-  private navigateToOverview(): void {
-    this.router.navigateByUrl('/rooms').then(/* DO NOTHING WITH PROMISE */);
+  private navigateBack(): void {
+    this.location.back();
   }
 
   private updatePlayersInRound(): void {

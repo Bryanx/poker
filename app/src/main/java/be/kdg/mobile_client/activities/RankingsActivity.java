@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -27,7 +28,7 @@ import butterknife.ButterKnife;
  */
 public class RankingsActivity extends BaseActivity {
     @BindView(R.id.tblRankings) TableLayout tblRankings;
-    @Inject ViewModelProvider.Factory factory;
+    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
 
     @Override

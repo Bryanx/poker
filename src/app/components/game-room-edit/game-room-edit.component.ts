@@ -4,16 +4,15 @@ import {GameService} from '../../services/game.service';
 import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {Room} from '../../model/room';
-import {until} from 'selenium-webdriver';
 import {Router} from '@angular/router';
 import {GameRules} from '../../model/gamerules';
 
 @Component({
   selector: 'app-game-room-admin',
-  templateUrl: './game-room-admin.component.html',
-  styleUrls: ['./game-room-admin.component.scss']
+  templateUrl: './game-room-edit.component.html',
+  styleUrls: ['./game-room-edit.component.scss']
 })
-export class GameRoomAdminComponent implements OnInit {
+export class GameRoomEditComponent implements OnInit {
   updateRoomForm: FormGroup;
   room: Room;
   id: number;
@@ -65,12 +64,12 @@ export class GameRoomAdminComponent implements OnInit {
   }
 
   isAdding() {
-    return this.router.url.split('/')[2] === 'add'
+    return this.router.url.split('/')[2] === 'add';
   }
 
   deleteRoom() {
     this.gameService.deleteRoom(this.room).subscribe(result => {
-      return this.router.navigate(['/game-rooms'])
+      return this.router.navigate(['/game-rooms']);
     });
   }
 
@@ -83,11 +82,11 @@ export class GameRoomAdminComponent implements OnInit {
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
     if (this.isAdding()) {
       this.gameService.addRoom(this.room).subscribe(result => {
-        return this.router.navigate(['/game-rooms'])
+        return this.router.navigate(['/game-rooms']);
       });
     } else {
       this.gameService.changeRoom(this.room).subscribe(result => {
-        return this.router.navigate(['/game-rooms'])
+        return this.router.navigate(['/game-rooms']);
       });
     }
   }

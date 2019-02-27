@@ -28,7 +28,7 @@ import { websocket_game_serviceConfig } from './configs/websocket_game_service.c
 import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
-import { GameRoomAdminComponent } from './components/game-room-admin/game-room-admin.component';
+import { GameRoomEditComponent } from './components/game-room-edit/game-room-edit.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import {MatSnackBarModule, MatTableModule} from '@angular/material';
@@ -80,7 +80,7 @@ export function setupTranslateFactory(
     FriendsComponent,
     SearchComponent,
     UserAccountComponent,
-    GameRoomAdminComponent,
+    GameRoomEditComponent,
     RankingsComponent,
     NotificationComponent,
     RoomCardComponent

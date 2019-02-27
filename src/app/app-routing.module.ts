@@ -12,7 +12,7 @@ import {RoomsOverviewComponent} from './components/rooms-overview/rooms-overview
 import {FriendsComponent} from './components/friends/friends.component';
 import {UserAccountComponent} from './components/user-account/user-account.component';
 import {SearchComponent} from './components/search/search.component';
-import {GameRoomAdminComponent} from './components/game-room-admin/game-room-admin.component';
+import {GameRoomEditComponent} from './components/game-room-edit/game-room-edit.component';
 import {RankingsComponent} from './components/rankings/rankings.component';
 import {AdminGuardService} from './services/admin-guard.service';
 import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
@@ -27,12 +27,13 @@ const routes: Routes = [
   {path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService]},
   {path: 'rankings', component: RankingsComponent, canActivate: [AuthGuardService]},
   {path: 'search', component: SearchComponent, canActivate: [AuthGuardService]},
+  {path: 'rooms/private/settings', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   {path: 'rooms/private', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   {path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService]},
   {path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
   {path: 'game-rooms', component: RoomsOverviewComponent, canActivate: [AdminGuardService]},
-  {path: 'game-rooms/:id', component: GameRoomAdminComponent, canActivate: [AdminGuardService]},
-  {path: 'game-rooms/add', component: GameRoomAdminComponent, canActivate: [AdminGuardService]},
+  {path: 'game-rooms/:id', component: GameRoomEditComponent, canActivate: [AdminGuardService]},
+  {path: 'game-rooms/add', component: GameRoomEditComponent, canActivate: [AdminGuardService]},
   {path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuardService]},
   {path: 'user/:id', component: UserAccountComponent, canActivate: [AuthGuardService]},
   {path: '**', redirectTo: '/login', pathMatch: 'full'}

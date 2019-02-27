@@ -19,10 +19,18 @@ section {
   max-width: 1200px;
 }
 
-.back {
-  margin-bottom: 2rem;
-}
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 
+  button {
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
+}
 @media(max-width: 800px) {
   h1 {
     font-size: 2rem;

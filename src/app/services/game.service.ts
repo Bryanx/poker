@@ -37,6 +37,13 @@ export class GameService {
   }
 
   /**
+   * Gives back all the private rooms that the user owns.
+   */
+  getPrivateRoomsFromOwner(): Observable<PrivateRoom[]> {
+    return this.http.get<PrivateRoom[]>(this.url + '/private/owner');
+  }
+
+  /**
    * Gives back a single room based on the id of the room.
    *
    * @param id The id of the room that needs to be returned.

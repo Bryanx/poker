@@ -4,6 +4,13 @@
                  [room]="room"
   ></app-room-card>
 </section>
-<button *ngIf="isAdmin()" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}</button>
-<button routerLink="/" class="back">{{'BACK' | translate | titlecase}}</button>
+<section class="nav">
+  <button *ngIf="!inSettingMode" routerLink="/" class="nav-button">{{'BACK' | translate | titlecase}}</button>
+  <button *ngIf="inSettingMode" routerLink="/rooms/private" class="nav-button">{{'BACK' | translate | titlecase}}</button>
+
+  <button class="nav-button" *ngIf="isAdmin() || inSettingMode" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}</button>
+  <button class="nav-button" *ngIf="!isAdmin() && !inSettingMode" routerLink="/rooms/private/settings">{{'SETTINGS' | translate | titlecase}}</button>
+</section>
+
+
 

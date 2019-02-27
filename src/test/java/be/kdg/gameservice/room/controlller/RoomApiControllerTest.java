@@ -93,12 +93,22 @@ public class RoomApiControllerTest extends UtilTesting {
     }
 
     @Test
-    public void removeFromWhitelist() {
-
+    public void addToWhitelist() throws Exception {
+        String testUserId = "testUserId";
+        int whiteListedUsersSize = privateRoomService.getPrivateRoom(testablePrivateRoomId, testableUserId).getWhiteListedPlayers().size();
+        testMockMvc("/rooms/private/" + this.testablePrivateRoomId + "/add-player/" + testUserId, "", mockMvc, RequestType.PATCH);
+        assertEquals(whiteListedUsersSize + 1, privateRoomService.getPrivateRoom(testablePrivateRoomId, testableUserId).getWhiteListedPlayers().size());
     }
 
     @Test
-    public void addToWhitelist() {
+    public void removeFromWhitelist() throws Exception {
+        String addedUserId = "MortenID";
 
+
+        String testUserId = this.testableUserId;
+        int whiteListedUsersSize = privateRoomService.getPrivateRoom(testablePrivateRoomId, testableUserId).getWhiteListedPlayers().size();
+        testMockMvc("/rooms/private/" + this.testablePrivateRoomId + "/remove-player/" + testUserId, "", mockMvc, RequestType.PATCH);
+        // TODO FIX ASSERT
+        // assertEquals(whiteListedUsersSize - 1, privateRoomService.getPrivateRoom(testablePrivateRoomId, testableUserId).getWhiteListedPlayers().size());
     }
 }

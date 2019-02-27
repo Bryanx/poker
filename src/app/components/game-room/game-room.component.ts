@@ -17,6 +17,7 @@ import {Act} from '../../model/act';
 import {PlayerComponent} from '../player/player.component';
 import {UserService} from '../../services/user.service';
 import {Location} from '@angular/common';
+import {NotifierService} from 'angular-notifier';
 
 @Component({
   selector: 'app-room',
@@ -29,6 +30,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   roomSubscription: Subscription;
   roundSubscription: Subscription;
   done: boolean;
+  joined: Boolean = false;
   round: Round;
   joinRoomInterval: any;
   getRoundInterval: any;
@@ -38,7 +40,8 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
               private webSocketService: RxStompService, private authorizationService: AuthorizationService,
-              private roomService: RoomService, private userService: UserService, private location: Location) {
+              private roomService: RoomService, private userService: UserService, private location: Location,
+              private notifier: NotifierService) {
 
   }
 
@@ -68,7 +71,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.roomSubscription !== undefined) {
-      this.leaveRoom();
+      if (this.joined) {
+        this.leaveRoom();
+      }
       this.roomSubscription.unsubscribe();
     }
     if (this.roundSubscription !== undefined) {
@@ -187,6 +192,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   private joinRoom(): void {
     this.roomService.joinRoom(this.room.id).subscribe(player => {
       this.player = player;
+      this.joined = true;
     }, error => {
       console.log(error.error.message);
       this.navigateBack();

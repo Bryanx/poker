@@ -76,7 +76,6 @@ export class GameRoomEditComponent implements OnInit {
     this.room.gameRules.playDelay = this.updateRoomForm.controls.playDelay.value;
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
 
-    console.log('YES');
     if (this.isAddingPrivate()) {
       this.gameService.addPrivateRoom(this.room as PrivateRoom).subscribe(() => this.location.back());
     } else if (this.isAdding()) {

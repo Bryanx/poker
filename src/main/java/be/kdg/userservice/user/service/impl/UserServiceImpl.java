@@ -51,7 +51,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public List<User> getUsers() {
         return userRepository.findAll().stream()
-                .filter(user -> userRoleRepository.findByUserId(user.getId()).getRole().equals("ROLE_USER"))
+                .filter(user -> userRoleRepository.findByUserId(user.getId()).get().getRole().equals("ROLE_USER"))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+    }
+
+    @Override
+    public List<User> getUsersAndAdmins() {
+        return userRepository.findAll().stream()
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
@@ -98,6 +104,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userToUpdate.setProfilePictureBinary(user.getProfilePictureBinary());
         userToUpdate.setFriends(user.getFriends());
         userToUpdate.setChips(user.getChips());
+        userToUpdate.setEnabled(user.getEnabled());
 
         return userRepository.save(userToUpdate);
     }
@@ -123,6 +130,33 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         }
 
         return dbUser.get();
+    }
+
+    @Override
+    public User changeUserRoleToAdmin(User user) throws UserException {
+        Optional<UserRole> dbRole = userRoleRepository.findByUserId(user.getId());
+
+        if (dbRole.isPresent()) {
+            UserRole role = dbRole.get();
+            role.setRole("ROLE_ADMIN");
+            userRoleRepository.save(role);
+            return user;
+        } else {
+            throw new UserException("UserRole not found");
+        }
+    }
+
+    @Override
+    public User changeUserRoleToUser(User user) throws UserException {
+        Optional<UserRole> dbRole = userRoleRepository.findByUserId(user.getId());
+
+        if (dbRole.isPresent()) {
+            dbRole.get().setRole("ROLE_USER");
+            userRoleRepository.save(dbRole.get());
+            return user;
+        } else {
+            throw new UserException("UserRole not found");
+        }
     }
 
     /**

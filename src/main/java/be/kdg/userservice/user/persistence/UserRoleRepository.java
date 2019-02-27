@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, String> {
     @Query("select userrole.role from UserRole userrole, User user where user.username=?1 and userrole.userId=user.id")
     List<String> findRoleByUserName(String username);
-    UserRole findByUserId(String userId);
+    Optional<UserRole> findByUserId(String userId);
 }

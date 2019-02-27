@@ -62,10 +62,23 @@ public class UserApiController {
      *
      * @return The users with a 200 status code if successful.
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/users")
     public ResponseEntity<UserDto[]> getUsers() {
         List<User> usersIn = userService.getUsers();
+        UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
+        return new ResponseEntity<>(usersOut, HttpStatus.OK);
+    }
+
+    /**
+     * Gives back all the users.
+     *
+     * @return The users with a 200 status code if successful.
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/users/admin")
+    public ResponseEntity<UserDto[]> getUsersAndAdmins() {
+        List<User> usersIn = userService.getUsersAndAdmins();
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
     }
@@ -76,7 +89,7 @@ public class UserApiController {
      * @param name The regex that we need to user for our search.
      * @return All the users that corresponded with the name and status code 200 if succeeded.
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/users/{name}")
     public ResponseEntity<UserDto[]> getUsersByName(@PathVariable String name) {
         List<User> usersIn = userService.getUsersByName(name);
@@ -103,6 +116,32 @@ public class UserApiController {
     }
 
     /**
+     * Changes user role to ROLE_ADMIN.
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/user/{userId}/admin")
+    public ResponseEntity<UserDto> changeUserRoleToAdmin(@PathVariable String userId) throws UserException {
+        User user = userService.findUserById(userId);
+        User userout = userService.changeUserRoleToAdmin(user);
+        UserDto userDto = modelMapper.map(userout, UserDto.class);
+
+        return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Changes user role to ROLE_USER.
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/user/{userId}/user")
+    public ResponseEntity<UserDto> changeUserRoleToUser(@PathVariable String userId) throws UserException {
+        User user = userService.findUserById(userId);
+        User userout = userService.changeUserRoleToUser(user);
+        UserDto userDto = modelMapper.map(userout, UserDto.class);
+
+        return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
+    }
+
+    /**
      * Rest endpoint that creates a user and returns a CREATED status code.
      */
     @PostMapping("/user")
@@ -114,9 +153,26 @@ public class UserApiController {
     }
 
     /**
+     * Changes user's enabled.
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("/user/disable")
+    public ResponseEntity<UserDto> changeEnabled(@Valid @RequestBody UserDto userDto) throws UserException {
+        User userIn = modelMapper.map(userDto, User.class);
+
+        if (userDto.getProfilePicture() != null) {
+            byte[] decodedBytes = userDto.getProfilePicture().getBytes();
+            userIn.setProfilePictureBinary(decodedBytes);
+        }
+
+        User userOut = userService.changeUser(userIn);
+        return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.OK);
+    }
+
+    /**
      * Rest endpoint that updates a user and returns a new JWT token with OK status code.
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PutMapping("/user")
     public ResponseEntity<TokenDto> changeUser(@Valid @RequestBody UserDto userDto) throws UserException {
         User userIn = modelMapper.map(userDto, User.class);
@@ -133,7 +189,7 @@ public class UserApiController {
     /**
      * Rest endpoint that patches a user password and returns an OK status code.
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PatchMapping("/user")
     public ResponseEntity<UserDto> changePassword(@Valid @RequestBody AuthDto authDto) throws UserException {
         User userIn = modelMapper.map(authDto, User.class);

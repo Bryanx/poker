@@ -12,7 +12,7 @@ public interface UserService {
 
     List<User> getUsers();
 
-    List<User> getUsersAndAdmins();
+    List<User> getAdmins();
 
     List<User> getUsersByName(String name);
 

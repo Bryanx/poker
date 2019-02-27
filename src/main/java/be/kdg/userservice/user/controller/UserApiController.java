@@ -77,8 +77,8 @@ public class UserApiController {
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/users/admin")
-    public ResponseEntity<UserDto[]> getUsersAndAdmins() {
-        List<User> usersIn = userService.getUsersAndAdmins();
+    public ResponseEntity<UserDto[]> getAdmins() {
+        List<User> usersIn = userService.getAdmins();
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
     }

@@ -56,8 +56,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<User> getUsersAndAdmins() {
+    public List<User> getAdmins() {
         return userRepository.findAll().stream()
+                .filter(user -> userRoleRepository.findByUserId(user.getId()).get().getRole().equals("ROLE_ADMIN"))
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 

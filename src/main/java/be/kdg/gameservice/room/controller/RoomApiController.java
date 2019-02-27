@@ -198,15 +198,15 @@ public class RoomApiController {
      * Creates a private room for a specific user and adds that user
      * automatically to the whitelist.
      *
-     * @param roomName       The name of the room.
+     * @param privateRoomDTO All the data of the room.
      * @param authentication The token used for retrieving the userId.
      * @return Status code 201 with the newly created room.
      */
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    @PostMapping("/rooms/private/{roomName}")
-    public ResponseEntity<PrivateRoomDTO> addPrivateRoom(@PathVariable String roomName, OAuth2Authentication authentication) {
-        PrivateRoom privateRoom = privateRoomService.addPrivateRoom(getUserId(authentication), roomName);
-        PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
+    @PostMapping("/rooms/private")
+    public ResponseEntity<PrivateRoomDTO> addPrivateRoom(@RequestBody PrivateRoomDTO privateRoomDTO, OAuth2Authentication authentication) {
+        PrivateRoom privateRoomIn = privateRoomService.addPrivateRoom(getUserId(authentication), privateRoomDTO.getGameRules(), privateRoomDTO.getName());
+        PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoomIn, PrivateRoomDTO.class);
         return new ResponseEntity<>(privateRoomOut, HttpStatus.CREATED);
     }
 

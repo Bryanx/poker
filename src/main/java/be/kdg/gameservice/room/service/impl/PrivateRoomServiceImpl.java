@@ -1,6 +1,7 @@
 package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.PrivateRoom;
 import be.kdg.gameservice.room.model.WhiteListedUser;
 import be.kdg.gameservice.room.persistence.WhiteListedPlayerRepository;
@@ -58,9 +59,9 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
      * @return The newly created private room.
      */
     @Override
-    public PrivateRoom addPrivateRoom(String userId, String name) {
+    public PrivateRoom addPrivateRoom(String userId, GameRules gameRules, String name) {
         //Make room
-        PrivateRoom room = new PrivateRoom(name, userId);
+        PrivateRoom room = new PrivateRoom(gameRules, name, userId);
 
         //update database
         roomService.saveRoom(room);

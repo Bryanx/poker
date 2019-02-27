@@ -117,12 +117,13 @@ export function setupTranslateFactory(
     },
     {
       provide: InjectableRxStompConfig,
-      useValue: websocket_game_serviceConfig
+      useValue: websocket_game_serviceConfig,
     },
-    {
+    /*{
       provide: InjectableRxStompConfig,
-      useValue: webSocketConfigUserService
-    },
+      useValue: webSocketConfigUserService,
+      multi: true,
+    },*/
     {
       provide: RxStompService,
       useFactory: rxStompServiceFactory,

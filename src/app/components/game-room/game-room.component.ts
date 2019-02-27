@@ -47,7 +47,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.getRoom(roomId as number);
 
     this.joinRoomInterval = setInterval(() => {
-      if (this.room !== undefined) {
+      if (this.room.gameRules !== undefined) {
         this.initializeRoomConnection();
         this.initializeRoundConnection();
         this.initializeWinnerConnection();
@@ -57,7 +57,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     }, 100);
 
     this.getRoundInterval = setInterval(() => {
-      if (this.player !== undefined) {
+      if (this.player.userId !== '0') {
         this.getCurrentRound();
         this.done = true;
         clearInterval(this.getRoundInterval);
@@ -82,6 +82,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.roomSubscription = this.webSocketService.watch('/room/receive-room/' + this.room.id).subscribe((message: Message) => {
       if (message) {
         this.room = JSON.parse(message.body) as Room;
+        // console.log(this.room);
       }
     }, error => {
       console.log(error.error.error_description);

@@ -20,7 +20,6 @@ import {AdminGuardService} from './services/admin-guard.service';
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'chat', component: ChatComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService] },
   { path: 'rankings', component: RankingsComponent, canActivate: [AuthGuardService] },

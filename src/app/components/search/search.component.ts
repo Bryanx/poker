@@ -6,6 +6,7 @@ import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
 import {AuthorizationService} from '../../services/authorization.service';
+import {Router} from '@angular/router';
 
 /**
  * This component will be used for searching through all the users
@@ -19,11 +20,12 @@ import {AuthorizationService} from '../../services/authorization.service';
 export class SearchComponent implements OnInit {
   private debounceTime: Number = 400;
   users: User[] = [];
+  admins: User[] = [];
   inputString: String = '';
   subject: Subject<String> = new Subject();
   myself: User = User.create();
 
-  constructor(private userService: UserService, private authService: AuthorizationService) {
+  constructor(private userService: UserService, private authService: AuthorizationService, private router: Router) {
   }
 
   /**
@@ -35,7 +37,8 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getMyself().subscribe(user => this.myself = user);
     if (this.isAdmin()) {
-      this.userService.getUsersAndAdmins().subscribe(users => this.users = users);
+      this.userService.getUsers().subscribe(users => this.users = users);
+      this.userService.getAdmins().subscribe(admins => this.admins = admins);
       console.log(this.users);
     } else {
       this.userService.getUsers().subscribe(users => this.users = users);
@@ -124,9 +127,11 @@ export class SearchComponent implements OnInit {
 
   makeAdmin(user: User) {
     this.userService.changeToAdmin(user).subscribe();
+    this.ngOnInit();
   }
 
   makeUser(user: User) {
     this.userService.changeToUser(user).subscribe();
+    this.ngOnInit();
   }
 }

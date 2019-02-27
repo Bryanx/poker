@@ -65,12 +65,12 @@ export class GameRoomAdminComponent implements OnInit {
   }
 
   isAdding() {
-    return this.router.url.split('/')[2] === 'add'
+    return this.router.url.split('/')[2] === 'add';
   }
 
   deleteRoom() {
     this.gameService.deleteRoom(this.room).subscribe(result => {
-      return this.router.navigate(['/game-rooms'])
+      return this.router.navigate(['/game-rooms']);
     });
   }
 
@@ -83,11 +83,11 @@ export class GameRoomAdminComponent implements OnInit {
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
     if (this.isAdding()) {
       this.gameService.addRoom(this.room).subscribe(result => {
-        return this.router.navigate(['/game-rooms'])
+        return this.router.navigate(['/game-rooms']);
       });
     } else {
       this.gameService.changeRoom(this.room).subscribe(result => {
-        return this.router.navigate(['/game-rooms'])
+        return this.router.navigate(['/game-rooms']);
       });
     }
   }

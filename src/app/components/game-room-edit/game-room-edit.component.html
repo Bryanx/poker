@@ -61,9 +61,10 @@
         <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid">{{'SAVE' | translate |
           titlecase}}
         </button>
-        <button *ngIf="!isAdding()" (click)="deleteRoom()" class="btn delete">{{'DELETEROOM' | translate | titlecase}}</button>
+        <button *ngIf="!isAdding()" (click)="deleteRoom()" class="btn delete">{{'DELETEROOM' | translate | titlecase}}
+        </button>
       </section>
-      <button class="btn" (click)="back()">{{'BACK' | translate | titlecase}}</button>
+      <button class="btn" type="button" (click)="goBackPrev()">{{'BACK' | translate | titlecase}}</button>
     </section>
   </section>
 </form>

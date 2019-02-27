@@ -1,4 +1,5 @@
 @import "../../../styles";
+
 @include custom_button
 
 :host {
@@ -19,6 +20,11 @@ section {
   max-width: 1200px;
 }
 
+h2 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
 .nav {
   display: flex;
   flex-direction: row;
@@ -31,6 +37,7 @@ section {
     margin-left: 1rem;
   }
 }
+
 @media(max-width: 800px) {
   h1 {
     font-size: 2rem;

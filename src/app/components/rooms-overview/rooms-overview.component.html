@@ -6,6 +6,7 @@
                  [room]="room"
   ></app-room-card>
 </section>
+<h2 *ngIf="rooms.length <= 0 && !public" class="no-rooms">You have no rooms bro, add some!</h2>
 <section class="nav">
   <button *ngIf="!inSettingMode" routerLink="/" class="nav-button">{{'BACK' | translate | titlecase}}</button>
   <button *ngIf="inSettingMode" routerLink="/rooms/private" class="nav-button">{{'BACK' | translate | titlecase}}</button>

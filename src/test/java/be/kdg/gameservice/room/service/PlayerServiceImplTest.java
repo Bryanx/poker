@@ -1,4 +1,4 @@
-package be.kdg.gameservice.room.service.impl;
+package be.kdg.gameservice.room.service;
 
 import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.room.exception.RoomException;

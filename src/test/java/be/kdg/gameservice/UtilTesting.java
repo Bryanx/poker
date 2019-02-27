@@ -40,6 +40,7 @@ public abstract class UtilTesting {
     private ResourceServerTokenServices resourceServerTokenServices;
 
     protected int testableRoomIdWithPlayers;
+    protected int testablePrivateRoomId;
     protected int testableRoomIdWithoutPlayers;
     protected int testableRoundIdWithPlayers;
     protected String testableUserId;
@@ -82,6 +83,8 @@ public abstract class UtilTesting {
         PrivateRoom privateRoom2 = new PrivateRoom(new GameRules(12, 24, 15, 1200, 6), "privateroomCustom", testableUserId);
         roomRepository.save(privateRoom1);
         roomRepository.save(privateRoom2);
+
+        this.testablePrivateRoomId = privateRoom2.getId();
     }
 
     /**

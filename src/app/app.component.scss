@@ -36,17 +36,21 @@
 
   button {
     background: none;
-    color: darken($background-color, 5%);
+    color: white;
     width: auto;
     height: auto;
-    margin: 0;
     min-width: 0;
     font-size: 1.2rem;
     font-weight: bold;
     padding: 0 0 0 .3rem;
+    margin: 0 1rem 0 0;
 
     &:hover {
-      color: darken($background-color, 50%);
+      color: darken(#fff, 30%);
+    }
+
+    &:active {
+      color: darken(#fff, 40%);
     }
   }
 }

@@ -2,7 +2,6 @@ package be.kdg.gameservice.room.service;
 
 import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.room.exception.RoomException;
-import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.PlayerService;
 import be.kdg.gameservice.room.service.api.RoomService;
@@ -16,15 +15,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-public class RoomServiceImplTest extends UtilTesting {
+public class PlayerServiceImplTest extends UtilTesting  {
     @Autowired
-    private RoomService roomService;
+    private PlayerService playerService;
     @Autowired
     private RoomRepository roomRepository;
 
@@ -33,14 +31,9 @@ public class RoomServiceImplTest extends UtilTesting {
         provideTestDataRooms(roomRepository);
     }
 
-    @Test
-    public void getRooms() {
-        assertEquals(3, roomService.getRooms(Room.class).size());
-    }
-
     @Test(expected = RoomException.class)
-    public void startNewRoundFail() throws RoomException {
-        roomService.getCurrentRound(testableRoomIdWithoutPlayers);
-        fail("A round should not be started with less than 2 players inside one room.");
+    public void deletePlayerFail() throws RoomException, RoundException {
+        playerService.leaveRoom(testableRoomIdWithoutPlayers, "2");
+        fail("The player with userId '2' should not be present in this room");
     }
 }

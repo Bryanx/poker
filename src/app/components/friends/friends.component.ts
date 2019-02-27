@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 /**
  * Component for displaying friends
@@ -8,7 +9,16 @@ import {User} from '../../model/user';
 @Component({
   selector: 'app-friends',
   templateUrl: './friends.component.html',
-  styleUrls: ['./friends.component.scss']
+  styleUrls: ['./friends.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({opacity: 1})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(200)
+      ]),
+    ])
+  ]
 })
 export class FriendsComponent implements OnInit {
   myself: User = User.create();

@@ -2,7 +2,7 @@
 <h1>{{'FRIENDS' | translate | uppercase}}</h1>
 
 <section>
-  <div class="friend-row" *ngFor="let friend of myself?.friends" routerLink="/user/{{friend.id}}">
+  <div class="friend-row" *ngFor="let friend of myself?.friends" [@simpleFadeAnimation]="'in'" routerLink="/user/{{friend.id}}">
     {{friend.username}}
     <div class="delete-friend" (click)="removeFriend(friend)"><fa name="plus"></fa></div>
   </div>

@@ -1,11 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-rankings',
   templateUrl: './rankings.component.html',
-  styleUrls: ['./rankings.component.scss']
+  styleUrls: ['./rankings.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({opacity: 1})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(200)
+      ]),
+    ])
+  ]
 })
 export class RankingsComponent implements OnInit {
   users: User[] = [];

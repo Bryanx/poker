@@ -5,6 +5,7 @@ import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 /**
  * This component will be used for searching through all the users
@@ -13,11 +14,23 @@ import {NotificationType} from '../../model/notificationType';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({opacity: 1})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(90)
+      ]),
+      transition(':leave',
+        animate(90, style({opacity: 0})))
+    ])
+  ]
 })
 export class SearchComponent implements OnInit {
   private debounceTime: Number = 400;
   users: User[] = [];
+  typed: Boolean = false;
   inputString: String = '';
   subject: Subject<String> = new Subject();
   myself: User = User.create();
@@ -33,7 +46,6 @@ export class SearchComponent implements OnInit {
    */
   ngOnInit(): void {
     this.userService.getMyself().subscribe(user => this.myself = user);
-    this.userService.getUsers().subscribe(users => this.users = users);
 
     this.subject.pipe(
       debounceTime(this.debounceTime as number),
@@ -44,7 +56,7 @@ export class SearchComponent implements OnInit {
         this.users = [];
       } else {
         this.users = users;
-      }
+    }
     });
   }
 
@@ -61,6 +73,7 @@ export class SearchComponent implements OnInit {
    * Adds the input string that is two-way-bind to the input-field to the subject.
    */
   addToSubject(): void {
+    this.typed = true;
     this.subject.next(this.inputString);
   }
 

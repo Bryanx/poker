@@ -6,8 +6,10 @@
   </button>
 </section>
 
-<section *ngIf="users.length > 0" class="results">
-  <div *ngFor="let user of users; index as i">
+<h2 class="welcome-message" *ngIf="!typed || !inputString">Type something to get started</h2>
+
+<section [@simpleFadeAnimation]="'in'" *ngIf="users.length > 0" class="results">
+  <div *ngFor="let user of users; index as i" [@simpleFadeAnimation]="'in'">
     <div class="image-wrapper">
       {{getInitials(user)}}
     </div>
@@ -18,4 +20,3 @@
 <h2 class="nothing-found" *ngIf="inputString && users.length <= 0">No bros :(</h2>
 
 <button class="back-button" routerLink="/friends">{{'BACK' | translate | titlecase}}</button>
-

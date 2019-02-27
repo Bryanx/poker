@@ -247,7 +247,7 @@ public class RoomApiController {
      */
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PatchMapping("/rooms/private/{roomId}/add-player/{userId}")
-    public ResponseEntity<Void> addFromWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
+    public ResponseEntity<Void> addToWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
         privateRoomService.addUserToWhiteList(roomId, userId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

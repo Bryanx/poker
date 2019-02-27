@@ -2,11 +2,13 @@ package be.kdg.gameservice.room.controlller;
 
 import be.kdg.gameservice.RequestType;
 import be.kdg.gameservice.UtilTesting;
+import be.kdg.gameservice.room.controller.dto.PrivateRoomDTO;
 import be.kdg.gameservice.room.controller.dto.RoomDTO;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
+import be.kdg.gameservice.room.service.api.PrivateRoomService;
 import be.kdg.gameservice.room.service.api.RoomService;
 import com.google.gson.Gson;
 import org.junit.Before;
@@ -35,10 +37,12 @@ public class RoomApiControllerTest extends UtilTesting {
     private RoomRepository roomRepository;
     @Autowired
     private RoomService roomService;
+    @Autowired
+    private PrivateRoomService privateRoomService;
 
     @Before
     public void setup() {
-        provideTestDataRooms(roomRepository);
+        provideTestDataPrivateRooms(roomRepository);
     }
 
     @Test
@@ -78,5 +82,23 @@ public class RoomApiControllerTest extends UtilTesting {
     @Test
     public void getCurrentRound() throws Exception {
         testMockMvc("/rooms/" + testableRoomIdWithPlayers + "/current-round", "", mockMvc, RequestType.GET);
+    }
+
+    @Test
+    public void addPrivateRoom() throws Exception {
+        int privateRoomSize = privateRoomService.getPrivateRooms(testableUserId).size();
+        String privateRoomName = "Maartensprivateroom";
+        testMockMvc("/rooms/private/" + privateRoomName, "", mockMvc, RequestType.POST);
+        assertEquals(privateRoomSize + 1, privateRoomService.getPrivateRooms(testableUserId).size());
+    }
+
+    @Test
+    public void removeFromWhitelist() {
+
+    }
+
+    @Test
+    public void addToWhitelist() {
+
     }
 }

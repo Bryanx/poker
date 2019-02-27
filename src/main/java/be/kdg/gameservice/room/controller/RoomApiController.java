@@ -162,7 +162,7 @@ public class RoomApiController {
         UserDTO userDto = getUser(token);
         userDto.setChips(userDto.getChips() - roomService.checkChips(roomId, userDto.getChips()));
         if (updateUser(token, userDto) != null) {
-            Player playerIn = playerService.joinRoom(roomId, getUserId(authentication).get(ID_KEY).toString());
+            Player playerIn = playerService.joinRoom(roomId, getUserId(authentication));
             PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
             Room roomIn = roomService.getRoom(roomId);
             RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);

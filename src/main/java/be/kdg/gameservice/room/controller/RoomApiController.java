@@ -238,6 +238,21 @@ public class RoomApiController {
     }
 
     /**
+     * Adds a player from the white list
+     *
+     * @param roomId The id of the room
+     * @param userId The id of the user that needs to be removed from the whitelist.
+     * @return Status code 202.
+     * @throws RoomException Rerouted to handler.
+     */
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PatchMapping("/rooms/private/{roomId}/add-player/{userId}")
+    public ResponseEntity<Void> addFromWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
+        privateRoomService.addUserToWhiteList(roomId, userId);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    /**
      * @param roomId The id of the room that needs to be deleted.
      * @return Status code 202 if the room was successful deleted.
      * @throws RoomException Rerouted to handler.

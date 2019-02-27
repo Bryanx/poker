@@ -5,6 +5,7 @@ import {Room} from '../model/room';
 import {Act} from '../model/act';
 import {Player} from '../model/player';
 import {UrlService} from './url.service';
+import {PrivateRoom} from '../model/privateRoom';
 
 /**
  * This service is used to manage all the HTTP traffic of the
@@ -26,6 +27,13 @@ export class GameService {
    */
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(this.url);
+  }
+
+  /**
+   * Gives back all the private rooms that the user has the right authentication for.
+   */
+  getPrivateRooms(): Observable<PrivateRoom[]> {
+    return this.http.get<PrivateRoom[]>(this.url + '/private');
   }
 
   /**

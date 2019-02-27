@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Room} from '../../model/room';
 import {GameService} from '../../services/game.service';
 import {AuthorizationService} from '../../services/authorization.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {BehaviorSubject} from 'rxjs';
 
 @Component({
   selector: 'app-rooms-overview',
@@ -9,15 +11,26 @@ import {AuthorizationService} from '../../services/authorization.service';
   styleUrls: ['./rooms-overview.component.scss']
 })
 export class RoomsOverviewComponent implements OnInit {
-  rooms: Room[] = [];
+  rooms = [];
 
-  constructor(private gameService: GameService, private authService: AuthorizationService) {
+  constructor(private gameService: GameService,
+              private router: Router,
+              private authService: AuthorizationService) {
   }
 
   ngOnInit() {
-    this.gameService.getRooms().subscribe(rooms => {
-      this.rooms = rooms;
-    });
+    const url: string = this.router.url;
+
+    if (!url.includes('private')) {
+      this.gameService.getRooms().subscribe(rooms => {
+        this.rooms = rooms;
+      });
+    } else {
+      this.gameService.getPrivateRooms().subscribe(rooms => {
+        this.rooms = rooms;
+        console.log(rooms);
+      });
+    }
   }
 
   isAdmin() {

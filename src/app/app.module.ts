@@ -36,6 +36,7 @@ import {webSocketConfigUserService} from './configs/websocket_user_service.confi
 import {NotifierModule, NotifierOptions} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
+import { RoomCardComponent } from './components/room-card/room-card.component';
 
 const config = new AuthServiceConfig([
   {
@@ -81,7 +82,8 @@ export function setupTranslateFactory(
     UserAccountComponent,
     GameRoomAdminComponent,
     RankingsComponent,
-    NotificationComponent
+    NotificationComponent,
+    RoomCardComponent
   ],
   imports: [
     BrowserModule,
@@ -115,15 +117,14 @@ export function setupTranslateFactory(
       deps: [ TranslateService ],
       multi: true
     },
-    {
-      provide: InjectableRxStompConfig,
-      useValue: websocket_game_serviceConfig,
-    },
     /*{
       provide: InjectableRxStompConfig,
-      useValue: webSocketConfigUserService,
-      multi: true,
+      useValue: websocket_game_serviceConfig,
     },*/
+    {
+      provide: InjectableRxStompConfig,
+      useValue: webSocketConfigUserService,
+    },
     {
       provide: RxStompService,
       useFactory: rxStompServiceFactory,

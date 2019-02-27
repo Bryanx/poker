@@ -41,14 +41,12 @@ export class NotificationComponent implements OnInit {
   set notifications(notification: Notification) {
     if (notification !== undefined) {
       this._notifications.push(notification);
-      console.log(notification);
     }
   }
 
   private getAllNotifications() {
     this.userService.getNotifications().subscribe(nots => {
       this._notifications = nots;
-      console.log(nots);
     });
   }
 

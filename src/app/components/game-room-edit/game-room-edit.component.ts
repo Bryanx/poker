@@ -65,9 +65,7 @@ export class GameRoomEditComponent implements OnInit {
   }
 
   deleteRoom() {
-    this.gameService.deleteRoom(this.room).subscribe(result => {
-      return this.router.navigate(['/game-rooms']);
-    });
+    this.gameService.deleteRoom(this.room).subscribe(() => this.location.back());
   }
 
   onSubmit() {

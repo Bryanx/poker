@@ -116,8 +116,21 @@ public class RoomApiController {
         return  new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
     }
 
-    public ResponseEntity<PrivateRoomDTO> getPrivateRoom(OAuth2Authentication authentication) {
-        //privateRoomService.getPrivateRoom()
+    /**
+     * Retrieves a private room from the database. This will only happen if the user
+     * has the right credentials.
+     *
+     * @param roomId The id of the room.
+     * @param authentication The token used for retrieving the userId.
+     * @return Status code 200 with the requested room.
+     * @throws RoomException Rerouted to handler
+     */
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/rooms/private/{roomId}")
+    public ResponseEntity<PrivateRoomDTO> getPrivateRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
+        PrivateRoom privateRoom = privateRoomService.getPrivateRoom(roomId, getUserId(authentication));
+        PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
+        return new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
     }
 
     /**

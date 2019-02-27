@@ -116,6 +116,10 @@ public class RoomApiController {
         return  new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
     }
 
+    public ResponseEntity<PrivateRoomDTO> getPrivateRoom(OAuth2Authentication authentication) {
+        //privateRoomService.getPrivateRoom()
+    }
+
     /**
      * If a player joins a room, it is received here.
      * The user service will be used to check if the user has enough chips.

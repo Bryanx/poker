@@ -19,11 +19,15 @@ public final class PrivateRoom extends Room {
     private List<WhiteListedUser> whiteListedPlayers;
     private String ownerUserId;
 
-    public PrivateRoom(String name, String ownerUserId) {
-        super(new GameRules(), name);
+    public PrivateRoom(GameRules gameRules, String name, String ownerUserId) {
+        super(gameRules, name);
         this.ownerUserId = ownerUserId;
         this.whiteListedPlayers = new ArrayList<>();
         this.whiteListedPlayers.add(new WhiteListedUser(ownerUserId));
+    }
+
+    public PrivateRoom(String name, String ownerUserId) {
+        this(new GameRules(), name, ownerUserId);
     }
 
     public void addWhiteListedPlayer(WhiteListedUser player) {

@@ -2,6 +2,7 @@ package be.kdg.gameservice;
 
 import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.room.model.PrivateRoom;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.round.model.Round;
@@ -66,6 +67,18 @@ public abstract class UtilTesting {
         this.testableUserId = userIdMock;
         this.testableRoomIdWithPlayers = room1.getId();
         this.testableRoomIdWithoutPlayers = room2.getId();
+    }
+
+    /**
+     * Provides the current test calss with test data for private rooms
+     * Also calls provideoTestDataRooms that provides test data for normal room
+     *
+     * @param roomRepository
+     */
+    protected void provideTestDataPrivateRooms(RoomRepository roomRepository) {
+        this.provideTestDataRooms(roomRepository);
+        PrivateRoom privateRoom = new PrivateRoom("private room1", new GameRules(4, 8, 30, 500, 6), testableUserId);
+        roomRepository.save(privateRoom);
     }
 
     /**

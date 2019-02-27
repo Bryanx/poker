@@ -14,9 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 @RequiredArgsConstructor
 @Transactional
@@ -89,11 +93,11 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
      */
     @Override
     public List<PrivateRoom> getPrivateRooms(String userId) {
-        return roomService.getRooms().stream()
+        return roomRepository.findAll().stream()
                 .filter(PrivateRoom.class::isInstance)
                 .map(PrivateRoom.class::cast)
                 .filter(room -> room.getWhiteListedPlayers().stream()
                         .anyMatch(p -> p.getUserId().equals(userId)))
-                .collect(Collectors.toList());
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 }

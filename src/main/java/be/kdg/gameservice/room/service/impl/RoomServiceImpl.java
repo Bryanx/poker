@@ -107,7 +107,11 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public List<Room> getRooms() {
-        return Collections.unmodifiableList(roomRepository.findAll());
+        return Collections.unmodifiableList(roomRepository
+                .findAll(Room.class)
+                .stream()
+                .filter(!PrivateRoom.class::isInstance
+                .collect(Collectors.toList())));
     }
 
     /**

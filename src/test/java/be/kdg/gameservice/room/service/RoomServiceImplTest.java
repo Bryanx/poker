@@ -2,6 +2,7 @@ package be.kdg.gameservice.room.service;
 
 import be.kdg.gameservice.UtilTesting;
 import be.kdg.gameservice.room.exception.RoomException;
+import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.service.api.PlayerService;
 import be.kdg.gameservice.room.service.api.RoomService;
@@ -25,8 +26,6 @@ public class RoomServiceImplTest extends UtilTesting {
     @Autowired
     private RoomService roomService;
     @Autowired
-    private PlayerService playerService;
-    @Autowired
     private RoomRepository roomRepository;
 
     @Before
@@ -36,13 +35,7 @@ public class RoomServiceImplTest extends UtilTesting {
 
     @Test
     public void getRooms() {
-        assertEquals(3, roomService.getRooms().size());
-    }
-
-    @Test(expected = RoomException.class)
-    public void deletePlayerFail() throws RoomException, RoundException {
-        playerService.leaveRoom(testableRoomIdWithoutPlayers, "2");
-        fail("The player with userId '2' should not be present in this room");
+        assertEquals(3, roomService.getRooms(Room.class).size());
     }
 
     @Test(expected = RoomException.class)

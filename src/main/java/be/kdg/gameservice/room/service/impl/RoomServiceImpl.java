@@ -2,7 +2,6 @@ package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.*;
-import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.room.persistence.WhiteListedPlayerRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
@@ -16,8 +15,9 @@ import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 /**
  * This service will be used to manage the ongoing activity of a specific room.
@@ -54,22 +54,13 @@ public class RoomServiceImpl implements RoomService {
         whiteListedPlayerRepository.delete(whiteListedPlayer1);
     }
 
-    /**
-     * Creates a new room based on room object passed to roomRepository save method
-     *
-     * @param room
-     * @return
-     */
-    public Room addRoom(Room room) {
-        return roomRepository.save(room);
-    }
-
+    //TODO: remove this method and user id's instead.
     /**
      * Returns room based on roomName
      * Carefull, roomname should be unique.
      *
-     * @param roomName
-     * @return
+     * @param roomName The name of the room we need to search for.
+     * @return The room
      */
     @Override
     public Room getRoomByName(String roomName) {
@@ -106,12 +97,10 @@ public class RoomServiceImpl implements RoomService {
      * @return An unmodifiable collection of all the rooms from the database.
      */
     @Override
-    public List<Room> getRooms() {
-        return Collections.unmodifiableList(roomRepository
-                .findAll(Room.class)
-                .stream()
-                .filter(!PrivateRoom.class::isInstance
-                .collect(Collectors.toList())));
+    public <T extends Room> List<Room> getRooms(Class<T> aClass) {
+        return roomRepository.findAll().stream()
+                .filter(room -> room.getClass().getSimpleName().equals(aClass.getSimpleName()))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     /**

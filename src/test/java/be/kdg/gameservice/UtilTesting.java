@@ -77,8 +77,11 @@ public abstract class UtilTesting {
      */
     protected void provideTestDataPrivateRooms(RoomRepository roomRepository) {
         this.provideTestDataRooms(roomRepository);
-        PrivateRoom privateRoom = new PrivateRoom("private room1", new GameRules(4, 8, 30, 500, 6), testableUserId);
-        roomRepository.save(privateRoom);
+
+        PrivateRoom privateRoom1 = new PrivateRoom("privateRoom1", testableUserId);
+        PrivateRoom privateRoom2 = new PrivateRoom(new GameRules(12, 24, 15, 1200, 6), "privateroomCustom", testableUserId);
+        roomRepository.save(privateRoom1);
+        roomRepository.save(privateRoom2);
     }
 
     /**

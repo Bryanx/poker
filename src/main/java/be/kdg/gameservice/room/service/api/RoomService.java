@@ -2,7 +2,6 @@ package be.kdg.gameservice.room.service.api;
 
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.GameRules;
-import be.kdg.gameservice.room.model.PrivateRoom;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Round;
@@ -14,7 +13,7 @@ public interface RoomService {
 
     Round getCurrentRound(int roomId) throws RoomException;
 
-    List<Room> getRooms();
+    <T extends Room> List<Room> getRooms(Class<T> aClass);
 
     Room getRoom(int roomId) throws RoomException;
 

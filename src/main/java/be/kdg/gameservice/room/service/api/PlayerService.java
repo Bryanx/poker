@@ -11,5 +11,5 @@ public interface PlayerService {
 
     Player savePlayer(Player player);
 
-    Player getPlayer(String userId);
+    Player getPlayer(String userId) throws RoomException;
 }

@@ -1,9 +1,10 @@
-package be.kdg.gameservice.round.service.impl;
+package be.kdg.gameservice.round.service;
 
 import be.kdg.gameservice.card.Card;
 import be.kdg.gameservice.card.CardType;
 import be.kdg.gameservice.round.model.Hand;
 import be.kdg.gameservice.round.model.HandType;
+import be.kdg.gameservice.round.service.impl.HandServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -152,7 +152,8 @@ public final class Round {
     /**
      * Returns all active players
      * An active player is defined as a player where his last act is not FOLD
-     * @return
+     *
+     * @return all the active players
      */
     public List<Player> getActivePlayers() {
         return getPlayersInRound().stream()

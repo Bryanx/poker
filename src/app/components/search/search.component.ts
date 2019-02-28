@@ -39,7 +39,6 @@ export class SearchComponent implements OnInit {
     if (this.isAdmin()) {
       this.userService.getUsers().subscribe(users => this.users = users);
       this.userService.getAdmins().subscribe(admins => this.admins = admins);
-      console.log(this.users);
     } else {
       this.userService.getUsers().subscribe(users => this.users = users);
 

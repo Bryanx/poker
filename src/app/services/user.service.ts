@@ -47,7 +47,7 @@ export class UserService {
    * Returns all the users that are in the system.
    */
   getAdmins(): Observable<User[]> {
-    return this.http.get<User[]>(this.url + 's/admin');
+    return this.http.get<User[]>(this.url + 's/admin/all');
   }
 
   /**

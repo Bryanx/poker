@@ -43,14 +43,4 @@ export class RoomsOverviewComponent implements OnInit {
   isAdmin() {
     return this.authService.isAdmin();
   }
-
-  determineRouterLink() {
-    if (this.isAdmin()) {
-      return '/game-rooms/';
-    } else if (this.inSettingMode) {
-      return '/rooms/private/edit/';
-    } else {
-      return '/rooms/';
-    }
-  }
 }

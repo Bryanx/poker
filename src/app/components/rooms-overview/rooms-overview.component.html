@@ -2,8 +2,10 @@
 <h1 *ngIf="!public && !inSettingMode">{{'ROOMSOVERVIEWTITLE PRIVATE' | translate | uppercase}}</h1>
 <h1 *ngIf="inSettingMode">{{'EDITROOMS' | translate | uppercase}}</h1>
 <section class="rooms">
-  <app-room-card *ngFor="let room of rooms; index as i" [routerLink]="determineRouterLink() + room.id"
+  <app-room-card *ngFor="let room of rooms; index as i"
                  [room]="room"
+                 [inSettingMode]="inSettingMode"
+                 [isAdmin]="isAdmin()"
   ></app-room-card>
 </section>
 <h2 *ngIf="rooms.length <= 0 && !public" class="no-rooms">You have no rooms bro, add some!</h2>

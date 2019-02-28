@@ -1,15 +1,17 @@
-<div [@simpleFadeAnimation]="'in'" [class]="'room ' + determineSecondClass()">
-  <img class="add-friend router-link" *ngIf="inSettings" src="../../../assets/img/icons/add_friend.svg" (click)="showFriendModel()">
+<div [@simpleFadeAnimation]="'in'" class="main-container">
+  <img class="add-friend" *ngIf="inSettingMode" src="../../../assets/img/icons/add_friend.svg">
+  <div [routerLink]="determineRouterLink() + room.id" [class]="'room ' + determineSecondClass()">
+    <span class="name">{{room.name | uppercase}}</span>
+    <span class="price">Buy-in: {{room.gameRules.startingChips}}</span>
 
-  <span class="name">{{room.name | uppercase}}</span>
-  <span class="price">Buy-in: {{room.gameRules.startingChips}}</span>
+    <span class="blinds">{{room.gameRules.smallBlind}}/{{room.gameRules.bigBlind}}</span>
+    <img class="blind-img" src="../../../assets/img/icons/coins.svg" rel="coin">
 
-  <span class="blinds">{{room.gameRules.smallBlind}}/{{room.gameRules.bigBlind}}</span>
-  <img class="blind-img" src="../../../assets/img/icons/coins.svg" rel="coin">
+    <span class="timer">{{room.gameRules.playDelay}}s</span>
+    <img class="timer-img" src="../../../assets/img/icons/timer.svg" rel="timer">
 
-  <span class="timer">{{room.gameRules.playDelay}}s</span>
-  <img class="timer-img" src="../../../assets/img/icons/timer.svg" rel="timer">
-
-  <span class="capacity">{{room.playersInRoom.length}}/{{room.gameRules.maxPlayerCount}}</span>
-  <img class="cap-img" [src]="determineCapacityIcon()" rel="capacity">
+    <span class="capacity">{{room.playersInRoom.length}}/{{room.gameRules.maxPlayerCount}}</span>
+    <img class="cap-img" [src]="determineCapacityIcon()" rel="capacity">
+  </div>
 </div>
+

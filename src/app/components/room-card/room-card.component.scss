@@ -1,5 +1,25 @@
 @import "../../../styles";
 
+.main-container {
+  position: relative;
+
+  .add-friend {
+    z-index: 1;
+    position: absolute;
+    height: 35px;
+    width: 35px;
+    right: 35px;
+    top: 10px;
+    transition: .2s;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+}
+
+
 .room {
   display: flex;
   flex-direction: column;
@@ -17,19 +37,6 @@
   transition: .1s;
   cursor: pointer;
   user-select: none;
-
-  .add-friend {
-    z-index: 1;
-    position: absolute;
-    right: 10px;
-    height: 35px;
-    width: 35px;
-    transition: .2s;
-
-    &:hover {
-      transform: scale(1.25);
-    }
-  }
 
   span {
     position: absolute;
@@ -94,6 +101,13 @@
 .enabled {
   &:hover {
     transform: scale(1.05);
+    border: 10px solid $green;
+    background-color: darken($green, 15%);
+  }
+}
+
+.enabled-settings {
+  &:hover {
     border: 10px solid $green;
     background-color: darken($green, 15%);
   }

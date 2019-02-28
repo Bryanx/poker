@@ -17,7 +17,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class RoomCardComponent {
   @Input() room;
-  @Input() inSettings;
+  @Input() inSettingMode;
+  @Input() isAdmin;
 
   determineCapacityIcon(): string {
     const keyword: string = this.isFull() ? 'full' : 'not_full';
@@ -25,8 +26,8 @@ export class RoomCardComponent {
   }
 
   determineSecondClass() {
-    if (this.inSettings) {
-      return '';
+    if (this.inSettingMode) {
+      return 'enabled-settings';
     } else if (this.isFull()) {
       return 'disabled';
     } else {
@@ -36,5 +37,15 @@ export class RoomCardComponent {
 
   isFull(): boolean {
     return this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount;
+  }
+
+  determineRouterLink() {
+    if (this.isAdmin) {
+      return '/game-rooms/';
+    } else if (this.inSettingMode) {
+      return '/rooms/private/edit/';
+    } else {
+      return '/rooms/';
+    }
   }
 }

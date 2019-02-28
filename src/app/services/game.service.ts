@@ -82,6 +82,14 @@ export class GameService {
     return this.http.post<PrivateRoom>(this.url + '/private', room);
   }
 
+  addToWhiteList(roomId: number, userId: string): Observable<PrivateRoom> {
+    return this.http.patch<PrivateRoom>(this.url + '/private/' + roomId + '/add-user/' + userId, '');
+  }
+
+  deleteFromWhiteList(roomId: number, userId: string): Observable<PrivateRoom> {
+    return this.http.patch<PrivateRoom>(this.url + '/private/' + roomId + '/remove-user/' + userId, '');
+  }
+
   deleteRoom(room: Room): Observable<Room> {
     return this.http.delete<Room>(this.url + '/' + room.id);
   }

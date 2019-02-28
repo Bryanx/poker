@@ -58,7 +58,7 @@ h2 {
     top: 0;
   }
 
-  .friends-sec {
+  .user-list {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -66,7 +66,7 @@ h2 {
     align-items: center;
     justify-content: center;
 
-    .friend-row {
+    .user-row {
       width: 70%;
       display: flex;
       align-items: center;
@@ -79,7 +79,7 @@ h2 {
       margin-bottom: .5rem;
       cursor: pointer;
 
-      .delete-friend {
+      .add-user {
         @extend button;
         display: flex;
         justify-content: center;
@@ -101,6 +101,59 @@ h2 {
         }
 
         fa {
+          display: block;
+        }
+      }
+
+      .row {
+        opacity: 1;
+      }
+
+      .delete-user {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $red;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:hover {
+          background-color: darken($red, 20%);
+        }
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          display: block;
+          transform: rotate(45deg);
+        }
+      }
+
+      .owner-user {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          color: #efc75e;
           display: block;
         }
       }

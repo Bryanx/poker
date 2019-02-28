@@ -1,5 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Room} from '../../model/room';
+import {PrivateRoom} from '../../model/privateRoom';
 
 @Component({
   selector: 'app-room-card',
@@ -21,7 +23,7 @@ export class RoomCardComponent {
   @Input() isAdmin;
 
   @Output() modalEvent: EventEmitter<Boolean> = new EventEmitter();
-  @Output() roomEvent: EventEmitter<Number> = new EventEmitter();
+  @Output() roomEvent: EventEmitter<PrivateRoom> = new EventEmitter();
 
   determineCapacityIcon(): string {
     const keyword: string = this.isFull() ? 'full' : 'not_full';
@@ -54,6 +56,6 @@ export class RoomCardComponent {
 
   showFriendModal() {
     this.modalEvent.emit(true);
-    this.roomEvent.emit(this.room.id);
+    this.roomEvent.emit(this.room);
   }
 }

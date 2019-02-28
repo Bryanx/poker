@@ -135,29 +135,22 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User changeUserRoleToAdmin(User user) throws UserException {
-        Optional<UserRole> dbRole = userRoleRepository.findByUserId(user.getId());
+        UserRole dbRole = userRoleRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new UserException("UserRole not found"));
 
-        if (dbRole.isPresent()) {
-            UserRole role = dbRole.get();
-            role.setRole("ROLE_ADMIN");
-            userRoleRepository.save(role);
-            return user;
-        } else {
-            throw new UserException("UserRole not found");
-        }
+        dbRole.setRole("ROLE_ADMIN");
+        userRoleRepository.save(dbRole);
+        return user;
     }
 
     @Override
     public User changeUserRoleToUser(User user) throws UserException {
-        Optional<UserRole> dbRole = userRoleRepository.findByUserId(user.getId());
+        UserRole dbRole = userRoleRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new UserException("UserRole not found"));
 
-        if (dbRole.isPresent()) {
-            dbRole.get().setRole("ROLE_USER");
-            userRoleRepository.save(dbRole.get());
-            return user;
-        } else {
-            throw new UserException("UserRole not found");
-        }
+        dbRole.setRole("ROLE_USER");
+        userRoleRepository.save(dbRole);
+        return user;
     }
 
     /**

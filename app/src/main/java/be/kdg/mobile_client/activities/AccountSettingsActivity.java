@@ -24,7 +24,7 @@ public class AccountSettingsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_account_settings);
         ButterKnife.bind(this);
         addEventListeners();
     }

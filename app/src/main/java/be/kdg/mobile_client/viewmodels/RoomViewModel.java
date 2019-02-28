@@ -69,7 +69,6 @@ public class RoomViewModel extends ViewModel {
             if (responseSuccess(response)) {
                 player.postValue(response.body());
                 Log.i(TAG, "Player: " + response.body().toString() + " joined room: " + room.getValue());
-                getCurrentRound();
             } else {
                 handleError(throwable, "Failed to join room");
             }
@@ -92,6 +91,7 @@ public class RoomViewModel extends ViewModel {
                 next -> {
                     Log.i(TAG, "Received room update: " + room.getValue().getId());
                     room.postValue(new Gson().fromJson(next.getPayload(), Room.class));
+                    getCurrentRound();
                 },
                 error -> handleError(error, "Could not receive room update: " + room.getValue().getId()));
     }
@@ -100,11 +100,7 @@ public class RoomViewModel extends ViewModel {
         webSocketService.watch("/room/receive-round/" + room.getValue().getId(),
                 next -> {
                     round.postValue(new Gson().fromJson(next.getPayload(), Round.class));
-                    Room newRoom = room.getValue();
-                    String newPlayers = round.getValue() != null ? String.valueOf(round.getValue().getPlayersInRound()) : "null";
-                    Log.i(TAG, "Updating players in round to: " + newPlayers);
-                    newRoom.setPlayersInRoom(round.getValue().getPlayersInRound());
-                    room.postValue(newRoom);
+                    Log.i(TAG, "Updating round to: " + next.getPayload());
                 },
                 error -> handleError(error, "Could not receive round update: " + round.getValue()));
     }
@@ -117,6 +113,12 @@ public class RoomViewModel extends ViewModel {
         if (error != null) Log.e(TAG, error.getMessage());
         Log.e(TAG, msg);
         message.postValue(msg);
+    }
+
+    public boolean cardExists(int index) {
+        return round.getValue() != null &&
+                round.getValue().getCards() != null &&
+                round.getValue().getCards().get(index) != null;
     }
 
 }

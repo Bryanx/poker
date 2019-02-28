@@ -5,6 +5,13 @@
     tools:context=".activities.RoomActivity">
 
     <data>
+        <variable
+            name="onPokerTable"
+            type="Boolean" />
+
+        <variable
+            name="isHidden"
+            type="Boolean" />
 
         <variable
             name="card"
@@ -16,28 +23,43 @@
         android:layout_height="match_parent"
         android:background="@drawable/rounded_corners_white">
 
-        <TextView
+        <ImageView
+            android:id="@+id/icon1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{card.id}"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/placeholder"
+            android:src="@{onPokerTable ? @drawable/card_symbol_clubs_small : @drawable/card_symbol_clubs}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="1dp"
+            android:gravity="center"
+            android:text="@{card.id % 12}"
             android:textColor="#000"
-            app:layout_constraintBottom_toTopOf="@+id/imageView"
+            android:textSize="@{onPokerTable ? @dimen/small_text : @dimen/large_text}"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"
             android:contentDescription="@string/placeholder"
-            android:src="@drawable/card_symbol_clubs"
+            android:src="@{onPokerTable ? @drawable/card_symbol_clubs_small : @drawable/card_symbol_clubs}"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

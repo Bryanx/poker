@@ -1,7 +1,5 @@
 @import "../../../styles";
 
-@include custom_button
-
 :host {
   display: flex;
   flex-direction: column;
@@ -26,6 +24,7 @@ h2 {
 }
 
 .nav {
+  @include custom_button;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -35,6 +34,103 @@ h2 {
   button {
     margin-right: 1rem;
     margin-left: 1rem;
+  }
+}
+
+.friend-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  z-index: 2;
+  position: absolute;
+  background-color: lighten($background-color, 10%);
+  top: 50px;
+  width: 90vw;
+  height: 90vh;
+  border-radius: 1.5rem;
+
+  h1 {
+    margin-top: 20px;
+    position: absolute;
+    top: 0;
+  }
+
+  .friends-sec {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    .friend-row {
+      width: 70%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      color: white;
+      background: darken($background-color, 2%);
+      font-size: 1.5rem;
+      border-radius: .5rem;
+      margin-bottom: .5rem;
+      cursor: pointer;
+
+      .delete-friend {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $green;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:hover {
+          background-color: darken($green, 20%);
+        }
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          display: block;
+        }
+      }
+
+      &:hover {
+        background: darken($background-color, 3%);
+      }
+    }
+  }
+
+  .done {
+    height: 4rem;
+    border-radius: 0.15em;
+    text-decoration: none;
+    font-weight: 400;
+    color: #FFFFFF;
+    background-color: $green;
+    text-align: center;
+    border: none;
+    font-size: 1.5rem;
+    min-width: 10rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    width: 250px;
+
+    position: absolute;
+    bottom: 20px;
+    &:hover {
+      background: darken($green, 15%)
+    }
   }
 }
 

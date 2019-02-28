@@ -7,16 +7,30 @@ import {BehaviorSubject, concat, forkJoin} from 'rxjs';
 import {UserService} from '../../services/user.service';
 import {PrivateRoom} from '../../model/privateRoom';
 import {User} from '../../model/user';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-rooms-overview',
   templateUrl: './rooms-overview.component.html',
-  styleUrls: ['./rooms-overview.component.scss']
+  styleUrls: ['./rooms-overview.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({opacity: 0.97})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(75)
+      ]),
+      transition(':leave',
+        animate(75, style({opacity: 0})))
+    ])
+  ]
 })
 export class RoomsOverviewComponent implements OnInit {
   rooms = [];
   inSettingMode = false;
   public = false;
+  showFriendModal: Boolean;
+  users: User[];
 
   constructor(private gameService: GameService,
               private userService: UserService,
@@ -25,8 +39,9 @@ export class RoomsOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    const url: string = this.router.url;
+    this.getUsers();
 
+    const url: string = this.router.url;
     if (url.includes('private')) {
       if (url.includes('settings')) {
         this.gameService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
@@ -42,5 +57,9 @@ export class RoomsOverviewComponent implements OnInit {
 
   isAdmin() {
     return this.authService.isAdmin();
+  }
+
+  getUsers() {
+    this.userService.getUsers().subscribe(users => this.users = users.filter(user => user.username.startsWith('j')));
   }
 }

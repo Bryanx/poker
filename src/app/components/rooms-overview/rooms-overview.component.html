@@ -6,15 +6,34 @@
                  [room]="room"
                  [inSettingMode]="inSettingMode"
                  [isAdmin]="isAdmin()"
+                 (modalEvent)="showFriendModal = $event"
   ></app-room-card>
 </section>
 <h2 *ngIf="rooms.length <= 0 && !public" class="no-rooms">You have no rooms bro, add some!</h2>
+
 <section class="nav">
   <button *ngIf="!inSettingMode" routerLink="/" class="nav-button">{{'BACK' | translate | titlecase}}</button>
-  <button *ngIf="inSettingMode" routerLink="/rooms/private" class="nav-button">{{'BACK' | translate | titlecase}}</button>
-  <button class="nav-button" *ngIf="isAdmin()" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}</button>
-  <button class="nav-button" *ngIf="!isAdmin() && inSettingMode" routerLink="/rooms/private/add">{{'ADDROOM' | translate | titlecase}}</button>
-  <button class="nav-button" *ngIf="!isAdmin() && !inSettingMode && !public" routerLink="/rooms/private/settings">{{'SETTINGS' | translate | titlecase}}</button>
+  <button *ngIf="inSettingMode" routerLink="/rooms/private" class="nav-button">{{'BACK' | translate | titlecase}}
+  </button>
+  <button class="nav-button" *ngIf="isAdmin()" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}
+  </button>
+  <button class="nav-button" *ngIf="!isAdmin() && inSettingMode" routerLink="/rooms/private/add">{{'ADDROOM' | translate
+    | titlecase}}
+  </button>
+  <button class="nav-button" *ngIf="!isAdmin() && !inSettingMode && !public" routerLink="/rooms/private/settings">
+    {{'SETTINGS' | translate | titlecase}}
+  </button>
+</section>
+
+<section [@simpleFadeAnimation]="'in'" class="friend-modal" *ngIf="showFriendModal">
+  <h1>ADD FRIENDS</h1>
+  <section class="friends-sec">
+    <div class="friend-row" *ngFor="let user of users">
+      {{user.username}}
+      <div class="delete-friend"><fa name="plus"></fa></div>
+    </div>
+  </section>
+  <button class="done">DONE</button>
 </section>
 
 

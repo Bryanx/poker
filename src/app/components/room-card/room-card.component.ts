@@ -20,6 +20,8 @@ export class RoomCardComponent {
   @Input() inSettingMode;
   @Input() isAdmin;
 
+  @Output() modalEvent: EventEmitter<Boolean> = new EventEmitter();
+
   determineCapacityIcon(): string {
     const keyword: string = this.isFull() ? 'full' : 'not_full';
     return '../../../assets/img/icons/' + keyword + '.svg';
@@ -47,5 +49,9 @@ export class RoomCardComponent {
     } else {
       return '/rooms/';
     }
+  }
+
+  showFriendModal() {
+    this.modalEvent.emit(true);
   }
 }

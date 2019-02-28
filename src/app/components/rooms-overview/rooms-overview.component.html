@@ -7,6 +7,7 @@
                  [inSettingMode]="inSettingMode"
                  [isAdmin]="isAdmin()"
                  (modalEvent)="showFriendModal = $event"
+                 (roomEvent)="getCorrespondingFriends($event)"
   ></app-room-card>
 </section>
 <h2 *ngIf="rooms.length <= 0 && !public" class="no-rooms">You have no rooms bro, add some!</h2>
@@ -33,7 +34,7 @@
       <div class="delete-friend"><fa name="plus"></fa></div>
     </div>
   </section>
-  <button class="done">DONE</button>
+  <button (click)="showFriendModal = false" class="done">DONE</button>
 </section>
 
 

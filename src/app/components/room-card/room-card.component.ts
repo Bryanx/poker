@@ -21,6 +21,7 @@ export class RoomCardComponent {
   @Input() isAdmin;
 
   @Output() modalEvent: EventEmitter<Boolean> = new EventEmitter();
+  @Output() roomEvent: EventEmitter<Number> = new EventEmitter();
 
   determineCapacityIcon(): string {
     const keyword: string = this.isFull() ? 'full' : 'not_full';
@@ -53,5 +54,6 @@ export class RoomCardComponent {
 
   showFriendModal() {
     this.modalEvent.emit(true);
+    this.roomEvent.emit(this.room.id);
   }
 }

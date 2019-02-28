@@ -31,6 +31,7 @@ export class RoomsOverviewComponent implements OnInit {
   public = false;
   showFriendModal: Boolean;
   users: User[];
+  whiteListedUsers: User[];
 
   constructor(private gameService: GameService,
               private userService: UserService,
@@ -39,7 +40,7 @@ export class RoomsOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUsers();
+    this.getUsersBad();
 
     const url: string = this.router.url;
     if (url.includes('private')) {
@@ -47,7 +48,10 @@ export class RoomsOverviewComponent implements OnInit {
         this.gameService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
         this.inSettingMode = true;
       } else {
-        this.gameService.getPrivateRooms().subscribe(rooms => this.rooms = rooms);
+        this.gameService.getPrivateRooms().subscribe(rooms => {
+          this.rooms = rooms;
+          console.log(rooms);
+        });
       }
     } else {
       this.public = true;
@@ -60,6 +64,32 @@ export class RoomsOverviewComponent implements OnInit {
   }
 
   getUsers() {
-    this.userService.getUsers().subscribe(users => this.users = users.filter(user => user.username.startsWith('j')));
+    this.userService.getUsers().subscribe(users => {
+      users = users.filter(user => !this.isInWhiteList(user));
+      console.log(users);
+    });
+  }
+
+  getUsersBad() {
+    this.userService.getUsers().subscribe(users => this.users = users.filter(user => user.username.startsWith('remi')));
+  }
+
+  getCorrespondingFriends(roomId: number) {
+    this.whiteListedUsers = [];
+    const room: PrivateRoom = this.rooms.filter(r => r.id === roomId)[0];
+    room.whiteListedUsers.forEach(listedUser => {
+      this.userService.getUser(listedUser.userId).subscribe(user => this.whiteListedUsers.push(user));
+      console.log(this.whiteListedUsers);
+      this.getUsers();
+    });
+  }
+
+  isInWhiteList(user: User) {
+    for (let i = 0; i < this.whiteListedUsers.length; i++) {
+      if (this.whiteListedUsers[i].id === user.id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

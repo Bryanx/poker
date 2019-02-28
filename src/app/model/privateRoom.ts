@@ -1,5 +1,6 @@
 import {GameRules} from './gamerules';
 import {Player} from './player';
+import {WhiteListedUser} from './whiteListedUser';
 
 export class PrivateRoom {
   id: number;
@@ -7,6 +8,7 @@ export class PrivateRoom {
   gameRules: GameRules;
   playersInRoom: Player[];
   ownerUserId: string;
+  whiteListedUsers: WhiteListedUser[];
 
   static create() {
     return {
@@ -14,7 +16,8 @@ export class PrivateRoom {
       name: 'test room',
       gameRules: undefined,
       playersInRoom: [Player.create()],
-      ownerUserId: ''
+      ownerUserId: '',
+      whitelistedUsers: [WhiteListedUser.create()]
     };
   }
 }

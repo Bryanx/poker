@@ -67,7 +67,7 @@ public class RegisterActivity extends BaseActivity {
      */
     private void getTokenFromServer(Register register) {
         userService.register(register).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response.isSuccessful()) {
+            if (response != null && response.body() != null && response.isSuccessful()) {
                 onRegisterSuccess(response.body());
             } else {
                 onRegisterFailed(throwable == null ? "" : throwable.getMessage());

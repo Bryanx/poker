@@ -14,8 +14,13 @@ import be.kdg.mobile_client.activities.RoomActivity;
 import be.kdg.mobile_client.activities.UserSearchActivity;
 import be.kdg.mobile_client.dagger.modules.ControllerModule;
 import be.kdg.mobile_client.fragments.ChatFragment;
+import be.kdg.mobile_client.services.ChatService;
+import be.kdg.mobile_client.services.GameService;
+import be.kdg.mobile_client.services.WebSocketService;
+import be.kdg.mobile_client.viewmodels.RoomViewModel;
 import be.kdg.mobile_client.viewmodels.UserViewModel;
 import dagger.Subcomponent;
+import ua.naiksoftware.stomp.StompClient;
 
 /**
  * Overview of where the ControllerModule should be injected.
@@ -35,4 +40,9 @@ public interface ControllerComponent {
     void inject(AccountActivity accountActivity);
     void inject(UserSearchActivity userSearchActivity);
     void inject(UserViewModel userViewModel);
+    void inject(StompClient stompClient);
+    void inject(GameService gameService);
+    WebSocketService websocketService();
+    ChatService chatService();
+    RoomViewModel roomViewModel();
 }

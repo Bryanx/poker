@@ -2,6 +2,7 @@ package be.kdg.mobile_client.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -40,16 +41,18 @@ public class OverviewActivity extends BaseActivity {
 
     private void addEventHandlers() {
         btnBack.setOnClickListener(e -> {
-            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+            Intent intent = new Intent(this, MenuActivity.class);
             startActivity(intent);
         });
     }
 
     private void getRooms() {
         gameService.getRooms().enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response.isSuccessful() && response.body() != null) {
-               initializeAdapter(Arrays.asList(response.body()));
+            if (response != null && response.isSuccessful() && response.body() != null) {
+               initializeAdapter(response.body());
             } else {
+                final String msg = throwable == null ? "" : throwable.getMessage();
+                Log.e("OverviewActivity", "Error getting rooms. " + msg);
                 Toast.makeText(getApplicationContext(), getString(R.string.error_getting_rooms), Toast.LENGTH_LONG).show();
             }
         }));

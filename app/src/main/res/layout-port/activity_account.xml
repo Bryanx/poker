@@ -54,7 +54,7 @@
             <TextView
                 android:id="@+id/tvWins"
                 style="@style/accountContentData"
-                android:text="@{String.valueOf(viewmodel.user.wins)}" />
+                android:text="@{viewmodel.user.wins}" />
 
             <TextView
                 style="@style/accountContentHeader"
@@ -63,7 +63,7 @@
             <TextView
                 android:id="@+id/tvChips"
                 style="@style/accountContentData"
-                android:text="@{String.valueOf(viewmodel.user.chips)}" />
+                android:text="@{viewmodel.user.chips}" />
 
             <TextView
                 style="@style/accountContentHeader"
@@ -72,7 +72,7 @@
             <TextView
                 android:id="@+id/tvGames"
                 style="@style/accountContentData"
-                android:text="@{String.valueOf(viewmodel.user.gamesPlayed)}" />
+                android:text="@{viewmodel.user.gamesPlayed}" />
 
             <TextView
                 style="@style/accountContentHeader"

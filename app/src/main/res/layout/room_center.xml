@@ -6,35 +6,11 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
 
         <variable
             name="viewmodel"
             type="be.kdg.mobile_client.viewmodels.RoomViewModel" />
-
-        <variable
-            name="player0"
-            type="be.kdg.mobile_client.model.Player" />
-
-        <variable
-            name="player1"
-            type="be.kdg.mobile_client.model.Player" />
-
-        <variable
-            name="player2"
-            type="be.kdg.mobile_client.model.Player" />
-
-        <variable
-            name="player3"
-            type="be.kdg.mobile_client.model.Player" />
-
-        <variable
-            name="player4"
-            type="be.kdg.mobile_client.model.Player" />
-
-        <variable
-            name="player5"
-            type="be.kdg.mobile_client.model.Player" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,7 +47,7 @@
             android:paddingTop="0dp"
             android:paddingEnd="10dp"
             android:paddingBottom="0dp"
-            android:text="@{String.valueOf(viewmodel.round.pot)}"
+            android:text="@{viewmodel.round.pot}"
             android:textAlignment="center"
             android:textColor="@color/colorDarkerBackground"
             android:textStyle="bold"
@@ -160,52 +136,12 @@
             layout="@layout/room_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{player5 == null ? View.GONE : View.VISIBLE}"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 5}"
             app:layout_constraintBottom_toTopOf="@+id/vTable"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/vTable"
             app:layout_constraintTop_toTopOf="parent"
-            app:player="@{viewmodel.room.getPlay}" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/tvStatusPlayerTop"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="4dp"-->
-            <!--android:text="RAISE"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/colorYellow"-->
-            <!--app:layout_constraintBottom_toTopOf="@+id/btnPlayerTop"-->
-            <!--app:layout_constraintEnd_toEndOf="@+id/vTable"-->
-            <!--app:layout_constraintStart_toStartOf="@+id/vTable" />-->
-
-        <!--<Button-->
-            <!--android:id="@+id/btnPlayerTop"-->
-            <!--android:layout_width="60dp"-->
-            <!--android:layout_height="60dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:background="@drawable/circle_white"-->
-            <!--android:text="P"-->
-            <!--android:textColor="@color/colorWhite"-->
-            <!--android:textSize="32sp"-->
-            <!--android:typeface="sans"-->
-            <!--app:layout_constraintBottom_toTopOf="@+id/vTable"-->
-            <!--app:layout_constraintEnd_toEndOf="@+id/vTable"-->
-            <!--app:layout_constraintStart_toStartOf="@+id/vTable"-->
-            <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/tvCashPlayerTop"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--android:text="20k"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/colorWhite"-->
-            <!--app:layout_constraintEnd_toEndOf="@+id/vTable"-->
-            <!--app:layout_constraintStart_toStartOf="@+id/vTable"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/btnPlayerTop" />-->
+            app:player="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.room.playersInRoom.get(5) : null}" />
 
         <TextView
             android:id="@+id/tvBetPlayerTopRight"
@@ -234,59 +170,12 @@
             layout="@layout/room_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{player4 == null ? View.GONE : View.VISIBLE}"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 4}"
             app:layout_constraintBottom_toTopOf="@+id/vTable"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/vTable"
             app:layout_constraintTop_toTopOf="parent"
-            app:player="@{player4}" />
-
-
-        <!--<TextView-->
-            <!--android:id="@+id/tvStatusPlayerTopRight"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:layout_marginBottom="4dp"-->
-            <!--android:text="RAISE"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/colorYellow"-->
-            <!--app:layout_constraintBottom_toTopOf="@+id/btnPlayerTopRight"-->
-            <!--app:layout_constraintEnd_toEndOf="@+id/vTable"-->
-            <!--app:layout_constraintStart_toStartOf="@+id/guideline2" />-->
-
-        <!--<Button-->
-            <!--android:id="@+id/btnPlayerTopRight"-->
-            <!--android:layout_width="60dp"-->
-            <!--android:layout_height="60dp"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:background="@drawable/circle_white"-->
-            <!--android:text="G"-->
-            <!--android:textColor="@color/colorWhite"-->
-            <!--android:textSize="32sp"-->
-            <!--android:typeface="sans"-->
-            <!--app:layout_constraintBottom_toTopOf="@+id/vTable"-->
-            <!--app:layout_constraintEnd_toEndOf="@+id/vTable"-->
-            <!--app:layout_constraintStart_toStartOf="@+id/guideline2"-->
-            <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/tvCashPlayerTopRight"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:text="20k"-->
-            <!--android:textAlignment="center"-->
-            <!--android:textColor="@color/colorWhite"-->
-            <!--app:layout_constraintEnd_toEndOf="@+id/vTable"-->
-            <!--app:layout_constraintStart_toStartOf="@+id/guideline2"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/btnPlayerTopRight" />-->
+            app:player="@{viewmodel.room.playersInRoom.size > 4 ? viewmodel.room.playersInRoom.get(4) : null}" />
 
         <TextView
             android:id="@+id/tvBetPlayerTopLeft"
@@ -315,56 +204,12 @@
             layout="@layout/room_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{player3 == null ? View.GONE : View.VISIBLE}"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 3}"
             app:layout_constraintBottom_toTopOf="@+id/vTable"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/vTable"
             app:layout_constraintTop_toTopOf="parent"
-            app:player="@{player3}" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvStatusPlayerTopLeft"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginBottom="4dp"-->
-        <!--android:text="CALL"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/colorGreen"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/btnPlayerTopLeft"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/guideline2"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/vTable" />-->
-
-        <!--<Button-->
-        <!--android:id="@+id/btnPlayerTopLeft"-->
-        <!--android:layout_width="60dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:background="@drawable/circle_white"-->
-        <!--android:text="A"-->
-        <!--android:textColor="@color/colorWhite"-->
-        <!--android:textSize="32sp"-->
-        <!--android:typeface="sans"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/vTable"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/guideline2"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/vTable"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvCashPlayerTopLeft"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:text="20k"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/colorWhite"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/guideline2"-->
-        <!--app:layout_constraintStart_toStartOf="@+id/vTable"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/btnPlayerTopLeft" />-->
+            app:player="@{viewmodel.room.playersInRoom.size > 3 ? viewmodel.room.playersInRoom.get(3) : null}" />
 
         <TextView
             android:id="@+id/tvBetPlayerRight"
@@ -392,58 +237,12 @@
             layout="@layout/room_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{player2 == null ? View.GONE : View.VISIBLE}"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 2}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/vTable"
             app:layout_constraintTop_toTopOf="parent"
-            app:player="@{player2}" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvStatusPlayerRight"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginBottom="4dp"-->
-        <!--android:text="FOLD"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/colorRed"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/btnPlayerRight"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/vTable" />-->
-
-        <!--<Button-->
-        <!--android:id="@+id/btnPlayerRight"-->
-        <!--android:layout_width="60dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:background="@drawable/circle_white"-->
-        <!--android:text="J"-->
-        <!--android:textColor="@color/colorWhite"-->
-        <!--android:textSize="32sp"-->
-        <!--android:typeface="sans"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/vTable"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvCashPlayerRight"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:text="20k"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/colorWhite"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/vTable"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/btnPlayerRight" />-->
+            app:player="@{viewmodel.room.playersInRoom.size > 2 ? viewmodel.room.playersInRoom.get(2) : null}" />
 
 
         <TextView
@@ -471,56 +270,12 @@
             layout="@layout/room_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{player1 == null ? View.GONE : View.VISIBLE}"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 1}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/vTable"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:player="@{player1}" />
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvStatusPlayerLeft"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginBottom="4dp"-->
-        <!--android:text="RAISE"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/colorYellow"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/btnPlayerLeft"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/vTable"-->
-        <!--app:layout_constraintStart_toStartOf="parent" />-->
-
-        <!--<Button-->
-        <!--android:id="@+id/btnPlayerLeft"-->
-        <!--android:layout_width="60dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:background="@drawable/circle_white"-->
-        <!--android:text="B"-->
-        <!--android:textColor="@color/colorWhite"-->
-        <!--android:textSize="32sp"-->
-        <!--android:typeface="sans"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/vTable"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toTopOf="parent" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvCashPlayerLeft"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:text="20k"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/colorWhite"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/vTable"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/btnPlayerLeft" />-->
+            app:player="@{viewmodel.room.playersInRoom.size > 1 ? viewmodel.room.playersInRoom.get(1) : null}" />
 
         <TextView
             android:id="@+id/tvBetPlayerPrimary"
@@ -548,118 +303,34 @@
             layout="@layout/room_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{player0 == null ? View.GONE : View.VISIBLE}"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/vTable"
             app:layout_constraintStart_toStartOf="@+id/vTable"
             app:layout_constraintTop_toBottomOf="@+id/vTable"
-            app:player="@{player0}" />
+            app:player="@{viewmodel.room.playersInRoom.size > 0 ? viewmodel.room.playersInRoom.get(0) : null}" />
 
-        <!--<TextView-->
-        <!--android:id="@+id/tvStatusPlayerPrimary"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:layout_marginBottom="4dp"-->
-        <!--android:text="CALL"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/colorGreen"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/btnPlayerPrimary"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent" />-->
-
-        <!--<Button-->
-        <!--android:id="@+id/btnPlayerPrimary"-->
-        <!--android:layout_width="60dp"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:background="@drawable/circle_white"-->
-        <!--android:text="R"-->
-        <!--android:textColor="@color/colorWhite"-->
-        <!--android:textSize="32sp"-->
-        <!--android:typeface="sans"-->
-        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/vTable" />-->
-
-        <!--<TextView-->
-        <!--android:id="@+id/tvCashPlayerPrimary"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginStart="8dp"-->
-        <!--android:layout_marginTop="4dp"-->
-        <!--android:layout_marginEnd="8dp"-->
-        <!--android:text="@{}"-->
-        <!--android:textAlignment="center"-->
-        <!--android:textColor="@color/colorWhite"-->
-        <!--app:layout_constraintEnd_toEndOf="parent"-->
-        <!--app:layout_constraintStart_toStartOf="parent"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/btnPlayerPrimary" />-->
-
-        <View
+        <include
             android:id="@+id/vOwnCard1"
+            layout="@layout/room_card"
             android:layout_width="60dp"
             android:layout_height="100dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/rounded_corners_white"
+            app:card="@{viewmodel.player.firstCard}"
             app:layout_constraintBottom_toBottomOf="@+id/vOwnCard2"
             app:layout_constraintEnd_toStartOf="@+id/vOwnCard2" />
 
-        <View
+        <include
             android:id="@+id/vOwnCard2"
+            layout="@layout/room_card"
             android:layout_width="60dp"
             android:layout_height="100dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/rounded_corners_white"
+            app:card="@{viewmodel.player.secondCard}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.62"
             app:layout_constraintStart_toEndOf="@+id/playerPrimary"
             app:layout_constraintTop_toBottomOf="@+id/vTable" />
-
-        <!--<androidx.constraintlayout.widget.Group-->
-        <!--android:id="@+id/grpPlayerPrimary"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:visibility="visible"-->
-        <!--app:constraint_referenced_ids="tvBetPlayerPrimary,tvStatusPlayerPrimary,btnPlayerPrimary,tvCashPlayerPrimary" />-->
-
-        <!--<androidx.constraintlayout.widget.Group-->
-        <!--android:id="@+id/grpPlayerTop"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:visibility="visible"-->
-        <!--app:constraint_referenced_ids="tvBetPlayerTop,tvStatusPlayerTop,btnPlayerTop,tvCashPlayerTop" />-->
-
-        <!--<androidx.constraintlayout.widget.Group-->
-        <!--android:id="@+id/grpPlayerTopRight"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:visibility="visible"-->
-        <!--app:constraint_referenced_ids="tvBetPlayerTopRight,tvStatusPlayerTopRight,btnPlayerTopRight,tvCashPlayerTopRight" />-->
-
-        <!--<androidx.constraintlayout.widget.Group-->
-        <!--android:id="@+id/grpPlayerTopLeft"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:visibility="visible"-->
-        <!--app:constraint_referenced_ids="tvBetPlayerTopLeft,tvStatusPlayerTopLeft,btnPlayerTopLeft,tvCashPlayerTopLeft" />-->
-
-        <!--<androidx.constraintlayout.widget.Group-->
-        <!--android:id="@+id/grpPlayerRight"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:visibility="visible"-->
-        <!--app:constraint_referenced_ids="tvBetPlayerRight,tvStatusPlayerRight,btnPlayerRight,tvCashPlayerRight" />-->
-
-        <!--<androidx.constraintlayout.widget.Group-->
-        <!--android:id="@+id/grpPlayerLeft"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:visibility="visible"-->
-        <!--app:constraint_referenced_ids="tvBetPlayerLeft,tvStatusPlayerLeft,btnPlayerLeft,tvCashPlayerLeft" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

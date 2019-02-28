@@ -7,13 +7,18 @@
     <data>
 
         <variable
+            name="isVisible"
+            type="Boolean" />
+
+        <variable
             name="player"
             type="be.kdg.mobile_client.model.Player" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="@{isVisible}">
 
 
         <TextView
@@ -36,7 +41,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/circle_white"
-            android:text="@{player.playerName}"
+            android:text="@{player.playerName.charAt(0)}"
             android:textColor="@color/colorWhite"
             android:textSize="32sp"
             android:typeface="sans"
@@ -51,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@{String.valueOf(player.chipCount)}"
+            android:text="@{player.chipCount}"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"

@@ -41,9 +41,9 @@ import ua.naiksoftware.stomp.StompClient;
 @Module
 public class ControllerModule {
     private static final String API_BASE_URL_USER = "https://poker-user-service.herokuapp.com";
-//    private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
+    private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
 //    private static final String API_BASE_URL_USER = "http://10.0.2.2:5000";
-    private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
+//    private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 

@@ -45,7 +45,7 @@ public class RoomViewModel extends ViewModel {
         binding.centerLayout.setViewmodel(this);
         gameService.getRoom(roomNumber).enqueue(new CallbackWrapper<>((throwable, response) -> {
             if (responseSuccess(response)) {
-                Log.i(TAG, "Succesfully fetched room: " + response.body().getId());
+                Log.i(TAG, "Succesfully fetched room: " + response.body());
                 room.setValue(response.body());
                 checkPlayerCap();
                 initializeRoomConnection();
@@ -68,8 +68,7 @@ public class RoomViewModel extends ViewModel {
         gameService.joinRoom(room.getValue().getId()).enqueue(new CallbackWrapper<>((throwable, response) -> {
             if (responseSuccess(response)) {
                 player.postValue(response.body());
-                Log.i(TAG, "Player: " + response.body().toString() +
-                        " joined room: " + room.getValue().getId());
+                Log.i(TAG, "Player: " + response.body().toString() + " joined room: " + room.getValue());
                 getCurrentRound();
             } else {
                 handleError(throwable, "Failed to join room");
@@ -93,7 +92,6 @@ public class RoomViewModel extends ViewModel {
                 next -> {
                     Log.i(TAG, "Received room update: " + room.getValue().getId());
                     room.postValue(new Gson().fromJson(next.getPayload(), Room.class));
-                    updatePlayers();
                 },
                 error -> handleError(error, "Could not receive room update: " + room.getValue().getId()));
     }
@@ -104,35 +102,11 @@ public class RoomViewModel extends ViewModel {
                     round.postValue(new Gson().fromJson(next.getPayload(), Round.class));
                     Room newRoom = room.getValue();
                     String newPlayers = round.getValue() != null ? String.valueOf(round.getValue().getPlayersInRound()) : "null";
-                    Log.i(TAG, "Updating players in round: " + newRoom.getPlayersInRoom()
-                            + " to: " + newPlayers);
+                    Log.i(TAG, "Updating players in round to: " + newPlayers);
                     newRoom.setPlayersInRoom(round.getValue().getPlayersInRound());
                     room.postValue(newRoom);
                 },
                 error -> handleError(error, "Could not receive round update: " + round.getValue()));
-    }
-
-    //TODO: This method is very bad, someone improve it.
-    private void updatePlayers() {
-        if (room.getValue() == null) return;
-        if (room.getValue().getPlayersInRoom().get(0) != null) {
-            binding.centerLayout.setPlayer0(room.getValue().getPlayersInRoom().get(0));
-        }
-        if (room.getValue().getPlayersInRoom().get(1) != null) {
-            binding.centerLayout.setPlayer1(room.getValue().getPlayersInRoom().get(1));
-        }
-        if (room.getValue().getPlayersInRoom().get(2) != null) {
-            binding.centerLayout.setPlayer2(room.getValue().getPlayersInRoom().get(2));
-        }
-        if (room.getValue().getPlayersInRoom().get(3) != null) {
-            binding.centerLayout.setPlayer3(room.getValue().getPlayersInRoom().get(3));
-        }
-        if (room.getValue().getPlayersInRoom().get(4) != null) {
-            binding.centerLayout.setPlayer4(room.getValue().getPlayersInRoom().get(4));
-        }
-        if (room.getValue().getPlayersInRoom().get(5) != null) {
-            binding.centerLayout.setPlayer5(room.getValue().getPlayersInRoom().get(5));
-        }
     }
 
     private boolean responseSuccess(Response response) {

@@ -1,7 +1,6 @@
 import {Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
-import {GameService} from '../../services/game.service';
 import {Subscription} from 'rxjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {Message} from '@stomp/stompjs';
@@ -35,11 +34,8 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   @ViewChildren(PlayerComponent) playerChildren: QueryList<PlayerComponent>;
   lastAct: Act;
 
-  constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
-              private webSocketService: RxStompService, private authorizationService: AuthorizationService,
-              private roomService: RoomService, private userService: UserService) {
-
-  }
+  constructor(private curRouter: ActivatedRoute, private router: Router, private webSocketService: RxStompService,
+              private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService) {}
 
   ngOnInit() {
     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
@@ -122,9 +118,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   /**
    * Returns the players that are in the room including yourself.
-   =======
    * Subscribes to the winner channel. Every time someone wins it is received here.
-   >>>>>>> master
    */
   initializeWinnerConnection() {
     this.roundSubscription = this.webSocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {
@@ -148,7 +142,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   getRoom(id: number): void {
-    this.gameService.getRoom(id).subscribe(room => {
+    this.roomService.getRoom(id).subscribe(room => {
       this.room = room as Room;
 
       if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
@@ -177,7 +171,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Calls the leave room API call in the game service.
    */
   private leaveRoom(): void {
-    this.gameService.leaveRoom(this.room.id).subscribe();
+    this.roomService.leaveRoom(this.room.id).subscribe();
   }
 
   /**

@@ -1,6 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
-import {Subscription} from 'rxjs';
-import {User} from '../../model/user';
+import {Component, Input, OnInit} from '@angular/core';
 import {NotifierService} from 'angular-notifier';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {UserService} from '../../services/user.service';

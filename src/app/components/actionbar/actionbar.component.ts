@@ -102,11 +102,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
   isActPossible(acttype: ActType) {
     if (this.possibleActs !== undefined) {
-      if (this.possibleActs.indexOf(acttype) > -1) {
-        return true;
-      } else {
-        return false;
-      }
+      return this.possibleActs.indexOf(acttype) > -1;
     } else {
       return false;
     }

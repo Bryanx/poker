@@ -3,15 +3,16 @@ import {Act} from '../model/act';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ActType} from '../model/actType';
+import {UrlService} from './url.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoundService {
-  url = 'https://poker-game-service.herokuapp.com/api/rounds/';
-  // url = 'http://localhost:5001/api/rounds/';
+  private readonly url: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private urlService: UrlService) {
+    this.url = urlService.roundUrl;
   }
 
   /**

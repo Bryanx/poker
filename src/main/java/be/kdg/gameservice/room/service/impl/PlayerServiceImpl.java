@@ -2,6 +2,7 @@ package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.room.model.PrivateRoom;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.service.api.PlayerService;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -58,6 +60,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player leaveRoom(int roomId, String userId) throws RoomException {
         //Get data
+        List<Room> all = roomService.getRooms(PrivateRoom.class);
         Room room = roomService.getRoom(roomId);
         Optional<Player> playerOpt = room.getPlayersInRoom().stream()
                 .filter(player -> player.getUserId().equals(userId))

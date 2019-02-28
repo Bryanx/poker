@@ -13,7 +13,6 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -43,7 +42,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
         PrivateRoom room = (PrivateRoom) roomService.getRoom(roomId);
 
         //Do check
-        room.getWhiteListedPlayers().stream()
+        room.getWhiteListedUsers().stream()
                 .filter(p -> p.getUserId().equals(userId))
                 .findAny()
                 .orElseThrow(() -> new RoomException(PrivateRoomServiceImpl.class, "user with userId " + userId + " was not found on the whitelist"));
@@ -81,14 +80,14 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
         PrivateRoom room = (PrivateRoom) roomService.getRoom(roomId);
 
         //Do check
-        Optional<WhiteListedUser> whiteListedPlayerOpt = room.getWhiteListedPlayers().stream()
+        Optional<WhiteListedUser> whiteListedPlayerOpt = room.getWhiteListedUsers().stream()
                 .filter(p -> p.getUserId().equals(userId))
                 .findAny();
 
         if (whiteListedPlayerOpt.isPresent())
             throw new RoomException(PrivateRoomServiceImpl.class, "User with id " + userId + " was already whitelisted");
         /* TODO: remove if unnecessary.
-        if (room.getWhiteListedPlayers().size() + 1 > 6)
+        if (room.getWhiteListedUsers().size() + 1 > 6)
             throw new RoomException(PrivateRoomServiceImpl.class, "The private room with id " + room.getId() + " is full!");
             */
 
@@ -108,7 +107,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
     public void removeUserFromWhiteList(int roomId, String userId) throws RoomException {
         //Get data
         PrivateRoom room = (PrivateRoom) roomService.getRoom(roomId);
-        Optional<WhiteListedUser> userOpt = room.getWhiteListedPlayers().stream()
+        Optional<WhiteListedUser> userOpt = room.getWhiteListedUsers().stream()
                 .filter(u -> u.getUserId().equals(userId))
                 .findAny();
 
@@ -127,7 +126,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
     public List<PrivateRoom> getPrivateRooms(String userId) {
         return roomService.getRooms(PrivateRoom.class).stream()
                 .map(PrivateRoom.class::cast)
-                .filter(room -> room.getWhiteListedPlayers().stream()
+                .filter(room -> room.getWhiteListedUsers().stream()
                         .anyMatch(p -> p.getUserId().equals(userId)))
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }

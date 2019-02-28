@@ -2,6 +2,7 @@ package be.kdg.gameservice.room.controller.dto;
 
 import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.room.model.WhiteListedUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,4 +21,6 @@ public class PrivateRoomDTO {
     private GameRules gameRules;
     @NotNull
     private List<Player> playersInRoom;
+    @NotNull
+    private List<WhiteListedUser> whiteListedUsers;
 }

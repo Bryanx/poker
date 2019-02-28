@@ -38,7 +38,7 @@ public class PrivateRoomServiceImplTest extends UtilTesting {
     public void getPrivateRoom() throws RoomException {
         PrivateRoom privateRoom = privateRoomService.getPrivateRoom(this.testablePrivateRoomId, this.testableUserId);
         assertEquals(0, privateRoom.getPlayersInRoom().size());
-        assertEquals(1, privateRoom.getWhiteListedPlayers().size());
+        assertEquals(1, privateRoom.getWhiteListedUsers().size());
         assertEquals(1200, privateRoom.getGameRules().getStartingChips());
         assertEquals(12, privateRoom.getGameRules().getSmallBlind());
         assertEquals(24, privateRoom.getGameRules().getBigBlind());

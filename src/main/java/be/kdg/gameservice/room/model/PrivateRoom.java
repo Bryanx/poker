@@ -17,15 +17,15 @@ public final class PrivateRoom extends Room {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "room_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<WhiteListedUser> whiteListedPlayers;
+    private List<WhiteListedUser> whiteListedUsers;
     @Getter
     private String ownerId;
 
     public PrivateRoom(GameRules gameRules, String name, String ownerId) {
         super(gameRules, name);
         this.ownerId = ownerId;
-        this.whiteListedPlayers = new ArrayList<>();
-        this.whiteListedPlayers.add(new WhiteListedUser(ownerId));
+        this.whiteListedUsers = new ArrayList<>();
+        this.whiteListedUsers.add(new WhiteListedUser(ownerId));
     }
 
     public PrivateRoom(String name, String ownerUserId) {
@@ -33,15 +33,15 @@ public final class PrivateRoom extends Room {
     }
 
     public void addWhiteListedPlayer(WhiteListedUser user) {
-        this.whiteListedPlayers.add(user);
+        this.whiteListedUsers.add(user);
     }
 
     public void deleteWhiteListedPlayer(WhiteListedUser user) {
-        this.whiteListedPlayers.remove(user);
+        this.whiteListedUsers.remove(user);
     }
 
-    public List<WhiteListedUser> getWhiteListedPlayers() {
-        return Collections.unmodifiableList(whiteListedPlayers);
+    public List<WhiteListedUser> getWhiteListedUsers() {
+        return Collections.unmodifiableList(whiteListedUsers);
     }
 
 

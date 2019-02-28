@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
@@ -17,10 +17,21 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class RoomCardComponent {
   @Input() room;
+  @Input() inSettings;
 
   determineCapacityIcon(): string {
     const keyword: string = this.isFull() ? 'full' : 'not_full';
     return '../../../assets/img/icons/' + keyword + '.svg';
+  }
+
+  determineSecondClass() {
+    if (this.inSettings) {
+      return '';
+    } else if (this.isFull()) {
+      return 'disabled';
+    } else {
+      return 'enabled';
+    }
   }
 
   isFull(): boolean {

@@ -18,6 +18,19 @@
   cursor: pointer;
   user-select: none;
 
+  .add-friend {
+    z-index: 1;
+    position: absolute;
+    right: 10px;
+    height: 35px;
+    width: 35px;
+    transition: .2s;
+
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+
   span {
     position: absolute;
     color: white;

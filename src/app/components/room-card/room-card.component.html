@@ -1,4 +1,6 @@
-<div [@simpleFadeAnimation]="'in'" [class]="'room ' + (isFull() ? 'disabled' : 'enabled')">
+<div [@simpleFadeAnimation]="'in'" [class]="'room ' + determineSecondClass()">
+  <img class="add-friend router-link" *ngIf="inSettings" src="../../../assets/img/icons/add_friend.svg" (click)="showFriendModel()">
+
   <span class="name">{{room.name | uppercase}}</span>
   <span class="price">Buy-in: {{room.gameRules.startingChips}}</span>
 

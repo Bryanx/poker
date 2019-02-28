@@ -42,7 +42,7 @@ public class UserApiController {
     /**
      * Rest endpoint that returns the user based on his JWT.
      */
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/user")
     public ResponseEntity<UserDto> getUser(OAuth2Authentication authentication) {
         User user = userService.findUserById(getUserInfo(authentication).get(ID_KEY).toString());
@@ -76,7 +76,7 @@ public class UserApiController {
      * @return The users with a 200 status code if successful.
      */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/users/admin")
+    @GetMapping("/users/admin/all")
     public ResponseEntity<UserDto[]> getAdmins() {
         List<User> usersIn = userService.getAdmins();
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);

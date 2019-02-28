@@ -1,7 +1,7 @@
 package be.kdg.userservice.user.service;
 
+import be.kdg.userservice.UtilTesting;
 import be.kdg.userservice.user.model.User;
-import be.kdg.userservice.user.model.UserRole;
 import be.kdg.userservice.user.persistence.UserRepository;
 import be.kdg.userservice.user.persistence.UserRoleRepository;
 import be.kdg.userservice.user.service.api.UserService;
@@ -14,14 +14,17 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @Transactional
-public class UserServiceTest {
-    private static final String TEST_NAME1 = "josef";
-    private static final String TEST_NAME2 = "anne";
+public class UserServiceTest extends UtilTesting {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -31,27 +34,29 @@ public class UserServiceTest {
 
     @Before
     public void setup() {
-        User testUser1 = new User();
-        testUser1.setUsername(TEST_NAME1);
-        User testUser2 = new User();
-        testUser2.setUsername(TEST_NAME1);
-        User testUser3 = new User();
-        testUser3.setUsername(TEST_NAME2);
-        userRepository.save(testUser1);
-        userRepository.save(testUser2);
-        userRepository.save(testUser3);
-
-        UserRole ur1 = new UserRole(testUser1.getId(), "ROLE_USER");
-        UserRole ur2 = new UserRole(testUser2.getId(), "ROLE_USER");
-        UserRole ur3 = new UserRole(testUser3.getId(), "ROLE_USER");
-        userRoleRepository.save(ur1);
-        userRoleRepository.save(ur2);
-        userRoleRepository.save(ur3);
+       provideTestingData(userRepository, userRoleRepository);
     }
 
     @Test
     public void getUsersByName() {
-        assertEquals(2, userService.getUsersByName(TEST_NAME1).size());
-        assertEquals(TEST_NAME1, userService.getUsersByName(TEST_NAME1).get(0).getUsername());
+        assertEquals(2, userService.getUsersByName(TESTABLE_USER_NAME2).size());
+        assertTrue(userService.getUsersByName(TESTABLE_USER_NAME2).get(0).getUsername().contains(TESTABLE_USER_NAME2));
+    }
+
+    @Test
+    public void addFriends() throws Exception {
+        //Prep
+        User test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
+        User test2 = userRepository.findById(testableUserId2).orElseThrow(Exception::new);
+
+        //Add friend
+        test1.setFriends(new ArrayList<>(Collections.singletonList(test2)));
+        userService.changeUser(test1);
+
+        //Test
+        test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
+        assertNotNull(test1.getFriends());
+        assertEquals(1, test1.getFriends().size());
+        assertEquals(testableUserId2, test1.getFriends().get(0).getId());
     }
 }

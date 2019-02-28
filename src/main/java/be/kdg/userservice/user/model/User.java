@@ -7,9 +7,8 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
 
 @Data
 @Entity
@@ -41,4 +40,21 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<User> friends;
+
+    public User() {
+        this.friends = new ArrayList<>();
+        this.notifications = new ArrayList<>();
+    }
+
+    public void addNotification(Notification notification) {
+        notifications.add(notification);
+    }
+
+    public void deleteNotification(Notification notification) {
+        notifications.remove(notification);
+    }
+
+    public void deleteAllNotifications() {
+        notifications.clear();
+    }
 }

@@ -97,6 +97,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setProfilePictureBinary(user.getProfilePictureBinary());
         userToUpdate.setFriends(user.getFriends());
+        userToUpdate.setChips(user.getChips());
 
         return userRepository.save(userToUpdate);
     }

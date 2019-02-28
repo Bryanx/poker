@@ -17,4 +17,5 @@ public class UserDto {
     private int wins;
     private int gamesPlayed;
     private String bestHand;
+    private int enabled;
 }

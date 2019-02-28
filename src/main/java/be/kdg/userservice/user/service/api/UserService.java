@@ -2,6 +2,7 @@ package be.kdg.userservice.user.service.api;
 
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
+import be.kdg.userservice.user.model.UserRole;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ public interface UserService {
     User findUserById(String id);
 
     List<User> getUsers();
+
+    List<User> getAdmins();
 
     List<User> getUsersByName(String name);
 
@@ -20,4 +23,8 @@ public interface UserService {
     User changePassword(User user) throws UserException;
 
     User checkSocialUser(User user) throws UserException;
+
+    User changeUserRoleToAdmin(User user) throws UserException;
+
+    User changeUserRoleToUser(User user) throws UserException;
 }

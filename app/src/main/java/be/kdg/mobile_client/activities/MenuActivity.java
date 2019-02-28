@@ -22,6 +22,7 @@ public class MenuActivity extends BaseActivity {
     @BindView(R.id.btnJoinGame) Button btnJoinGame;
     @BindView(R.id.btnFriends) Button btnFriends;
     @BindView(R.id.btnRankings) Button btnRankings;
+    @BindView(R.id.btnSettings) Button btnSettings;
     @BindView(R.id.ivLogo) ImageView ivLogo;
     @Inject SharedPrefService sharedPrefService;
 
@@ -55,6 +56,10 @@ public class MenuActivity extends BaseActivity {
         });
         btnRankings.setOnClickListener(e -> {
             Intent intent = new Intent(this, RankingsActivity.class);
+            startActivity(intent);
+        });
+        btnSettings.setOnClickListener(e -> {
+            Intent intent = new Intent(this, AccountSettingsActivity.class);
             startActivity(intent);
         });
         btnLogout.setOnClickListener(e -> {

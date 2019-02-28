@@ -81,4 +81,10 @@
     <string name="room_id">ROOM_ID</string>
     <string name="fold">FOLD</string>
     <string name="call">CALL</string>
+
+    <!-- account settings -->
+    <string name="firstname">First name</string>
+    <string name="lastname">Last name</string>
+    <string name="update">Update</string>
+    <string name="update_account_settings">Update account settings</string>
 </resources>

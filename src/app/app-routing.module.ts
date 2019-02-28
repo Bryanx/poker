@@ -44,17 +44,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
   ],
   exports: [RouterModule],
-  providers: [
-    {
-      provide: InjectableRxStompConfig,
-      useValue: webSocketConfigUserService,
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
-    }
-  ]
+  providers: []
 })
 export class AppRoutingModule {
 }

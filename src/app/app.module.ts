@@ -122,7 +122,6 @@ export function setupTranslateFactory(
     /*{
       provide: InjectableRxStompConfig,
       useValue: webSocketConfigUserService,
-      multi: true,
     },*/
     {
       provide: RxStompService,

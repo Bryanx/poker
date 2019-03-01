@@ -2,32 +2,47 @@ package be.kdg.mobile_client.services;
 
 import android.util.Log;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import com.google.gson.Gson;
 
-import io.reactivex.functions.Consumer;
-import lombok.RequiredArgsConstructor;
-import ua.naiksoftware.stomp.Stomp;
+import javax.inject.Inject;
+
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import ua.naiksoftware.stomp.StompClient;
 import ua.naiksoftware.stomp.dto.StompMessage;
 
+/**
+ * All websocket traffic is handled here.
+ */
 public class WebSocketService {
     private final StompClient stompClient;
     private static final String TAG = "WebSocketService";
-    private final String URL = "wss://poker-game-service.herokuapp.com/connect/websocket";
-    private final int HEARTBEAT_MS = 10000;
 
     @Inject
     public WebSocketService(StompClient stompClient) {
         this.stompClient = stompClient;
     }
 
-    public void watch(String url, Consumer<StompMessage> onNext, Consumer<Throwable> onError) {
-        stompClient.topic(url).subscribe(onNext, onError);
-        Log.i(TAG, "Started listening on " + url + ". Stompclient is connected: " + stompClient.isConnected());
+    public <T> Flowable<T> watch(String url, Class<T> clazz) {
+        Log.i(TAG, "Started listening on " + url);
+        return stompClient.topic(url)
+                .map(parseWithGsonInto(clazz))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnEach(each -> Log.i(TAG, "Update " + clazz.getName() + " received: " + each.getValue()));
     }
 
     public void send(String url, String json) {
-        stompClient.send(url, json).subscribe();
+        stompClient.send(url, json)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
     }
+
+    private <T> Function<StompMessage, T> parseWithGsonInto(Class<T> clazz) {
+        return msg -> new Gson().fromJson(msg.getPayload(), clazz);
+    }
+
 }

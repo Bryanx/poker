@@ -17,4 +17,5 @@ public class PlayerDTO {
     private int chipCount;
     private HandType handType;
     private int seatNumber;
+    private String username;
 }

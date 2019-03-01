@@ -9,6 +9,7 @@ import {Message} from '@stomp/stompjs';
 import {RxStompService} from '@stomp/ng2-stompjs';
 import {NotifierService} from 'angular-notifier';
 import {HomeVisibleService} from './services/home-visible.service';
+import {NotificationType} from './model/notificationType';
 
 @Component({
   selector: 'app-root',
@@ -81,12 +82,28 @@ export class AppComponent implements OnInit {
       if (message) {
         const not: Notification = JSON.parse(message.body) as Notification;
         this.userService.readNotification(not.id).subscribe();
-        this.notifier.notify('default', not.message);
+        this.showNotification(not);
         this.newNotification = not;
       }
     }, error => {
       console.log(error.error.error_description);
     });
+  }
+
+  private showNotification(not: Notification) {
+    console.log(not);
+    let type;
+    if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
+      console.log('YES');
+      type = 'error';
+    } else if (not.type === NotificationType.ADD_PRIVATE_ROOM) {
+      console.log('YES');
+      type = 'success';
+    } else {
+      type = 'default';
+    }
+
+    this.notifier.notify(type, not.message);
   }
 
   hasAuthentication(): boolean {

@@ -133,7 +133,7 @@ export class RoomsOverviewComponent implements OnInit {
     not.ref = user.id;
     not.message = this.myself.username + ' has ' + (added ? 'added' : 'deleted') + ' you ' +
       (added ? 'to' : 'from') + ' ' + this.curRoom.name + '!';
-    not.type = NotificationType.FRIEND_REQUEST;
+    not.type = added ? NotificationType.ADD_PRIVATE_ROOM : NotificationType.DELETE_PRIVATE_ROOM;
 
     this.userService.sendNotification(user.id, not).subscribe();
   }

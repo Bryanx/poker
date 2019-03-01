@@ -28,31 +28,7 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
-    private final WhiteListedPlayerRepository whiteListedPlayerRepository;
     private final RoundService roundService;
-
-    /**
-     * used for quality check
-     * TODO: remove this when everything works properly.
-     */
-    @PostConstruct
-    public void testData() {
-        //make public room
-        roomRepository.save(new Room(new GameRules(), "test room"));
-
-        //make private room
-        /*
-        WhiteListedUser whiteListedPlayer2 = new WhiteListedUser("2");
-        WhiteListedUser whiteListedPlayer3 = new WhiteListedUser("3");
-
-        PrivateRoom room = new PrivateRoom("test private room", "86331818-c20e-4ed7-a5f8-ffd576e2bd7d");
-        room.addWhiteListedPlayer(whiteListedPlayer2);
-        room.addWhiteListedPlayer(whiteListedPlayer3);
-
-        roomRepository.save(room);
-        whiteListedPlayerRepository.delete(whiteListedPlayer2);
-        */
-    }
 
     //TODO: remove this method and user id's instead.
     /**

@@ -75,7 +75,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
      * @throws RoomException Thrown if the whitelist is full or if
      */
     @Override
-    public void addUserToWhiteList(int roomId, String userId) throws RoomException {
+    public PrivateRoom addUserToWhiteList(int roomId, String userId) throws RoomException {
         //Get data
         PrivateRoom room = (PrivateRoom) roomService.getRoom(roomId);
 
@@ -86,14 +86,10 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
 
         if (whiteListedPlayerOpt.isPresent())
             throw new RoomException(PrivateRoomServiceImpl.class, "User with id " + userId + " was already whitelisted");
-        /* TODO: remove if unnecessary.
-        if (room.getWhiteListedUsers().size() + 1 > 6)
-            throw new RoomException(PrivateRoomServiceImpl.class, "The private room with id " + room.getId() + " is full!");
-            */
 
         //update database
         room.addWhiteListedPlayer(new WhiteListedUser(userId));
-        roomService.saveRoom(room);
+        return (PrivateRoom) roomService.saveRoom(room);
     }
 
     /**
@@ -104,7 +100,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
      * @throws RoomException Thrown if the room was not found in the database.
      */
     @Override
-    public void removeUserFromWhiteList(int roomId, String userId) throws RoomException {
+    public PrivateRoom removeUserFromWhiteList(int roomId, String userId) throws RoomException {
         //Get data
         PrivateRoom room = (PrivateRoom) roomService.getRoom(roomId);
         Optional<WhiteListedUser> userOpt = room.getWhiteListedUsers().stream()
@@ -112,7 +108,11 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
                 .findAny();
 
         //Update database
-        userOpt.ifPresent(whiteListedPlayerRepository::delete);
+        userOpt.ifPresent(entity -> {
+            whiteListedPlayerRepository.delete(entity);
+            room.deleteWhiteListedPlayer(userOpt.get());
+        });
+        return room;
     }
 
     /**

@@ -245,10 +245,11 @@ public class RoomApiController {
      * @throws RoomException Rerouted to handler.
      */
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    @PatchMapping("/rooms/private/{roomId}/remove-player/{userId}")
-    public ResponseEntity<Void> removeFromWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
-        privateRoomService.removeUserFromWhiteList(roomId, userId);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    @PatchMapping("/rooms/private/{roomId}/remove-user/{userId}")
+    public ResponseEntity<PrivateRoomDTO> removeFromWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
+        PrivateRoom privateRoom = privateRoomService.removeUserFromWhiteList(roomId, userId);
+        PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
+        return new ResponseEntity<>(privateRoomOut, HttpStatus.ACCEPTED);
     }
 
     /**
@@ -260,10 +261,11 @@ public class RoomApiController {
      * @throws RoomException Rerouted to handler.
      */
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    @PatchMapping("/rooms/private/{roomId}/add-player/{userId}")
-    public ResponseEntity<Void> addToWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
-        privateRoomService.addUserToWhiteList(roomId, userId);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    @PatchMapping("/rooms/private/{roomId}/add-user/{userId}")
+    public ResponseEntity<PrivateRoomDTO> addToWhitelist(@PathVariable int roomId, @PathVariable String userId) throws RoomException {
+        PrivateRoom privateRoom = privateRoomService.addUserToWhiteList(roomId, userId);
+        PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
+        return new ResponseEntity<>(privateRoomOut, HttpStatus.ACCEPTED);
     }
 
     /**

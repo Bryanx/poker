@@ -41,6 +41,7 @@ public class RoomServiceImpl implements RoomService {
         roomRepository.save(new Room(new GameRules(), "test room"));
 
         //make private room
+        /*
         WhiteListedUser whiteListedPlayer2 = new WhiteListedUser("2");
         WhiteListedUser whiteListedPlayer3 = new WhiteListedUser("3");
 
@@ -50,6 +51,7 @@ public class RoomServiceImpl implements RoomService {
 
         roomRepository.save(room);
         whiteListedPlayerRepository.delete(whiteListedPlayer2);
+        */
     }
 
     //TODO: remove this method and user id's instead.

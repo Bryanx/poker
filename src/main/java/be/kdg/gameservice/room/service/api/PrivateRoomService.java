@@ -15,7 +15,7 @@ public interface PrivateRoomService {
 
     PrivateRoom addPrivateRoom(String userId, GameRules gameRules, String name);
 
-    void addUserToWhiteList(int roomId, String userId) throws RoomException;
+    PrivateRoom addUserToWhiteList(int roomId, String userId) throws RoomException;
 
-    void removeUserFromWhiteList(int roomId, String userId) throws RoomException;
+    PrivateRoom removeUserFromWhiteList(int roomId, String userId) throws RoomException;
 }

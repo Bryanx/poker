@@ -2,6 +2,7 @@ package be.kdg.gameservice.room.controlller;
 
 import be.kdg.gameservice.RequestType;
 import be.kdg.gameservice.UtilTesting;
+import be.kdg.gameservice.room.controller.dto.PrivateRoomDTO;
 import be.kdg.gameservice.room.controller.dto.RoomDTO;
 import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Room;
@@ -84,8 +85,11 @@ public class RoomApiControllerTest extends UtilTesting {
     @Test
     public void addPrivateRoom() throws Exception {
         int privateRoomSize = privateRoomService.getPrivateRooms(testableUserId).size();
-        String privateRoomName = "Maartensprivateroom";
-        testMockMvc("/rooms/private/" + privateRoomName, "", mockMvc, RequestType.POST);
+
+        PrivateRoomDTO privateRoomDTO = new PrivateRoomDTO(0, "test private room", new GameRules(), new ArrayList<>(), new ArrayList<>());
+        String json = new Gson().toJson(privateRoomDTO);
+
+        testMockMvc("/rooms/private",json, mockMvc, RequestType.POST);
         assertEquals(privateRoomSize + 1, privateRoomService.getPrivateRooms(testableUserId).size());
     }
 
@@ -93,19 +97,14 @@ public class RoomApiControllerTest extends UtilTesting {
     public void addToWhitelist() throws Exception {
         String testUserId = "testUserId";
         int whiteListedUsersSize = privateRoomService.getPrivateRoom(testablePrivateRoomId, testableUserId).getWhiteListedUsers().size();
-        testMockMvc("/rooms/private/" + this.testablePrivateRoomId + "/add-player/" + testUserId, "", mockMvc, RequestType.PATCH);
+        testMockMvc("/rooms/private/" + this.testablePrivateRoomId + "/add-user/" + testUserId, "", mockMvc, RequestType.PATCH);
         assertEquals(whiteListedUsersSize + 1, privateRoomService.getPrivateRoom(testablePrivateRoomId, testableUserId).getWhiteListedUsers().size());
     }
 
     @Test
     public void removeFromWhitelist() throws Exception {
-        String addedUserId = "MortenID";
-
-
         String testUserId = this.testableUserId;
-        int whiteListedUsersSize = privateRoomService.getPrivateRoom(testablePrivateRoomId, testableUserId).getWhiteListedUsers().size();
-        testMockMvc("/rooms/private/" + this.testablePrivateRoomId + "/remove-player/" + testUserId, "", mockMvc, RequestType.PATCH);
-        // TODO FIX ASSERT
-        // assertEquals(whiteListedUsersSize - 1, privateRoomService.getPrivateRoom(testablePrivateRoomId, testableUserId).getWhiteListedUsers().size());
+        testMockMvc("/rooms/private/" + this.testablePrivateRoomId + "/remove-user/" + testUserId, "", mockMvc, RequestType.PATCH);
+        //TODO: fix this maarten!
     }
 }

@@ -1,7 +1,8 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {Room} from '../../model/room';
 import {PrivateRoom} from '../../model/privateRoom';
+import {Room} from '../../model/room';
+import {GameRules} from '../../model/gamerules';
 
 @Component({
   selector: 'app-room-card',
@@ -18,7 +19,7 @@ import {PrivateRoom} from '../../model/privateRoom';
   ]
 })
 export class RoomCardComponent {
-  @Input() room;
+  @Input() room = { id: 0, playersInRoom: [], gameRules: GameRules.create() };
   @Input() inSettingMode;
   @Input() isAdmin;
   @Input() dataLoaded;
@@ -57,6 +58,6 @@ export class RoomCardComponent {
 
   showFriendModal() {
     this.modalEvent.emit(true);
-    this.roomEvent.emit(this.room);
+    this.roomEvent.emit(this.room as PrivateRoom);
   }
 }

@@ -130,7 +130,7 @@ export class RoomsOverviewComponent implements OnInit {
 
   private notifyUser(user: User, added: boolean) {
     const not: Notification = new Notification();
-    not.ref = user.id;
+    not.ref = this.myself.id;
     not.message = this.myself.username + ' has ' + (added ? 'added' : 'deleted') + ' you ' +
       (added ? 'to' : 'from') + ' ' + this.curRoom.name + '!';
     not.type = added ? NotificationType.ADD_PRIVATE_ROOM : NotificationType.DELETE_PRIVATE_ROOM;

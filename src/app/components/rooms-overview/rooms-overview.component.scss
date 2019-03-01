@@ -47,9 +47,9 @@ h2 {
   z-index: 2;
   position: absolute;
   background-color: lighten($background-color, 10%);
-  top: 50px;
-  width: 90vw;
-  height: 90vh;
+  top: 25px;
+  width: 95vw;
+  height: 95vh;
   border-radius: 1.5rem;
 
   h1 {
@@ -59,15 +59,14 @@ h2 {
   }
 
   .user-list {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
-    justify-content: center;
+    width: 70%;
+    max-height: 270px;
+    overflow: auto;
+    margin-bottom: 30px;
+    height: 100%;
 
     .user-row {
-      width: 70%;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;

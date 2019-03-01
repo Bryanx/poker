@@ -15,7 +15,9 @@ import be.kdg.mobile_client.model.Room;
 import be.kdg.mobile_client.model.Round;
 import be.kdg.mobile_client.services.GameService;
 import be.kdg.mobile_client.services.WebSocketService;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import lombok.Getter;
 
@@ -30,8 +32,7 @@ public class RoomViewModel extends ViewModel {
     @Getter MutableLiveData<Round> round = new MutableLiveData<>();
     @Getter MutableLiveData<Player> player = new MutableLiveData<>();
     @Getter MutableLiveData<String> message = new MutableLiveData<>();
-    private ActivityRoomBinding binding;
-    private List<Disposable> disposables = new ArrayList<>();
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject
     public RoomViewModel(WebSocketService webSocketService, GameService gameService) {
@@ -39,9 +40,7 @@ public class RoomViewModel extends ViewModel {
         this.gameService = gameService;
     }
 
-    public void init(int roomNumber, ActivityRoomBinding bind) {
-        binding = bind;
-        binding.centerLayout.setViewmodel(this);
+    public void init(int roomNumber) {
         disposables.add(gameService.getRoom(roomNumber)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(next -> {
@@ -76,16 +75,14 @@ public class RoomViewModel extends ViewModel {
     }
 
     private void initializeRoomConnection() {
-        final String url = "/room/receive-room/" + room.getValue().getId();
-        disposables.add(webSocketService.watch(url, Room.class)
+        disposables.add(webSocketService.watch("/room/receive-room/" + room.getValue().getId(), Room.class)
                 .doAfterNext(next -> getCurrentRound())
                 .subscribe(next -> room.postValue(next),
                         error -> handleError(error, "Could not receive room update: " + room.getValue().getId())));
     }
 
     private void initializeRoundConnection() {
-        final String url = "/room/receive-round/" + room.getValue().getId();
-        disposables.add(webSocketService.watch(url, Round.class)
+        disposables.add(webSocketService.watch("/room/receive-round/" + room.getValue().getId(), Round.class)
                 .subscribe(next -> round.postValue(next),
                         error -> handleError(error, "Could not receive round update: " + round.getValue())));
     }
@@ -109,8 +106,6 @@ public class RoomViewModel extends ViewModel {
         disposables.add(gameService.leaveRoom(room.getValue().getId())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(next -> {}, error -> handleError(error, "Could not leave room")));
-        for (Disposable disposable : disposables) {
-            disposable.dispose();
-        }
+        disposables.clear();
     }
 }

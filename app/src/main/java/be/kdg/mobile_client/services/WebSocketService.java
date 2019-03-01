@@ -31,7 +31,7 @@ public class WebSocketService {
                 .map(parseWithGsonInto(clazz))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnEach(each -> Log.i(TAG, "Update " + clazz.getName() + " received: " + each.getValue()));
+                .doOnEach(each -> Log.i(TAG, "Update " + clazz.getSimpleName() + " received: " + each.getValue()));
     }
 
     public void send(String url, String json) {

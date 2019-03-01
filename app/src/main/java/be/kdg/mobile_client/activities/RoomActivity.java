@@ -44,7 +44,8 @@ public class RoomActivity extends BaseActivity {
         roomNumber = getIntent().getIntExtra(getString(R.string.room_id), 0);
         viewModel = ViewModelProviders.of(this,factory).get(RoomViewModel.class);
         ActivityRoomBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_room);
-        viewModel.init(roomNumber, binding);
+        viewModel.init(roomNumber);
+        binding.centerLayout.setViewmodel(viewModel);
         binding.setLifecycleOwner(this);
         ButterKnife.bind(this);
         initialiseViews();

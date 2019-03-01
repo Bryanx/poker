@@ -36,8 +36,6 @@ public class ChatService {
 
     public void setOnIncomingMessage(Consumer<Message> onNext, Consumer<Throwable> onError) {
         chatDisposable = webSocketService.watch("/chatroom/receive/" + roomNumber, Message.class)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(onNext, onError);
     }
 

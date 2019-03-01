@@ -5,7 +5,6 @@ import java.util.List;
 import be.kdg.mobile_client.model.Player;
 import be.kdg.mobile_client.model.Room;
 import io.reactivex.Observable;
-import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;

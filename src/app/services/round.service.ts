@@ -19,7 +19,7 @@ export class RoundService {
    * Saves an act that was played by the player to the backend.
    */
   getPossibleActs(roundId: number): Observable<ActType[]> {
-    return this.http.get<ActType[]>(this.url + roundId + '/possible-acts');
+    return this.http.get<ActType[]>(this.url + '/' + roundId + '/possible-acts');
   }
 
 
@@ -27,6 +27,6 @@ export class RoundService {
    * Ads an act to the current round.
    */
   addAct(act: Act): Observable<Act> {
-    return this.http.post<Act>(this.url + 'act', act);
+    return this.http.post<Act>(this.url + '/act', act);
   }
 }

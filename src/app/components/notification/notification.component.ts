@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NotifierService} from 'angular-notifier';
-import {RxStompService} from '@stomp/ng2-stompjs';
 import {UserService} from '../../services/user.service';
 import {Notification} from '../../model/notification';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -26,7 +25,6 @@ export class NotificationComponent implements OnInit {
   showPanel: boolean;
 
   constructor(private notifier: NotifierService,
-              private webSocketService: RxStompService,
               private userService: UserService) {
   }
 
@@ -39,14 +37,12 @@ export class NotificationComponent implements OnInit {
   set notifications(notification: Notification) {
     if (notification !== undefined) {
       this._notifications.push(notification);
-      console.log(notification);
     }
   }
 
   private getAllNotifications() {
     this.userService.getNotifications().subscribe(nots => {
       this._notifications = nots;
-      console.log(nots);
     });
   }
 

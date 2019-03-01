@@ -18,7 +18,7 @@ export class RoomService {
   }
 
   joinRoom(roomId: number): Observable<Player> {
-    return this.http.get<Player>(this.url + roomId + '/join');
+    return this.http.get<Player>(this.url + '/' + roomId + '/join');
   }
 
   leaveRoom(id: number): Observable<Player> {
@@ -26,7 +26,7 @@ export class RoomService {
   }
 
   getCurrentRound(roomId: number): Observable<Round> {
-    return this.http.get<Round>(this.url + roomId + '/current-round');
+    return this.http.get<Round>(this.url + '/' + roomId + '/current-round');
   }
 
   getRooms(): Observable<Room[]> {
@@ -50,7 +50,7 @@ export class RoomService {
   }
 
   getPlayer(): Observable<Player> {
-    return this.http.get<Player>(this.url + 'players');
+    return this.http.get<Player>(this.url + '/players');
   }
 
   changePlayer(player: Player): Observable<Player> {

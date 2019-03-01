@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Router} from '@angular/router';
+import {WebSocketService} from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public authorizationService: AuthorizationService, private router: Router) { }
+  constructor(public authorizationService: AuthorizationService, private router: Router, private webSocketService: WebSocketService) { }
 
   ngOnInit() {
   }

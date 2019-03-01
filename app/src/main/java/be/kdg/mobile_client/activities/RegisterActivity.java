@@ -45,10 +45,7 @@ public class RegisterActivity extends BaseActivity {
         etEmail.addTextChangedListener(emailValidator);
         etUsername.addTextChangedListener(usernameValidator);
         btnRegister.setOnClickListener(v -> register());
-        tvBroMessage.setOnClickListener(e -> {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-        });
+        tvBroMessage.setOnClickListener(e -> navigateTo(LoginActivity.class));
     }
 
     private void register() {
@@ -80,13 +77,13 @@ public class RegisterActivity extends BaseActivity {
      */
     public void onRegisterSuccess(Token token) {
         token.setSignedIn(true);
-        sharedPrefService.saveToken(getApplicationContext(), token);
+        token.setUsername(etUsername.getText().toString());
+        sharedPrefService.saveToken(this, token);
         Toast.makeText(getBaseContext(), getString(R.string.logging_in), Toast.LENGTH_LONG).show();
         btnRegister.setEnabled(true);
         setResult(RESULT_OK);
         finish();
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
+        navigateTo(MenuActivity.class);
     }
 
     /**

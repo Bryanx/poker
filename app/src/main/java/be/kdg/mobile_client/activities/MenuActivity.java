@@ -45,22 +45,12 @@ public class MenuActivity extends BaseActivity {
     }
 
     private void addEventHandlers() {
-        btnJoinGame.setOnClickListener(e -> {
-            Intent intent = new Intent(this, OverviewActivity.class);
-            startActivity(intent);
-        });
-        btnFriends.setOnClickListener(e -> {
-            Intent intent = new Intent(this, FriendsActivity.class);
-            startActivity(intent);
-        });
-        btnRankings.setOnClickListener(e -> {
-            Intent intent = new Intent(this, RankingsActivity.class);
-            startActivity(intent);
-        });
+        btnJoinGame.setOnClickListener(e -> navigateTo(OverviewActivity.class));
+        btnFriends.setOnClickListener(e -> navigateTo(FriendsActivity.class));
+        btnRankings.setOnClickListener(e -> navigateTo(RankingsActivity.class));
         btnLogout.setOnClickListener(e -> {
             sharedPrefService.saveToken(this, null); // remove token
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            navigateTo(MainActivity.class);
         });
     }
 }

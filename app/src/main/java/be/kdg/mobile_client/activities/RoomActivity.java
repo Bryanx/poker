@@ -15,10 +15,8 @@ import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.databinding.ActivityRoomBinding;
 import be.kdg.mobile_client.fragments.ChatFragment;
-import be.kdg.mobile_client.model.Player;
 import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.SharedPrefService;
-import be.kdg.mobile_client.services.WebSocketService;
 import be.kdg.mobile_client.viewmodels.RoomViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +53,7 @@ public class RoomActivity extends BaseActivity {
 
     private void initialiseViews() {
         chatFragment = (ChatFragment) fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
-        chatFragment.connectChat(roomNumber, chatService);
+        chatFragment.connectChat(roomNumber, chatService, sharedPrefService.getToken(this).getUsername());
         hideFragment(chatFragment); // initially hide the chatfragment
     }
 
@@ -77,5 +75,18 @@ public class RoomActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left)
                 .hide(fragment)
                 .commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        viewModel.leaveRoom();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.leaveRoom();
+        chatFragment.leaveChat();
+        super.onBackPressed();
     }
 }

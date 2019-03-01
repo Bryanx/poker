@@ -12,8 +12,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.repos.RoomRepository;
+import be.kdg.mobile_client.repos.RoundRepository;
 import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.GameService;
+import be.kdg.mobile_client.services.RoundService;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
 import be.kdg.mobile_client.services.WebSocketService;
@@ -97,6 +99,8 @@ public class ControllerModule {
         return new OkHttpClient().newBuilder().addInterceptor(chain -> {
             Request newRequest = chain.request().newBuilder()
                     .addHeader("Authorization", "Bearer " + token.getAccessToken())
+                    .addHeader("Content-Type", "application/json;charset=UTF-8")
+                    .addHeader("Accept", "application/json;charset=utf-8")
                     .build();
             return chain.proceed(newRequest);
         }).build();
@@ -126,6 +130,18 @@ public class ControllerModule {
     }
 
     @Provides
+    RoundService roundService() {
+        return new Retrofit
+                .Builder()
+                .client(okHttpClient())
+                .addConverterFactory(gsonConverter())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .baseUrl(API_BASE_URL_GAME)
+                .build()
+                .create(RoundService.class);
+    }
+
+    @Provides
     @Singleton
     StompClient stompClient() {
         StompClient stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, WEBSOCKET_URL);
@@ -148,13 +164,18 @@ public class ControllerModule {
 
     @Provides
     @Singleton
-    RoomViewModel roomViewModel(RoomRepository roomRepo){
-        return new RoomViewModel(roomRepo);
+    RoomViewModel roomViewModel(RoomRepository roomRepo, RoundRepository roundRepo){
+        return new RoomViewModel(roomRepo, roundRepo);
     }
 
     @Provides
     RoomRepository roomRepository(WebSocketService webSocketService) {
         return new RoomRepository(gameService(), webSocketService);
+    }
+
+    @Provides
+    RoundRepository roundRepository(WebSocketService webSocketService) {
+        return new RoundRepository(webSocketService, roundService());
     }
 
     @Provides

@@ -11,6 +11,7 @@ import be.kdg.mobile_client.model.Player;
 import be.kdg.mobile_client.model.Room;
 import be.kdg.mobile_client.model.Round;
 import be.kdg.mobile_client.services.GameService;
+import be.kdg.mobile_client.services.RoundService;
 import be.kdg.mobile_client.services.WebSocketService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -29,7 +30,7 @@ public class RoomRepository {
         this.webSocketService = webSocketService;
     }
 
-    public void getRoom(int roomId, Consumer<Room> onNext, Consumer<String> onError) {
+    public void findById(int roomId, Consumer<Room> onNext, Consumer<String> onError) {
         onErrorMsg = "Failed to fetch room";
         gameService.getRoom(roomId)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -64,12 +65,6 @@ public class RoomRepository {
         onErrorMsg = "Could not receive room update: " + roomId;
         webSocketService.watch("/room/receive-room/" + roomId, Room.class)
                 .doAfterNext(next -> getCurrentRound(roomId))
-                .subscribe(onUpdate, this::logError);
-    }
-
-    public void listenOnRoundUpdate(int roomId, Consumer<Round> onUpdate) {
-        onErrorMsg = "Could not receive round update, room: " + roomId;
-        webSocketService.watch("/room/receive-round/" + roomId, Round.class)
                 .subscribe(onUpdate, this::logError);
     }
 

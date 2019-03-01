@@ -5,6 +5,7 @@
     tools:context=".activities.RoomActivity">
 
     <data>
+        <import type="be.kdg.mobile_client.model.ActType" />
 
         <variable
             name="viewmodel"
@@ -24,7 +25,7 @@
             android:background="@drawable/circle_green"
             android:text="@string/call"
             android:textColor="@color/colorWhite"
-            android:onClick="@{() -> viewmodel.onCall()}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.CALL)}"
             app:layout_constraintBottom_toTopOf="@+id/btnFold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -37,7 +38,7 @@
             android:background="@drawable/circle_red"
             android:text="@string/fold"
             android:textColor="@color/colorWhite"
-            android:onClick="@{() -> viewmodel.onFold()}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.FOLD)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

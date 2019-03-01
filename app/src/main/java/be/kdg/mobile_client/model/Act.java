@@ -1,8 +1,10 @@
 package be.kdg.mobile_client.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class Act {
     private int roundId;
     private String userId;

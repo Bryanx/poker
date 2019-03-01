@@ -26,11 +26,11 @@ public class WebSocketService {
     }
 
     public <T> Flowable<T> watch(String url, Class<T> clazz) {
-        Log.i(TAG, "Started listening on " + url);
         return stompClient.topic(url)
                 .map(parseWithGsonInto(clazz))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(s -> Log.i(TAG, "Started listening on " + url))
                 .doOnEach(each -> Log.i(TAG, "Update " + clazz.getSimpleName() + " received: " + each.getValue()));
     }
 

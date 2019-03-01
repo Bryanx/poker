@@ -22,5 +22,6 @@ public class Token {
     private boolean signedIn;
 
     private String username;
+    private String userid;
 
 }

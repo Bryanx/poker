@@ -1,99 +1,51 @@
 package be.kdg.mobile_client.viewmodels;
 
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import be.kdg.mobile_client.databinding.ActivityRoomBinding;
+import be.kdg.mobile_client.model.Act;
 import be.kdg.mobile_client.model.Player;
 import be.kdg.mobile_client.model.Room;
 import be.kdg.mobile_client.model.Round;
-import be.kdg.mobile_client.services.GameService;
-import be.kdg.mobile_client.services.WebSocketService;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
+import be.kdg.mobile_client.repos.RoomRepository;
 import lombok.Getter;
 
 /**
  * Main viewmodel for joining a room and fetching its state.
  */
 public class RoomViewModel extends ViewModel {
-    private final String TAG = "RoomViewModel";
-    private final WebSocketService webSocketService;
-    private final GameService gameService;
+    private final RoomRepository roomRepo;
     @Getter MutableLiveData<Room> room = new MutableLiveData<>();
     @Getter MutableLiveData<Round> round = new MutableLiveData<>();
     @Getter MutableLiveData<Player> player = new MutableLiveData<>();
-    @Getter MutableLiveData<String> message = new MutableLiveData<>();
-    private CompositeDisposable disposables = new CompositeDisposable();
+    @Getter MutableLiveData<String> notification = new MutableLiveData<>();
+    private MutableLiveData<Act> lastAct = new MutableLiveData<>();
 
     @Inject
-    public RoomViewModel(WebSocketService webSocketService, GameService gameService) {
-        this.webSocketService = webSocketService;
-        this.gameService = gameService;
+    public RoomViewModel(RoomRepository roomRepo) {
+        this.roomRepo = roomRepo;
     }
 
-    public void init(int roomNumber) {
-        disposables.add(gameService.getRoom(roomNumber)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(next -> {
-                    Log.i(TAG, "Succesfully fetched room: " + next);
-                    room.setValue(next);
-                    checkPlayerCap();
-                    initializeRoomConnection();
-                    initializeRoundConnection();
-                    //TODO: initializeWinnerConnection();
-                    joinRoom();
-                }, error -> handleError(error, "Failed to fetch room")));
+    public void init(int roomId) {
+        roomRepo.getRoom(roomId, next -> {
+            room.setValue(next);
+            if (playerCapReached(next)) return;
+            roomRepo.listenOnRoomUpdate(roomId, room::postValue);
+            roomRepo.listenOnRoundUpdate(roomId, round::postValue);
+            //TODO: initializeWinnerConnection();
+            roomRepo.joinRoom(roomId, player::postValue);
+            roomRepo.listenOnActUpdate(roomId, this::onNewAct);
+        }, notification::postValue);
     }
 
-    private void checkPlayerCap() {
-        if (room.getValue().getPlayersInRoom().size() >= room.getValue().getGameRules().getMaxPlayerCount()) {
-            //TODO: navigate to home
-        }
+    private void onNewAct(Act act) {
     }
 
-    private void joinRoom() {
-        disposables.add(gameService.joinRoom(room.getValue().getId())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnEach(each -> Log.i(TAG, "Player: " + each.toString() + " joined room: " + room.getValue()))
-                .subscribe(next -> player.postValue(next),
-                        error -> handleError(error, "Failed to join room")));
-    }
-
-    private void getCurrentRound() {
-        disposables.add(gameService.getCurrentRound(room.getValue().getId())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(next -> {}, error -> handleError(error, "Could not get current round")));
-    }
-
-    private void initializeRoomConnection() {
-        disposables.add(webSocketService.watch("/room/receive-room/" + room.getValue().getId(), Room.class)
-                .doAfterNext(next -> getCurrentRound())
-                .subscribe(next -> room.postValue(next),
-                        error -> handleError(error, "Could not receive room update: " + room.getValue().getId())));
-    }
-
-    private void initializeRoundConnection() {
-        disposables.add(webSocketService.watch("/room/receive-round/" + room.getValue().getId(), Round.class)
-                .subscribe(next -> round.postValue(next),
-                        error -> handleError(error, "Could not receive round update: " + round.getValue())));
-    }
-
-    private void handleError(Throwable error, String msg) {
-        Log.e(TAG, msg);
-        message.postValue(msg);
-        if (error != null) {
-            Log.e(TAG, error.getMessage());
-            error.printStackTrace();
-        }
+    private boolean playerCapReached(Room newRoom) {
+        return newRoom.getPlayersInRoom().size() >= newRoom.getGameRules().getMaxPlayerCount();
     }
 
     public boolean cardExists(int index) {
@@ -103,9 +55,13 @@ public class RoomViewModel extends ViewModel {
     }
 
     public void leaveRoom() {
-        disposables.add(gameService.leaveRoom(room.getValue().getId())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(next -> {}, error -> handleError(error, "Could not leave room")));
-        disposables.clear();
+        roomRepo.leaveRoom(room.getValue().getId());
+    }
+
+    public void onCall() {
+    }
+
+    public void onFold() {
+
     }
 }

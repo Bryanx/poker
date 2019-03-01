@@ -6,7 +6,7 @@ import lombok.Data;
 public class Player {
     private int id;
     private String userId;
-    private String playerName;
+    private String username;
     private Card firstCard;
     private Card secondCard;
     private ActType lastAct;

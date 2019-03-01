@@ -21,6 +21,7 @@ export class RoomCardComponent {
   @Input() room;
   @Input() inSettingMode;
   @Input() isAdmin;
+  @Input() dataLoaded;
 
   @Output() modalEvent: EventEmitter<Boolean> = new EventEmitter();
   @Output() roomEvent: EventEmitter<PrivateRoom> = new EventEmitter();

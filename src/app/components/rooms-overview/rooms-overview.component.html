@@ -6,6 +6,7 @@
                  [room]="room"
                  [inSettingMode]="inSettingMode"
                  [isAdmin]="isAdmin()"
+                 [dataLoaded]="dataLoaded"
                  (modalEvent)="showFriendModal = $event"
                  (roomEvent)="loadCorrespondingData($event)"
   ></app-room-card>

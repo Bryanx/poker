@@ -36,6 +36,7 @@ export class RoomsOverviewComponent implements OnInit {
   whiteListedUsers: User[];
   nonWhiteListedUsers: User[];
   curRoom: PrivateRoom;
+  dataLoaded: Boolean;
 
   constructor(private gameService: GameService,
               private userService: UserService,
@@ -44,13 +45,12 @@ export class RoomsOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUsers();
-    this.getMyself();
-
     const url: string = this.router.url;
     if (url.includes('private')) {
       if (url.includes('settings')) {
         this.gameService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
+        this.getUsers();
+        this.getMyself();
         this.inSettingMode = true;
       } else {
         this.gameService.getPrivateRooms().subscribe(rooms => this.rooms = rooms);
@@ -74,8 +74,33 @@ export class RoomsOverviewComponent implements OnInit {
     this.nonWhiteListedUsers = this.users.filter(user => !this.isInWhiteList(user.id, this.curRoom.whiteListedUsers));
   }
 
+  addToWhiteList(user: User) {
+    this.toggleWhiteListedUser(user, true);
+    this.gameService.addToWhiteList(this.curRoom.id, user.id).subscribe(room => {
+      this.curRoom = room;
+      this.refreshData();
+    });
+    this.notifyUser(user, true);
+  }
+
+  deleteFromWhiteList(user: User) {
+    this.toggleWhiteListedUser(user, false);
+    this.gameService.deleteFromWhiteList(this.curRoom.id, user.id).subscribe(room => {
+      this.curRoom = room;
+      this.refreshData();
+    });
+    this.notifyUser(user, false);
+  }
+
+  private refreshData() {
+    this.gameService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
+  }
+
   private getUsers() {
-    this.userService.getUsers().subscribe(users => this.users = users);
+    this.userService.getUsers().subscribe(users => {
+      this.users = users;
+      this.dataLoaded = true;
+    });
   }
 
   private getMyself() {
@@ -103,24 +128,12 @@ export class RoomsOverviewComponent implements OnInit {
     }
   }
 
-  addToWhiteList(user: User) {
-    this.toggleWhiteListedUser(user, true);
-    this.gameService.addToWhiteList(this.curRoom.id, user.id).subscribe(room => this.curRoom = room);
-    this.notifyUser(user, true);
-  }
-
-  deleteFromWhiteList(user: User) {
-    this.toggleWhiteListedUser(user, false);
-    this.gameService.deleteFromWhiteList(this.curRoom.id, user.id).subscribe(room => this.curRoom = room);
-    this.notifyUser(user, false);
-  }
-
-  notifyUser(user: User, added: boolean) {
+  private notifyUser(user: User, added: boolean) {
     const not: Notification = new Notification();
     not.ref = user.id;
-    not.message = this.myself.username + ' has ' + (added ? 'added' : 'deleted') + ' you ' + (added ? 'to' : 'from') + ' ' + this.curRoom.name + '!';
+    not.message = this.myself.username + ' has ' + (added ? 'added' : 'deleted') + ' you ' +
+      (added ? 'to' : 'from') + ' ' + this.curRoom.name + '!';
     not.type = NotificationType.FRIEND_REQUEST;
-    console.log(not.message);
 
     this.userService.sendNotification(user.id, not).subscribe();
   }

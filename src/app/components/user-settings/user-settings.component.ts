@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 export class UserSettingsComponent implements OnInit {
   updateUserForm: FormGroup;
   updatePasswordForm: FormGroup;
-  user: User;
+  user: User = User.create();
   toast: boolean;
   toastText: string;
 

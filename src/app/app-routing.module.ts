@@ -14,6 +14,7 @@ import {UserAccountComponent} from './components/user-account/user-account.compo
 import {SearchComponent} from './components/search/search.component';
 import {GameRoomAdminComponent} from './components/game-room-admin/game-room-admin.component';
 import {RankingsComponent} from './components/rankings/rankings.component';
+import {AdminGuardService} from './services/admin-guard.service';
 
 
 const routes: Routes = [
@@ -26,9 +27,9 @@ const routes: Routes = [
   {path: 'search', component: SearchComponent, canActivate: [AuthGuardService]},
   { path: 'rooms/:id', component: GameRoomComponent, canActivate: [AuthGuardService] },
   { path: 'rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService]},
-  { path: 'game-rooms', component: RoomsOverviewComponent, canActivate: [AuthGuardService] },
-  { path: 'game-rooms/:id', component: GameRoomAdminComponent, canActivate: [AuthGuardService] },
-  { path: 'game-rooms/add', component: GameRoomAdminComponent, canActivate: [AuthGuardService] },
+  { path: 'game-rooms', component: RoomsOverviewComponent, canActivate: [AdminGuardService] },
+  { path: 'game-rooms/:id', component: GameRoomAdminComponent, canActivate: [AdminGuardService] },
+  { path: 'game-rooms/add', component: GameRoomAdminComponent, canActivate: [AdminGuardService] },
   { path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuardService] },
   { path: 'user/:id', component: UserAccountComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '/login', pathMatch: 'full' }
@@ -40,7 +41,8 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: []
 })
 export class AppRoutingModule {
 }

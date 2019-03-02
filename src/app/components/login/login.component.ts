@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error: string;
   user = new User();
+  socialLogin = false;
 
   constructor(private formBuilder: FormBuilder, private authorizationService: AuthorizationService, private userService: UserService,
               private route: ActivatedRoute, private router: Router, private authService: AuthService) {
@@ -44,9 +45,11 @@ export class LoginComponent implements OnInit {
         this.user.profilePictureSocial = 'https://graph.facebook.com/' + user.id + '/picture?type=large';
         this.user.provider = user.provider;
         this.authorizationService.socialLogin(this.user).subscribe(authResult => {
-          this.authorizationService.setSession(authResult);
-          this.authService.signOut();
-          this.router.navigateByUrl(this.returnUrl);
+        if (this.socialLogin) {
+            this.authorizationService.setSession(authResult);
+            this.authService.signOut();
+            this.router.navigateByUrl(this.returnUrl);
+          }
         });
       }
     });
@@ -72,5 +75,6 @@ export class LoginComponent implements OnInit {
 
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.socialLogin = true;
   }
 }

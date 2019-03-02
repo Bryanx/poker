@@ -3,6 +3,8 @@ import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
 import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {Notification} from '../../model/notification';
+import {NotificationType} from '../../model/notificationType';
 
 /**
  * This component will be used for searching through all the users
@@ -18,7 +20,7 @@ export class SearchComponent implements OnInit {
   users: User[] = [];
   inputString: String = '';
   subject: Subject<String> = new Subject();
-  myself: User;
+  myself: User = User.create();
 
   constructor(private userService: UserService) {
   }
@@ -70,6 +72,21 @@ export class SearchComponent implements OnInit {
   addFriend(friend: User) {
     this.myself.friends.push(friend);
     this.userService.changeUser(this.myself).subscribe();
+    this.sendFriendRequest(friend.id);
+  }
+
+  /**
+   * Sent a friend request to the requested user.
+   *
+   * @param receiverId The person who needs to receive the request.
+   */
+  private sendFriendRequest(receiverId: string) {
+    const notification: Notification = new Notification();
+    notification.type = NotificationType.FRIEND_REQUEST;
+    notification.message = this.myself.username + ' has sent you a friend request!';
+    notification.ref = this.myself.id;
+
+    this.userService.sendNotification(receiverId, notification).subscribe();
   }
 
   /**

@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {GameService} from '../../services/game.service';
 import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {Room} from '../../model/room';
-import {until} from 'selenium-webdriver';
 import {Router} from '@angular/router';
 import {GameRules} from '../../model/gamerules';
+import {RoomService} from '../../services/room.service';
 
 @Component({
   selector: 'app-game-room-admin',
@@ -21,9 +20,9 @@ export class GameRoomAdminComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private gameService: GameService,
     private curRouter: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    private roomService: RoomService) {
     this.maxPlayers = new Array(5).fill(2).map((x, i) => i + 2);
   }
 
@@ -44,12 +43,12 @@ export class GameRoomAdminComponent implements OnInit {
         smallBlind: [this.room.gameRules.smallBlind, Validators.compose([Validators.required, Validators.min(10)])],
         playDelay: [this.room.gameRules.playDelay, Validators.compose([Validators.required, Validators.min(10)])],
         startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])]
-      })
+      });
     } else {
 
       this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
         this.id = +params.get('id');
-        return this.gameService.getRoom(+params.get('id'));
+        return this.roomService.getRoom(+params.get('id'));
       })).subscribe((room) => {
         this.room = room as Room;
         this.room.id = this.id;
@@ -59,18 +58,18 @@ export class GameRoomAdminComponent implements OnInit {
           smallBlind: [this.room.gameRules.smallBlind, Validators.compose([Validators.required, Validators.min(10)])],
           playDelay: [this.room.gameRules.playDelay, Validators.compose([Validators.required, Validators.min(10)])],
           startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])]
-        })
+        });
       });
     }
   }
 
   isAdding() {
-    return this.router.url.split('/')[2] === 'add'
+    return this.router.url.split('/')[2] === 'add';
   }
 
   deleteRoom() {
-    this.gameService.deleteRoom(this.room).subscribe(result => {
-      return this.router.navigate(['/game-rooms'])
+    this.roomService.deleteRoom(this.room).subscribe(result => {
+      return this.router.navigate(['/game-rooms']);
     });
   }
 
@@ -82,12 +81,12 @@ export class GameRoomAdminComponent implements OnInit {
     this.room.gameRules.playDelay = this.updateRoomForm.controls.playDelay.value;
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
     if (this.isAdding()) {
-      this.gameService.addRoom(this.room).subscribe(result => {
-        return this.router.navigate(['/game-rooms'])
+      this.roomService.addRoom(this.room).subscribe(result => {
+        return this.router.navigate(['/game-rooms']);
       });
     } else {
-      this.gameService.changeRoom(this.room).subscribe(result => {
-        return this.router.navigate(['/game-rooms'])
+      this.roomService.changeRoom(this.room).subscribe(result => {
+        return this.router.navigate(['/game-rooms']);
       });
     }
   }

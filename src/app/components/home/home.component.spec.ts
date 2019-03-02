@@ -4,6 +4,8 @@ import { HomeComponent } from './home.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {TranslatePipe} from '../../translate.pipe';
+import {NotifierModule} from 'angular-notifier';
+import {customNotifierOptions} from '../../notifierOptions';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -12,7 +14,7 @@ describe('HomeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HomeComponent, TranslatePipe ],
-      imports: [ RouterTestingModule, HttpClientTestingModule ]
+      imports: [ RouterTestingModule, HttpClientTestingModule, NotifierModule.withConfig(customNotifierOptions) ]
     })
     .compileComponents();
   }));

@@ -1,23 +1,30 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
 import {Auth} from '../model/auth';
 import {Observable} from 'rxjs';
 import {User} from '../model/user';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {UrlService} from './url.service';
+import {NotifierService} from 'angular-notifier';
+import {UserService} from './user.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
-  // socialUrl = 'http://localhost:5000/api/sociallogin';
-  socialUrl = 'https://poker-user-service.herokuapp.com/api/sociallogin';
-  // tokenUrl = 'http://localhost:5000/oauth/token';
-  tokenUrl = 'https://poker-user-service.herokuapp.com/oauth/token';
-    helper: JwtHelperService = new JwtHelperService();
+  private readonly tokenUrl: string;
+  private readonly socialUrl: string;
+  helper: JwtHelperService = new JwtHelperService();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private urlService: UrlService,
+              private userService: UserService,
+              private notifier: NotifierService) {
+    this.tokenUrl = urlService.authUrl;
+    this.socialUrl = urlService.socialUrl;
   }
+
 
   login(loginPayload): Observable<Auth> {
     const headers = {
@@ -32,6 +39,7 @@ export class AuthorizationService {
 
     localStorage.setItem('jwt_token', authResult.access_token);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+    this.getUnreadNotifications();
   }
 
   logout() {
@@ -51,8 +59,10 @@ export class AuthorizationService {
   }
 
   isAdmin() {
-    // TODO: For testing only admin1 = admin
-    return this.getUsername().toLowerCase() === 'admin1';
+    if (localStorage.getItem('jwt_token')) {
+      return this.helper.decodeToken(localStorage.getItem('jwt_token')).role === 'ROLE_ADMIN';
+    }
+    return false;
   }
 
   socialLogin(user: User) {
@@ -75,9 +85,23 @@ export class AuthorizationService {
     return userId;
   }
 
+  /**
+   * Shows all the unread _notifications of a specific user with al little welcome message.
+   */
+  private getUnreadNotifications() {
+    this.userService.getUnReadNotifications().subscribe(nots => {
+      this.notifier.notify('success', 'Welcome back bro! you received ' + nots.length + ' notification while you were away');
+      nots.forEach(not => {
+        this.notifier.notify('default', not.message);
+        this.userService.readNotification(not.id).subscribe();
+      });
+    });
+  }
+
   getJwtToken() {
     if (localStorage.getItem('jwt_token')) {
       return localStorage.getItem('jwt_token');
     }
   }
 }
+

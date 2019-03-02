@@ -1,4 +1,5 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~angular-notifier/styles";
 
 /* Colors: */
 $background-color: #383A4F;
@@ -17,6 +18,35 @@ $inputPaddingV: .3rem;
 $inputPaddingH: .7rem;
 $inputLineHeight: 3rem;
 
+@mixin custom_button {
+  button, input {
+    outline: none !important;
+  }
+
+  button {
+    height: 4rem;
+    border-radius: 0.15em;
+    text-decoration: none;
+    font-weight: 400;
+    color: #FFFFFF;
+    background-color: $green;
+    text-align: center;
+    border: none;
+    font-size: 1.5rem;
+    min-width: 10rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    width: 250px;
+    &:hover {
+      background: darken($green, 15%)
+    }
+  }
+
+  button:active {
+    top: 0.1em;
+  }
+}
+
 * {
   margin: 0;
   box-sizing: border-box;
@@ -26,33 +56,6 @@ body {
   background: $background-color;
   font-family: 'Open Sans', sans-serif;
   min-height:100%;
-}
-
-button, input {
-  outline: none !important;
-}
-
-button {
-  height: 4rem;
-  border-radius: 0.15em;
-  text-decoration: none;
-  font-weight: 400;
-  color: #FFFFFF;
-  background-color: $green;
-  text-align: center;
-  border: none;
-  font-size: 1.5rem;
-  min-width: 10rem;
-  margin-top: 1rem;
-  cursor: pointer;
-  width: 250px;
-  &:hover {
-    background: darken($green, 15%)
-  }
-}
-
-button:active {
-  top: 0.1em;
 }
 
 h1 {

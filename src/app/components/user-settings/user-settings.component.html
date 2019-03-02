@@ -6,7 +6,7 @@
 
   <section class="first-element">
 
-    <form [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
+    <form *ngIf="updateUserForm" [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
 
       <section class="inputfield">
         <label for="username">{{'USERNAME' | translate | titlecase}}</label>

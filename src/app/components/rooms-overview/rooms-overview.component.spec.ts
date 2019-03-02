@@ -4,6 +4,8 @@ import {RoomsOverviewComponent} from './rooms-overview.component';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {TranslatePipe} from '../../translate.pipe';
+import {NotifierModule} from 'angular-notifier';
+import {customNotifierOptions} from '../../notifierOptions';
 
 describe('RoomsOverviewComponent', () => {
   let component: RoomsOverviewComponent;
@@ -11,8 +13,8 @@ describe('RoomsOverviewComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RoomsOverviewComponent, TranslatePipe ],
-      imports: [RouterTestingModule, HttpClientTestingModule]
+      declarations: [RoomsOverviewComponent, TranslatePipe],
+      imports: [RouterTestingModule, HttpClientTestingModule, NotifierModule.withConfig(customNotifierOptions)]
     }).compileComponents();
   }));
 

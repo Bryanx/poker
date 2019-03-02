@@ -1,4 +1,5 @@
-@import "~src/styles.scss";
+@import "../../../styles";
+@include custom_button
 
 .game-table {
   height: 80%;

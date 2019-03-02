@@ -23,8 +23,6 @@ import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angul
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TranslateService} from './services/translate.service';
 import { TranslatePipe } from './translate.pipe';
-import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
-import { websocketConfig } from './configs/websocket.config';
 import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
@@ -32,6 +30,10 @@ import { GameRoomAdminComponent } from './components/game-room-admin/game-room-a
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import {MatSnackBarModule, MatTableModule} from '@angular/material';
+import {NotifierModule, NotifierOptions} from 'angular-notifier';
+import {customNotifierOptions} from './notifierOptions';
+import { NotificationComponent } from './components/notification/notification.component';
+import {WebSocketService} from './services/web-socket.service';
 
 const config = new AuthServiceConfig([
   {
@@ -56,6 +58,7 @@ export function setupTranslateFactory(
   };
 }
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,7 +78,8 @@ export function setupTranslateFactory(
     SearchComponent,
     UserAccountComponent,
     GameRoomAdminComponent,
-    RankingsComponent
+    RankingsComponent,
+    NotificationComponent
   ],
   imports: [
     BrowserModule,
@@ -89,7 +93,8 @@ export function setupTranslateFactory(
     SocialLoginModule,
     AngularFontAwesomeModule,
     MatTableModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   providers: [
     {
@@ -107,15 +112,6 @@ export function setupTranslateFactory(
       useFactory: setupTranslateFactory,
       deps: [ TranslateService ],
       multi: true
-    },
-    {
-      provide: InjectableRxStompConfig,
-      useValue: websocketConfig
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
     }
   ],
   bootstrap: [AppComponent]

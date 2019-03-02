@@ -8,6 +8,8 @@ import {TranslatePipe} from '../../translate.pipe';
 import {AuthService, AuthServiceConfig} from 'angularx-social-login';
 import {provideConfig} from '../../app.module';
 import {AuthorizationService} from '../../services/authorization.service';
+import {NotifierModule} from 'angular-notifier';
+import {customNotifierOptions} from '../../notifierOptions';
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
@@ -16,7 +18,7 @@ describe('LoginComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LoginComponent, TranslatePipe ],
-      imports: [ FormsModule, ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule ],
+      imports: [ FormsModule, ReactiveFormsModule, RouterTestingModule, HttpClientTestingModule, NotifierModule.withConfig(customNotifierOptions) ],
       providers: [ AuthorizationService, AuthService,
         {
           provide: AuthServiceConfig,

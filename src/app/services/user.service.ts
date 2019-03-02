@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
+import {UrlService} from './url.service';
+import {Observable} from 'rxjs';
 import {User} from '../model/user';
-import {catchError} from 'rxjs/operators';
+import {Notification} from '../model/notification';
 import {Auth} from '../model/auth';
+
 
 /**
  * This service is used to make API calls to the user micro service backend.
@@ -12,10 +14,10 @@ import {Auth} from '../model/auth';
   providedIn: 'root'
 })
 export class UserService {
-  url = 'https://poker-user-service.herokuapp.com/api/user';
-  // url = 'http://localhost:5000/api/user';
+  private readonly url: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private urlService: UrlService) {
+    this.url = urlService.userServiceUrl;
   }
 
   /**
@@ -61,6 +63,39 @@ export class UserService {
   }
 
   /**
+   * Sent a notification to a specific user
+   *
+   * @param receiverId The id of the person that needs to receive it.
+   * @param not The notification that is coupled to the receiver.
+   */
+  sendNotification(receiverId: string, not: Notification): Observable<Notification> {
+    return this.http.post<Notification>(this.url + '/' + receiverId + '/send-notification', not);
+  }
+
+  /**
+   * Sets a specific notification to read.
+   *
+   * @param notId The if of the notification that needs be set to read.
+   */
+  readNotification(notId: number): Observable<Notification> {
+    return this.http.patch<Notification>(this.url + '/notifications/' + notId + '/read-notification', '');
+  }
+
+  /**
+   * Gives back all the unread _notifications of a specific user.3
+   */
+  getUnReadNotifications(): Observable<Notification[]> {
+    return this.http.get<Notification[]>(this.url + '/notifications/un-read');
+  }
+
+  /**
+   * Gives back all the unread _notifications of a specific user.3
+   */
+  getNotifications(): Observable<Notification[]> {
+    return this.http.get<Notification[]>(this.url + '/notifications');
+  }
+
+  /**
    * Changes one or more attributes of the user except the password.
    *
    * @param user The user that needs to be changed.
@@ -76,5 +111,13 @@ export class UserService {
    */
   changePassword(user: any): Observable<Auth> {
     return this.http.patch<any>(this.url, user);
+  }
+
+  deleteNotification(id: number): Observable<Notification> {
+    return this.http.delete<Notification>(this.url + '/notification/' + id);
+  }
+
+  deleteNotifications(): Observable<Notification> {
+    return this.http.delete<Notification>(this.url + '/notification');
   }
 }

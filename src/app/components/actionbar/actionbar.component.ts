@@ -1,18 +1,13 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
-import {Phase} from '../../model/phase';
 import {RoundService} from '../../services/round.service';
-import {RxStompService} from '@stomp/ng2-stompjs';
-import {Message} from '@stomp/stompjs';
-import {Subscription} from 'rxjs';
 import {Round} from '../../model/round';
 import {AuthorizationService} from '../../services/authorization.service';
-import {Card} from '../../model/card';
 import {Player} from '../../model/player';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 import {Room} from '../../model/room';
 import {CurrentPhaseBet} from '../../model/currentPhaseBet';
+import {WebSocketService} from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-actionbar',
@@ -22,7 +17,6 @@ import {CurrentPhaseBet} from '../../model/currentPhaseBet';
 export class ActionbarComponent implements OnInit, OnDestroy {
   @Input() room: Room = Room.create();
   public actTypes: typeof ActType = ActType;
-  actSubscription: Subscription;
   _round: Round;
   sliderValue = 0;
   myTurn: boolean;
@@ -33,8 +27,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   @Output() actEvent: EventEmitter<Act> = new EventEmitter<Act>();
   canAct = true;
   @Output() currentPhaseBetEvent: EventEmitter<CurrentPhaseBet> = new EventEmitter<CurrentPhaseBet>();
+  ws: any;
 
-  constructor(private roundService: RoundService, private websocketService: RxStompService,
+  constructor(private roundService: RoundService, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService) {
   }
 
@@ -43,8 +38,8 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.actSubscription !== undefined) {
-      this.actSubscription.unsubscribe();
+    if (this.ws !== undefined) {
+      this.ws.disconnect();
     }
   }
 
@@ -52,15 +47,16 @@ export class ActionbarComponent implements OnInit, OnDestroy {
    * Subscribes to the act channel. All played acts will now be received here.
    */
   initializeGameConnection() {
-    this.actSubscription = this.websocketService.watch('/room/receive-act/' + this.room.id).subscribe((message: Message) => {
-      if (message) {
-        this.currentAct = JSON.parse(message.body) as Act;
-        this.sliderValue = this.currentAct.totalBet;
-        this.actEvent.emit(this.currentAct);
-        // console.log(this.currentAct);
-      }
-    }, error => {
-      console.log(error.error.error_description);
+    this.ws = this.websocketService.connectGameService();
+    this.ws.connect({}, (frame) => {
+      this.ws.subscribe('/room/receive-act/' + this.room.id, (message) => {
+        if (message) {
+          this.currentAct = JSON.parse(message.body) as Act;
+          this.sliderValue = this.currentAct.totalBet;
+          this.actEvent.emit(this.currentAct);
+          // console.log(this.currentAct);
+        }
+      });
     });
   }
 
@@ -111,11 +107,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
   isActPossible(acttype: ActType) {
     if (this.possibleActs !== undefined) {
-      if (this.possibleActs.indexOf(acttype) > -1) {
-        return true;
-      } else {
-        return false;
-      }
+      return this.possibleActs.indexOf(acttype) > -1;
     } else {
       return false;
     }

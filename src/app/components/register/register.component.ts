@@ -3,10 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthorizationService} from '../../services/authorization.service';
 import {UserService} from '../../services/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {HttpParams} from '@angular/common/http';
 import {User} from '../../model/user';
-import {combineLatest, concat} from 'rxjs';
-import {TranslateService} from '../../services/translate.service';
 
 @Component({
   selector: 'app-register',

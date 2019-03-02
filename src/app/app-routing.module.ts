@@ -15,8 +15,6 @@ import {SearchComponent} from './components/search/search.component';
 import {GameRoomAdminComponent} from './components/game-room-admin/game-room-admin.component';
 import {RankingsComponent} from './components/rankings/rankings.component';
 import {AdminGuardService} from './services/admin-guard.service';
-import {InjectableRxStompConfig, RxStompService, rxStompServiceFactory} from '@stomp/ng2-stompjs';
-import {webSocketConfigUserService} from './configs/websocket_user_service.config';
 
 
 const routes: Routes = [
@@ -44,17 +42,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
   ],
   exports: [RouterModule],
-  providers: [
-    {
-      provide: InjectableRxStompConfig,
-      useValue: webSocketConfigUserService,
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
-    }
-  ]
+  providers: []
 })
 export class AppRoutingModule {
 }

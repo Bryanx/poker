@@ -1,9 +1,7 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ChatMessage} from '../../model/chat-message';
 import {AuthorizationService} from '../../services/authorization.service';
-import {RxStompService} from '@stomp/ng2-stompjs';
-import {Message} from '@stomp/stompjs';
-import {Subscription} from 'rxjs';
+import {WebSocketService} from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -16,9 +14,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   inputMessage: string;
   @Input() roomId: number;
   playerName: String;
-  chatSubscription: Subscription;
+  ws: any;
 
-  constructor(private authorizationService: AuthorizationService, private websocketService: RxStompService) {}
+  constructor(private authorizationService: AuthorizationService, private websocketService: WebSocketService) {}
 
   ngOnInit() {
     this.playerName = this.authorizationService.getUsername();
@@ -26,17 +24,21 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.chatSubscription.unsubscribe();
+    if (this.ws !== undefined) {
+      this.ws.disconnect();
+    }
   }
 
   initializeChatConnection() {
-    this.chatSubscription = this.websocketService.watch('/chatroom/receive/' + this.roomId).subscribe((message: Message) => {
-      if (message) {
-        this.messages.push(JSON.parse(message.body));
-      }
-    }, error => {
-      this.error = true;
+    this.ws = this.websocketService.connectGameService();
+    this.ws.connect({}, (frame) => {
+      this.ws.subscribe('/chatroom/receive/' + this.roomId, (message) => {
+        if (message) {
+          this.messages.push(JSON.parse(message.body));
+        }
+      });
     });
+
     setTimeout(() => this.sendMessage('system', this.playerName + ' joined the room.'), 500);
   }
 
@@ -46,7 +48,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     this.inputMessage = '';
     const chatMessage = JSON.stringify({name: name, content: messageString});
-    this.websocketService.publish({destination: '/chatrooms/' + this.roomId + '/send', body: chatMessage});
+    this.ws.send('/chatrooms/' + this.roomId + '/send', {}, chatMessage);
   }
 
   myMessage(message: ChatMessage) {

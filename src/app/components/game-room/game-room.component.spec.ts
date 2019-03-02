@@ -13,7 +13,6 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from '../../notifierOptions';
 import {TranslatePipe} from '../../translate.pipe';
-import {RxStompService} from '@stomp/ng2-stompjs';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -37,7 +36,7 @@ describe('GameRoomComponent', () => {
         RouterTestingModule,
         NotifierModule.withConfig(customNotifierOptions)
       ],
-      providers: [RxStompService]
+      providers: []
     })
       .compileComponents();
   }));

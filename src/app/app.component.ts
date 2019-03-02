@@ -1,33 +1,39 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {TranslateService} from './services/translate.service';
 import {Notification} from './model/notification';
 import {AuthorizationService} from './services/authorization.service';
 import {UserService} from './services/user.service';
 import {Subscription} from 'rxjs';
 import {User} from './model/user';
-import {Message} from '@stomp/stompjs';
-import {RxStompService} from '@stomp/ng2-stompjs';
 import {NotifierService} from 'angular-notifier';
+import {WebSocketService} from './services/web-socket.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   newNotification: Notification;
   notificationsSub: Subscription;
   myself: User;
+  ws: any;
 
   constructor(private translate: TranslateService,
               private userService: UserService,
-              private webSocketService: RxStompService,
+              private websocketService: WebSocketService,
               private notifier: NotifierService,
               private auth: AuthorizationService) {
   }
 
   ngOnInit(): void {
     this.checkIfAuthenticated();
+  }
+
+  ngOnDestroy(): void {
+    if (this.ws !== undefined) {
+      this.ws.disconnect();
+    }
   }
 
   /**
@@ -73,15 +79,16 @@ export class AppComponent implements OnInit {
    * Shows _notifications to the screen if any are pushed by the web socket.
    */
   private initializeNotificationConnection() {
-    this.notificationsSub = this.webSocketService.watch('/user/receive-notification/' + this.myself.id).subscribe((message: Message) => {
-      if (message) {
-        const not: Notification = JSON.parse(message.body) as Notification;
-        this.userService.readNotification(not.id).subscribe();
-        this.notifier.notify('default', not.message);
-        this.newNotification = not;
-      }
-    }, error => {
-      console.log(error.error.error_description);
+    this.ws = this.websocketService.connectUserService();
+    this.ws.connect({}, (frame) => {
+      this.ws.subscribe('/user/receive-notification/' + this.myself.id, (message) => {
+        if (message) {
+          const not: Notification = JSON.parse(message.body) as Notification;
+          this.userService.readNotification(not.id).subscribe();
+          this.notifier.notify('default', not.message);
+          this.newNotification = not;
+        }
+      });
     });
   }
 

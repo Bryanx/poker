@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Room} from '../../model/room';
-import {GameService} from '../../services/game.service';
 import {AuthorizationService} from '../../services/authorization.service';
+import {RoomService} from '../../services/room.service';
 
 @Component({
   selector: 'app-rooms-overview',
@@ -11,11 +11,11 @@ import {AuthorizationService} from '../../services/authorization.service';
 export class RoomsOverviewComponent implements OnInit {
   rooms: Room[] = [];
 
-  constructor(private gameService: GameService, private authService: AuthorizationService) {
+  constructor(private roomService: RoomService, private authService: AuthorizationService) {
   }
 
   ngOnInit() {
-    this.gameService.getRooms().subscribe(rooms => {
+    this.roomService.getRooms().subscribe(rooms => {
       this.rooms = rooms;
     });
   }

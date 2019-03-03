@@ -1,12 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {GameService} from '../../services/game.service';
 import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {Room} from '../../model/room';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {PrivateRoom} from '../../model/privateRoom';
+import {RoomService} from '../../services/room.service';
 
 @Component({
   selector: 'app-game-room-admin',
@@ -21,10 +21,10 @@ export class GameRoomEditComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private gameService: GameService,
     private curRouter: ActivatedRoute,
     private location: Location,
-    private router: Router) {
+    private router: Router,
+    private roomService: RoomService) {
     this.maxPlayers = new Array(5).fill(2).map((x, i) => i + 2);
   }
 
@@ -40,7 +40,7 @@ export class GameRoomEditComponent implements OnInit {
     } else {
       this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
         this.id = +params.get('id');
-        return this.gameService.getRoom(+params.get('id'));
+        return this.roomService.getRoom(+params.get('id'));
       })).subscribe((room) => {
         this.room = room as Room;
         this.room.id = this.id;
@@ -65,7 +65,8 @@ export class GameRoomEditComponent implements OnInit {
   }
 
   deleteRoom() {
-    this.gameService.deleteRoom(this.room).subscribe(() => this.location.back());
+    this.roomService.deleteRoom(this.room).subscribe(() => this.location.back());
+    return this.router.url.split('/')[2] === 'add';
   }
 
   onSubmit() {
@@ -77,11 +78,11 @@ export class GameRoomEditComponent implements OnInit {
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
 
     if (this.isAddingPrivate()) {
-      this.gameService.addPrivateRoom(this.room as PrivateRoom).subscribe(() => this.location.back());
+      this.roomService.addPrivateRoom(this.room as PrivateRoom).subscribe(() => this.location.back());
     } else if (this.isAdding()) {
-      this.gameService.addRoom(this.room).subscribe(() => this.location.back());
+      this.roomService.addRoom(this.room).subscribe(() => this.location.back());
     } else {
-      this.gameService.changeRoom(this.room).subscribe(() => this.location.back());
+      this.roomService.changeRoom(this.room).subscribe(() => this.location.back());
     }
   }
 

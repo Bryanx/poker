@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Router} from '@angular/router';
 import {HomeVisibleService} from '../../services/home-visible.service';

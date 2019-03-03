@@ -23,8 +23,6 @@ import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angul
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TranslateService} from './services/translate.service';
 import { TranslatePipe } from './translate.pipe';
-import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
-import { websocket_game_serviceConfig } from './configs/websocket_game_service.config';
 import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
@@ -32,8 +30,7 @@ import { GameRoomEditComponent } from './components/game-room-edit/game-room-edi
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import {MatSnackBarModule, MatTableModule} from '@angular/material';
-import {webSocketConfigUserService} from './configs/websocket_user_service.config';
-import {NotifierModule, NotifierOptions} from 'angular-notifier';
+import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RoomCardComponent } from './components/room-card/room-card.component';
@@ -116,19 +113,6 @@ export function setupTranslateFactory(
       useFactory: setupTranslateFactory,
       deps: [ TranslateService ],
       multi: true
-    },
-    /*{
-      provide: InjectableRxStompConfig,
-      useValue: websocket_game_serviceConfig,
-    },*/
-    {
-      provide: InjectableRxStompConfig,
-      useValue: webSocketConfigUserService,
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
     }
   ],
   bootstrap: [AppComponent]

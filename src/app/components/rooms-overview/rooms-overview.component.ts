@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {GameService} from '../../services/game.service';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
@@ -9,6 +8,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {WhiteListedUser} from '../../model/whiteListedUser';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
+import {AuthorizationService} from '../../services/authorization.service';
+import {RoomService} from '../../services/room.service';
 
 @Component({
   selector: 'app-rooms-overview',
@@ -38,7 +39,7 @@ export class RoomsOverviewComponent implements OnInit {
   curRoom: PrivateRoom;
   dataLoaded: Boolean;
 
-  constructor(private gameService: GameService,
+  constructor(private roomService: RoomService,
               private userService: UserService,
               private router: Router,
               private authService: AuthorizationService) {
@@ -48,17 +49,23 @@ export class RoomsOverviewComponent implements OnInit {
     const url: string = this.router.url;
     if (url.includes('private')) {
       if (url.includes('settings')) {
-        this.gameService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
+        this.roomService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
         this.getUsers();
         this.getMyself();
         this.inSettingMode = true;
       } else {
-        this.gameService.getPrivateRooms().subscribe(rooms => this.rooms = rooms);
+        this.roomService.getPrivateRooms().subscribe(rooms => this.rooms = rooms);
       }
     } else {
       this.public = true;
-      this.gameService.getRooms().subscribe(rooms => this.rooms = rooms);
+      this.roomService.getRooms().subscribe(rooms => this.rooms = rooms);
     }
+  }
+
+  ngOnInit() {
+    this.roomService.getRooms().subscribe(rooms => {
+      this.rooms = rooms;
+    });
   }
 
   isAdmin() {
@@ -76,7 +83,7 @@ export class RoomsOverviewComponent implements OnInit {
 
   addToWhiteList(user: User) {
     this.toggleWhiteListedUser(user, true);
-    this.gameService.addToWhiteList(this.curRoom.id, user.id).subscribe(room => {
+    this.roomService.addToWhiteList(this.curRoom.id, user.id).subscribe(room => {
       this.curRoom = room;
       this.refreshData();
     });
@@ -85,7 +92,7 @@ export class RoomsOverviewComponent implements OnInit {
 
   deleteFromWhiteList(user: User) {
     this.toggleWhiteListedUser(user, false);
-    this.gameService.deleteFromWhiteList(this.curRoom.id, user.id).subscribe(room => {
+    this.roomService.deleteFromWhiteList(this.curRoom.id, user.id).subscribe(room => {
       this.curRoom = room;
       this.refreshData();
     });
@@ -93,7 +100,7 @@ export class RoomsOverviewComponent implements OnInit {
   }
 
   private refreshData() {
-    this.gameService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
+    this.roomService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
   }
 
   private getUsers() {

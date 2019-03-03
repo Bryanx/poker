@@ -4,7 +4,6 @@ import {NotificationComponent} from './notification.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from '../../notifierOptions';
-import {RxStompService} from '@stomp/ng2-stompjs';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('NotificationComponent', () => {
@@ -15,7 +14,7 @@ describe('NotificationComponent', () => {
     TestBed.configureTestingModule({
       declarations: [NotificationComponent],
       imports: [RouterTestingModule, HttpClientTestingModule, NotifierModule.withConfig(customNotifierOptions)],
-      providers: [RxStompService]
+      providers: []
     })
       .compileComponents();
   }));

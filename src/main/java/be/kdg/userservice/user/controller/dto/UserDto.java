@@ -1,5 +1,6 @@
 package be.kdg.userservice.user.controller.dto;
 
+import be.kdg.userservice.user.model.Friend;
 import lombok.Data;
 
 @Data
@@ -12,7 +13,7 @@ public class UserDto {
     private String profilePicture;
     private String profilePictureSocial;
     private String provider;
-    private UserDto[] friends;
+    private Friend[] friends;
     private int chips;
     private int wins;
     private int gamesPlayed;

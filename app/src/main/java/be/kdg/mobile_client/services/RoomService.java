@@ -15,7 +15,7 @@ import retrofit2.http.Path;
  * This service will be used to send API requests to https://poker-game-service.herokuapp.com
  * game micro service back end.
  */
-public interface GameService {
+public interface RoomService {
     @GET("/api/rooms")
     Observable<List<Room>> getRooms();
 

@@ -14,7 +14,7 @@ import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.repos.RoomRepository;
 import be.kdg.mobile_client.repos.RoundRepository;
 import be.kdg.mobile_client.services.ChatService;
-import be.kdg.mobile_client.services.GameService;
+import be.kdg.mobile_client.services.RoomService;
 import be.kdg.mobile_client.services.RoundService;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
@@ -118,7 +118,7 @@ public class ControllerModule {
     }
 
     @Provides
-    GameService gameService() {
+    RoomService roomService() {
         return new Retrofit
                 .Builder()
                 .client(okHttpClient())
@@ -126,7 +126,7 @@ public class ControllerModule {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .baseUrl(API_BASE_URL_GAME)
                 .build()
-                .create(GameService.class);
+                .create(RoomService.class);
     }
 
     @Provides
@@ -170,7 +170,7 @@ public class ControllerModule {
 
     @Provides
     RoomRepository roomRepository(WebSocketService webSocketService) {
-        return new RoomRepository(gameService(), webSocketService);
+        return new RoomRepository(roomService(), webSocketService);
     }
 
     @Provides

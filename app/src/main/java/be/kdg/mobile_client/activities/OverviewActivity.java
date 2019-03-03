@@ -14,11 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.RoomRecyclerAdapter;
 import be.kdg.mobile_client.model.Room;
-import be.kdg.mobile_client.services.GameService;
+import be.kdg.mobile_client.services.RoomService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * This activity is used to display all the rooms as cards.
@@ -26,7 +25,8 @@ import io.reactivex.schedulers.Schedulers;
 public class OverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
-    @Inject GameService gameService;
+    @Inject
+    RoomService roomService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class OverviewActivity extends BaseActivity {
 
     @SuppressLint("CheckResult")
     private void getRooms() {
-        gameService.getRooms().observeOn(AndroidSchedulers.mainThread())
+        roomService.getRooms().observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::initializeAdapter, error -> Log.e("OverviewActivity", error.getMessage()));
     }
 

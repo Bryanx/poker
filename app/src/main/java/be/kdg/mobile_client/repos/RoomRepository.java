@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 import be.kdg.mobile_client.model.Act;
 import be.kdg.mobile_client.model.Player;
 import be.kdg.mobile_client.model.Room;
-import be.kdg.mobile_client.services.GameService;
+import be.kdg.mobile_client.services.RoomService;
 import be.kdg.mobile_client.services.WebSocketService;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -20,19 +20,19 @@ import retrofit2.Response;
 @SuppressLint("CheckResult")
 public class RoomRepository {
     private static final String TAG = "RoomRepository";
-    private final GameService gameService;
+    private final RoomService roomService;
     private final WebSocketService webSocketService;
     private String onErrorMsg;
 
     @Inject
-    public RoomRepository(GameService gameService, WebSocketService webSocketService) {
-        this.gameService = gameService;
+    public RoomRepository(RoomService roomService, WebSocketService webSocketService) {
+        this.roomService = roomService;
         this.webSocketService = webSocketService;
     }
 
     public Observable<Room> findById(int roomId) {
         onErrorMsg = "Failed to fetch room";
-        return gameService.getRoom(roomId)
+        return roomService.getRoom(roomId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnEach(each -> Log.i(TAG, "Succesfully fetched room: " + each))
                 .doOnError(this::logError);
@@ -40,7 +40,7 @@ public class RoomRepository {
 
     public Observable<Player> joinRoom(int roomId) {
         onErrorMsg = "Failed to join room";
-        return gameService.joinRoom(roomId)
+        return roomService.joinRoom(roomId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::logError)
                 .doOnEach(eachPlayer -> Log.i(TAG, "Joined room: " + roomId + " player: " + eachPlayer.toString()));
@@ -48,14 +48,14 @@ public class RoomRepository {
 
     public Observable<Response<Void>> getCurrentRound(int roomId) {
         onErrorMsg = "Could not get current round";
-        return gameService.getCurrentRound(roomId)
+        return roomService.getCurrentRound(roomId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::logError);
     }
 
     public Observable<Response<Void>> leaveRoom(int roomId) {
         onErrorMsg = "Could not leave room";
-        return gameService.leaveRoom(roomId)
+        return roomService.leaveRoom(roomId)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::logError);
     }

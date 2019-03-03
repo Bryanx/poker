@@ -3,7 +3,6 @@ import {TranslateService} from './services/translate.service';
 import {Notification} from './model/notification';
 import {AuthorizationService} from './services/authorization.service';
 import {UserService} from './services/user.service';
-import {Subscription} from 'rxjs';
 import {User} from './model/user';
 import {NotifierService} from 'angular-notifier';
 import {HomeVisibleService} from './services/home-visible.service';

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {forkJoin} from 'rxjs';
+import {Friend} from '../../model/friend';
 
 /**
  * Component for displaying friends
@@ -22,15 +24,28 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class FriendsComponent implements OnInit {
   myself: User = User.create();
+  friends: User[] = [];
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.userService.getMyself().subscribe(me => this.myself = me);
+    const ob1 = this.userService.getMyself();
+    const ob2 = this.userService.getUsers();
+    forkJoin(ob1, ob2).subscribe((bundle) => {
+      this.myself = bundle[0];
+      this.initializeFriends(bundle[0].friends, bundle[1]);
+    });
   }
 
-  removeFriend(friend: User) {
-    this.myself.friends = this.myself.friends.filter(other => other !== friend);
+  initializeFriends(friends: Friend[], users: User[]) {
+    this.friends = users.filter(user =>
+      friends.filter(friend => friend.userId === user.id).length === 1
+    );
+  }
+
+  removeFriend(userId: string) {
+    this.myself.friends = this.myself.friends.filter(friend => friend.userId !== userId);
+    this.friends = this.friends.filter(user => user.id !== userId);
     this.userService.changeUser(this.myself).subscribe();
   }
 }

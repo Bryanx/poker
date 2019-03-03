@@ -6,6 +6,7 @@ import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Friend} from '../../model/friend';
 
 /**
  * This component will be used for searching through all the users
@@ -80,12 +81,15 @@ export class SearchComponent implements OnInit {
   /**
    * Adds a friend to the current user.
    *
-   * @param friend The friend that needs to be added.
+   * @param friendId The friend that needs to be added.
    */
-  addFriend(friend: User) {
+  addFriend(friendId: string) {
+    const friend: Friend = new Friend();
+    friend.userId = friendId;
     this.myself.friends.push(friend);
+
     this.userService.changeUser(this.myself).subscribe();
-    this.sendFriendRequest(friend.id);
+    this.sendFriendRequest(friendId);
   }
 
   /**
@@ -111,7 +115,7 @@ export class SearchComponent implements OnInit {
     if (user.id === this.myself.id) {
       return false;
     } else {
-      return !this.myself.friends.some(friend => friend.id === user.id);
+      return !this.myself.friends.some(friend => friend.userId === user.id);
     }
   }
 }

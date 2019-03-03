@@ -13,6 +13,9 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  height: 100%;
+  overflow-y: scroll;
+  direction: rtl;
 
   .error {
     color: $red;
@@ -25,11 +28,11 @@
     padding: 0.1rem .7rem;
     border-radius: 1rem;
     margin: .3rem 0;
+    direction: ltr;
   }
 
   .my-message {
     background: $green;
-    align-self: flex-end;
   }
 
   .system-message {
@@ -63,4 +66,26 @@
     font-size: 1rem;
     padding: 1rem;
   }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $green;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $green;
 }

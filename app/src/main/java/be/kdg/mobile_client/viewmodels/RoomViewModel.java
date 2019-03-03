@@ -1,5 +1,7 @@
 package be.kdg.mobile_client.viewmodels;
 
+import android.annotation.SuppressLint;
+
 import javax.inject.Inject;
 
 import androidx.lifecycle.MutableLiveData;
@@ -16,6 +18,7 @@ import lombok.Getter;
 /**
  * Main viewmodel for joining a room and fetching its state.
  */
+@SuppressLint("CheckResult")
 public class RoomViewModel extends ViewModel {
     private final RoomRepository roomRepo;
     private final RoundRepository roundRepo;
@@ -31,15 +34,17 @@ public class RoomViewModel extends ViewModel {
     }
 
     public void init(int roomId) {
-        roomRepo.findById(roomId, next -> {
-            room.setValue(next);
-            if (playerCapReached(next)) return;
-            roomRepo.listenOnRoomUpdate(roomId, room::postValue);
-            roundRepo.listenOnRoundUpdate(roomId, round::postValue);
-            //TODO: initializeWinnerConnection();
-            roomRepo.joinRoom(roomId, player::postValue);
-            roomRepo.listenOnActUpdate(roomId, this::onNewAct);
-        }, notification::postValue);
+        roomRepo.findById(roomId)
+                .doOnError(error -> notification.postValue(error.getMessage()))
+                .subscribe(next -> {
+                    room.setValue(next);
+                    if (playerCapReached(next)) return;
+                    roomRepo.listenOnRoomUpdate(roomId).subscribe(room::postValue);
+                    roundRepo.listenOnRoundUpdate(roomId).subscribe(round::postValue);
+                    //TODO: initializeWinnerConnection();
+                    roomRepo.joinRoom(roomId).subscribe(player::postValue);
+                    roomRepo.listenOnActUpdate(roomId).subscribe(this::onNewAct);
+                });
     }
 
     private void onNewAct(Act act) {
@@ -56,14 +61,15 @@ public class RoomViewModel extends ViewModel {
     }
 
     public void leaveRoom() {
-        roomRepo.leaveRoom(room.getValue().getId());
+        roomRepo.leaveRoom(room.getValue().getId()).subscribe();
     }
 
     public void onAct(ActType actType) {
         Player me = player.getValue();
         Round rnd = round.getValue();
-        Act act = new Act(rnd.getId(), me.getUserId(), me.getId(), rnd.getId(), actType,
+        int roomId = room.getValue().getId();
+        Act act = new Act(rnd.getId(), me.getUserId(), me.getId(), roomId, actType,
                 rnd.getCurrentPhase(), 0, 0, "");
-        roundRepo.addAct(act);
+        roundRepo.addAct(act).subscribe();
     }
 }

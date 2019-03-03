@@ -10,8 +10,10 @@ import be.kdg.mobile_client.model.Act;
 import be.kdg.mobile_client.model.Round;
 import be.kdg.mobile_client.services.RoundService;
 import be.kdg.mobile_client.services.WebSocketService;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import retrofit2.Response;
 
 @Singleton
 @SuppressLint("CheckResult")
@@ -27,17 +29,17 @@ public class RoundRepository {
         this.roundService = roundService;
     }
 
-    public void addAct(Act act) {
+    public Observable<Response<Void>> addAct(Act act) {
         onErrorMsg = "Failed to play act";
-        roundService.addAct(act)
+        return roundService.addAct(act)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(next -> {}, this::logError);
+                .doOnError(this::logError);
     }
 
-    public void listenOnRoundUpdate(int roomId, Consumer<Round> onUpdate) {
+    public Flowable<Round> listenOnRoundUpdate(int roomId) {
         onErrorMsg = "Could not receive round update, room: " + roomId;
-        webSocketService.watch("/room/receive-round/" + roomId, Round.class)
-                .subscribe(onUpdate, this::logError);
+        return webSocketService.watch("/room/receive-round/" + roomId, Round.class)
+                .doOnError(this::logError);
     }
 
     private void logError(Throwable error) {

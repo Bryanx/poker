@@ -2,12 +2,12 @@
 <h1>{{'FRIENDS' | translate | uppercase}}</h1>
 
 <section>
-  <div class="friend-row" *ngFor="let friend of myself?.friends" routerLink="/user/{{friend.id}}">
-    {{friend.username}}
-    <div class="delete-friend" (click)="removeFriend(friend)"><fa name="plus"></fa></div>
+  <div class="friend-row" *ngFor="let user of friends" [@simpleFadeAnimation]="'in'" routerLink="/user/{{user.id}}">
+    {{user.username}}
+    <div class="delete-friend" (click)="removeFriend(user.id)"><fa name="plus"></fa></div>
   </div>
 </section>
-<h2 *ngIf="myself.friends.length <= 0">{{'NO_FRIENDS' | translate | titlecase}}</h2>
+<h2 *ngIf="friends <= 0">{{'NO_FRIENDS' | translate | titlecase}}</h2>
 
 <section class="nav">
   <button class="back-button" routerLink="/">{{'BACK' | translate | titlecase}}</button>

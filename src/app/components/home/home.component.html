@@ -11,6 +11,8 @@
 
   <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rooms">{{'JOIN ROOM' | translate | uppercase}}</button>
 
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rooms/private">{{'JOIN ROOM PRIVATE' | translate | uppercase}}</button>
+
   <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/friends">{{'FRIENDS' | translate | uppercase}}</button>
 
   <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/">{{'REPLAYS' | translate | uppercase}}</button>

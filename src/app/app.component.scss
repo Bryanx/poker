@@ -1,7 +1,34 @@
 @import "../styles";
 @include custom_button
 
-.language {
+.home-container {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  top: 1rem;
+  left: 1rem;
+
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+
+  &:hover {
+    background-color: darken($background-color, 10%);
+  }
+
+  &:active {
+    background-color: darken($background-color, 20%);
+  }
+
+  img {
+    margin-top: 6px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.hotbar {
   position: absolute;
   top: 1rem;
   right: 1rem;
@@ -9,17 +36,21 @@
 
   button {
     background: none;
-    color: darken($background-color, 5%);
+    color: white;
     width: auto;
     height: auto;
-    margin: 0;
     min-width: 0;
     font-size: 1.2rem;
     font-weight: bold;
     padding: 0 0 0 .3rem;
+    margin: 0 1rem 0 0;
 
     &:hover {
-      color: darken($background-color, 50%);
+      color: darken(#fff, 30%);
+    }
+
+    &:active {
+      color: darken(#fff, 40%);
     }
   }
 }

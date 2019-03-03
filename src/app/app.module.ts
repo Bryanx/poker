@@ -26,14 +26,14 @@ import { TranslatePipe } from './translate.pipe';
 import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
-import { GameRoomAdminComponent } from './components/game-room-admin/game-room-admin.component';
+import { GameRoomEditComponent } from './components/game-room-edit/game-room-edit.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import {MatSnackBarModule, MatTableModule} from '@angular/material';
-import {NotifierModule, NotifierOptions} from 'angular-notifier';
+import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
-import {WebSocketService} from './services/web-socket.service';
+import { RoomCardComponent } from './components/room-card/room-card.component';
 
 const config = new AuthServiceConfig([
   {
@@ -77,9 +77,10 @@ export function setupTranslateFactory(
     FriendsComponent,
     SearchComponent,
     UserAccountComponent,
-    GameRoomAdminComponent,
+    GameRoomEditComponent,
     RankingsComponent,
-    NotificationComponent
+    NotificationComponent,
+    RoomCardComponent
   ],
   imports: [
     BrowserModule,

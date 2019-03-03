@@ -6,6 +6,7 @@ import {Player} from '../model/player';
 import {Auth} from '../model/auth';
 import {UrlService} from './url.service';
 import {Room} from '../model/room';
+import {PrivateRoom} from '../model/privateRoom';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,26 @@ export class RoomService {
 
   getRoom(id: number): Observable<Room> {
     return this.http.get<Room>(this.url + '/' + id);
+  }
+
+  getPrivateRooms(): Observable<PrivateRoom[]> {
+    return this.http.get<PrivateRoom[]>(this.url + '/private');
+  }
+
+  getPrivateRoomsFromOwner(): Observable<PrivateRoom[]> {
+    return this.http.get<PrivateRoom[]>(this.url + '/private/owner');
+  }
+
+  addPrivateRoom(room: PrivateRoom): Observable<PrivateRoom> {
+    return this.http.post<PrivateRoom>(this.url + '/private', room);
+  }
+
+  addToWhiteList(roomId: number, userId: string): Observable<PrivateRoom> {
+    return this.http.patch<PrivateRoom>(this.url + '/private/' + roomId + '/add-user/' + userId, '');
+  }
+
+  deleteFromWhiteList(roomId: number, userId: string): Observable<PrivateRoom> {
+    return this.http.patch<PrivateRoom>(this.url + '/private/' + roomId + '/remove-user/' + userId, '');
   }
 
   changeRoom(room: Room): Observable<Room> {

@@ -1,4 +1,4 @@
-<h2>{{'GAMERULES' | translate | titlecase}}</h2>
+<h1>{{'ROOM DETAILS' | translate | uppercase}}</h1>
 
 <form *ngIf="updateRoomForm" [formGroup]="updateRoomForm" (ngSubmit)="onSubmit()">
   <section class="grid">
@@ -61,9 +61,10 @@
         <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid">{{'SAVE' | translate |
           titlecase}}
         </button>
-        <button (click)="deleteRoom()" class="btn delete">{{'DELETEROOM' | translate | titlecase}}</button>
+        <button *ngIf="!isAdding()" (click)="deleteRoom()" class="btn delete">{{'DELETEROOM' | translate | titlecase}}
+        </button>
       </section>
-      <button class="btn" routerLink="/game-rooms">{{'BACK' | translate | titlecase}}</button>
+      <button class="btn" type="button" (click)="goBackPrev()">{{'BACK' | translate | titlecase}}</button>
     </section>
   </section>
 </form>

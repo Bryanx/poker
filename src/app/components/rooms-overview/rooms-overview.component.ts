@@ -8,7 +8,6 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {WhiteListedUser} from '../../model/whiteListedUser';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
-import {AuthorizationService} from '../../services/authorization.service';
 import {RoomService} from '../../services/room.service';
 
 @Component({
@@ -60,12 +59,6 @@ export class RoomsOverviewComponent implements OnInit {
       this.public = true;
       this.roomService.getRooms().subscribe(rooms => this.rooms = rooms);
     }
-  }
-
-  ngOnInit() {
-    this.roomService.getRooms().subscribe(rooms => {
-      this.rooms = rooms;
-    });
   }
 
   isAdmin() {

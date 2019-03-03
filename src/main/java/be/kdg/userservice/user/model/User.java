@@ -39,7 +39,7 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
-    private List<User> friends;
+    private List<Friend> friends;
 
     public User() {
         this.friends = new ArrayList<>();

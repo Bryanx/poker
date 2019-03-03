@@ -10,9 +10,7 @@ import java.util.List;
 public interface UserService {
     User findUserById(String id);
 
-    List<User> getUsers();
-
-    List<User> getAdmins();
+    List<User> getUsers(String role);
 
     List<User> getUsersByName(String name);
 

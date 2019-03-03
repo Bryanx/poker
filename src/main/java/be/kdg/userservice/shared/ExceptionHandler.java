@@ -1,7 +1,7 @@
 package be.kdg.userservice.shared;
 
 import be.kdg.userservice.notification.exception.NotificationException;
-import be.kdg.userservice.user.dto.ErrorDto;
+import be.kdg.userservice.user.controller.dto.ErrorDto;
 import be.kdg.userservice.user.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

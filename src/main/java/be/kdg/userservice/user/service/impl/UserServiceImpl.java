@@ -49,22 +49,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<User> getUsers(String role) throws UserException {
         return userRepository.findAll().stream()
-                .filter(user -> userRoleRepository.findByUserId(user.getId()).get().getRole().equals("ROLE_USER"))
+                .filter(user -> userRoleRepository.findByUserId(user.getId())
+                        .orElseThrow(() -> new UserException("user was not found in role repo."))
+                        .getRole().equals(role))
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     @Override
-    public List<User> getAdmins() {
-        return userRepository.findAll().stream()
-                .filter(user -> userRoleRepository.findByUserId(user.getId()).get().getRole().equals("ROLE_ADMIN"))
-                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
-    }
-
-    @Override
-    public List<User> getUsersByName(String name) {
-        return getUsers().stream()
+    public List<User> getUsersByName(String name) throws UserException {
+        return getUsers("ROLE_USER").stream()
                 .filter(u -> u.getUsername().contains(name))
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
@@ -97,7 +92,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             throw new UserException("Username already taken");
         }
 
-        adjustFriends(user);
         userToUpdate.setUsername(user.getUsername());
         userToUpdate.setFirstname(user.getFirstname());
         userToUpdate.setLastname(user.getLastname());
@@ -151,18 +145,5 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         dbRole.setRole("ROLE_USER");
         userRoleRepository.save(dbRole);
         return user;
-    }
-
-    /**
-     * Because the UserDTO is cast to a normal user, the password will be zero, because this field
-     * is not present in the DTO.
-     */
-    private void adjustFriends(User user) {
-        for (User friend : user.getFriends()) {
-            User correct = userRepository.findById(friend.getId())
-                    .orElseThrow(() -> new UsernameNotFoundException("Username was not found"));
-            friend.setPassword(correct.getPassword());
-            friend.setEnabled(correct.getEnabled());
-        }
     }
 }

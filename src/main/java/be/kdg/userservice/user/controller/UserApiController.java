@@ -2,10 +2,10 @@ package be.kdg.userservice.user.controller;
 
 
 import be.kdg.userservice.shared.security.model.CustomUserDetails;
-import be.kdg.userservice.user.dto.AuthDto;
-import be.kdg.userservice.user.dto.SocialUserDto;
+import be.kdg.userservice.user.controller.dto.AuthDto;
+import be.kdg.userservice.user.controller.dto.SocialUserDto;
 import be.kdg.userservice.shared.TokenDto;
-import be.kdg.userservice.user.dto.UserDto;
+import be.kdg.userservice.user.controller.dto.UserDto;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.service.api.UserService;
@@ -65,7 +65,7 @@ public class UserApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/users")
     public ResponseEntity<UserDto[]> getUsers() {
-        List<User> usersIn = userService.getUsers();
+        List<User> usersIn = userService.getUsers("ROLE_USER");
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
     }
@@ -78,7 +78,7 @@ public class UserApiController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/users/admin/all")
     public ResponseEntity<UserDto[]> getAdmins() {
-        List<User> usersIn = userService.getAdmins();
+        List<User> usersIn = userService.getUsers("ROLE_ADMIN");
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
     }

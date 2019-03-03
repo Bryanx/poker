@@ -1,6 +1,7 @@
 package be.kdg.userservice.user.service;
 
 import be.kdg.userservice.UtilTesting;
+import be.kdg.userservice.user.model.Friend;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.persistence.UserRepository;
 import be.kdg.userservice.user.persistence.UserRoleRepository;
@@ -16,6 +17,7 @@ import javax.transaction.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -43,20 +45,39 @@ public class UserServiceTest extends UtilTesting {
         assertTrue(userService.getUsersByName(TESTABLE_USER_NAME2).get(0).getUsername().contains(TESTABLE_USER_NAME2));
     }
 
+    //TODO: fix test.
     @Test
-    public void addFriends() throws Exception {
+    public void addAndDeleteFriends() throws Exception {
         //Prep
         User test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
         User test2 = userRepository.findById(testableUserId2).orElseThrow(Exception::new);
 
         //Add friend
-        test1.setFriends(new ArrayList<>(Collections.singletonList(test2)));
+        test1.setFriends(new ArrayList<>(Collections.singletonList(new Friend(testableUserId2))));
+        test2.setFriends(new ArrayList<>(Collections.singletonList(new Friend(testableUserId1))));
+        userService.changeUser(test1);
+        userService.changeUser(test2);
+
+        //Test
+        test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
+        test2 = userRepository.findById(testableUserId2).orElseThrow(Exception::new);
+
+        assertNotNull(test1.getFriends());
+        assertNotNull(test2.getFriends());
+        assertEquals(1, test1.getFriends().size());
+        assertEquals(1, test2.getFriends().size());
+        assertEquals(testableUserId2, test1.getFriends().get(0).getUserId());
+        assertEquals(testableUserId1, test2.getFriends().get(0).getUserId());
+
+        //Delete friend
+        List<Friend> dummyList = new ArrayList<>(); //empty list (no friends)
+        test1.setFriends(dummyList);
         userService.changeUser(test1);
 
         //Test
         test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
         assertNotNull(test1.getFriends());
-        assertEquals(1, test1.getFriends().size());
-        assertEquals(testableUserId2, test1.getFriends().get(0).getId());
+        assertEquals(0, test1.getFriends().size());
     }
+
 }

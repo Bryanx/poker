@@ -14,6 +14,7 @@ import {PlayerComponent} from '../player/player.component';
 import {UserService} from '../../services/user.service';
 import {Location} from '@angular/common';
 import {WebSocketService} from '../../services/web-socket.service';
+import {HomeVisibleService} from '../../services/home-visible.service';
 
 @Component({
   selector: 'app-room',
@@ -35,9 +36,10 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService,
-              private location: Location) {}
+              private location: Location, private homeObservable: HomeVisibleService) {}
 
   ngOnInit() {
+    this.homeObservable.emitNewState(true);
     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
 
     this.getRoom(roomId as number);
@@ -60,6 +62,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.homeObservable.emitNewState(false);
     if (this.ws !== undefined) {
       this.leaveRoom();
       this.ws.disconnect();

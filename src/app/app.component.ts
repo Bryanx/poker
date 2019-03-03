@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {TranslateService} from './services/translate.service';
 import {Notification} from './model/notification';
 import {AuthorizationService} from './services/authorization.service';
@@ -15,7 +15,7 @@ import {WebSocketService} from './services/web-socket.service';
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   homeVisible: Boolean;
   newNotification: Notification;
   myself: User;
@@ -26,7 +26,8 @@ export class AppComponent implements OnInit, OnDestroy {
               private webSocketService: WebSocketService,
               private notifier: NotifierService,
               private homeObservable: HomeVisibleService,
-              private auth: AuthorizationService) {
+              private auth: AuthorizationService,
+              private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
@@ -38,6 +39,10 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.ws !== undefined) {
       this.ws.disconnect();
     }
+  }
+
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
   }
 
   /**

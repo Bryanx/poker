@@ -43,7 +43,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     this.getRoom(roomId as number);
 
     this.joinRoomInterval = setInterval(() => {
-      if (this.room.gameRules !== undefined) {
+      if (this.room.gameRules.id !== 0) {
         this.initializeWebSocketConnection();
         this.joinRoom();
         clearInterval(this.joinRoomInterval);

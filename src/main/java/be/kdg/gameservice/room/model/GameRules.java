@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "game_rules")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public class GameRules {
+public final class GameRules {
     /**
      * The id of the gamerule. Used for persistence.
      */

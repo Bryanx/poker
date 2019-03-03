@@ -20,6 +20,9 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "room")
+@DiscriminatorColumn(name = "type")
+@DiscriminatorValue(value = "PUBLIC")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Room {
     /**
      * The id of room, used for persistence.
@@ -60,14 +63,15 @@ public class Room {
     @Setter
     private GameRules gameRules;
 
-    /**
-     * @param gameRules The rules that are associated with this room.
-     */
     public Room(GameRules gameRules, String name) {
         this.playersInRoom = new ArrayList<>();
         this.rounds = new ArrayList<>();
         this.gameRules = gameRules;
         this.name = name;
+    }
+
+    public Room(String name) {
+        this(new GameRules(), name);
     }
 
     /**

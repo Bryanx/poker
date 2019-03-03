@@ -5,6 +5,7 @@ import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.model.Room;
+import be.kdg.gameservice.room.service.api.PlayerService;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Act;
@@ -35,6 +36,8 @@ public class RoundServiceImplTest extends UtilTesting {
     @Autowired
     private RoundService roundService;
     @Autowired
+    private PlayerService playerService;
+    @Autowired
     private RoundRepository roundRepository;
     @Autowired
     private RoomService roomService;
@@ -50,6 +53,7 @@ public class RoundServiceImplTest extends UtilTesting {
         System.out.println(rounds.size());
         System.out.println(rounds);
     }
+
     @Test
     public void startNewRound() {
         Round round = roundService.startNewRound(new ArrayList<>(), 2);
@@ -84,9 +88,9 @@ public class RoundServiceImplTest extends UtilTesting {
 
         Room room = roomService.getRoomByName("Test room");
 
-        roomService.joinRoom(room.getId(),player1.getUserId() );
-        roomService.joinRoom(room.getId(),player2.getUserId());
-        roomService.joinRoom(room.getId(),player3.getUserId() );
+        playerService.joinRoom(room.getId(), player1.getUserId());
+        playerService.joinRoom(room.getId(), player2.getUserId());
+        playerService.joinRoom(room.getId(), player3.getUserId());
 
         roomService.startNewRoundForRoom(room.getId());
 
@@ -142,9 +146,9 @@ public class RoundServiceImplTest extends UtilTesting {
 
         Room room = roomService.getRoomByName("Test room");
 
-        roomService.joinRoom(room.getId(),player1.getUserId() );
-        roomService.joinRoom(room.getId(),player2.getUserId());
-        roomService.joinRoom(room.getId(),player3.getUserId() );
+        playerService.joinRoom(room.getId(), player1.getUserId());
+        playerService.joinRoom(room.getId(), player2.getUserId());
+        playerService.joinRoom(room.getId(), player3.getUserId());
 
         roomService.startNewRoundForRoom(room.getId());
 
@@ -201,9 +205,9 @@ public class RoundServiceImplTest extends UtilTesting {
 
         Room room = roomService.getRoomByName("Test room");
 
-        roomService.joinRoom(room.getId(),player1.getUserId() );
-        roomService.joinRoom(room.getId(),player2.getUserId());
-        roomService.joinRoom(room.getId(),player3.getUserId() );
+        playerService.joinRoom(room.getId(), player1.getUserId());
+        playerService.joinRoom(room.getId(), player2.getUserId());
+        playerService.joinRoom(room.getId(), player3.getUserId());
 
         roomService.startNewRoundForRoom(room.getId());
 
@@ -265,9 +269,9 @@ public class RoundServiceImplTest extends UtilTesting {
 
         Room room = roomService.getRoomByName("Test room");
 
-        roomService.joinRoom(room.getId(),player1.getUserId() );
-        roomService.joinRoom(room.getId(),player2.getUserId());
-        roomService.joinRoom(room.getId(),player3.getUserId() );
+        playerService.joinRoom(room.getId(), player1.getUserId());
+        playerService.joinRoom(room.getId(), player2.getUserId());
+        playerService.joinRoom(room.getId(), player3.getUserId());
 
         roomService.startNewRoundForRoom(room.getId());
 
@@ -321,7 +325,7 @@ public class RoundServiceImplTest extends UtilTesting {
         final Player winner = roundService.determineWinner(round.getId());
         System.out.println(winner);
 
-        int coinSum = round.getActivePlayers().stream().mapToInt(p -> p.getChipCount()).sum() + round.getPot();
+        int coinSum = round.getActivePlayers().stream().mapToInt(Player::getChipCount).sum() + round.getPot();
 
         //roundService.distributeCoins(round.getId(), winner);
         //assertEquals(coinSum, round.getActivePlayers().stream().mapToInt(p -> p.getChipCount()).sum());

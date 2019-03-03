@@ -24,7 +24,7 @@ public class SimpleCORSConfig implements Filter {
         String options = HttpMethod.OPTIONS.toString();
 
         if (options.equalsIgnoreCase(request.getMethod())) {
-            response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT,OPTIONS");
+            response.setHeader("Access-Control-Allow-Methods", "POST,GET,PATCH,DELETE,PUT,OPTIONS");
             response.setHeader("Access-Control-Max-Age", "3600");
             response.setHeader("Access-Control-Allow-Headers",
                     "content-type,access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with");

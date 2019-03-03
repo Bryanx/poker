@@ -70,8 +70,8 @@ public class UserServiceTest extends UtilTesting {
         assertEquals(testableUserId1, test2.getFriends().get(0).getUserId());
 
         //Delete friend
-        List<Friend> dummylist = new ArrayList<>(); //empty list (no friends)
-        test1.setFriends(dummylist);
+        List<Friend> dummyList = new ArrayList<>(); //empty list (no friends)
+        test1.setFriends(dummyList);
         userService.changeUser(test1);
 
         //Test

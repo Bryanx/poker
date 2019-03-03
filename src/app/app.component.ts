@@ -90,7 +90,6 @@ export class AppComponent implements OnInit, OnDestroy {
           const not: Notification = JSON.parse(message.body) as Notification;
           this.userService.readNotification(not.id).subscribe();
           this.showNotification(not);
-          this.notifier.notify('default', not.message);
           this.newNotification = not;
         }
       });

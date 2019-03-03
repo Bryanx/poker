@@ -19,7 +19,7 @@ import {GameRules} from '../../model/gamerules';
   ]
 })
 export class RoomCardComponent {
-  @Input() room = { id: 0, playersInRoom: [], gameRules: GameRules.create() };
+  @Input() room = Room.create();
   @Input() inSettingMode;
   @Input() isAdmin;
   @Input() dataLoaded;

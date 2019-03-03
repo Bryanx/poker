@@ -19,13 +19,12 @@ import {WebSocketService} from './services/web-socket.service';
 export class AppComponent implements OnInit, OnDestroy {
   homeVisible: Boolean;
   newNotification: Notification;
-  notificationsSub: Subscription;
   myself: User;
   ws: any;
 
   constructor(private translate: TranslateService,
               private userService: UserService,
-              private websocketService: WebSocketService,
+              private webSocketService: WebSocketService,
               private notifier: NotifierService,
               private homeObservable: HomeVisibleService,
               private auth: AuthorizationService) {
@@ -65,7 +64,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const intervalId = setInterval(() => {
       if (!this.auth.isAuthenticated()) {
         clearInterval(intervalId);
-        this.notificationsSub.unsubscribe();
+        this.ws.unsubscribe();
         this.checkIfAuthenticated();
       }
     }, 750);
@@ -85,7 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * Shows _notifications to the screen if any are pushed by the web socket.
    */
   private initializeNotificationConnection() {
-    this.ws = this.websocketService.connectUserService();
+    this.ws = this.webSocketService.connectUserService();
     this.ws.connect({}, (frame) => {
       this.ws.subscribe('/user/receive-notification/' + this.myself.id, (message) => {
         if (message) {

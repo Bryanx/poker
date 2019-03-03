@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Router} from '@angular/router';
 import {HomeVisibleService} from '../../services/home-visible.service';
+import {WebSocketService} from '../../services/web-socket.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,8 @@ import {HomeVisibleService} from '../../services/home-visible.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  constructor(public authorizationService: AuthorizationService, private router: Router, private homeObservable: HomeVisibleService) { }
+  constructor(public authorizationService: AuthorizationService, private router: Router, private homeObservable: HomeVisibleService,
+     private webSocketService: WebSocketService) { }
 
   ngOnInit() {
    this.homeObservable.emitNewState(true);

@@ -6,6 +6,7 @@ import {Room} from '../../model/room';
 import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {PrivateRoom} from '../../model/privateRoom';
+import {GameRules} from '../../model/gamerules';
 import {RoomService} from '../../services/room.service';
 
 @Component({
@@ -66,6 +67,7 @@ export class GameRoomEditComponent implements OnInit {
 
   deleteRoom() {
     this.roomService.deleteRoom(this.room).subscribe(() => this.location.back());
+    return this.router.url.split('/')[2] === 'add';
     return this.router.url.split('/')[2] === 'add';
   }
 

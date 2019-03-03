@@ -8,6 +8,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {WhiteListedUser} from '../../model/whiteListedUser';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
+import {Room} from '../../model/room';
 import {RoomService} from '../../services/room.service';
 
 @Component({

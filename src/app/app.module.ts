@@ -30,10 +30,11 @@ import { GameRoomEditComponent } from './components/game-room-edit/game-room-edi
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import {MatSnackBarModule, MatTableModule} from '@angular/material';
-import {NotifierModule} from 'angular-notifier';
+import { RoomCardComponent } from './components/room-card/room-card.component';
+import {NotifierModule, NotifierOptions} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
-import { RoomCardComponent } from './components/room-card/room-card.component';
+import {WebSocketService} from './services/web-socket.service';
 
 const config = new AuthServiceConfig([
   {

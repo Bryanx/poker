@@ -1,7 +1,7 @@
 package be.kdg.userservice.shared;
 
 import be.kdg.userservice.notification.exception.NotificationException;
-import be.kdg.userservice.user.controller.dto.ErrorDto;
+import be.kdg.userservice.user.controller.dto.ErrorDTO;
 import be.kdg.userservice.user.exception.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class ExceptionHandler extends ResponseEntityExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler(value =
             {UserException.class, UsernameNotFoundException.class, NotificationException.class})
-    public ResponseEntity<ErrorDto> handleControllerExceptions(Exception ex) {
-        return new ResponseEntity<>(new ErrorDto("error", ex.getMessage()), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorDTO> handleControllerExceptions(Exception ex) {
+        return new ResponseEntity<>(new ErrorDTO("error", ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 }

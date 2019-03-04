@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
      * @throws UsernameNotFoundException Thrown if the user was not found in the database.
      */
     @Override
-    public User addExperience(String id, int xp) throws UsernameNotFoundException {
+    public synchronized User addExperience(String id, int xp) throws UsernameNotFoundException {
         //Get data;
         User user = findUserById(id);
         user.setXpTillNext(user.getXpTillNext() + xp);

@@ -27,7 +27,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   room: Room = Room.create();
   player: Player = Player.create();
   done: boolean;
-  joined: Boolean = false;
   round: Round;
   joinRoomInterval: any;
   getRoundInterval: any;
@@ -167,7 +166,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   private joinRoom(): void {
     this.roomService.joinRoom(this.room.id).subscribe(player => {
       this.player = player;
-      this.joined = true;
     }, error => {
       console.log(error.error.message);
       this.navigateBack();

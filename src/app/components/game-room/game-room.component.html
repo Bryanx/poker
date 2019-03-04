@@ -1,3 +1,8 @@
+<div class="joining" *ngIf="!done">
+  <h1>{{'JOINING' | translate | uppercase}}</h1>
+  <img src="../../../assets/img/icons/loading.gif"/>
+</div>
+
 <div class="grid-container" *ngIf="done">
   <button routerLink="/rooms" class="leave-button"><img src="../../../assets/img/icons/leave1.svg"></button>
   <app-player *ngFor="let player of room.playersInRoom; index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"

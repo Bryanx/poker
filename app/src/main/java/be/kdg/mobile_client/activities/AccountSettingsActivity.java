@@ -77,6 +77,9 @@ public class AccountSettingsActivity extends BaseActivity {
         }));
     }
 
+    /**
+     * Gets called when user object is received
+     */
     private void onResult(Throwable throwable, Response<User> response) {
         if (responseSuccess(response)) {
             user = response.body();

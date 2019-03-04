@@ -155,7 +155,7 @@ public class RoomApiController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rooms/{roomId}/join")
-    public ResponseEntity<PlayerDTO> joinRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
+    public synchronized ResponseEntity<PlayerDTO> joinRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
         String token = getTokenFromAuthentication(authentication);
         UserDTO userDto = getUser(token);
         userDto.setChips(userDto.getChips() - roomService.checkChips(roomId, userDto.getChips()));

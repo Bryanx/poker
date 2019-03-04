@@ -33,6 +33,7 @@ section {
     cursor: pointer;
 
     .delete-friend {
+      z-index: 5;
       @extend button;
       display: flex;
       justify-content: center;

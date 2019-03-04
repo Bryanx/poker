@@ -1,4 +1,7 @@
-<header class="language">
+<div *ngIf="!homeVisible && hasAuthentication()" routerLink="/" class="home-container">
+  <img src="../assets/img/icons/home.svg">
+</div>
+<header class="hotbar">
   <app-notification *ngIf="hasAuthentication()"
                     [notifications]="newNotification"
                     (deleteEvent)="getAllNotifications()"
@@ -8,4 +11,5 @@
 </header>
 
 <notifier-container></notifier-container>
-<router-outlet></router-outlet>
+<router-outlet>
+</router-outlet>

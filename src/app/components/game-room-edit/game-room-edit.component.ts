@@ -4,23 +4,25 @@ import {switchMap} from 'rxjs/operators';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 import {Room} from '../../model/room';
 import {Router} from '@angular/router';
-import {GameRules} from '../../model/gamerules';
+import {Location} from '@angular/common';
+import {PrivateRoom} from '../../model/privateRoom';
 import {RoomService} from '../../services/room.service';
 
 @Component({
   selector: 'app-game-room-admin',
-  templateUrl: './game-room-admin.component.html',
-  styleUrls: ['./game-room-admin.component.scss']
+  templateUrl: './game-room-edit.component.html',
+  styleUrls: ['./game-room-edit.component.scss']
 })
-export class GameRoomAdminComponent implements OnInit {
+export class GameRoomEditComponent implements OnInit {
   updateRoomForm: FormGroup;
-  room: Room;
+  room: Room = Room.create();
   id: number;
   maxPlayers: number[];
 
   constructor(
     private formBuilder: FormBuilder,
     private curRouter: ActivatedRoute,
+    private location: Location,
     private router: Router,
     private roomService: RoomService) {
     this.maxPlayers = new Array(5).fill(2).map((x, i) => i + 2);
@@ -28,15 +30,6 @@ export class GameRoomAdminComponent implements OnInit {
 
   ngOnInit() {
     if (this.isAdding()) {
-      this.room = new Room();
-      this.room.gameRules = new GameRules();
-      this.room.playersInRoom = [];
-      this.room.id = 0;
-      this.room.name = '';
-      this.room.gameRules.maxPlayerCount = 6;
-      this.room.gameRules.smallBlind = 100;
-      this.room.gameRules.playDelay = 30;
-      this.room.gameRules.startingChips = 1000;
       this.updateRoomForm = this.formBuilder.group({
         name: [this.room.name, Validators.compose([Validators.required])],
         maxPlayerCount: [this.room.gameRules.maxPlayerCount, Validators.compose([Validators.required])],
@@ -45,7 +38,6 @@ export class GameRoomAdminComponent implements OnInit {
         startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])]
       });
     } else {
-
       this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
         this.id = +params.get('id');
         return this.roomService.getRoom(+params.get('id'));
@@ -64,13 +56,17 @@ export class GameRoomAdminComponent implements OnInit {
   }
 
   isAdding() {
-    return this.router.url.split('/')[2] === 'add';
+    return this.router.url.includes('add');
+  }
+
+  isAddingPrivate() {
+    return this.router.url.includes('add')
+      && this.router.url.includes('private');
   }
 
   deleteRoom() {
-    this.roomService.deleteRoom(this.room).subscribe(result => {
-      return this.router.navigate(['/game-rooms']);
-    });
+    this.roomService.deleteRoom(this.room).subscribe(() => this.location.back());
+    return this.router.url.split('/')[2] === 'add';
   }
 
   onSubmit() {
@@ -80,14 +76,13 @@ export class GameRoomAdminComponent implements OnInit {
     this.room.gameRules.bigBlind = 2 * this.updateRoomForm.controls.smallBlind.value;
     this.room.gameRules.playDelay = this.updateRoomForm.controls.playDelay.value;
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
-    if (this.isAdding()) {
-      this.roomService.addRoom(this.room).subscribe(result => {
-        return this.router.navigate(['/game-rooms']);
-      });
+
+    if (this.isAddingPrivate()) {
+      this.roomService.addPrivateRoom(this.room as PrivateRoom).subscribe(() => this.location.back());
+    } else if (this.isAdding()) {
+      this.roomService.addRoom(this.room).subscribe(() => this.location.back());
     } else {
-      this.roomService.changeRoom(this.room).subscribe(result => {
-        return this.router.navigate(['/game-rooms']);
-      });
+      this.roomService.changeRoom(this.room).subscribe(() => this.location.back());
     }
   }
 
@@ -99,4 +94,7 @@ export class GameRoomAdminComponent implements OnInit {
     return this.updateRoomForm.controls[name].hasError('min') && this.updateRoomForm.controls[name].touched;
   }
 
+  goBackPrev() {
+    this.location.back();
+  }
 }

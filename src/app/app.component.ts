@@ -1,11 +1,12 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {TranslateService} from './services/translate.service';
 import {Notification} from './model/notification';
 import {AuthorizationService} from './services/authorization.service';
 import {UserService} from './services/user.service';
-import {Subscription} from 'rxjs';
 import {User} from './model/user';
 import {NotifierService} from 'angular-notifier';
+import {HomeVisibleService} from './services/home-visible.service';
+import {NotificationType} from './model/notificationType';
 import {WebSocketService} from './services/web-socket.service';
 
 @Component({
@@ -13,20 +14,24 @@ import {WebSocketService} from './services/web-socket.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit, OnDestroy {
+
+export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
+  homeVisible: Boolean;
   newNotification: Notification;
-  notificationsSub: Subscription;
   myself: User;
   ws: any;
 
   constructor(private translate: TranslateService,
               private userService: UserService,
-              private websocketService: WebSocketService,
+              private webSocketService: WebSocketService,
               private notifier: NotifierService,
-              private auth: AuthorizationService) {
+              private homeObservable: HomeVisibleService,
+              private auth: AuthorizationService,
+              private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+    this.homeObservable.getState().subscribe(state => this.homeVisible = state);
     this.checkIfAuthenticated();
   }
 
@@ -34,6 +39,10 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.ws !== undefined) {
       this.ws.disconnect();
     }
+  }
+
+  ngAfterViewChecked() {
+    this.cdRef.detectChanges();
   }
 
   /**
@@ -59,7 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
     const intervalId = setInterval(() => {
       if (!this.auth.isAuthenticated()) {
         clearInterval(intervalId);
-        this.notificationsSub.unsubscribe();
+        this.ws.unsubscribe();
         this.checkIfAuthenticated();
       }
     }, 750);
@@ -79,17 +88,33 @@ export class AppComponent implements OnInit, OnDestroy {
    * Shows _notifications to the screen if any are pushed by the web socket.
    */
   private initializeNotificationConnection() {
-    this.ws = this.websocketService.connectUserService();
+    this.ws = this.webSocketService.connectUserService();
     this.ws.connect({}, (frame) => {
       this.ws.subscribe('/user/receive-notification/' + this.myself.id, (message) => {
         if (message) {
           const not: Notification = JSON.parse(message.body) as Notification;
           this.userService.readNotification(not.id).subscribe();
-          this.notifier.notify('default', not.message);
+          this.showNotification(not);
           this.newNotification = not;
         }
       });
     });
+  }
+
+  private showNotification(not: Notification) {
+    console.log(not);
+    let type;
+    if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
+      console.log('YES');
+      type = 'error';
+    } else if (not.type === NotificationType.ADD_PRIVATE_ROOM) {
+      console.log('YES');
+      type = 'success';
+    } else {
+      type = 'default';
+    }
+
+    this.notifier.notify(type, not.message);
   }
 
   hasAuthentication(): boolean {

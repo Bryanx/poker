@@ -14,7 +14,9 @@ import {PlayerComponent} from '../player/player.component';
 import {CurrentPhaseBet} from '../../model/currentPhaseBet';
 import {GameTableComponent} from '../game-table/game-table.component';
 import {UserService} from '../../services/user.service';
+import {Location} from '@angular/common';
 import {WebSocketService} from '../../services/web-socket.service';
+import {HomeVisibleService} from '../../services/home-visible.service';
 
 @Component({
   selector: 'app-room',
@@ -25,6 +27,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   room: Room = Room.create();
   player: Player = Player.create();
   done: boolean;
+  joined: Boolean = false;
   round: Round;
   joinRoomInterval: any;
   getRoundInterval: any;
@@ -34,15 +37,17 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   ws: any;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private websocketService: WebSocketService,
-              private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService) {}
+              private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService,
+              private location: Location, private homeObservable: HomeVisibleService) {}
 
   ngOnInit() {
+    this.homeObservable.emitNewState(true);
     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
 
     this.getRoom(roomId as number);
 
     this.joinRoomInterval = setInterval(() => {
-      if (this.room.gameRules !== undefined) {
+      if (this.room.gameRules.id !== 0) {
         this.initializeWebSocketConnection();
         this.joinRoom();
         clearInterval(this.joinRoomInterval);
@@ -59,6 +64,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.homeObservable.emitNewState(false);
     if (this.ws !== undefined) {
       this.leaveRoom();
       this.ws.disconnect();
@@ -127,7 +133,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       this.room = room as Room;
 
       if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
-        this.navigateToOverview();
+        this.navigateBack();
       }
     });
   }
@@ -161,17 +167,18 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   private joinRoom(): void {
     this.roomService.joinRoom(this.room.id).subscribe(player => {
       this.player = player;
+      this.joined = true;
     }, error => {
       console.log(error.error.message);
-      this.navigateToOverview();
+      this.navigateBack();
     });
   }
 
   /**
    * Navigates to the rooms overview.
    */
-  private navigateToOverview(): void {
-    this.router.navigateByUrl('/rooms').then(/* DO NOTHING WITH PROMISE */);
+  private navigateBack(): void {
+    this.location.back();
   }
 
   private updatePlayersInRound(): void {

@@ -27,12 +27,16 @@ img {
   left: 1rem;
 
   i {
-    color: darken($background-color, 5%);
+    color: white;
     cursor: pointer;
     transform: rotate(180deg);
 
     &:hover {
-      color: darken($background-color, 50%);
+      color: darken(#fff, 30%);
+    }
+
+    &:active {
+      color: darken(#fff, 40%);
     }
   }
 }

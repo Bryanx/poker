@@ -1,11 +1,12 @@
 package be.kdg.mobile_client.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.UserRecyclerAdapter;
 import be.kdg.mobile_client.model.User;
+import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.viewmodels.UserViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,7 +30,9 @@ public class UserSearchActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.etSearch) EditText etSearch;
     @BindView(R.id.lvUser) RecyclerView lvUser;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
     @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
+    @Inject SharedPrefService sharedPrefService;
     private UserViewModel viewModel;
 
     @Override
@@ -77,6 +81,7 @@ public class UserSearchActivity extends BaseActivity {
      * @param users The users that need to be used by the adapter.
      */
     private void initializeAdapter(List<User> users) {
+        progressBar.setVisibility(View.GONE);
         UserRecyclerAdapter userAdapter = new UserRecyclerAdapter(this, users);
         lvUser.setAdapter(userAdapter);
         lvUser.setLayoutManager(new LinearLayoutManager(this));

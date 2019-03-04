@@ -1,8 +1,10 @@
 package be.kdg.mobile_client.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -29,6 +31,8 @@ public class FriendsActivity extends BaseActivity {
     @BindView(R.id.lvFriends) RecyclerView lvFriends;
     @BindView(R.id.btnSearch) Button btnSearch;
     @BindView(R.id.btnBack) Button btnBack;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.tvNoBros) TextView tvNoBros;
     @Inject SharedPrefService sharedPrefService;
     @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
@@ -64,6 +68,8 @@ public class FriendsActivity extends BaseActivity {
      * @param friends The friends that need to be used by the adapter.
      */
     private void initializeAdapter(List<User> friends) {
+        progressBar.setVisibility(View.GONE);
+        if (friends.size() == 0) tvNoBros.setVisibility(View.VISIBLE);
         FriendRecyclerAdapter friendAdapter = new FriendRecyclerAdapter(this, friends);
         lvFriends.setAdapter(friendAdapter);
         lvFriends.setLayoutManager(new LinearLayoutManager(this));

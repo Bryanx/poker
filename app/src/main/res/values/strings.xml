@@ -74,7 +74,7 @@
     <string name="error_updating_friends">Error updating friends</string>
     <string name="was_added_as_a_friend">was added as a friend</string>
     <string name="was_removed_as_a_friend">was removed from friends</string>
-    <string name="no_friends_message">You\'re a loner bro :-(</string>
+    <string name="no_bros">You have no bros :-(</string>
 
     <!-- rooms -->
     <string name="error_getting_rooms">Error getting rooms</string>

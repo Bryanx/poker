@@ -3,7 +3,9 @@ package be.kdg.mobile_client.activities;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -22,11 +24,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * This activity is used to display all the rooms as cards.
  */
+@SuppressLint("CheckResult")
 public class OverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
-    @Inject
-    RoomService roomService;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
+    @Inject RoomService roomService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +45,10 @@ public class OverviewActivity extends BaseActivity {
         btnBack.setOnClickListener(e -> navigateTo(MenuActivity.class));
     }
 
-    @SuppressLint("CheckResult")
     private void getRooms() {
         roomService.getRooms().observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::initializeAdapter, error -> Log.e("OverviewActivity", error.getMessage()));
+                .doOnError(error -> Log.e("OverviewActivity", error.getMessage()))
+                .subscribe(this::initializeAdapter);
     }
 
     /**
@@ -55,6 +58,7 @@ public class OverviewActivity extends BaseActivity {
      * @param rooms The rooms that need to be used by the adapter.
      */
     private void initializeAdapter(List<Room> rooms) {
+        progressBar.setVisibility(View.GONE);
         RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(this, rooms);
         lvRoom.setAdapter(roomAdapter);
         lvRoom.setLayoutManager(new LinearLayoutManager(this));

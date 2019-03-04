@@ -3,6 +3,7 @@ package be.kdg.mobile_client.activities;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
  */
 public class RankingsActivity extends BaseActivity {
     @BindView(R.id.tblRankings) TableLayout tblRankings;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
     @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
 
@@ -45,6 +47,7 @@ public class RankingsActivity extends BaseActivity {
     }
 
     private void loadRankingsIntoView(List<User> users) {
+        progressBar.setVisibility(View.GONE);
         Collections.sort(users);
         for (int i = 0, usersLength = users.size(); i < usersLength; i++) {
             User user = users.get(i);

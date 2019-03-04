@@ -77,7 +77,7 @@ public class RoomActivity extends BaseActivity {
     private void showFragment(ChatFragment fragment) {
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left)
-                .show(chatFragment)
+                .show(fragment)
                 .commit();
     }
 
@@ -91,6 +91,7 @@ public class RoomActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         viewModel.leaveRoom();
+        chatFragment.leaveChat();
         super.onDestroy();
     }
 

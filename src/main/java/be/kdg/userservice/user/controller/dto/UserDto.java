@@ -4,7 +4,7 @@ import be.kdg.userservice.user.model.Friend;
 import lombok.Data;
 
 @Data
-public class UserDTO {
+public class UserDto {
     private String id;
     private String username;
     private String firstname;

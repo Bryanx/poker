@@ -147,6 +147,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return user;
     }
 
+    /**
+     * This method will keep on raising the level of the user until the xp is lower than
+     * the threshold of that level.
+     *
+     * @param id The id of the user.
+     * @param xp The xp we need to add.
+     * @return The user with the new xp and/or level
+     * @throws UsernameNotFoundException Thrown if the user was not found in the database.
+     */
     @Override
     public User addExperience(String id, int xp) throws UsernameNotFoundException {
         //Get data;
@@ -154,11 +163,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         user.setXpTillNext(user.getXpTillNext() + xp);
 
         //Do checks
-        if (user.getXpTillNext() >= user.getThresholdTillNextLevel()) {
+        while (user.getXpTillNext() >= user.getThresholdTillNextLevel()) {
             int dif = user.getXpTillNext() - user.getThresholdTillNextLevel();
+            user.setXpTillNext(dif);
             user.setLevel(user.getLevel() + 1);
             user.setThresholdTillNextLevel((int) (user.getThresholdTillNextLevel() * 1.3));
-            user.setXpTillNext(dif);
+
+            if (user.getLevel() % 10 == 0) user.setChips(user.getChips() + 10000);
+            else if (user.getLevel() % 5 == 0) user.setChips(user.getChips() + 5000);
         }
 
         return saveUser(user);

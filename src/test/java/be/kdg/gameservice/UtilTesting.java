@@ -23,18 +23,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * You can extend from this class if you want to do immutability testing in your junit tests.
+ * You can extend from this class if you want to use test data or mock your api calls using
+ * mock mvc.
  */
 @Transactional
 public abstract class UtilTesting {
-    private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
-    // private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
+    // private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
+    private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
 
     @Autowired
     private ResourceServerTokenServices resourceServerTokenServices;
@@ -71,13 +70,13 @@ public abstract class UtilTesting {
     }
 
     /**
-     * Provides the current test calss with test data for private rooms
-     * Also calls provideoTestDataRooms that provides test data for normal room
+     * Provides the current test class with test data for private rooms
+     * Also calls provideTestDataRooms that provides test data for normal room
      *
-     * @param roomRepository
+     * @param roomRepository The repository that will be used to make the test-data.
      */
     protected void provideTestDataPrivateRooms(RoomRepository roomRepository) {
-        this.provideTestDataRooms(roomRepository);
+        provideTestDataRooms(roomRepository);
 
         PrivateRoom privateRoom1 = new PrivateRoom("privateRoom1", testableUserId);
         PrivateRoom privateRoom2 = new PrivateRoom(new GameRules(12, 24, 15, 1200, 6), "privateroomCustom", testableUserId);
@@ -110,15 +109,6 @@ public abstract class UtilTesting {
 
         this.testableRoundIdWithPlayers = round2.getId();
         this.testableUserId = userIdMock;
-    }
-
-    private AuthDTO getMockToken() {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.setBasicAuth("my-trusted-client", "secret");
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 
     /**
@@ -167,5 +157,17 @@ public abstract class UtilTesting {
                 .content(body)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(resultMatcher);
+    }
+
+    /**
+     * @return A mock token from the user service.
+     */
+    private AuthDTO getMockToken() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBasicAuth("my-trusted-client", "secret");
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 }

@@ -48,6 +48,16 @@ public final class GameRules {
      */
     private int maxPlayerCount;
 
+    /**
+     * Min level required to join.
+     */
+    private int minLevel;
+
+    /**
+     * Max level. Beyond this level, you can no longer join this room.
+     */
+    private int maxLevel;
+
     public GameRules(int smallBlind, int bigBlind, int playDelay, int startingChips, int maxPlayerCount) {
         this.smallBlind = smallBlind;
         this.bigBlind = bigBlind;

@@ -14,14 +14,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HandTest {
-
-//    @Test
-//    public void testCardSort() {
-//        Hand hand = new Hand();
-//        hand.sortCards();
-//    }
-
+public final class HandTest {
     @Test
     public void testCardRankSort() {
         Hand hand = new Hand();

@@ -66,17 +66,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User addUser(User user) throws UserException {
-        //Get data
+        //Check if already exists
         Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
-        if (optionalUser.isPresent()) {
-            throw new UserException("User already exists");
-        }
+        if (optionalUser.isPresent()) throw new UserException("User already exists");
 
         //Add user
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setChips(20000);
         user.setEnabled(1);
-        user = userRepository.save(user);
+        user.setLevel(1);
+        user.setThresholdTillNextLevel(100);
+        user = saveUser(user);
         UserRole role = new UserRole(user.getId(), "ROLE_USER");
         userRoleRepository.save(role);
 
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userToUpdate.setChips(user.getChips());
         userToUpdate.setEnabled(user.getEnabled());
 
-        return userRepository.save(userToUpdate);
+        return saveUser(userToUpdate);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         User dbUser = userRepository.findByUsername(user.getUsername())
                 .orElseThrow(() -> new UserException("User not found"));
         dbUser.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(dbUser);
+        return saveUser(dbUser);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         if (!dbUser.isPresent()) {
             user.setEnabled(1);
-            user = userRepository.save(user);
+            user = saveUser(user);
             UserRole role = new UserRole(user.getId(), "ROLE_USER");
             userRoleRepository.save(role);
             return user;
@@ -145,5 +145,26 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         dbRole.setRole("ROLE_USER");
         userRoleRepository.save(dbRole);
         return user;
+    }
+
+    @Override
+    public User addExperience(String id, int xp) throws UsernameNotFoundException {
+        //Get data;
+        User user = findUserById(id);
+        user.setXpTillNext(user.getXpTillNext() + xp);
+
+        //Do checks
+        if (user.getXpTillNext() >= user.getThresholdTillNextLevel()) {
+            int dif = user.getXpTillNext() - user.getThresholdTillNextLevel();
+            user.setLevel(user.getLevel() + 1);
+            user.setThresholdTillNextLevel((int) (user.getThresholdTillNextLevel() * 1.3));
+            user.setXpTillNext(dif);
+        }
+
+        return saveUser(user);
+    }
+
+    private User saveUser(User user) {
+        return userRepository.save(user);
     }
 }

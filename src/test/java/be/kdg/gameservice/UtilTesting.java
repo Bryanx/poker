@@ -9,6 +9,7 @@ import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.shared.AuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -32,9 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @Transactional
 public abstract class UtilTesting {
-    // private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
-    private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
-
+    @Value("${token.url}")
+    private String TOKEN_URL;
     @Autowired
     private ResourceServerTokenServices resourceServerTokenServices;
 
@@ -54,9 +54,9 @@ public abstract class UtilTesting {
 
         String userIdMock = resourceServerTokenServices.readAccessToken(getMockToken().getAccess_token())
                 .getAdditionalInformation().get("uuid").toString();
-        Room room1 = new Room(new GameRules(4, 8, 30, 500, 6), "test room 1");
-        Room room2 = new Room(new GameRules(8, 16, 25, 2500, 5), "test room 2");
-        Room room3 = new Room(new GameRules(16, 32, 20, 5000, 4), "test room 3");
+        Room room1 = new Room(new GameRules(4, 8, 30, 500, 6, 1, 50), "test room 1");
+        Room room2 = new Room(new GameRules(8, 16, 25, 2500, 5, 1, 50), "test room 2");
+        Room room3 = new Room(new GameRules(16, 32, 20, 5000, 4, 1, 50), "test room 3");
         room1.addPlayer(new Player(500, userIdMock, 1));
         room1.addPlayer(new Player(500, "2", 2));
 
@@ -79,7 +79,7 @@ public abstract class UtilTesting {
         provideTestDataRooms(roomRepository);
 
         PrivateRoom privateRoom1 = new PrivateRoom("privateRoom1", testableUserId);
-        PrivateRoom privateRoom2 = new PrivateRoom(new GameRules(12, 24, 15, 1200, 6), "privateroomCustom", testableUserId);
+        PrivateRoom privateRoom2 = new PrivateRoom(new GameRules(12, 24, 15, 1200, 6, 1, 50), "privateroomCustom", testableUserId);
         roomRepository.save(privateRoom1);
         roomRepository.save(privateRoom2);
 

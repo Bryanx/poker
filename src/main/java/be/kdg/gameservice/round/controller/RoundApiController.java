@@ -13,7 +13,6 @@ import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -59,13 +58,14 @@ public class RoundApiController {
         return new ResponseEntity<>(modelMapper.map(actTypes, ActType[].class), HttpStatus.OK);
     }
 
+    //TODO: remi, move this logic to a service-method.
     /**
      * Saves an act that is played by a player in the back end.
      * The act is validated in the round service for a last time.
      * The players act will than be sent to the rest of the room.
-     * If the round has ended then a winner will be broadcasted.
-     * The current round will be broadcasted.
-     * If the round has ended then a new round will be broadcasted.
+     * If the round has ended then a winner will be broad-casted.
+     * The current round will be broad-casted.
+     * If the round has ended then a new round will be broad-casted.
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rounds/act")

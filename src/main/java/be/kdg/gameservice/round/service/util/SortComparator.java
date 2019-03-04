@@ -17,6 +17,7 @@ public class SortComparator implements Comparator<Integer> {
         this.freqMap = tFreqMap;
     }
 
+    //TODO: maarten, move documentation to javaDOC.
     // Compare the values
     @Override
     public int compare(Integer k1, Integer k2)

@@ -69,7 +69,7 @@ public class RoomApiControllerTest extends UtilTesting {
 
     @Test
     public void changeRoom() throws Exception {
-        RoomDTO roomDTO = new RoomDTO(testableRoomIdWithoutPlayers, "josef", new GameRules(16, 32, 20, 5000, 4), new ArrayList<>());
+        RoomDTO roomDTO = new RoomDTO(testableRoomIdWithoutPlayers, "josef", new GameRules(16, 32, 20, 5000, 4, 1, 50), new ArrayList<>());
         String json = new Gson().toJson(roomDTO);
         testMockMvc("/rooms/" + testableRoomIdWithoutPlayers, json, mockMvc, RequestType.PUT);
         assertEquals("josef", roomRepository.findById(testableRoomIdWithoutPlayers).orElseThrow(Exception::new).getName());

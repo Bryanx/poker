@@ -1,13 +1,10 @@
 package be.kdg.gameservice.round.model;
 
 import be.kdg.gameservice.room.model.Player;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * This class represents a single act from a player on a specific round.
@@ -51,6 +48,12 @@ public final class Act {
      */
     private int bet;
 
+    /**
+     * @param player The player that played the act
+     * @param type The type of act that was played.
+     * @param phase The phase the act was played in.
+     * @param bet The optional bet that was done in the act.
+     */
     public Act(Player player, ActType type, Phase phase, int bet) {
         this.player = player;
         this.type = type;

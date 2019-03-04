@@ -29,17 +29,17 @@ public enum Phase {
 
     /**
      * Last betting round is done and player show cards.
+     * No wrap around for this enum, SHOWDOWN is the last phase of a round
      */
     SHOWDOWN {
         @Override
-        public Phase next() {
-            return null; // No wrap around for this enum, SHOWDOWN is the last phase of a round
-        };
+        public Phase next() { return null; }
     };
 
     /**
      * Get next enum, next phase
-     * @return
+     *
+     * @return The next phase.
      */
     public Phase next() {
         // No bounds checking required here, because the last instance overrides

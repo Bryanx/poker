@@ -48,13 +48,6 @@ public class RoundServiceImplTest extends UtilTesting {
     }
 
     @Test
-    public void getRounds() {
-        List<Round> rounds = roundService.getRounds();
-        System.out.println(rounds.size());
-        System.out.println(rounds);
-    }
-
-    @Test
     public void startNewRound() {
         Round round = roundService.startNewRound(new ArrayList<>(), 2);
         assertEquals(0, round.getActs().size());

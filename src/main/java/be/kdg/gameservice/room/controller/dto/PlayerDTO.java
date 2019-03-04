@@ -19,5 +19,6 @@ public class PlayerDTO {
     @NotNull
     private HandType handType;
     private int seatNumber;
+    @NotNull
     private String username;
 }

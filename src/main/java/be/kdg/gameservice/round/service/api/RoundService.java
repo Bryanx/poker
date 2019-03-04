@@ -18,8 +18,6 @@ public interface RoundService {
 
     Player determineWinner(int roundId) throws RoundException;
 
-    List<Round> getRounds();
-
     String determineNextUserId(int roundId, String userId) throws RoundException;
 
     Optional<Player> checkEndOfRound(int roundId) throws RoundException;

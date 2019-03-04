@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ChatMessage} from '../../model/chat-message';
 import {AuthorizationService} from '../../services/authorization.service';
 import {WebSocketService} from '../../services/web-socket.service';
@@ -8,15 +8,18 @@ import {WebSocketService} from '../../services/web-socket.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   error: Boolean = false;
   messages: ChatMessage[] = [];
   inputMessage: string;
   @Input() roomId: number;
   playerName: String;
   ws: any;
+  @ViewChild('chatScroll') private chatScroll: ElementRef;
+  systemScroll: boolean;
 
-  constructor(private authorizationService: AuthorizationService, private websocketService: WebSocketService) {}
+  constructor(private authorizationService: AuthorizationService, private websocketService: WebSocketService) {
+  }
 
   ngOnInit() {
     this.playerName = this.authorizationService.getUsername();
@@ -29,12 +32,19 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
   }
 
+  ngAfterViewChecked() {
+    if (this.systemScroll) {
+      this.scrollToBottom();
+    }
+  }
+
   initializeChatConnection() {
     this.ws = this.websocketService.connectGameService();
     this.ws.connect({}, (frame) => {
       this.ws.subscribe('/chatroom/receive/' + this.roomId, (message) => {
         if (message) {
           this.messages.push(JSON.parse(message.body));
+          this.systemScroll = true;
         }
       });
     });
@@ -64,5 +74,15 @@ export class ChatComponent implements OnInit, OnDestroy {
     chatMessage.name = 'system';
     chatMessage.content = message;
     this.messages.push(chatMessage);
+  }
+
+  scrollToBottom(): void {
+    this.chatScroll.nativeElement.scrollTop = this.chatScroll.nativeElement.scrollHeight;
+  }
+
+  onScroll() {
+    if (this.systemScroll) {
+      this.systemScroll = false;
+    }
   }
 }

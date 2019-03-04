@@ -29,6 +29,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   @Output() currentPhaseBetEvent: EventEmitter<CurrentPhaseBet> = new EventEmitter<CurrentPhaseBet>();
   ws: any;
   allIn: boolean;
+  betraise: boolean;
 
   constructor(private roundService: RoundService, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService) {
@@ -176,6 +177,22 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   onChange(value: number) {
-    this.allIn = value === this.player.chipCount;
+    if (value > 0) {
+      if (value === this.player.chipCount) {
+        this.allIn = true;
+        this.betraise = false;
+      } else {
+        if (value > this.getMimimumRaise()) {
+          this.allIn = false;
+          this.betraise = true;
+        } else {
+          this.allIn = false;
+          this.betraise = false;
+        }
+      }
+    } else {
+      this.allIn = false;
+      this.betraise = false;
+    }
   }
 }

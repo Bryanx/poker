@@ -1,4 +1,4 @@
-<div [className]="myTurn ? 'actionbar' : 'actionbar-disabled'" *ngIf="room || room.playersInRoom.length < 2">
+<div [className]="myTurn  && room.playersInRoom.length >= 2 ? 'actionbar' : 'actionbar-disabled'" *ngIf="room || room.playersInRoom.length < 2">
   <p *ngIf="room.playersInRoom.length < 2">
      {{'WAITINGFORPLAYERS' | translate | uppercase}}
   </p>
@@ -10,13 +10,15 @@
     <app-card class="player-card" [card]="player.secondCard"></app-card>
   </div>
   <div class="button-actions">
-    <button *ngIf="isActPossible(actTypes.Call)" (click)="playAct(actTypes.Call)" class="call">CALL</button>
-    <button *ngIf="isActPossible(actTypes.Check)" (click)="playAct(actTypes.Check)" class="call">CHECK</button>
-    <button (click)="playAct(actTypes.Fold)" class="fold">FOLD</button>
+    <button *ngIf="isActPossible(actTypes.Call)" (click)="playAct(actTypes.Call)" class="call" [disabled]="!myTurn">CALL</button>
+    <button *ngIf="isActPossible(actTypes.Check)" (click)="playAct(actTypes.Check)" class="call" [disabled]="!myTurn">CHECK</button>
+    <button (click)="playAct(actTypes.Fold)" class="fold" [disabled]="!myTurn">FOLD</button>
   </div>
   <div class="raise">
-    <button *ngIf="isActPossible(actTypes.Raise)" (click)="playAct(actTypes.Raise)" >RAISE</button>
-    <button *ngIf="isActPossible(actTypes.Bet)" (click)="playAct(actTypes.Bet)" >BET</button>
+    <button *ngIf="isActPossible(actTypes.Raise) && !allIn" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn">RAISE</button>
+    <button *ngIf="isActPossible(actTypes.Bet) && !allIn" (click)="playAct(actTypes.Bet)" [disabled]="!myTurn">BET</button>
+    <button *ngIf="isActPossible(actTypes.Bet) && allIn" (click)="playAct(actTypes.Bet)" [disabled]="!myTurn">ALL-IN</button>
+    <button *ngIf="isActPossible(actTypes.Raise) && allIn" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn">ALL-IN</button>
     <mat-slider *ngIf="player"
       thumbLabel
       [displayWith]="formatLabel"
@@ -25,7 +27,8 @@
       tickInterval="1000"
       [min]="getMimimumRaise()"
       [max]="player.chipCount"
-      step="100"></mat-slider>
+      step="100"
+                (change)="onChange($event.value)"></mat-slider>
     <div class="slider-amount">{{sliderValue}}</div>
   </div>
 </div>

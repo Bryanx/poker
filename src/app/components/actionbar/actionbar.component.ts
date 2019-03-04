@@ -28,6 +28,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   canAct = true;
   @Output() currentPhaseBetEvent: EventEmitter<CurrentPhaseBet> = new EventEmitter<CurrentPhaseBet>();
   ws: any;
+  allIn: boolean;
 
   constructor(private roundService: RoundService, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService) {
@@ -172,5 +173,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     } else {
       return 0;
     }
+  }
+
+  onChange(value: number) {
+    this.allIn = value === this.player.chipCount;
   }
 }

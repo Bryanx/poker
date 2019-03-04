@@ -23,11 +23,10 @@ import be.kdg.mobile_client.model.Message;
  */
 public class MessageAdapter extends ArrayAdapter<Message> {
     private final LayoutInflater inflater;
-    private final String name;
+    private String name;
 
-    public MessageAdapter(Context ctx, String name) {
+    public MessageAdapter(Context ctx) {
         super(ctx, -1, new ArrayList<>());
-        this.name = name;
         this.inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -60,5 +59,9 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             tvMessage.setText(String.format("%s: %s", message.getName(), message.getContent()));
         }
         return view;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

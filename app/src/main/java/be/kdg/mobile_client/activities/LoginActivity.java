@@ -36,10 +36,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void addEventListeners() {
-        tvBroMessage.setOnClickListener(e -> {
-            Intent intent = new Intent(this, RegisterActivity.class);
-            startActivity(intent);
-        });
+        tvBroMessage.setOnClickListener(e -> navigateTo(RegisterActivity.class));
         this.btnLogin.setOnClickListener(v -> login());
     }
 
@@ -71,13 +68,13 @@ public class LoginActivity extends BaseActivity {
      */
     public void onLoginSuccess(Token token) {
         token.setSignedIn(true);
-        sharedPrefService.saveToken(getApplicationContext(), token);
+        token.setUsername(etUsername.getText().toString());
+        sharedPrefService.saveToken(this, token);
         Toast.makeText(getBaseContext(), getString(R.string.logging_in), Toast.LENGTH_LONG).show();
         btnLogin.setEnabled(true);
         setResult(RESULT_OK);
         finish();
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
+        navigateTo(MenuActivity.class);
     }
 
     /**

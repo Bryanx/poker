@@ -1,6 +1,5 @@
 package be.kdg.mobile_client.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -74,10 +73,6 @@ public class RankingsActivity extends BaseActivity {
      * Upon clicking on a specific row in the table, you are redirected to the AccountActivity
      */
     private void addOnClickListener(TableRow row, User user) {
-        row.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-            intent.putExtra(getString(R.string.userid), user.getId());
-            startActivity(intent);
-        });
+        row.setOnClickListener(v -> navigateTo(AccountActivity.class, getString(R.string.userid), user.getId()));
     }
 }

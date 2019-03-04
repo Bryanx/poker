@@ -16,15 +16,31 @@ import be.kdg.mobile_client.services.SharedPrefService;
 public abstract class BaseActivity extends AppCompatActivity {
 
     /**
+     * Navigate to a different activity
+     * @param destination activity
+     */
+    protected void navigateTo(Class<?> destination) {
+        Intent intent = new Intent(this, destination);
+        this.startActivity(intent);
+    }
+
+    /**
+     * Navigate to a different activity with extra
+     * @param destination activity
+     */
+    protected void navigateTo(Class<?> destination, String extraTag, String extra) {
+        Intent intent = new Intent(this, destination);
+        intent.putExtra(extraTag, extra);
+        this.startActivity(intent);
+    }
+
+    /**
      * All activities that require login should call this method
      * @param sharedPrefService injeted sharedprefservice fo the activity
      */
     @UiThread
     protected void checkIfAuthorized(SharedPrefService sharedPrefService) {
-        if (!sharedPrefService.hasToken(this)) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-        }
+        if (!sharedPrefService.hasToken(this)) navigateTo(MainActivity.class);
     }
 
     /**

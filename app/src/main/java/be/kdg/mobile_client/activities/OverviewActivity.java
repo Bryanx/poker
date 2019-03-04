@@ -1,12 +1,10 @@
 package be.kdg.mobile_client.activities;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -16,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.RoomRecyclerAdapter;
 import be.kdg.mobile_client.model.Room;
-import be.kdg.mobile_client.shared.CallbackWrapper;
-import be.kdg.mobile_client.services.GameService;
+import be.kdg.mobile_client.services.RoomService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
  * This activity is used to display all the rooms as cards.
@@ -27,7 +25,8 @@ import butterknife.ButterKnife;
 public class OverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
-    @Inject GameService gameService;
+    @Inject
+    RoomService roomService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +39,13 @@ public class OverviewActivity extends BaseActivity {
     }
 
     private void addEventHandlers() {
-        btnBack.setOnClickListener(e -> {
-            Intent intent = new Intent(this, MenuActivity.class);
-            startActivity(intent);
-        });
+        btnBack.setOnClickListener(e -> navigateTo(MenuActivity.class));
     }
 
+    @SuppressLint("CheckResult")
     private void getRooms() {
-        gameService.getRooms().enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response != null && response.isSuccessful() && response.body() != null) {
-               initializeAdapter(response.body());
-            } else {
-                final String msg = throwable == null ? "" : throwable.getMessage();
-                Log.e("OverviewActivity", "Error getting rooms. " + msg);
-                Toast.makeText(getApplicationContext(), getString(R.string.error_getting_rooms), Toast.LENGTH_LONG).show();
-            }
-        }));
+        roomService.getRooms().observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::initializeAdapter, error -> Log.e("OverviewActivity", error.getMessage()));
     }
 
     /**

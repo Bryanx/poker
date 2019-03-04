@@ -42,10 +42,7 @@ public class UserSearchActivity extends BaseActivity {
     }
 
     private void addEventHandlers() {
-        btnBack.setOnClickListener(e -> {
-            Intent intent = new Intent(this, FriendsActivity.class);
-            startActivity(intent);
-        });
+        btnBack.setOnClickListener(e -> navigateTo(FriendsActivity.class));
         etSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     actionId == EditorInfo.IME_ACTION_DONE ||
@@ -59,7 +56,7 @@ public class UserSearchActivity extends BaseActivity {
             return false;
         });
         viewModel.getMessage().observe(this, message -> {
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         });
     }
 

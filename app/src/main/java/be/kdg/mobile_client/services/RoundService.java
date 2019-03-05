@@ -12,6 +12,6 @@ import retrofit2.http.Path;
 public interface RoundService {
 
     @Headers({"Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
-    @POST("/api/rounds/{id}/act")
+    @POST("/api/rounds/act")
     Observable<Response<Void>> addAct(@Body Act act);
 }

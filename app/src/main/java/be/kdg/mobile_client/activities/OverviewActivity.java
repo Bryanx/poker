@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -47,8 +48,10 @@ public class OverviewActivity extends BaseActivity {
 
     private void getRooms() {
         roomService.getRooms().observeOn(AndroidSchedulers.mainThread())
-                .doOnError(error -> Log.e("OverviewActivity", error.getMessage()))
-                .subscribe(this::initializeAdapter);
+                .subscribe(this::initializeAdapter, error -> {
+                    Toast.makeText(this, "Failed to connect", Toast.LENGTH_LONG).show();
+                    Log.e("OverviewActivity", error.getMessage());
+                });
     }
 
     /**

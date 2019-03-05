@@ -94,11 +94,4 @@ public class RoomActivity extends BaseActivity {
         chatFragment.leaveChat();
         super.onDestroy();
     }
-
-    @Override
-    public void onBackPressed() {
-        viewModel.leaveRoom();
-        chatFragment.leaveChat();
-        super.onBackPressed();
-    }
 }

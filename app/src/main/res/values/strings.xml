@@ -79,6 +79,7 @@
     <!-- rooms -->
     <string name="error_getting_rooms">Error getting rooms</string>
     <string name="room_id">ROOM_ID</string>
-    <string name="fold">FOLD</string>
-    <string name="call">CALL</string>
+    <string name="act_fold">FOLD</string>
+    <string name="act_call">CALL</string>
+    <string name="act_raise">RAISE</string>
 </resources>

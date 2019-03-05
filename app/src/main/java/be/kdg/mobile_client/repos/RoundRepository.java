@@ -29,14 +29,14 @@ public class RoundRepository {
         this.roundService = roundService;
     }
 
-    public Observable<Response<Void>> addAct(Act act) {
+    public synchronized Observable<Response<Void>> addAct(Act act) {
         onErrorMsg = "Failed to play act";
         return roundService.addAct(act)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::logError);
     }
 
-    public Flowable<Round> listenOnRoundUpdate(int roomId) {
+    public synchronized Flowable<Round> listenOnRoundUpdate(int roomId) {
         onErrorMsg = "Could not receive round update, room: " + roomId;
         return webSocketService.watch("/room/receive-round/" + roomId, Round.class)
                 .doOnError(this::logError);

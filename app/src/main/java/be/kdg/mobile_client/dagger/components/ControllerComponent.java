@@ -16,7 +16,7 @@ import be.kdg.mobile_client.activities.UserSearchActivity;
 import be.kdg.mobile_client.dagger.modules.ControllerModule;
 import be.kdg.mobile_client.fragments.ChatFragment;
 import be.kdg.mobile_client.services.ChatService;
-import be.kdg.mobile_client.services.GameService;
+import be.kdg.mobile_client.services.RoomService;
 import be.kdg.mobile_client.services.WebSocketService;
 import be.kdg.mobile_client.viewmodels.RoomViewModel;
 import be.kdg.mobile_client.viewmodels.UserViewModel;
@@ -44,6 +44,7 @@ public interface ControllerComponent {
     void inject(StompClient stompClient);
     void inject(GameService gameService);
     void inject(AccountSettingsActivity accountSettingsActivity);
+    void inject(RoomService roomService);
     WebSocketService websocketService();
     ChatService chatService();
     RoomViewModel roomViewModel();

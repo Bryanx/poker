@@ -20,32 +20,24 @@ import retrofit2.http.Query;
  * An authentication token is send on each call.
  */
 public interface UserService {
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0",
+    @Headers({"Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0",
             "No-Authentication: true"})
     @POST("/oauth/token")
     Call<Token> login(@Query("username") String username,
                       @Query("password") String password,
                       @Query("grant_type") String grant_type);
 
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Accept: application/json; charset=utf-8",
-            "No-Authentication: true"})
+    @Headers({"No-Authentication: true"})
     @POST("/api/user")
     Call<Token> register(@Body Register register);
 
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Accept: application/json; charset=utf-8"})
     @GET("/api/user/{id}")
     Call<User> getUser(@Path("id") String id);
 
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Accept: application/json; charset=utf-8"})
     @GET("/api/users/{name}")
     Call<List<User>> getUsersByName(@Path("name") String name);
 
-    @Headers({"Content-Type: application/json;charset=UTF-8",
-            "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
+    @Headers({"Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
     @PUT("/api/user")
     Call<Token> changeUser(@Body User user);
 

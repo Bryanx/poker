@@ -2,7 +2,7 @@ package be.kdg.mobile_client.activities;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,10 +15,8 @@ import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.databinding.ActivityRoomBinding;
 import be.kdg.mobile_client.fragments.ChatFragment;
-import be.kdg.mobile_client.model.Player;
 import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.SharedPrefService;
-import be.kdg.mobile_client.services.WebSocketService;
 import be.kdg.mobile_client.viewmodels.RoomViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,47 +27,58 @@ import butterknife.ButterKnife;
  */
 public class RoomActivity extends BaseActivity {
     @BindView(R.id.btnShowChat) Button btnShowChat;
-    @BindView(R.id.llFragment) LinearLayout llFragment;
     @Inject FragmentManager fragmentManager;
     @Inject SharedPrefService sharedPrefService;
     @Inject ChatService chatService;
     @Inject @Named("RoomViewModel") ViewModelProvider.Factory factory;
     private ChatFragment chatFragment;
     private RoomViewModel viewModel;
-    private int roomNumber;
+    private int roomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getControllerComponent().inject(this);
         checkIfAuthorized(sharedPrefService);
         super.onCreate(savedInstanceState);
-        roomNumber = getIntent().getIntExtra(getString(R.string.room_id), 0);
-        viewModel = ViewModelProviders.of(this,factory).get(RoomViewModel.class);
-        ActivityRoomBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_room);
-        viewModel.init(roomNumber, binding);
-        binding.setLifecycleOwner(this);
+        roomId = getIntent().getIntExtra(getString(R.string.room_id), 0);
+        setUpViewModel();
         ButterKnife.bind(this);
-        initialiseViews();
-        handleShowChatButton();
+        setUpChatFragment();
+        addEventHandlers();
     }
 
-    private void initialiseViews() {
+    private void setUpViewModel() {
+        viewModel = ViewModelProviders.of(this,factory).get(RoomViewModel.class);
+        ActivityRoomBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_room);
+        viewModel.init(roomId);
+        binding.setViewmodel(viewModel);
+        binding.setLifecycleOwner(this);
+    }
+
+    private void setUpChatFragment() {
         chatFragment = (ChatFragment) fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
-        chatFragment.connectChat(roomNumber, chatService);
+        chatFragment.connectChat(roomId, chatService, sharedPrefService.getToken(this).getUsername());
         hideFragment(chatFragment); // initially hide the chatfragment
     }
 
-    private void handleShowChatButton() {
+    private void addEventHandlers() {
         btnShowChat.setOnClickListener(e -> {
             if (chatFragment != null && chatFragment.isHidden()) {
-                fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left)
-                        .show(chatFragment)
-                        .commit();
+                showFragment(chatFragment);
             } else {
                 hideFragment(chatFragment);
             }
         });
+        viewModel.getNotification().observe(this, message -> {
+            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        });
+    }
+
+    private void showFragment(ChatFragment fragment) {
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left)
+                .show(chatFragment)
+                .commit();
     }
 
     private void hideFragment(Fragment fragment) {
@@ -77,5 +86,18 @@ public class RoomActivity extends BaseActivity {
                 .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left)
                 .hide(fragment)
                 .commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        viewModel.leaveRoom();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        viewModel.leaveRoom();
+        chatFragment.leaveChat();
+        super.onBackPressed();
     }
 }

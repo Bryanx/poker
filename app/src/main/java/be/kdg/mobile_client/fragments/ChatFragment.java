@@ -11,15 +11,12 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.MessageAdapter;
 import be.kdg.mobile_client.model.Message;
 import be.kdg.mobile_client.services.ChatService;
-import be.kdg.mobile_client.services.WebSocketService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.NoArgsConstructor;
@@ -36,17 +33,16 @@ public class ChatFragment extends BaseFragment {
     private ChatService chatService;
 
     private MessageAdapter messageAdapter;
-    private String playerName = "Lotte";
-    private String ERROR_TAG = "ChatFragment";
+    private String username;
+    private final String ERROR_TAG = "ChatFragment";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-//        getControllerComponent().inject(this);
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         ButterKnife.bind(this, view);
-        messageAdapter = new MessageAdapter(getActivity(), playerName);
+        messageAdapter = new MessageAdapter(getActivity());
         lvChat.setAdapter(messageAdapter);
         return view;
     }
@@ -54,25 +50,32 @@ public class ChatFragment extends BaseFragment {
     /**
      * Connect to the chat service and log errors to the adapter.
      */
-    public void connectChat(int roomNumber, ChatService chatService) {
+    public void connectChat(int roomNumber, ChatService chatService, String username) {
+        this.username = username;
+        messageAdapter.setName(username);
         this.chatService = chatService;
-        chatService.connect(roomNumber, playerName);
+        chatService.init(roomNumber);
         addEventHandlers();
+        chatService.sendMessage("system", username + " joined the room");
     }
 
     /**
      * Handle incoming and outgoing messages
      */
     private void addEventHandlers() {
-        chatService.setOnIncomingMessage((StompMessage msg) -> {
-            Message message = new Gson().fromJson(msg.getPayload(), Message.class);
-            getActivity().runOnUiThread(() -> messageAdapter.add(message));
-        }, (Throwable error) -> Log.e(ERROR_TAG, error.getMessage()));
+        chatService.setOnIncomingMessage(
+                msg -> messageAdapter.add(msg),
+                error -> Log.e(ERROR_TAG, error.getMessage()));
         btnSend.setOnClickListener(e -> {
             if (etMessage.getText().length() > 0) {
-                chatService.sendMessage(playerName, etMessage.getText().toString());
+                chatService.sendMessage(username, etMessage.getText().toString());
                 etMessage.setText("");
             }
         });
+    }
+
+    public void leaveChat() {
+        chatService.sendMessage("system", username + " has left the room");
+        chatService.disconnect();
     }
 }

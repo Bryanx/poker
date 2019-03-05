@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorDarkerBackground">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".activities.RoomActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout2"
-        android:layout_width="32dp"
-        android:layout_height="180dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <data>
 
-        <SeekBar
-            android:id="@+id/camera_sb_expose"
-            android:layout_width="180dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center"
-            android:rotation="270" />
+        <variable
+            name="viewmodel"
+            type="be.kdg.mobile_client.viewmodels.RoomViewModel" />
+    </data>
 
-    </FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorDarkerBackground">
 
-    <Button
-        android:id="@+id/btnBet"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/circle_yellow"
-        android:text="100"
-        android:textColor="@color/colorWhite"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <FrameLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="32dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <SeekBar
+                android:id="@+id/camera_sb_expose"
+                android:layout_width="180dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:rotation="270" />
+
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/btnBet"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/circle_yellow"
+            android:text="100"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

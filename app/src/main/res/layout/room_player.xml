@@ -20,7 +20,6 @@
         android:layout_height="match_parent"
         android:visibility="@{isVisible}">
 
-
         <TextView
             android:id="@+id/tvStatusPlayerPrimary"
             android:layout_width="wrap_content"
@@ -41,7 +40,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/circle_white"
-            android:text="@{player.playerName.charAt(0)}"
+            android:text="@{player.username.charAt(0)}"
             android:textColor="@color/colorWhite"
             android:textSize="32sp"
             android:typeface="sans"

@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.model.Register;
 import be.kdg.mobile_client.services.SharedPrefService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,15 +42,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void addEventHandlers() {
-        btnLogin.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-        });
-
-        btnSignUp.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-            startActivity(intent);
-        });
+        btnLogin.setOnClickListener(v -> navigateTo(LoginActivity.class));
+        btnSignUp.setOnClickListener(v -> navigateTo(RegisterActivity.class));
     }
 
     /**
@@ -64,8 +58,7 @@ public class MainActivity extends BaseActivity {
     private void redirectIfSignedIn() {
         if (sharedPrefService.hasToken(this)) {
             finish();
-            Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-            startActivity(intent);
+            navigateTo(MenuActivity.class);
         }
     }
 

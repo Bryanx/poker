@@ -77,7 +77,8 @@ export class RoomsOverviewComponent implements OnInit {
     }
 
     this.whiteListedUsers = this.users.filter(user => this.isInWhiteList(user.id, this.curRoom.whiteListedUsers));
-    this.nonWhiteListedUsers = this.users.filter(user => !this.isInWhiteList(user.id, this.curRoom.whiteListedUsers));
+    this.nonWhiteListedUsers = this.users.filter(user => !this.isInWhiteList(user.id, this.curRoom.whiteListedUsers))
+      .filter(user => this.myself.friends.filter(friend => friend.userId === user.id).length === 1);
   }
 
   addToWhiteList(user: User) {

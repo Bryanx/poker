@@ -32,7 +32,7 @@
 <section [@simpleFadeAnimation]="'in'" class="friend-modal" *ngIf="showFriendModal">
   <h1>ADD FRIENDS</h1>
 
-  <h2>Whitelisted users</h2>
+  <h2>Whitelisted friends</h2>
   <section class="user-list">
     <div class="user-row" *ngFor="let user of whiteListedUsers">
       {{user.username}}
@@ -41,7 +41,7 @@
     </div>
   </section>
 
-  <h2 *ngIf="nonWhiteListedUsers.length > 0">Non-whitelisted users</h2>
+  <h2 *ngIf="nonWhiteListedUsers.length > 0">Non-whitelisted friends</h2>
   <section class="user-list">
     <div class="user-row" *ngFor="let user of nonWhiteListedUsers">
       {{user.username}}

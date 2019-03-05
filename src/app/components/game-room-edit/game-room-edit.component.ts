@@ -35,7 +35,9 @@ export class GameRoomEditComponent implements OnInit {
         maxPlayerCount: [this.room.gameRules.maxPlayerCount, Validators.compose([Validators.required])],
         smallBlind: [this.room.gameRules.smallBlind, Validators.compose([Validators.required, Validators.min(10)])],
         playDelay: [this.room.gameRules.playDelay, Validators.compose([Validators.required, Validators.min(10)])],
-        startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])]
+        startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])],
+        minLevel: [this.room.gameRules.minLevel, Validators.compose([Validators.required, Validators.max(50), Validators.min(1)])],
+        maxLevel: [this.room.gameRules.maxLevel, Validators.compose([Validators.required, Validators.max(50), Validators.min(1)])]
       });
     } else {
       this.curRouter.paramMap.pipe(switchMap((params: ParamMap) => {
@@ -49,7 +51,9 @@ export class GameRoomEditComponent implements OnInit {
           maxPlayerCount: [this.room.gameRules.maxPlayerCount, Validators.compose([Validators.required])],
           smallBlind: [this.room.gameRules.smallBlind, Validators.compose([Validators.required, Validators.min(10)])],
           playDelay: [this.room.gameRules.playDelay, Validators.compose([Validators.required, Validators.min(10)])],
-          startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])]
+          startingChips: [this.room.gameRules.startingChips, Validators.compose([Validators.required, Validators.min(500)])],
+          minLevel: [this.room.gameRules.minLevel, Validators.compose([Validators.required, Validators.max(50), Validators.min(1)])],
+          maxLevel: [this.room.gameRules.maxLevel, Validators.compose([Validators.required, Validators.max(50), Validators.min(1)])]
         });
       });
     }
@@ -76,6 +80,9 @@ export class GameRoomEditComponent implements OnInit {
     this.room.gameRules.bigBlind = 2 * this.updateRoomForm.controls.smallBlind.value;
     this.room.gameRules.playDelay = this.updateRoomForm.controls.playDelay.value;
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
+    this.room.gameRules.minLevel = this.updateRoomForm.controls.minLevel.value;
+    this.room.gameRules.maxLevel = this.updateRoomForm.controls.maxLevel.value;
+    console.log(this.room);
 
     if (this.isAddingPrivate()) {
       this.roomService.addPrivateRoom(this.room as PrivateRoom).subscribe(() => this.location.back());

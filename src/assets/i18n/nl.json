@@ -54,5 +54,9 @@
   "WON": "gewonnen",
   "LOST": "verloren",
   "UNKNOWN": "onbekend",
-  "WAITINGFORPLAYERS": "Wachten op spelers.."
+  "WAITINGFORPLAYERS": "Wachten op spelers..",
+  "MAX LEVEL": "Max level",
+  "MAX LEVEL REQUIRED": "Max level werd niet goed ingegeven",
+  "MIN LEVEL": "Min level",
+  "MIN LEVEL REQUIRED": "Min level werd niet goed ingegeven"
 }

@@ -56,7 +56,6 @@ export class ActionbarComponent implements OnInit, OnDestroy {
           this.currentAct = JSON.parse(message.body) as Act;
           this.sliderValue = this.currentAct.totalBet;
           this.actEvent.emit(this.currentAct);
-          // console.log(this.currentAct);
         }
       });
     });

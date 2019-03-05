@@ -17,6 +17,8 @@ export class User {
   bestHand: string;
   friends: Friend[];
   level: number;
+  thresholdTillNextLevel: number;
+  xpTillNext: number;
 
   static create() {
     return {
@@ -36,6 +38,8 @@ export class User {
       gamesPlayed: 0,
       bestHand: '',
       level: 0,
+      thresholdTillNextLevel: 0,
+      xpTillNext: 0,
     };
   }
 }

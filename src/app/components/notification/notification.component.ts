@@ -36,14 +36,13 @@ export class NotificationComponent implements OnInit {
   @Input()
   set notifications(notification: Notification) {
     if (notification !== undefined) {
-      this._notifications.push(notification);
+      // this._notifications.push(notification);
+      this._notifications.splice(0, 0, notification);
     }
   }
 
   private getAllNotifications() {
-    this.userService.getNotifications().subscribe(nots => {
-      this._notifications = nots;
-    });
+    this.userService.getNotifications().subscribe(nots => this._notifications = nots.reverse());
   }
 
   formatTime(dateTime: string) {

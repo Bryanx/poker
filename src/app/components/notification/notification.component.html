@@ -3,7 +3,7 @@
 </div>
 
 <section *ngIf="showPanel" [@simpleFadeAnimation]="'in'" class="not-panel">
-  <div class="not" *ngFor="let not of _notifications.reverse(); index as i" (click)="showPanel = false" routerLink="/user/{{not.ref}}">
+  <div class="not" *ngFor="let not of _notifications; index as i" (click)="showPanel = false" routerLink="/user/{{not.ref}}">
     <img class="not-icon" src="../../../assets/img/icons/friend_request_icon.svg">
     <div class="info">
       <span class="message">{{not.message}}</span>

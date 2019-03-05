@@ -10,10 +10,11 @@
     <ImageView
         android:id="@+id/ivPicture"
         android:layout_width="match_parent"
-        android:layout_height="168dp"
+        android:layout_height="233dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/user_profile_picture"
         android:scaleType="centerCrop"
+        android:src="@drawable/user"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="16dp" />
 
@@ -24,12 +25,11 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:text="TextView"
+        android:text="@string/update_account_settings"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPicture"
-        tools:text="@string/update_account_settings" />
+        app:layout_constraintTop_toBottomOf="@+id/ivPicture" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -100,10 +100,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
+        android:hint="@string/password"
         android:inputType="textPassword"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnUpdate" />
@@ -116,6 +119,9 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:hint="@string/password"
+        android:textColor="#fff"
+        android:textColorHint="#fff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etFirstPassword" />

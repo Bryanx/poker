@@ -9,34 +9,35 @@
 
     <ImageView
         android:id="@+id/ivPicture"
-        android:layout_width="match_parent"
-        android:layout_height="233dp"
+        android:layout_width="311dp"
+        android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/user_profile_picture"
         android:scaleType="centerCrop"
         android:src="@drawable/user"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvAccountSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/update_account_settings"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivPicture" />
+        app:layout_constraintStart_toEndOf="@+id/ivPicture"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/etUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorWhite"
         android:ems="10"
@@ -46,7 +47,7 @@
         android:textColor="#fff"
         android:textColorHint="#fff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPicture"
         app:layout_constraintTop_toBottomOf="@+id/tvAccountSettings" />
 
     <EditText
@@ -63,7 +64,7 @@
         android:textColor="#fff"
         android:textColorHint="#fff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPicture"
         app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
     <EditText
@@ -80,7 +81,7 @@
         android:textColor="#fff"
         android:textColorHint="#fff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPicture"
         app:layout_constraintTop_toBottomOf="@+id/etFirstName" />
 
     <Button
@@ -88,12 +89,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/update"
         style="@style/greenButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPicture"
         app:layout_constraintTop_toBottomOf="@+id/etLastName" />
 
     <EditText
@@ -101,7 +102,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="@string/password"
@@ -109,7 +110,7 @@
         android:textColor="#fff"
         android:textColorHint="#fff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPicture"
         app:layout_constraintTop_toBottomOf="@+id/btnUpdate" />
 
     <EditText
@@ -119,12 +120,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:ems="10"
-        android:inputType="textPassword"
         android:hint="@string/password"
+        android:inputType="textPassword"
         android:textColor="#fff"
         android:textColorHint="#fff"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPicture"
         app:layout_constraintTop_toBottomOf="@+id/etFirstPassword" />
 
     <Button
@@ -132,13 +133,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:text="@string/update"
         style="@style/greenButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivPicture"
         app:layout_constraintTop_toBottomOf="@+id/etSecondPassword" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

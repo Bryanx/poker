@@ -23,6 +23,8 @@ export class RoomCardComponent {
   @Input() inSettingMode;
   @Input() isAdmin;
   @Input() dataLoaded;
+  @Input() isPrivate;
+  @Input() me;
 
   @Output() modalEvent: EventEmitter<Boolean> = new EventEmitter();
   @Output() roomEvent: EventEmitter<PrivateRoom> = new EventEmitter();
@@ -35,7 +37,7 @@ export class RoomCardComponent {
   determineSecondClass() {
     if (this.inSettingMode) {
       return 'enabled-settings';
-    } else if (this.isFull()) {
+    } else if (this.isFull() || this.me.level < this.room.gameRules.minLevel ) {
       return 'disabled';
     } else {
       return 'enabled';

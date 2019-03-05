@@ -36,7 +36,6 @@ export class NotificationComponent implements OnInit {
   @Input()
   set notifications(notification: Notification) {
     if (notification !== undefined) {
-      // this._notifications.push(notification);
       this._notifications.splice(0, 0, notification);
     }
   }

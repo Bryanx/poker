@@ -47,4 +47,9 @@ public interface UserService {
             "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
     @PUT("/api/user")
     Call<Token> changeUser(@Body User user);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+            "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
+    @PUT("/api/user")
+    Call<Token> changePassword(@Body Register authDTO);
 }

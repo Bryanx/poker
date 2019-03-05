@@ -14,6 +14,10 @@
       <th mat-header-cell *matHeaderCellDef> {{'CHIPS' | translate | uppercase}}</th>
       <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element">{{element.chips}}</td>
     </ng-container>
+    <ng-container matColumnDef="level">
+      <th mat-header-cell *matHeaderCellDef> {{'LEVEL' | translate | uppercase}}</th>
+      <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element">{{element.level}}</td>
+    </ng-container>
     <ng-container matColumnDef="wins">
       <th mat-header-cell *matHeaderCellDef> {{'WON' | translate | uppercase}}</th>
       <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element">{{element.wins}}</td>

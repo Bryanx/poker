@@ -19,7 +19,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 export class RankingsComponent implements OnInit {
   users: User[] = [];
-  displayedColumns = ['rank', 'username', 'chips', 'wins', 'lost', 'gamesPlayed'];
+  displayedColumns = ['rank', 'username', 'level', 'chips', 'wins', 'lost', 'gamesPlayed'];
 
   constructor(private userService: UserService) { }
 

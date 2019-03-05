@@ -58,5 +58,6 @@
   "MAX LEVEL": "Max level",
   "MAX LEVEL REQUIRED": "Max level is not entered correctly",
   "MIN LEVEL": "Min level",
-  "MIN LEVEL REQUIRED": "Min level is not entered correctly"
+  "MIN LEVEL REQUIRED": "Min level is not entered correctly",
+  "LEVEL": "level"
 }

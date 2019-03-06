@@ -18,6 +18,8 @@ import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.adapters.RoomRecyclerAdapter;
 import be.kdg.mobile_client.model.Room;
 import be.kdg.mobile_client.services.RoomService;
+import be.kdg.mobile_client.services.UserService;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,6 +33,7 @@ public class OverviewActivity extends BaseActivity {
     @BindView(R.id.lvUser) RecyclerView lvRoom;
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @Inject RoomService roomService;
+    @Inject UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +64,11 @@ public class OverviewActivity extends BaseActivity {
      * @param rooms The rooms that need to be used by the adapter.
      */
     private void initializeAdapter(List<Room> rooms) {
-        progressBar.setVisibility(View.GONE);
-        RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(this, rooms);
-        lvRoom.setAdapter(roomAdapter);
-        lvRoom.setLayoutManager(new LinearLayoutManager(this));
+        userService.getUser("").enqueue(new CallbackWrapper<>((throwable, myself) -> {
+            progressBar.setVisibility(View.GONE);
+            RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(this, rooms, myself.body());
+            lvRoom.setAdapter(roomAdapter);
+            lvRoom.setLayoutManager(new LinearLayoutManager(this));
+        }));
     }
 }

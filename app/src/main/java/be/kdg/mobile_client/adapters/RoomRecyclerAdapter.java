@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -18,8 +19,10 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.activities.OverviewActivity;
 import be.kdg.mobile_client.activities.RoomActivity;
 import be.kdg.mobile_client.model.Room;
+import be.kdg.mobile_client.model.User;
 import lombok.AllArgsConstructor;
 
 /**
@@ -28,6 +31,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapter.ViewHolder> {
+    private final User myself;
     private Context ctx;
     private List<Room> rooms;
 
@@ -36,7 +40,9 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
      *
      * @param rooms All the rooms.
      */
-    public RoomRecyclerAdapter(List<Room> rooms) {
+    public RoomRecyclerAdapter(Context ctx, List<Room> rooms, User user) {
+        this.ctx = ctx;
+        this.myself = user;
         List<Room> newRooms = new ArrayList<>();
         for (Room room : rooms) {
             if (room.getPlayersInRoom().size() < room.getGameRules().getMaxPlayerCount()) {
@@ -80,9 +86,15 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         placeImage(R.drawable.not_full, holder.ivCap);
         
         holder.roomCard.setOnClickListener(e -> {
-            Intent intent = new Intent(ctx, RoomActivity.class);
-            intent.putExtra(ctx.getString(R.string.room_id), room.getId());
-            ctx.startActivity(intent);
+            if (room.getGameRules().getStartingChips() > myself.getChips()) {
+                Toast.makeText(ctx, "You don't have enough chips.", Toast.LENGTH_LONG).show();
+            } else if (room.getPlayersInRoom().size() >= room.getGameRules().getMaxPlayerCount()) {
+                Toast.makeText(ctx, "Room is full.", Toast.LENGTH_LONG).show();
+            } else {
+                Intent intent = new Intent(ctx, RoomActivity.class);
+                intent.putExtra(ctx.getString(R.string.room_id), room.getId());
+                ctx.startActivity(intent);
+            }
         });
     }
 

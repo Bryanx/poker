@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,8 +37,10 @@ public class UserApiController {
     private static final String ID_KEY = "uuid";
     private final ResourceServerTokenServices resourceTokenServices;
     private final AuthorizationServerTokenServices authorizationServerTokenServices;
+    private final SimpMessagingTemplate template;
     private final UserService userService;
     private final ModelMapper modelMapper;
+
 
     /**
      * Rest endpoint that returns the user based on his JWT.
@@ -200,17 +203,17 @@ public class UserApiController {
 
     /**
      * This api will add xp to the current user.
+     * After that, the api will push the new user to a web socket connection.
      *
      * @param xp The xp that needs to be added.
      * @param authentication The user itself
-     * @return status code 202 with the updated user dto.
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/user/level/{xp}")
-    public ResponseEntity<UserDto> addXp(@PathVariable int xp, OAuth2Authentication authentication) {
+    public void addXp(@PathVariable int xp, OAuth2Authentication authentication) {
         User user = userService.addExperience(getUserId(authentication), xp);
         UserDto userDTO = modelMapper.map(user, UserDto.class);
-        return new ResponseEntity<>(userDTO, HttpStatus.ACCEPTED);
+        this.template.convertAndSend("/user/receive-notification/" + getUserId(authentication), userDTO);
     }
 
     /**

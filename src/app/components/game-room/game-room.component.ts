@@ -133,7 +133,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     const getMyself = this.userService.getMyself();
 
     forkJoin(getRoom, getMyself).subscribe(bundle => {
-      console.log(bundle);
       this.room = bundle[0] as Room;
       if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
         this.navigateBack();

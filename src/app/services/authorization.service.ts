@@ -8,6 +8,8 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {UrlService} from './url.service';
 import {NotifierService} from 'angular-notifier';
 import {UserService} from './user.service';
+import {Notification} from '../model/notification';
+import {NotificationType} from '../model/notificationType';
 
 @Injectable({
   providedIn: 'root'
@@ -92,10 +94,24 @@ export class AuthorizationService {
     this.userService.getUnReadNotifications().subscribe(nots => {
       this.notifier.notify('success', 'Welcome back bro! you received ' + nots.length + ' notification while you were away');
       nots.forEach(not => {
-        this.notifier.notify('default', not.message);
+        this.showNotification(not);
         this.userService.readNotification(not.id).subscribe();
       });
     });
+  }
+
+  private showNotification(not: Notification) {
+    console.log(not);
+    let type;
+    if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
+      type = 'error';
+    } else if (not.type === NotificationType.ADD_PRIVATE_ROOM) {
+      type = 'success';
+    } else {
+      type = 'default';
+    }
+
+    this.notifier.notify(type, not.message);
   }
 
   getJwtToken() {

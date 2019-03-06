@@ -105,10 +105,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
     console.log(not);
     let type;
     if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
-      console.log('YES');
       type = 'error';
     } else if (not.type === NotificationType.ADD_PRIVATE_ROOM) {
-      console.log('YES');
       type = 'success';
     } else {
       type = 'default';

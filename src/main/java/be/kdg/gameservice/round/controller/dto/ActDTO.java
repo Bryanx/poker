@@ -21,6 +21,7 @@ public class ActDTO {
     private int bet;
     private int totalBet;
     private String nextUserId;
+    private boolean allIn;
 
     public ActDTO(String userId, int roundId, ActType type, Phase phase, int bet) {
         this.userId = userId;

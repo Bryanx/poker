@@ -55,6 +55,7 @@ public class RoomServiceImpl implements RoomService {
 
         //Determine if round can be created
         List<Player> players = room.getPlayersInRoom();
+        players.forEach(player -> player.setAllIn(false));
         if (players.size() < 2)
             throw new RoomException(RoomServiceImpl.class, "There must be at least 2 players int room to start a round.");
         int button = room.getRounds().size() == 0 ? 0 : room.getCurrentRound().getButton();

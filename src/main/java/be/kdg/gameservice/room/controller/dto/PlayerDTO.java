@@ -20,4 +20,5 @@ public class PlayerDTO {
     private HandType handType;
     private int seatNumber;
     private String username;
+    private boolean allIn;
 }

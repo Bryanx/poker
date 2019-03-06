@@ -78,7 +78,7 @@ public class Room {
      * @return An unmodifiable list of players inside of the round.
      */
     public List<Player> getPlayersInRoom() {
-        return Collections.unmodifiableList(playersInRoom);
+        return playersInRoom;
     }
 
     /**

@@ -88,8 +88,16 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       this.ws.subscribe('/room/receive-round/' + this.room.id, (message) => {
         if (message) {
           this.round = JSON.parse(message.body) as Round;
+          console.log(this.round);
           this.updatePlayersInRound();
-          // console.log(this.round);
+          for (const player of this.round.playersInRound) {
+            if (player.userId === this.authorizationService.getUserId()) {
+              if (player.chipCount === 0 && !player.allIn) {
+                this.leaveRoom();
+                this.location.back();
+              }
+            }
+          }
         }
       });
 

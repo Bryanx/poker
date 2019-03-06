@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {AfterViewChecked, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
 import {RoundService} from '../../services/round.service';
@@ -77,7 +77,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   /**
    * Builds an act and sends it to the game service.
    */
-  playAct(actType: ActType) {
+  playAct(actType: ActType, allIn?: boolean) {
     // console.log(actType);
     if (this.canAct) {
       this.canAct = false;
@@ -89,15 +89,24 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       act.userId = this.player.userId;
       act.roomId = this.room.id;
 
-      if (act.type === 'BET' || act.type === 'RAISE' || act.type === 'CALL') {
-        act.bet = this.sliderValue - this.currentPhaseBet.bet;
-        this.currentPhaseBet.bet = this.currentPhaseBet.bet + this.sliderValue;
-        this.currentPhaseBet.seatNumber = this.player.seatNumber;
-        this.currentPhaseBetEvent.emit(this.currentPhaseBet);
-      } else {
+      if (allIn) {
+        act.allIn = true;
         act.bet = 0;
+      } else {
+        if (act.type === 'BET' || act.type === 'RAISE' || act.type === 'CALL') {
+          act.bet = this.sliderValue - this.currentPhaseBet.bet;
+          if (act.bet >= this.player.chipCount) {
+            act.bet = this.player.chipCount;
+            act.allIn = true;
+          }
+          this.currentPhaseBet.bet = this.currentPhaseBet.bet + this.sliderValue;
+          this.currentPhaseBet.seatNumber = this.player.seatNumber;
+          this.currentPhaseBetEvent.emit(this.currentPhaseBet);
+        } else {
+          act.bet = 0;
+        }
+        act.totalBet = this.sliderValue;
       }
-      act.totalBet = this.sliderValue;
 
       this.roundService.addAct(act).subscribe(() => {
       }, error => {
@@ -129,6 +138,10 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
       this.getPlayer();
       this.checkTurn();
+
+      if (this.myTurn && this.player.allIn) {
+        this.playAct(ActType.Check, this.player.allIn);
+      }
     }
   }
 

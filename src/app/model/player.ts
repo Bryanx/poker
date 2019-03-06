@@ -13,6 +13,7 @@ export class Player {
   handType: string;
   seatNumber: number;
   access_token: string;
+  allIn: boolean;
 
   static create() {
     return {
@@ -26,7 +27,8 @@ export class Player {
       chipCount: 5000,
       handType: 'BAD',
       seatNumber: 1,
-      access_token: 'ojfzeoio'
+      access_token: 'ojfzeoio',
+      allIn: false
     };
   }
 }

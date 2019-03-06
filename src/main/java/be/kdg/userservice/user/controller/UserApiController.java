@@ -205,7 +205,7 @@ public class UserApiController {
      * This api will add xp to the current user.
      * After that, the api will push the new user to a web socket connection.
      *
-     * @param xp The xp that needs to be added.
+     * @param xp             The xp that needs to be added.
      * @param authentication The user itself
      */
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -213,7 +213,7 @@ public class UserApiController {
     public void addXp(@PathVariable int xp, OAuth2Authentication authentication) {
         User user = userService.addExperience(getUserId(authentication), xp);
         UserDto userDTO = modelMapper.map(user, UserDto.class);
-        this.template.convertAndSend("/user/receive-notification/" + getUserId(authentication), userDTO);
+        this.template.convertAndSend("/user/receive-myself/" + getUserId(authentication), userDTO);
     }
 
     /**

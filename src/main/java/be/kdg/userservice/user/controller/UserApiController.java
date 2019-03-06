@@ -186,6 +186,7 @@ public class UserApiController {
         }
 
         User userOut = userService.changeUser(userIn);
+        this.template.convertAndSend("/user/receive-myself/" + userDto.getId(), userOut);
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
     }
 
@@ -197,7 +198,6 @@ public class UserApiController {
     public ResponseEntity<UserDto> changePassword(@Valid @RequestBody AuthDto authDto) throws UserException {
         User userIn = modelMapper.map(authDto, User.class);
         User userOut = userService.changePassword(userIn);
-
         return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.OK);
     }
 

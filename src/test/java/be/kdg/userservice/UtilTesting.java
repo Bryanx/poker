@@ -1,6 +1,5 @@
 package be.kdg.userservice;
 
-
 import be.kdg.userservice.notification.model.Notification;
 import be.kdg.userservice.notification.model.NotificationType;
 import be.kdg.userservice.shared.TokenDto;
@@ -9,6 +8,7 @@ import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.model.UserRole;
 import be.kdg.userservice.user.persistence.UserRepository;
 import be.kdg.userservice.user.persistence.UserRoleRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import javax.persistence.Table;
+import javax.transaction.Transactional;
 import java.util.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -30,9 +32,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * You can extend from this class if you want to do immutability testing in your junit tests.
  */
+@Transactional
 public abstract class UtilTesting {
-    private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
-    //private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
+    @Value("${token.url}")
+    private String TOKEN_URL;
+
     private static final String TESTABLE_USER_NAME1 = "josef";
     private static final String TESTABLE_USER_NAME3 = "anne";
     protected static final String TESTABLE_USER_NAME2 = "jos";

@@ -2,6 +2,8 @@
   <img src="../assets/img/icons/home.svg">
 </div>
 <header class="hotbar">
+  <mat-progress-bar class="progress" mode="determinate" [value]="77"></mat-progress-bar>
+  <h2 class="level-header">{{myself.level}}</h2>
   <app-notification *ngIf="hasAuthentication()"
                     [notifications]="newNotification"
                     (deleteEvent)="getAllNotifications()"

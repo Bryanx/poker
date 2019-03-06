@@ -41,12 +41,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
               private location: Location, private homeObservable: HomeVisibleService) {}
 
   ngOnInit() {
-    /*  ------------- TESTING LEVELS ------------- */
-    setInterval(() => {
-      this.userService.addXp(20).subscribe();
-    }, 5000);
-    /*  ------------------------------------------ */
-
     this.homeObservable.emitNewState(true);
     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
     this.getData(roomId as number);
@@ -106,16 +100,22 @@ export class GameRoomComponent implements OnInit, OnDestroy {
             this.player = winningPlayer;
             this.chatChild.addMessage('You win, my bro');
             this.chatChild.addMessage('You had ' + this.player.handType);
+            this.userService.addXp(100).subscribe();
           } else {
             this.roomService.getPlayer().subscribe((player: Player) => {
               this.player = player;
               this.chatChild.addMessage('You lose, my bro');
               this.chatChild.addMessage('You had ' + this.player.handType);
             });
+            this.userService.addXp(20).subscribe();
           }
         }
       });
     });
+  }
+
+  goBack() {
+    return this.location.back();
   }
 
   /**

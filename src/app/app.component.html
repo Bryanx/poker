@@ -3,10 +3,13 @@
 </div>
 <header class="hotbar">
   <h2 *ngIf="showXp" [@simpleFadeAnimation]="'in'" class="xpLabel">{{xpLabel}}</h2>
-  <mat-progress-bar *ngIf="hasAuthentication()" class="progress" mode="determinate"
+  <mat-progress-bar *ngIf="hasAuthentication() && isNormalUser()" class="progress" mode="determinate"
                     [value]="(myself.xpTillNext / myself.thresholdTillNextLevel) * 100"></mat-progress-bar>
-  <h2 *ngIf="hasAuthentication()" class="level-header">{{myself.level}}</h2>
-  <app-notification *ngIf="hasAuthentication()"
+  <h2 *ngIf="hasAuthentication() && isNormalUser()" class="level-header">{{myself.level}}</h2>
+  <h2 *ngIf="hasAuthentication() && isNormalUser()" class="chips">{{myself.chips}}</h2>
+  <img *ngIf="hasAuthentication() && isNormalUser()" class="chips-img" src="../assets/img/icons/coins.svg">
+
+  <app-notification *ngIf="hasAuthentication() && isNormalUser()"
                     [notifications]="newNotification"
                     (deleteEvent)="getAllNotifications()"
   ></app-notification>

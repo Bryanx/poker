@@ -109,11 +109,19 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
    */
   private initializeConnections() {
     this.ws = this.webSocketService.connectUserService();
-
-    // Notification socket
     this.ws.connect({}, (frame) => {
+      // Level socket
+      this.ws.subscribe('/user/receive-myself/' + this.myself.id, (message) => {
+        if (message) {
+          const user: User = JSON.parse(message.body) as User;
+          this.changeLevelParameters(user);
+        }
+      });
+
+      // Notification socket
       this.ws.subscribe('/user/receive-notification/' + this.myself.id, (message) => {
         if (message) {
+          console.log('YAS');
           const not: Notification = JSON.parse(message.body) as Notification;
           this.userService.readNotification(not.id).subscribe();
           this.showNotification(not);
@@ -121,20 +129,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       });
     });
-
-
-    // Level socket
-    this.ws.connect({}, (frame) => {
-      this.ws.subscribe('/user/receive-myself/' + this.myself.id, (message) => {
-        if (message) {
-          const user: User = JSON.parse(message.body) as User;
-          this.changeLevelParameters(user);
-        }
-      });
-    });
   }
 
   private changeLevelParameters(user: User) {
+    this.myself.chips = user.chips;
     this.myself.xpTillNext = user.xpTillNext;
     this.myself.thresholdTillNextLevel = user.thresholdTillNextLevel;
     this.myself.level = user.level;
@@ -144,11 +142,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       this.xpLabel = '+ ' + (user.xpTillNext - this.xpPrev) + 'xp';
     }
-    this.xpPrev = user.xpTillNext;
     this.levelPrev = user.level;
 
-    this.showXp = true;
-    setTimeout(() => this.showXp = false, 3000);
+    if (user.xpTillNext - this.xpPrev !== 0) {
+      this.xpPrev = user.xpTillNext;
+      this.showXp = true;
+      setTimeout(() => this.showXp = false, 3000);
+    }
   }
 
   private showNotification(not: Notification) {
@@ -166,7 +166,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   hasAuthentication(): boolean {
-    return this.auth.isAuthenticated();
+    return this.auth.isAuthenticated() && !this.auth.isAdmin();
+  }
+
+  isNormalUser(): boolean {
+    return !this.auth.isAdmin();
   }
 
   /**

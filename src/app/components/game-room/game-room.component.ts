@@ -41,9 +41,14 @@ export class GameRoomComponent implements OnInit, OnDestroy {
               private location: Location, private homeObservable: HomeVisibleService) {}
 
   ngOnInit() {
+    /*  ------------- TESTING LEVELS ------------- */
+    setInterval(() => {
+      this.userService.addXp(20).subscribe();
+    }, 5000);
+    /*  ------------------------------------------ */
+
     this.homeObservable.emitNewState(true);
     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
-
     this.getData(roomId as number);
 
     this.joinRoomInterval = setInterval(() => {

@@ -8,18 +8,36 @@ import {NotifierService} from 'angular-notifier';
 import {HomeVisibleService} from './services/home-visible.service';
 import {NotificationType} from './model/notificationType';
 import {WebSocketService} from './services/web-socket.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({opacity: 1})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(500)
+      ]),
+      transition(':leave',
+        animate(500, style({opacity: 0})))
+    ])
+  ]
 })
 
 export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   homeVisible: Boolean;
   newNotification: Notification;
-  myself: User;
+  myself: User = User.create();
   ws: any;
+
+  // levels
+  xpLabel: String = '';
+  xpPrev: number;
+  levelPrev: number;
+  showXp: Boolean = false;
 
   constructor(private translate: TranslateService,
               private userService: UserService,
@@ -31,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.homeObservable.getState().subscribe(state => this.homeVisible = state);
+    this.homeObservable.getState().subscribe(newState => this.homeVisible = newState);
     this.checkIfAuthenticated();
   }
 
@@ -80,15 +98,19 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   private getCredentials() {
     this.userService.getMyself().subscribe(user => {
       this.myself = user;
-      this.initializeNotificationConnection();
+      this.xpPrev = user.xpTillNext;
+      this.levelPrev = user.level;
+      this.initializeConnections();
     });
   }
 
   /**
    * Shows _notifications to the screen if any are pushed by the web socket.
    */
-  private initializeNotificationConnection() {
+  private initializeConnections() {
     this.ws = this.webSocketService.connectUserService();
+
+    // Notification socket
     this.ws.connect({}, (frame) => {
       this.ws.subscribe('/user/receive-notification/' + this.myself.id, (message) => {
         if (message) {
@@ -99,6 +121,34 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       });
     });
+
+
+    // Level socket
+    this.ws.connect({}, (frame) => {
+      this.ws.subscribe('/user/receive-myself/' + this.myself.id, (message) => {
+        if (message) {
+          const user: User = JSON.parse(message.body) as User;
+          this.changeLevelParameters(user);
+        }
+      });
+    });
+  }
+
+  private changeLevelParameters(user: User) {
+    this.myself.xpTillNext = user.xpTillNext;
+    this.myself.thresholdTillNextLevel = user.thresholdTillNextLevel;
+    this.myself.level = user.level;
+
+    if (this.levelPrev !== user.level) {
+      this.xpLabel = 'LEVEL UP!';
+    } else {
+      this.xpLabel = '+ ' + (user.xpTillNext - this.xpPrev) + 'xp';
+    }
+    this.xpPrev = user.xpTillNext;
+    this.levelPrev = user.level;
+
+    this.showXp = true;
+    setTimeout(() => this.showXp = false, 3000);
   }
 
   private showNotification(not: Notification) {

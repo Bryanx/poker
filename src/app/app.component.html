@@ -2,8 +2,10 @@
   <img src="../assets/img/icons/home.svg">
 </div>
 <header class="hotbar">
-  <mat-progress-bar class="progress" mode="determinate" [value]="77"></mat-progress-bar>
-  <h2 class="level-header">{{myself.level}}</h2>
+  <h2 *ngIf="showXp" [@simpleFadeAnimation]="'in'" class="xpLabel">{{xpLabel}}</h2>
+  <mat-progress-bar *ngIf="hasAuthentication()" class="progress" mode="determinate"
+                    [value]="(myself.xpTillNext / myself.thresholdTillNextLevel) * 100"></mat-progress-bar>
+  <h2 *ngIf="hasAuthentication()" class="level-header">{{myself.level}}</h2>
   <app-notification *ngIf="hasAuthentication()"
                     [notifications]="newNotification"
                     (deleteEvent)="getAllNotifications()"

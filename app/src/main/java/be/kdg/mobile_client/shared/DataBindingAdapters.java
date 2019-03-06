@@ -74,12 +74,7 @@ public class DataBindingAdapters {
     public static void setCardSuit(ImageView view, String cardType) {
         if (cardType == null) return;
         StringBuilder type = new StringBuilder("card_symbol_");
-        switch (cardType.split("_")[2].toLowerCase()) {
-            case "diamonds": type.append("diamonds"); break;
-            case "spades": type.append("spades"); break;
-            case "hearts": type.append("hearts"); break;
-            case "clubs": type.append("clubs"); break;
-        }
+        type.append(cardType.split("_")[2].toLowerCase());
         int resourceId = view.getResources().getIdentifier(type.append("_small").toString(), "drawable",
                 view.getContext().getPackageName());
         view.setImageResource(resourceId);
@@ -92,6 +87,23 @@ public class DataBindingAdapters {
         } else {
             view.setTextColor(view.getContext().getColor(R.color.colorRed));
         }
+    }
+
+    @BindingAdapter("app:player_status_color")
+    public static void setPlayerStatusColor(TextView view, String cardType) {
+        if (cardType == null) {
+            view.setTextColor(view.getContext().getColor(R.color.colorTransparent));
+            return;
+        }
+        int resourceId = R.color.colorTransparent;
+        switch (cardType) {
+            case "FOLD": resourceId = R.color.colorRed;break;
+            case "CALL": resourceId = R.color.colorGreen;break;
+            case "RAISE": resourceId = R.color.colorYellow;break;
+            case "CHECK": resourceId = R.color.colorGreen;break;
+            case "UNDECIDED": resourceId = R.color.colorTransparent;
+        }
+        view.setTextColor(view.getContext().getColor(resourceId));
     }
 
     @BindingAdapter("app:card_suit_dimen")

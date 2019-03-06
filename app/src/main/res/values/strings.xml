@@ -82,4 +82,5 @@
     <string name="act_fold">FOLD</string>
     <string name="act_call">CALL</string>
     <string name="act_raise">RAISE</string>
+    <string name="act_check">CHECK</string>
 </resources>

@@ -48,6 +48,7 @@ public class RoomViewModel extends ViewModel {
                     roomRepo.listenOnRoomUpdate(roomId).subscribe(room::postValue, error -> notification.postValue(error.getMessage()));
                     roundRepo.listenOnRoundUpdate(roomId).subscribe(value -> {
                         round.postValue(value);
+                        updateRoomPlayers(value);
                         updatePlayer(value);
                         checkTurnByBlinds(value);
                     }, error -> notification.postValue(error.getMessage()));
@@ -55,6 +56,12 @@ public class RoomViewModel extends ViewModel {
                     roomRepo.joinRoom(roomId).subscribe(player::postValue, error -> notification.postValue(error.getMessage()));
                     roomRepo.listenOnActUpdate(roomId).subscribe(this::onNewAct, error -> notification.postValue(error.getMessage()));
                 }, error -> notification.postValue(error.getMessage()));
+    }
+
+    private void updateRoomPlayers(Round rnd) {
+        Room tempRoom = room.getValue();
+        tempRoom.setPlayersInRoom(rnd.getPlayersInRound());
+        room.setValue(tempRoom);
     }
 
     private void updatePlayer(Round rnd) {
@@ -105,10 +112,14 @@ public class RoomViewModel extends ViewModel {
         int roomId = room.getValue().getId();
         Act act = new Act(rnd.getId(), me.getUserId(), me.getId(), roomId, actType,
                 rnd.getCurrentPhase(), 0, 0, "");
-        roundRepo.addAct(act).subscribe(e ->{}, e -> {});
+        roundRepo.addAct(act).subscribe(e ->{},  error -> notification.postValue(error.getMessage()));
     }
 
     public void onValueChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
         seekBarValue.set(progresValue + "");
+    }
+
+    public Player getPlayer(int id) {
+        return room.getValue().getPlayersInRoom().get(id);
     }
 }

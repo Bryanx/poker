@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import be.kdg.mobile_client.model.Token;
 import be.kdg.mobile_client.repos.RoomRepository;
 import be.kdg.mobile_client.repos.RoundRepository;
+import be.kdg.mobile_client.repos.UserRepository;
 import be.kdg.mobile_client.services.ChatService;
 import be.kdg.mobile_client.services.RoomService;
 import be.kdg.mobile_client.services.RoundService;
@@ -168,6 +169,10 @@ public class ControllerModule {
         return new RoomViewModel(roomRepo, roundRepo);
     }
 
+    @Provides
+    UserRepository userRepository(UserService userService) {
+        return new UserRepository(userService);
+    }
     @Provides
     RoomRepository roomRepository(WebSocketService webSocketService) {
         return new RoomRepository(roomService(), webSocketService);

@@ -64,7 +64,7 @@ public class RoomRepository {
         onErrorMsg = "Could not receive room update: " + roomId;
         return webSocketService.watch("/room/receive-room/" + roomId, Room.class)
                 .doOnError(this::logError)
-                .doAfterNext(next -> getCurrentRound(roomId).subscribe());
+                .doAfterNext(next -> getCurrentRound(roomId).subscribe(e->{},e->{}));
     }
 
     public synchronized Flowable<Act> listenOnActUpdate(int roomId) {

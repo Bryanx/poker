@@ -20,6 +20,16 @@
         android:background="@color/colorDarkerBackground">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@{viewmodel.room.name}"
+            android:textSize="@dimen/smallest_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/vSliderValue"
             android:layout_width="60dp"
             android:layout_height="60dp"

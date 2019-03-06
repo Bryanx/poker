@@ -21,10 +21,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/rounded_corners_white">
+        android:background="@{isHidden ? @drawable/rounded_corners_dark : @drawable/rounded_corners_white}">
 
         <ImageView
             android:id="@+id/icon1"
+            android:visibility="@{!isHidden}"
             android:layout_width="@dimen/card_height_small"
             android:layout_height="@dimen/card_width_small"
             android:layout_marginBottom="2dp"
@@ -37,6 +38,7 @@
 
         <TextView
             android:id="@+id/textView"
+            android:visibility="@{!isHidden}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -53,6 +55,7 @@
 
         <ImageView
             android:id="@+id/icon2"
+            android:visibility="@{!isHidden}"
             android:layout_width="@dimen/card_height_small"
             android:layout_height="@dimen/card_width_small"
             android:layout_marginTop="2dp"

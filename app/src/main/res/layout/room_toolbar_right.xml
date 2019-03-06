@@ -33,15 +33,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btnCall"
+            android:id="@+id/btnCheck"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
-            android:text="@string/act_call"
+            android:text="@string/act_check"
             android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
             android:background="@{viewmodel.myTurn ? @drawable/circle_green : @drawable/circle_grey}"
             android:clickable="@{viewmodel.myTurn}"
-            android:onClick="@{() -> viewmodel.onAct(ActType.CALL)}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.CHECK)}"
             app:layout_constraintBottom_toTopOf="@+id/btnFold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

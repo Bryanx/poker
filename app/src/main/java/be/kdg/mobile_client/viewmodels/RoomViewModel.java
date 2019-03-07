@@ -1,12 +1,9 @@
 package be.kdg.mobile_client.viewmodels;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
-import android.widget.SeekBar;
 
 import javax.inject.Inject;
 
-import androidx.databinding.ObservableField;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.model.Act;
@@ -16,12 +13,14 @@ import be.kdg.mobile_client.model.Room;
 import be.kdg.mobile_client.model.Round;
 import be.kdg.mobile_client.repos.RoomRepository;
 import be.kdg.mobile_client.repos.RoundRepository;
-import be.kdg.mobile_client.services.SharedPrefService;
 import lombok.Getter;
 import lombok.Setter;
 
 /**
- * Main viewmodel for joining a room and fetching its state.
+ * The main viewmodel for joining a room and fetching its state.
+ * It works similarly to a Presenter in the MVP pattern.
+ * The LiveData variables are directly linked and accessible from the layout.
+ * When the LiveData variables change, the bound data in the layout is subsequently changed.
  */
 @SuppressLint("CheckResult")
 public class RoomViewModel extends ViewModel {
@@ -30,9 +29,9 @@ public class RoomViewModel extends ViewModel {
     @Getter MutableLiveData<Room> room = new MutableLiveData<>();
     @Getter MutableLiveData<Round> round = new MutableLiveData<>();
     @Getter MutableLiveData<Player> player = new MutableLiveData<>();
-    @Getter MutableLiveData<String> notification = new MutableLiveData<>();
+    @Getter MutableLiveData<String> toast = new MutableLiveData<>();
     @Getter MutableLiveData<Boolean> myTurn = new MutableLiveData<>();
-    @Getter ObservableField<String> seekBarValue = new ObservableField<>(0+"");
+    @Getter @Setter MutableLiveData<Integer> seekBarValue = new MutableLiveData<>();
 
     @Inject
     public RoomViewModel(RoomRepository roomRepo, RoundRepository roundRepo) {
@@ -40,22 +39,25 @@ public class RoomViewModel extends ViewModel {
         this.roundRepo = roundRepo;
     }
 
+    /**
+     * Setup initial room connection
+     */
     public void init(int roomId) {
         roomRepo.findById(roomId)
                 .subscribe(next -> {
                     if (playerCapReached(next)) return;
                     room.setValue(next);
-                    roomRepo.listenOnRoomUpdate(roomId).subscribe(room::postValue, error -> notification.postValue(error.getMessage()));
+                    roomRepo.listenOnRoomUpdate(roomId).subscribe(room::postValue, this::notifyUser);
                     roundRepo.listenOnRoundUpdate(roomId).subscribe(value -> {
                         round.postValue(value);
                         updateRoomPlayers(value);
                         updatePlayer(value);
                         checkTurnByBlinds(value);
-                    }, error -> notification.postValue(error.getMessage()));
+                    }, this::notifyUser);
                     //TODO: initializeWinnerConnection();
-                    roomRepo.joinRoom(roomId).subscribe(player::postValue, error -> notification.postValue(error.getMessage()));
-                    roomRepo.listenOnActUpdate(roomId).subscribe(this::onNewAct, error -> notification.postValue(error.getMessage()));
-                }, error -> notification.postValue(error.getMessage()));
+                    roomRepo.joinRoom(roomId).subscribe(player::postValue, this::notifyUser);
+                    roomRepo.listenOnActUpdate(roomId).subscribe(this::onNewAct, this::notifyUser);
+                }, this::notifyUser);
     }
 
     private void updateRoomPlayers(Round rnd) {
@@ -84,6 +86,9 @@ public class RoomViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Check if its my turn by looking at the blinds
+     */
     private void checkTurnByBlinds(Round rnd) {
         if (rnd == null) return;
         int nextPlayerIndex = rnd.getButton() >= rnd.getPlayersInRound().size() - 1 ? 0 : rnd.getButton() + 1;
@@ -102,24 +107,31 @@ public class RoomViewModel extends ViewModel {
                 round.getValue().getCards().get(index) != null;
     }
 
-    public void leaveRoom() {
-        roomRepo.leaveRoom(room.getValue().getId()).subscribe(e ->{}, e -> {});
-    }
-
+    /**
+     * This method is called when the user clicks on an act
+     */
     public void onAct(ActType actType) {
         Player me = player.getValue();
         Round rnd = round.getValue();
         int roomId = room.getValue().getId();
         Act act = new Act(rnd.getId(), me.getUserId(), me.getId(), roomId, actType,
                 rnd.getCurrentPhase(), 0, 0, "");
-        roundRepo.addAct(act).subscribe(e ->{},  error -> notification.postValue(error.getMessage()));
+        if (actType == ActType.RAISE || actType == ActType.CALL) {
+            final int bet = seekBarValue.getValue();
+            act.setBet(bet);
+            act.setTotalBet(bet);
+        }
+        roundRepo.addAct(act).subscribe(e -> seekBarValue.setValue(0),  this::notifyUser);
     }
 
-    public void onValueChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-        seekBarValue.set(progresValue + "");
+    /**
+     * Update the toast livedata variable, RoomActivity listens on this variable and shows a toast
+     */
+    public void notifyUser(Throwable throwable) {
+        toast.postValue(throwable.getMessage());
     }
 
-    public Player getPlayer(int id) {
-        return room.getValue().getPlayersInRoom().get(id);
+    public void leaveRoom() {
+        roomRepo.leaveRoom(room.getValue().getId()).subscribe(e -> {}, this::notifyUser);
     }
 }

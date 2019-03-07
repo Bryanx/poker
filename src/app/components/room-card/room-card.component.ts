@@ -37,7 +37,7 @@ export class RoomCardComponent {
   determineSecondClass() {
     if (this.inSettingMode) {
       return 'enabled-settings';
-    } else if (this.isFull() || this.me.level < this.room.gameRules.minLevel ) {
+    } else if ((this.isFull() || this.me.level < this.room.gameRules.minLevel) && !this.isAdmin) {
       return 'disabled';
     } else {
       return 'enabled';

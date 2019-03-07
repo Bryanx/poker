@@ -121,7 +121,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
       // Notification socket
       this.ws.subscribe('/user/receive-notification/' + this.myself.id, (message) => {
         if (message) {
-          console.log('YAS');
           const not: Notification = JSON.parse(message.body) as Notification;
           this.userService.readNotification(not.id).subscribe();
           this.showNotification(not);
@@ -145,6 +144,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.levelPrev = user.level;
 
     if (user.xpTillNext - this.xpPrev !== 0) {
+      console.log('DIFFERENT!');
       this.xpPrev = user.xpTillNext;
       this.showXp = true;
       setTimeout(() => this.showXp = false, 3000);

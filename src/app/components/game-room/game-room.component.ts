@@ -95,7 +95,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
           }
 
           this.round = round;
-          console.log(this.round);
+          // console.log(this.round);
           this.updatePlayersInRound();
           const localPlayer = this.round.playersInRound.find(player => player.userId === this.authorizationService.getUserId());
           if (localPlayer !== null) {

@@ -10,6 +10,7 @@ import javax.inject.Named;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.R;
@@ -58,34 +59,28 @@ public class RoomActivity extends BaseActivity {
     private void setUpChatFragment() {
         chatFragment = (ChatFragment) fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
         chatFragment.connectChat(roomId, chatService, sharedPrefService.getToken(this).getUsername());
-        hideFragment(chatFragment); // initially hide the chatfragment
+        newTransaction().hide(chatFragment).commit(); // initially hide the chatfragment
     }
 
     private void addEventHandlers() {
         btnShowChat.setOnClickListener(e -> {
             if (chatFragment != null && chatFragment.isHidden()) {
-                showFragment(chatFragment);
+                newTransaction().show(chatFragment).commit();
             } else {
-                hideFragment(chatFragment);
+                newTransaction().hide(chatFragment).commit();
             }
         });
-        viewModel.getNotification().observe(this, message -> {
+        viewModel.getToast().observe(this, message -> {
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         });
     }
 
-    private void showFragment(ChatFragment fragment) {
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left)
-                .show(fragment)
-                .commit();
-    }
-
-    private void hideFragment(Fragment fragment) {
-        fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left)
-                .hide(fragment)
-                .commit();
+    /**
+     * Create a fragment transaction with sliding animation
+     */
+    private FragmentTransaction newTransaction() {
+        return fragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left);
     }
 
     @Override

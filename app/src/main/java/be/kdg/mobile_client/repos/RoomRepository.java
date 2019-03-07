@@ -16,6 +16,10 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import retrofit2.Response;
 
+/**
+ * Repository class for all room related api calls.
+ * Also includes websocket subscriptions.
+ */
 @Singleton
 @SuppressLint("CheckResult")
 public class RoomRepository {

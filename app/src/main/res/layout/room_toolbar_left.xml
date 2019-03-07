@@ -62,7 +62,7 @@
                 android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:enabled="@{viewmodel.myTurn}"
-                android:onProgressChanged="@{viewmodel.onValueChanged}"
+                android:progress="@={viewmodel.seekBarValue}"
                 android:rotation="270" />
 
         </FrameLayout>

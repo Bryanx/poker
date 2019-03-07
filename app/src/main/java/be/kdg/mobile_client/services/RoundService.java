@@ -9,6 +9,9 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
+/**
+ * Service where all api calls to /api/rounds are done.
+ */
 public interface RoundService {
 
     @Headers({"Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})

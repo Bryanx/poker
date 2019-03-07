@@ -25,7 +25,7 @@ public class SharedPrefService {
     }
 
     /**
-     * Reads token from shared preferences.
+     * Checks if there is a token in shared preferences.
      */
     public boolean hasToken(Context ctx) {
         SharedPreferences sharedPref = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);

@@ -3,39 +3,20 @@ package be.kdg.mobile_client.shared;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import androidx.databinding.BindingAdapter;
 import androidx.databinding.adapters.SeekBarBindingAdapter;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.model.ActType;
-import be.kdg.mobile_client.model.Card;
 
 /**
  * Extends several databinding keywords in layout files.
  */
 public class DataBindingAdapters {
-
-    @BindingAdapter("layout_width")
-    public static void setLayoutWidth(ImageView view, float width) {
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.width = (int) width;
-        view.setLayoutParams(layoutParams);
-    }
-
-    @BindingAdapter("layout_height")
-    public static void setLayoutHeight(ImageView view, float height) {
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int) height;
-        view.setLayoutParams(layoutParams);
-    }
 
     @BindingAdapter("android:src")
     public static void setImageUri(ImageView view, String base64image) {
@@ -125,14 +106,6 @@ public class DataBindingAdapters {
     @BindingAdapter("android:visibility")
     public static void setVisibilityByBoolean(View view, Boolean bool) {
         view.setVisibility(bool ? View.VISIBLE : View.GONE);
-    }
-
-    /**
-     * on change listener for seekbar
-     */
-    @BindingAdapter("android:onProgressChanged")
-    public static void setListener(SeekBar view, SeekBarBindingAdapter.OnProgressChanged listener) {
-        setListener(view, listener);
     }
 
     /**

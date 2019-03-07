@@ -1,6 +1,5 @@
 package be.kdg.mobile_client.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,9 +18,11 @@ import butterknife.ButterKnife;
  */
 public class MenuActivity extends BaseActivity {
     @BindView(R.id.btnLogout) Button btnLogout;
-    @BindView(R.id.btnJoinGame) Button btnJoinGame;
+    @BindView(R.id.btnPublicGame) Button btnPublicGame;
+    @BindView(R.id.btnPrivateGame) Button btnPrivateGame;
     @BindView(R.id.btnFriends) Button btnFriends;
     @BindView(R.id.btnRankings) Button btnRankings;
+    @BindView(R.id.btnSettings) Button btnSettings;
     @BindView(R.id.ivLogo) ImageView ivLogo;
     @Inject SharedPrefService sharedPrefService;
 
@@ -45,9 +46,11 @@ public class MenuActivity extends BaseActivity {
     }
 
     private void addEventHandlers() {
-        btnJoinGame.setOnClickListener(e -> navigateTo(OverviewActivity.class));
+        btnPublicGame.setOnClickListener(e -> navigateTo(OverviewActivity.class, "TYPE", "PUBLIC"));
+        btnPrivateGame.setOnClickListener(e -> navigateTo(OverviewActivity.class, "TYPE", "PRIVATE"));
         btnFriends.setOnClickListener(e -> navigateTo(FriendsActivity.class));
         btnRankings.setOnClickListener(e -> navigateTo(RankingsActivity.class));
+        btnSettings.setOnClickListener(e -> navigateTo(AccountSettingsActivity.class));
         btnLogout.setOnClickListener(e -> {
             sharedPrefService.saveToken(this, null); // remove token
             navigateTo(MainActivity.class);

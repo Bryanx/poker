@@ -1,6 +1,5 @@
 package be.kdg.mobile_client.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -10,7 +9,6 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.model.Register;
 import be.kdg.mobile_client.services.SharedPrefService;
 import butterknife.BindView;
 import butterknife.ButterKnife;

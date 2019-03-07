@@ -1,6 +1,5 @@
 package be.kdg.mobile_client.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -12,9 +11,9 @@ import javax.inject.Inject;
 
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.model.Token;
-import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.services.SharedPrefService;
 import be.kdg.mobile_client.services.UserService;
+import be.kdg.mobile_client.shared.CallbackWrapper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

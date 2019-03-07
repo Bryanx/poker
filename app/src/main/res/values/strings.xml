@@ -19,10 +19,10 @@
     <string name="no_account_message">I don\'t have an account bro :-(</string>
 
     <!-- Main menu -->
-    <string name="join_game">JOIN GAME</string>
+    <string name="public_game">PUBLIC GAME</string>
     <string name="settings">SETTINGS</string>
     <string name="friends">FRIENDS</string>
-    <string name="replays">REPLAYS</string>
+    <string name="private_game">PRIVATE GAME</string>
     <string name="rankings">RANKINGS</string>
     <string name="logout">LOGOUT</string>
 
@@ -81,4 +81,10 @@
     <string name="room_id">ROOM_ID</string>
     <string name="fold">FOLD</string>
     <string name="call">CALL</string>
+
+    <!-- account settings -->
+    <string name="firstname">First name</string>
+    <string name="lastname">Last name</string>
+    <string name="update">Update</string>
+    <string name="update_account_settings">Update account settings</string>
 </resources>

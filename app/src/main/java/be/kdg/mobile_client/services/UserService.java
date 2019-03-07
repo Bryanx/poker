@@ -9,6 +9,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -39,4 +40,9 @@ public interface UserService {
     @Headers({"Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
     @PUT("/api/user")
     Call<Token> changeUser(@Body User user);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+            "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
+    @PATCH("/api/user")
+    Call<Token> changePassword(@Body Register authDTO);
 }

@@ -35,6 +35,7 @@
         </activity>
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".activities.MenuActivity" />
+        <activity android:name=".activities.AccountSettingsActivity" />
     </application>
 
 </manifest>

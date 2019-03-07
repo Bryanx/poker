@@ -3,6 +3,7 @@ package be.kdg.mobile_client.dagger.components;
 import javax.inject.Singleton;
 
 import be.kdg.mobile_client.activities.AccountActivity;
+import be.kdg.mobile_client.activities.AccountSettingsActivity;
 import be.kdg.mobile_client.activities.FriendsActivity;
 import be.kdg.mobile_client.activities.LoginActivity;
 import be.kdg.mobile_client.activities.MainActivity;
@@ -41,6 +42,7 @@ public interface ControllerComponent {
     void inject(UserSearchActivity userSearchActivity);
     void inject(UserViewModel userViewModel);
     void inject(StompClient stompClient);
+    void inject(AccountSettingsActivity accountSettingsActivity);
     void inject(RoomService roomService);
     WebSocketService websocketService();
     ChatService chatService();

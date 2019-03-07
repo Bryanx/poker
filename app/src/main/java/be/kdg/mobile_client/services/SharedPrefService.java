@@ -2,11 +2,15 @@ package be.kdg.mobile_client.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.model.JWTBody;
 import be.kdg.mobile_client.model.Token;
+import be.kdg.mobile_client.shared.JWTUtils;
 
 /**
  * Service for shared preferences (local storage)
@@ -47,6 +51,20 @@ public class SharedPrefService {
             return null;
         }
         return new Gson().fromJson(json, Token.class);
+    }
+
+    public String getUserId(Context ctx) {
+        Token token = this.getToken(ctx);
+        String tokenBody = "";
+        try {
+            tokenBody = JWTUtils.decodeJWTBody(token.getAccessToken());
+        } catch (Exception e) {
+            Log.e("Can't decode JWTBody", "Unable to decode body of JWTBody used for user");
+        }
+
+        Gson gson = new GsonBuilder().create();
+        JWTBody jwtBody = gson.fromJson(tokenBody, JWTBody.class);
+        return jwtBody.getUuid();
     }
 
 }

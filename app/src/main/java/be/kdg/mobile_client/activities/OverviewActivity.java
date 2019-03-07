@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,6 +23,7 @@ import be.kdg.mobile_client.services.UserService;
 import be.kdg.mobile_client.shared.CallbackWrapper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
@@ -50,8 +52,15 @@ public class OverviewActivity extends BaseActivity {
     }
 
     private void getRooms() {
-        roomService.getRooms().observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::initializeAdapter, error -> {
+        Observable<List<Room>> roomObs;
+
+        if (getIntent().getStringExtra("TYPE").equals("PUBLIC")) {
+            roomObs = roomService.getRooms().observeOn(AndroidSchedulers.mainThread());
+        } else {
+            roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
+        }
+
+        roomObs.subscribe(this::initializeAdapter, error -> {
                     Toast.makeText(this, "Failed to connect", Toast.LENGTH_LONG).show();
                     Log.e("OverviewActivity", error.getMessage());
                 });

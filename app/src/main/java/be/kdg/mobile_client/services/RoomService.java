@@ -2,7 +2,6 @@ package be.kdg.mobile_client.services;
 
 import java.util.List;
 
-import be.kdg.mobile_client.model.Act;
 import be.kdg.mobile_client.model.Player;
 import be.kdg.mobile_client.model.Room;
 import io.reactivex.Observable;
@@ -18,6 +17,9 @@ import retrofit2.http.Path;
 public interface RoomService {
     @GET("/api/rooms")
     Observable<List<Room>> getRooms();
+
+    @GET("/api/rooms/private")
+    Observable<List<Room>> getPrivateRooms();
 
     @GET("/api/rooms/{id}")
     Observable<Room> getRoom(@Path("id") int id);

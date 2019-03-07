@@ -14,28 +14,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.AccountActivity"></activity>
-        <activity android:name=".activities.RankingsActivity" />
-        <activity android:name=".activities.FriendsActivity" />
+        <activity android:name=".user.UserActivity"></activity>
+        <activity android:name=".user.rankings.RankingsActivity" />
+        <activity android:name=".friends.FriendsActivity" />
         <activity
-            android:name=".activities.RegisterActivity"
+            android:name=".user.authorization.RegisterActivity"
             android:label="@string/title_activity_register" />
-        <activity android:name=".activities.OverviewActivity" />
+        <activity android:name=".room.overview.RoomOverviewActivity" />
         <activity
-            android:name=".activities.UserSearchActivity" />
+            android:name=".user.search.UserSearchActivity" />
         <activity
-            android:name=".activities.RoomActivity"
+            android:name=".room.RoomActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.MenuActivity" />
-        <activity android:name=".activities.AccountSettingsActivity" />
+        <activity android:name=".user.authorization.LoginActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".user.settings.UserSettingsActivity" />
     </application>
 
 </manifest>

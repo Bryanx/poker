@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.RoomActivity">
+    tools:context=".room.RoomActivity">
 
     <data>
         <variable
@@ -15,7 +15,7 @@
 
         <variable
             name="card"
-            type="be.kdg.mobile_client.model.Card" />
+            type="be.kdg.mobile_client.room.model.Card" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

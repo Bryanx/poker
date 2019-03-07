@@ -3,9 +3,9 @@ package be.kdg.mobile_client;
 import android.app.Application;
 
 import androidx.annotation.UiThread;
-import be.kdg.mobile_client.dagger.components.AppComponent;
-import be.kdg.mobile_client.dagger.modules.AppModule;
-import be.kdg.mobile_client.dagger.components.DaggerAppComponent;
+import be.kdg.mobile_client.shared.di.components.AppComponent;
+import be.kdg.mobile_client.shared.di.modules.AppModule;
+import be.kdg.mobile_client.shared.di.components.DaggerAppComponent;
 
 /**
  * Overrides the default Application file.

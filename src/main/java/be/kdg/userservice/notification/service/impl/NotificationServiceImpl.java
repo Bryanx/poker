@@ -30,6 +30,17 @@ public class NotificationServiceImpl implements NotificationService {
     private final UserService userService;
     private final NotificationRepository notificationRepository;
 
+    /**
+     * Adds a notification to the system.
+     *
+     * @param senderId The Id of the person that send the notification.
+     * @param receiverId
+     * @param message
+     * @param type
+     * @param ref
+     * @return
+     * @throws UserException
+     */
     @Override
     public Notification addNotification(String senderId, String receiverId, String message, NotificationType type, String ref) throws UserException {
         //Get data
@@ -56,6 +67,11 @@ public class NotificationServiceImpl implements NotificationService {
     public List<Notification> getNotificationsForUser(String userId) {
         List<Notification> notifications = userService.findUserById(userId).getNotifications();
         return Collections.unmodifiableList(notifications);
+    }
+
+    @Override
+    public List<Notification> getNotificationsForType(NotificationType type) {
+        return Collections.unmodifiableList(notificationRepository.findAllByType(type));
     }
 
     @Override

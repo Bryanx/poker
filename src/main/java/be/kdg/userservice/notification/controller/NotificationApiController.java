@@ -3,9 +3,12 @@ package be.kdg.userservice.notification.controller;
 import be.kdg.userservice.notification.controller.dto.NotificationDTO;
 import be.kdg.userservice.notification.exception.NotificationException;
 import be.kdg.userservice.notification.model.Notification;
+import be.kdg.userservice.notification.model.NotificationType;
 import be.kdg.userservice.notification.service.api.NotificationService;
 import be.kdg.userservice.user.exception.UserException;
+import be.kdg.userservice.user.service.api.UserService;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Not;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +33,7 @@ public class NotificationApiController {
     private static final String ID_KEY = "uuid";
     private final ResourceServerTokenServices resourceTokenServices;
     private final NotificationService notificationService;
+    private final UserService userService;
     private final ModelMapper modelMapper;
     private final SimpMessagingTemplate template;
 
@@ -62,6 +66,19 @@ public class NotificationApiController {
     }
 
     /**
+     * Gets all the admin notifications
+     *
+     * @return status code 200 will all the corresponding notifications.
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/user/notifications/public")
+    public ResponseEntity<NotificationDTO[]> getAdminNotifications() {
+        List<Notification> notifications = notificationService.getNotificationsForType(NotificationType.GLOBAL_MESSAGE);
+        NotificationDTO[] notificationsOut = modelMapper.map(notifications, NotificationDTO[].class);
+        return new ResponseEntity<>(notificationsOut, HttpStatus.OK);
+    }
+
+    /**
      * This api will sent a notification via a web socket to another person
      *
      * @param authentication Used for retrieving the user id of the current user.
@@ -75,6 +92,19 @@ public class NotificationApiController {
                 notificationDTO.getMessage(), notificationDTO.getType(), notificationDTO.getRef());
         NotificationDTO notificationOut = modelMapper.map(notificationIn, NotificationDTO.class);
         this.template.convertAndSend("/user/receive-notification/" + receiverId, notificationOut);
+    }
+
+    /**
+     * Sends a global message to all the users.
+     *
+     * @param notificationDTO The notification that needs to be sent.
+     */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/user/notifications/admin")
+    public void sendPublicNotification(@RequestBody @Valid NotificationDTO notificationDTO) {
+        userService.getUsers("ROLE_USER").forEach(user -> {
+            this.template.convertAndSend("/user/receive-notification/" + user.getId() , notificationDTO);
+        });
     }
 
     /**

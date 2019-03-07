@@ -14,6 +14,8 @@ public interface NotificationService {
 
     List<Notification> getNotificationsForUser(String userId);
 
+    List<Notification> getNotificationsForType(NotificationType type);
+
     List<Notification> getUnreadNotificationsForUser(String userId);
 
     void deleteAllNotifications(String userId) throws UserException;

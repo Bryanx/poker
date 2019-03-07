@@ -1,6 +1,6 @@
 <h1>{{'ANNOUNCE SOMETHING' | translate | uppercase}}</h1>
 
-<section class="message-bar">
+<section class="message-bar" >
   <input type="text" placeholder="Your message" [(ngModel)]="inputString">
   <button (click)="sendMessage()" class="message-button">SEND</button>
 </section>
@@ -9,10 +9,12 @@
 <h2 *ngIf="notifications.length <= 0">No older messages</h2>
 
 <section class="message-section">
-  <div class="message-row" *ngFor="let not of notifications" [@simpleFadeAnimation]="'in'" routerLink="/user/{{user.id}}">
+  <div class="message-row" *ngFor="let not of notifications" [@simpleFadeAnimation]="'in'">
     {{not.message}}
     <div class="delete-message" (click)="removeNotification(not.id)">
       <fa name="plus"></fa>
     </div>
   </div>
 </section>
+
+<button class="back-button" routerLink="/">{{'BACK' | translate | titlecase}}</button>

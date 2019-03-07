@@ -69,6 +69,10 @@ export class UserService {
     return this.http.post<Auth>(this.url, user);
   }
 
+  getAdminNotifications(): Observable<Notification[]> {
+    return this.http.get<Notification[]>(this.url + '/notifications/admin');
+  }
+
   /**
    * Sent a notification to a specific user
    *
@@ -77,6 +81,10 @@ export class UserService {
    */
   sendNotification(receiverId: string, not: Notification): Observable<Notification> {
     return this.http.post<Notification>(this.url + '/' + receiverId + '/send-notification', not);
+  }
+
+  sendPublicNotification(not: Notification): Observable<Notification> {
+    return this.http.post<Notification>(this.url + '/notifications/public', not);
   }
 
   /**

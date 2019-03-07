@@ -25,4 +25,6 @@ public interface UserService {
     User changeUserRoleToAdmin(User user) throws UserException;
 
     User changeUserRoleToUser(User user) throws UserException;
+
+    User addExperience(String id, int xp);
 }

@@ -45,7 +45,6 @@ public class UserServiceTest extends UtilTesting {
         assertTrue(userService.getUsersByName(TESTABLE_USER_NAME2).get(0).getUsername().contains(TESTABLE_USER_NAME2));
     }
 
-    //TODO: fix test.
     @Test
     public void addAndDeleteFriends() throws Exception {
         //Prep
@@ -80,4 +79,17 @@ public class UserServiceTest extends UtilTesting {
         assertEquals(0, test1.getFriends().size());
     }
 
+    @Test
+    public void addXp() {
+        User user1 = userService.addExperience(testableUserId1, 100);
+        assertEquals(2, user1.getLevel());
+        User user2 = userService.addExperience(testableUserId2, 90);
+        assertEquals(1, user2.getLevel());
+
+        //Test leveling multiple levels at once
+        int chipsThen = user1.getChips();
+        user1 = userService.addExperience(testableUserId1, 10000);
+        assertTrue(user1.getLevel() > 6);
+        assertTrue(user1.getChips() > chipsThen);
+    }
 }

@@ -19,4 +19,7 @@ public class UserDto {
     private int gamesPlayed;
     private String bestHand;
     private int enabled;
+    private int level;
+    private int thresholdTillNextLevel;
+    private int xpTillNext;
 }

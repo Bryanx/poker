@@ -32,6 +32,9 @@ public class User {
     private int wins;
     private int gamesPlayed;
     private String bestHand;
+    private int level;
+    private int thresholdTillNextLevel;
+    private int xpTillNext;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
@@ -42,6 +45,8 @@ public class User {
     private List<Friend> friends;
 
     public User() {
+        this.level = 1;
+        this.thresholdTillNextLevel = 100;
         this.friends = new ArrayList<>();
         this.notifications = new ArrayList<>();
     }

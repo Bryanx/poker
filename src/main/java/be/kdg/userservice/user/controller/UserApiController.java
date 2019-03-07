@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,8 +37,10 @@ public class UserApiController {
     private static final String ID_KEY = "uuid";
     private final ResourceServerTokenServices resourceTokenServices;
     private final AuthorizationServerTokenServices authorizationServerTokenServices;
+    private final SimpMessagingTemplate template;
     private final UserService userService;
     private final ModelMapper modelMapper;
+
 
     /**
      * Rest endpoint that returns the user based on his JWT.
@@ -45,7 +48,7 @@ public class UserApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/user")
     public ResponseEntity<UserDto> getUser(OAuth2Authentication authentication) {
-        User user = userService.findUserById(getUserInfo(authentication).get(ID_KEY).toString());
+        User user = userService.findUserById(getUserId(authentication));
         UserDto userDto = modelMapper.map(user, UserDto.class);
 
         if (user.getProfilePictureBinary() != null) {
@@ -183,6 +186,7 @@ public class UserApiController {
         }
 
         User userOut = userService.changeUser(userIn);
+        this.template.convertAndSend("/user/receive-myself/" + userDto.getId(), userOut);
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
     }
 
@@ -194,8 +198,22 @@ public class UserApiController {
     public ResponseEntity<UserDto> changePassword(@Valid @RequestBody AuthDto authDto) throws UserException {
         User userIn = modelMapper.map(authDto, User.class);
         User userOut = userService.changePassword(userIn);
-
         return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.OK);
+    }
+
+    /**
+     * This api will add xp to the current user.
+     * After that, the api will push the new user to a web socket connection.
+     *
+     * @param xp             The xp that needs to be added.
+     * @param authentication The user itself
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/user/level/{xp}")
+    public void addXp(@PathVariable int xp, OAuth2Authentication authentication) {
+        User user = userService.addExperience(getUserId(authentication), xp);
+        UserDto userDTO = modelMapper.map(user, UserDto.class);
+        this.template.convertAndSend("/user/receive-myself/" + getUserId(authentication), userDTO);
     }
 
     /**
@@ -213,9 +231,10 @@ public class UserApiController {
      * @param authentication Needed as authentication.
      * @return Gives back the details of a specific user.
      */
-    private Map<String, Object> getUserInfo(OAuth2Authentication authentication) {
+    private String getUserId(OAuth2Authentication authentication) {
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
+        return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue())
+                .getAdditionalInformation().get(ID_KEY).toString();
     }
 
     /**

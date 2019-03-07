@@ -22,12 +22,4 @@ public class ActDTO {
     private int totalBet;
     private String nextUserId;
     private boolean allIn;
-
-    public ActDTO(String userId, int roundId, ActType type, Phase phase, int bet) {
-        this.userId = userId;
-        this.roundId = roundId;
-        this.type = type;
-        this.phase = phase;
-        this.bet = bet;
-    }
 }

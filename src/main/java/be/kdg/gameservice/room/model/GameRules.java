@@ -1,7 +1,6 @@
 package be.kdg.gameservice.room.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -48,12 +47,24 @@ public final class GameRules {
      */
     private int maxPlayerCount;
 
-    public GameRules(int smallBlind, int bigBlind, int playDelay, int startingChips, int maxPlayerCount) {
+    /**
+     * Min level required to join.
+     */
+    private int minLevel;
+
+    /**
+     * Max level. Beyond this level, you can no longer join this room.
+     */
+    private int maxLevel;
+
+    public GameRules(int smallBlind, int bigBlind, int playDelay, int startingChips, int maxPlayerCount, int minLevel, int maxLevel) {
         this.smallBlind = smallBlind;
         this.bigBlind = bigBlind;
         this.playDelay = playDelay;
         this.startingChips = startingChips;
         this.maxPlayerCount = maxPlayerCount;
+        this.minLevel = minLevel;
+        this.maxLevel = maxLevel;
     }
 
     public GameRules() {

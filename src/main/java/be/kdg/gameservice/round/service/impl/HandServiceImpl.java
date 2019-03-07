@@ -17,12 +17,17 @@ public final class HandServiceImpl implements HandService {
      * Used for calculating HandType based on index in string
      */
     private final static String ranks = "AKQJT98765432";
+
+    /**
+     * All the suits.
+     */
     private final static String suits = "hdsc";
 
     /**
      * Generate all subsets of 5 out of 5-7 and return best HandType out of all combinations
      * @param playerCards list of 5-7 cards
-     * @return
+     *
+     * @return The best possible hand.
      */
     @Override
     public Hand determineBestPossibleHand(List<Card> playerCards) {
@@ -41,8 +46,9 @@ public final class HandServiceImpl implements HandService {
 
     /**
      * Determine HandType based on list of 5 cards.
-     * @param hand
-     * @return
+     *
+     * @param hand All the cards that a player has in his hands.
+     * @return The correct hand type.
      */
     private Hand determineHandType(List<Card> hand) {
         // This algorithms only works for 5 cards
@@ -113,8 +119,10 @@ public final class HandServiceImpl implements HandService {
         return new Hand(HandType.HIGH_CARD, hand);
     }
 
+    //TODO: maarten, document the parameters.
     /**
      * Creates all subsets of size k based on superSet
+     *
      * @param superSet
      * @param k
      * @param idx

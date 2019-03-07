@@ -65,9 +65,15 @@ public enum HandType {
      */
     STRAIGHT_FLUSH(9);
 
+    /**
+     * The socre of the card. The higher the score, the better the hand.
+     */
     @Getter
     private final int score;
 
+    /**
+     * @param score The score of the hand.
+     */
     HandType(int score) {
         this.score = score;
     }

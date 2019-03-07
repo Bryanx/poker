@@ -9,6 +9,7 @@ import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.shared.AuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,19 +24,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
- * You can extend from this class if you want to do immutability testing in your junit tests.
+ * You can extend from this class if you want to use test data or mock your api calls using
+ * mock mvc.
  */
 @Transactional
 public abstract class UtilTesting {
-    private static final String TOKEN_URL = "https://poker-user-service.herokuapp.com/oauth/token?grant_type=password&username=remismeets&password=12345";
-    // private static final String TOKEN_URL = "http://localhost:5000/oauth/token?grant_type=password&username=remismeets&password=12345";
-
+    @Value("${token.url}")
+    private String TOKEN_URL;
     @Autowired
     private ResourceServerTokenServices resourceServerTokenServices;
 
@@ -55,9 +54,9 @@ public abstract class UtilTesting {
 
         String userIdMock = resourceServerTokenServices.readAccessToken(getMockToken().getAccess_token())
                 .getAdditionalInformation().get("uuid").toString();
-        Room room1 = new Room(new GameRules(4, 8, 30, 500, 6), "test room 1");
-        Room room2 = new Room(new GameRules(8, 16, 25, 2500, 5), "test room 2");
-        Room room3 = new Room(new GameRules(16, 32, 20, 5000, 4), "test room 3");
+        Room room1 = new Room(new GameRules(4, 8, 30, 500, 6, 1, 50), "test room 1");
+        Room room2 = new Room(new GameRules(8, 16, 25, 2500, 5, 1, 50), "test room 2");
+        Room room3 = new Room(new GameRules(16, 32, 20, 5000, 4, 1, 50), "test room 3");
         room1.addPlayer(new Player(500, userIdMock, 1));
         room1.addPlayer(new Player(500, "2", 2));
 
@@ -71,16 +70,16 @@ public abstract class UtilTesting {
     }
 
     /**
-     * Provides the current test calss with test data for private rooms
-     * Also calls provideoTestDataRooms that provides test data for normal room
+     * Provides the current test class with test data for private rooms
+     * Also calls provideTestDataRooms that provides test data for normal room
      *
-     * @param roomRepository
+     * @param roomRepository The repository that will be used to make the test-data.
      */
     protected void provideTestDataPrivateRooms(RoomRepository roomRepository) {
-        this.provideTestDataRooms(roomRepository);
+        provideTestDataRooms(roomRepository);
 
         PrivateRoom privateRoom1 = new PrivateRoom("privateRoom1", testableUserId);
-        PrivateRoom privateRoom2 = new PrivateRoom(new GameRules(12, 24, 15, 1200, 6), "privateroomCustom", testableUserId);
+        PrivateRoom privateRoom2 = new PrivateRoom(new GameRules(12, 24, 15, 1200, 6, 1, 50), "privateroomCustom", testableUserId);
         roomRepository.save(privateRoom1);
         roomRepository.save(privateRoom2);
 
@@ -110,15 +109,6 @@ public abstract class UtilTesting {
 
         this.testableRoundIdWithPlayers = round2.getId();
         this.testableUserId = userIdMock;
-    }
-
-    private AuthDTO getMockToken() {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.setBasicAuth("my-trusted-client", "secret");
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 
     /**
@@ -167,5 +157,17 @@ public abstract class UtilTesting {
                 .content(body)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(resultMatcher);
+    }
+
+    /**
+     * @return A mock token from the user service.
+     */
+    private AuthDTO getMockToken() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBasicAuth("my-trusted-client", "secret");
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 }

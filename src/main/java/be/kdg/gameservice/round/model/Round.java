@@ -184,6 +184,9 @@ public final class Round {
         playersInRound.remove(player);
     }
 
+    /**
+     * Moves the round to the next phase.
+     */
     public void nextPhase() {
         this.currentPhase = this.currentPhase.next();
     }

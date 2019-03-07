@@ -32,6 +32,9 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    /**
+     * The name of the room.
+     */
     @Getter
     @Setter
     private String name;
@@ -63,6 +66,10 @@ public class Room {
     @Setter
     private GameRules gameRules;
 
+    /**
+     * @param gameRules The game rules that apply to this room.
+     * @param name The name of this room.
+     */
     public Room(GameRules gameRules, String name) {
         this.playersInRoom = new ArrayList<>();
         this.rounds = new ArrayList<>();
@@ -70,6 +77,9 @@ public class Room {
         this.name = name;
     }
 
+    /**
+     * @param name The name of this room.
+     */
     public Room(String name) {
         this(new GameRules(), name);
     }
@@ -135,8 +145,9 @@ public class Room {
 
     /**
      * Finds the first missing positive number in an array of ints
-     * @param occupiedSeats
-     * @return
+     *
+     * @param occupiedSeats The seats that are occupied.
+     * @return The first positive number.
      */
     private int findFirstPositiveMissingOccurrence(int[] occupiedSeats) {
         int size = occupiedSeats.length;

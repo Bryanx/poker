@@ -14,11 +14,21 @@ import javax.persistence.*;
 @Table(name = "white_listed_player")
 @Getter
 public final class WhiteListedUser {
+    /**
+     * The id of the whitelisted user.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    /**
+     * The user Id that is whitelisted.
+     */
     private String userId;
 
+    /**
+     * @param userId The user Id that is whitelisted.
+     */
     public WhiteListedUser(String userId) {
         this.userId = userId;
     }

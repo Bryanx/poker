@@ -48,13 +48,6 @@ public class RoundServiceImplTest extends UtilTesting {
     }
 
     @Test
-    public void getRounds() {
-        List<Round> rounds = roundService.getRounds();
-        System.out.println(rounds.size());
-        System.out.println(rounds);
-    }
-
-    @Test
     public void startNewRound() {
         Round round = roundService.startNewRound(new ArrayList<>(), 2);
         assertEquals(0, round.getActs().size());
@@ -80,11 +73,11 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithCheck() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
+        roomService.addRoom("Test room", new GameRules());
 
-        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
-        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
-        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+        Player player1 = new Player(2500, "Maarten", 0);
+        Player player2 = new Player(2500, "Remi", 1);
+        Player player3 = new Player(2500, "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -138,11 +131,11 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithFold() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
+        roomService.addRoom("Test room", new GameRules());
 
-        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
-        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
-        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+        Player player1 = new Player(2500, "Maarten", 0);
+        Player player2 = new Player(2500, "Remi", 1);
+        Player player3 = new Player(2500, "Dirk", 2);
 
         Room room = roomService.getRoomByName("Test room");
 
@@ -196,11 +189,11 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithBet() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
+        roomService.addRoom("Test room", new GameRules());
 
-        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
-        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
-        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+        Player player1 = new Player(2500, "Maarten", 0);
+        Player player2 = new Player(2500, "Remi", 1);
+        Player player3 = new Player(2500, "Dirk", 2);
 
 
         Room room = roomService.getRoomByName("Test room");
@@ -260,11 +253,11 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithDetermineWinner() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules(8, 16, 25, 2500, 5));
+        roomService.addRoom("Test room", new GameRules());
 
-        Player player1 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Maarten", 0);
-        Player player2 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Remi", 1);
-        Player player3 = new Player(new GameRules(8, 16, 25, 2500, 5).getStartingChips(), "Dirk", 2);
+        Player player1 = new Player(2500, "Maarten", 0);
+        Player player2 = new Player(2500, "Remi", 1);
+        Player player3 = new Player(2500, "Dirk", 2);
 
 
         Room room = roomService.getRoomByName("Test room");
@@ -327,10 +320,12 @@ public class RoundServiceImplTest extends UtilTesting {
 
         int coinSum = round.getActivePlayers().stream().mapToInt(Player::getChipCount).sum() + round.getPot();
 
+        //TODO: fix this maarten!
         //roundService.distributeCoins(round.getId(), winner);
         //assertEquals(coinSum, round.getActivePlayers().stream().mapToInt(p -> p.getChipCount()).sum());
     }
 
+    //TODO: fix this maarten!
 //    @Test
 //    public void distributeCoins() throws RoomException, RoundException {
 //        /*

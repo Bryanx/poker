@@ -1,9 +1,10 @@
 package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
-import be.kdg.gameservice.room.model.*;
+import be.kdg.gameservice.room.model.GameRules;
+import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
-import be.kdg.gameservice.room.persistence.WhiteListedPlayerRepository;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Round;
@@ -11,7 +12,6 @@ import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +30,7 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final RoundService roundService;
 
-    //TODO: remove this method and user id's instead.
+    //TODO: maarten, remove this method if only used in tests.
     /**
      * Returns room based on roomName
      * Carefull, roomname should be unique.
@@ -112,19 +112,13 @@ public class RoomServiceImpl implements RoomService {
     /**
      * Adds a room to the database.
      *
-     * @param name        The name of the room.
-     * @param gameRulesIn The rules that will be applied in this room.
+     * @param name      The name of the room.
+     * @param gameRules The rules that will be applied in this room.
      * @return The newly created room.
      */
     @Override
-    public Room addRoom(String name, GameRules gameRulesIn) {
-        GameRules gameRulesOut = new GameRules(
-                gameRulesIn.getSmallBlind(),
-                gameRulesIn.getBigBlind(),
-                gameRulesIn.getPlayDelay(),
-                gameRulesIn.getStartingChips(),
-                gameRulesIn.getMaxPlayerCount());
-        Room room = new Room(gameRulesOut, name);
+    public Room addRoom(String name, GameRules gameRules) {
+        Room room = new Room(gameRules, name);
         return saveRoom(room);
     }
 
@@ -141,11 +135,7 @@ public class RoomServiceImpl implements RoomService {
 
         //Update room
         roomToUpdate.setName(room.getName());
-        roomToUpdate.getGameRules().setSmallBlind(room.getGameRules().getSmallBlind());
-        roomToUpdate.getGameRules().setBigBlind(room.getGameRules().getBigBlind());
-        roomToUpdate.getGameRules().setMaxPlayerCount(room.getGameRules().getMaxPlayerCount());
-        roomToUpdate.getGameRules().setPlayDelay(room.getGameRules().getPlayDelay());
-        roomToUpdate.getGameRules().setStartingChips(room.getGameRules().getStartingChips());
+        roomToUpdate.setGameRules(room.getGameRules());
         return saveRoom(roomToUpdate);
     }
 
@@ -171,10 +161,13 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public int checkChips(int roomId, int userChips) throws RoomException {
+        //Get data
         Room room = getRoom(roomId);
-        if (room.getGameRules().getStartingChips() > userChips) {
+
+        //Do check
+        if (room.getGameRules().getStartingChips() > userChips)
             throw new RoomException(RoomServiceImpl.class, "User does not have enough chips to join.");
-        }
+
         return room.getGameRules().getStartingChips();
     }
 

@@ -55,7 +55,7 @@ public class RoomApiControllerTest extends UtilTesting {
         int numberOfRooms = roomRepository.findAll().size();
 
         //Test add room
-        RoomDTO roomDTO = new RoomDTO(1, "jos room", new GameRules(8, 16, 25, 2500, 5), new ArrayList<>());
+        RoomDTO roomDTO = new RoomDTO(1, "jos room", new GameRules(), new ArrayList<>());
         String json = new Gson().toJson(roomDTO);
         testMockMvc("/rooms", json, mockMvc, RequestType.POST);
         assertEquals(numberOfRooms + 1, roomRepository.findAll().size());
@@ -69,11 +69,11 @@ public class RoomApiControllerTest extends UtilTesting {
 
     @Test
     public void changeRoom() throws Exception {
-        RoomDTO roomDTO = new RoomDTO(testableRoomIdWithoutPlayers, "josef", new GameRules(16, 32, 20, 5000, 4), new ArrayList<>());
+        RoomDTO roomDTO = new RoomDTO(testableRoomIdWithoutPlayers, "josef", new GameRules(16, 32, 20, 5000, 4, 1, 50), new ArrayList<>());
         String json = new Gson().toJson(roomDTO);
         testMockMvc("/rooms/" + testableRoomIdWithoutPlayers, json, mockMvc, RequestType.PUT);
         assertEquals("josef", roomRepository.findById(testableRoomIdWithoutPlayers).orElseThrow(Exception::new).getName());
-        assertEquals(new GameRules(16, 32, 20, 5000, 4).getStartingChips(), roomRepository.findById(testableRoomIdWithoutPlayers).orElseThrow(Exception::new).getGameRules().getStartingChips());
+        assertEquals(5000, roomRepository.findById(testableRoomIdWithoutPlayers).orElseThrow(Exception::new).getGameRules().getStartingChips());
     }
 
 

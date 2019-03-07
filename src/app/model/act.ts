@@ -12,4 +12,5 @@ export class Act {
   totalBet: number;
   nextUserId: string;
   allIn: boolean;
+  seatNumber: number;
 }

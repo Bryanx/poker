@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
 import {Player} from '../../model/player';
@@ -10,13 +10,12 @@ import {Round} from '../../model/round';
 import {RoomService} from '../../services/room.service';
 import {ChatComponent} from '../chat/chat.component';
 import {Act} from '../../model/act';
-import {PlayerComponent} from '../player/player.component';
 import {CurrentPhaseBet} from '../../model/currentPhaseBet';
-import {GameTableComponent} from '../game-table/game-table.component';
 import {UserService} from '../../services/user.service';
 import {Location} from '@angular/common';
 import {WebSocketService} from '../../services/web-socket.service';
 import {HomeVisibleService} from '../../services/home-visible.service';
+import {Phase} from '../../model/phase';
 
 @Component({
   selector: 'app-room',
@@ -31,13 +30,14 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   joinRoomInterval: any;
   getRoundInterval: any;
   @ViewChild(ChatComponent) chatChild: ChatComponent;
-  @ViewChild(GameTableComponent) gameTableChild: GameTableComponent;
   lastAct: Act;
   ws: any;
+  currentPhaseBets: CurrentPhaseBet[] = CurrentPhaseBet.createArrayOfSix();
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService,
-              private location: Location, private homeObservable: HomeVisibleService) {}
+              private location: Location, private homeObservable: HomeVisibleService) {
+  }
 
   ngOnInit() {
     this.homeObservable.emitNewState(true);
@@ -87,15 +87,21 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
       this.ws.subscribe('/room/receive-round/' + this.room.id, (message) => {
         if (message) {
-          this.round = JSON.parse(message.body) as Round;
+          const round = JSON.parse(message.body) as Round;
+          if (this.round !== undefined) {
+            if (round.currentPhase !== this.round.currentPhase) {
+              this.currentPhaseBets.forEach((x, index, theArray) => theArray[index].bet = 0);
+            }
+          }
+
+          this.round = round;
           console.log(this.round);
           this.updatePlayersInRound();
-          for (const player of this.round.playersInRound) {
-            if (player.userId === this.authorizationService.getUserId()) {
-              if (player.chipCount === 0 && !player.allIn) {
-                this.leaveRoom();
-                this.location.back();
-              }
+          const localPlayer = this.round.playersInRound.find(player => player.userId === this.authorizationService.getUserId());
+          if (localPlayer !== null) {
+            if (localPlayer.chipCount === 0 && !localPlayer.allIn) {
+              this.leaveRoom();
+              this.location.back();
             }
           }
         }
@@ -202,29 +208,18 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   onCurrentPhaseBetEvent(currentPhaseBet: CurrentPhaseBet) {
-    for (const player of this.room.playersInRoom ) {
-      if (player.userId === currentPhaseBet.userId) {
-        switch (currentPhaseBet.seatNumber) {
-          case 0:
-            this.gameTableChild.firstPlayer = currentPhaseBet;
-            break;
-          case 1:
-            this.gameTableChild.secondPlayer = currentPhaseBet;
-            break;
-          case 2:
-            this.gameTableChild.thirdPlayer = currentPhaseBet;
-            break;
-          case 3:
-            this.gameTableChild.fourthPlayer = currentPhaseBet;
-            break;
-          case 4:
-            this.gameTableChild.fifthPlayer = currentPhaseBet;
-            break;
-          case 5:
-            this.gameTableChild.sixthPlayer = currentPhaseBet;
-            break;
+    this.currentPhaseBets.forEach((x, index, theArray) => {
+      if (x.seatNumber === currentPhaseBet.seatNumber) {
+        if (x.phase === Phase.Not_Started) {
+          theArray[index] = currentPhaseBet;
+        } else {
+          if (x.phase === currentPhaseBet.phase) {
+            theArray[index].bet = theArray[index].bet + currentPhaseBet.bet;
+          } else {
+            theArray[index].bet = currentPhaseBet.bet;
+          }
         }
       }
-    }
+    });
   }
 }

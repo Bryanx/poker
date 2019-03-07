@@ -56,6 +56,11 @@ export class ActionbarComponent implements OnInit, OnDestroy {
           this.currentAct = JSON.parse(message.body) as Act;
           this.sliderValue = this.currentAct.totalBet;
           this.actEvent.emit(this.currentAct);
+          const currentFaseBet = new CurrentPhaseBet();
+          currentFaseBet.bet = this.currentAct.bet;
+          currentFaseBet.seatNumber = this.currentAct.seatNumber;
+          currentFaseBet.userId = this.currentAct.userId;
+          this.currentPhaseBetEvent.emit(currentFaseBet);
         }
       });
     });
@@ -87,6 +92,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       act.playerId = this.player.id;
       act.userId = this.player.userId;
       act.roomId = this.room.id;
+      act.seatNumber = this.player.seatNumber;
 
       if (allIn) {
         act.allIn = true;
@@ -100,7 +106,6 @@ export class ActionbarComponent implements OnInit, OnDestroy {
           }
           this.currentPhaseBet.bet = this.currentPhaseBet.bet + this.sliderValue;
           this.currentPhaseBet.seatNumber = this.player.seatNumber;
-          this.currentPhaseBetEvent.emit(this.currentPhaseBet);
         } else {
           act.bet = 0;
         }
@@ -145,11 +150,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   getPlayer() {
-    for (let i = 0; i < this._round.playersInRound.length; i++) {
-      if (this._round.playersInRound[i].userId === this.authorizationService.getUserId()) {
-        this.player = this._round.playersInRound[i];
-        this.currentPhaseBet.userId = this.player.userId;
-      }
+    this.player = this._round.playersInRound.find(player => player.userId === this.authorizationService.getUserId());
+    if (this.player !== null) {
+      this.currentPhaseBet.userId = this.player.userId;
     }
   }
 

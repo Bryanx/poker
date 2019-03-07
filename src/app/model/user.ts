@@ -1,3 +1,5 @@
+import {Friend} from './friend';
+
 export class User {
   id: string;
   username: string;
@@ -13,8 +15,8 @@ export class User {
   wins: number;
   gamesPlayed: number;
   bestHand: string;
-  friends: User[] = [];
   enabled: number;
+  friends: Friend[];
 
   static create() {
     return {

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameRoomAdminComponent } from './game-room-admin.component';
+import { GameRoomEditComponent } from './game-room-edit.component';
 import {GameRoomComponent} from '../game-room/game-room.component';
 import {PlayerComponent} from '../player/player.component';
 import {ChatComponent} from '../chat/chat.component';
@@ -13,14 +13,14 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {TranslatePipe} from '../../translate.pipe';
 
-describe('GameRoomAdminComponent', () => {
-  let component: GameRoomAdminComponent;
-  let fixture: ComponentFixture<GameRoomAdminComponent>;
+describe('GameRoomEditComponent', () => {
+  let component: GameRoomEditComponent;
+  let fixture: ComponentFixture<GameRoomEditComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        GameRoomAdminComponent,
+        GameRoomEditComponent,
         TranslatePipe
       ],
       imports: [
@@ -34,7 +34,7 @@ describe('GameRoomAdminComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameRoomAdminComponent);
+    fixture = TestBed.createComponent(GameRoomEditComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

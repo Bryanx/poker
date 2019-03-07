@@ -7,6 +7,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {MatSnackBar} from '@angular/material';
 import {NotificationType} from '../../model/notificationType';
 import {Notification} from '../../model/notification';
+import {Friend} from '../../model/friend';
 
 @Component({
   selector: 'app-user-account',
@@ -48,7 +49,9 @@ export class UserAccountComponent implements OnInit {
   }
 
   addFriend() {
-    this.myself.friends.push(this.user);
+    const friend: Friend = new Friend();
+    friend.userId = this.user.id;
+    this.myself.friends.push(friend);
     this.userService.changeUser(this.myself).subscribe(() => {
       this.snackbar.open(this.user.username + ' was added as a friend.', '', {
         duration: 3000
@@ -72,7 +75,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   removeFriend() {
-    this.myself.friends = this.myself.friends.filter(friend => friend.id !== this.user.id);
+    this.myself.friends = this.myself.friends.filter(friend => friend.userId !== this.user.id);
     this.userService.changeUser(this.myself).subscribe(() => {
       this.snackbar.open(this.user.username + ' was removed as a friend.', '', {
         duration: 3000
@@ -81,7 +84,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   isFriends() {
-    return this.myself.friends.some(friend => friend.id === this.user.id);
+    return this.myself.friends.some(friend => friend.userId === this.user.id);
   }
 
   goBack() {

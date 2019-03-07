@@ -1,5 +1,4 @@
 @import "../../../styles";
-@include custom_button
 
 :host {
   display: flex;
@@ -17,101 +16,174 @@ section {
   align-items: center;
   align-content: center;
   max-width: 1200px;
+}
 
-  .room {
-    display: flex;
-    flex-direction: column;
+h2 {
+  color: white;
+  margin-bottom: 1rem;
+}
 
-    width: 350px;
-    height: 200px;
-    margin-bottom: 40px;
-    margin-left: 20px;
-    margin-right: 20px;
+.nav {
+  @include custom_button;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
 
-    border-radius: 8rem;
-    background-color: #505271;
-    position: relative;
-    border: 10px solid #3e405e;
-    transition: .1s;
-    cursor: pointer;
-    user-select: none;
-
-    span {
-      position: absolute;
-      color: white;
-    }
-
-    .name {
-      top: 25px;
-      align-self: center;
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-
-    .price {
-      top: 60px;
-      align-self: center;
-    }
-
-    img {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-    }
-
-    .blinds {
-      top: 95px;
-      left: 70px;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    .blind-img {
-      top: 125px;
-      left: 70px;
-    }
-
-    .timer {
-      top: 95px;
-      left: 150px;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    .timer-img {
-      top: 125px;
-      left: 150px;
-    }
-
-    .capacity {
-      top: 95px;
-      right: 70px;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-
-    .cap-img {
-      top: 125px;
-      right: 70px;
-    }
-  }
-
-  .enabled {
-    &:hover {
-      transform: scale(1.05);
-      border: 10px solid $green;
-      background-color: darken($green, 15%);
-    }
-  }
-
-  .disabled {
-    pointer-events: none;
-    opacity: 0.5;
+  button {
+    margin-right: 1rem;
+    margin-left: 1rem;
   }
 }
 
-.back {
-  margin-bottom: 2rem;
+.friend-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  z-index: 2;
+  position: absolute;
+  background-color: lighten($background-color, 10%);
+  top: 25px;
+  width: 95vw;
+  height: 95vh;
+  border-radius: 1.5rem;
+
+  h1 {
+    margin-top: 20px;
+    position: absolute;
+    top: 0;
+  }
+
+  .user-list {
+    width: 70%;
+    max-height: 270px;
+    overflow: auto;
+    margin-bottom: 30px;
+    height: 100%;
+
+    .user-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      color: white;
+      background: darken($background-color, 2%);
+      font-size: 1.5rem;
+      border-radius: .5rem;
+      margin-bottom: .5rem;
+      cursor: pointer;
+
+      .add-user {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $green;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:hover {
+          background-color: darken($green, 20%);
+        }
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          display: block;
+        }
+      }
+
+      .row {
+        opacity: 1;
+      }
+
+      .delete-user {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $red;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:hover {
+          background-color: darken($red, 20%);
+        }
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          display: block;
+          transform: rotate(45deg);
+        }
+      }
+
+      .owner-user {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          color: #efc75e;
+          display: block;
+        }
+      }
+
+      &:hover {
+        background: darken($background-color, 3%);
+      }
+    }
+  }
+
+  .done {
+    height: 4rem;
+    border-radius: 0.15em;
+    text-decoration: none;
+    font-weight: 400;
+    color: #FFFFFF;
+    background-color: $green;
+    text-align: center;
+    border: none;
+    font-size: 1.5rem;
+    min-width: 10rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    width: 250px;
+
+    position: absolute;
+    bottom: 20px;
+    &:hover {
+      background: darken($green, 15%)
+    }
+  }
 }
 
 @media(max-width: 800px) {

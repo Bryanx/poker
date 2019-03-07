@@ -5,12 +5,12 @@ import {AuthorizationService} from './authorization.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuardService implements CanActivate{
+export class AdminGuardService implements CanActivate {
   constructor(public authorizationService: AuthorizationService, public router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (!this.authorizationService.isAdmin()) {
-      this.router.navigate(['login'], { queryParams: { returnUrl: state.url }});
+      this.router.navigate(['login'], { queryParams: { returnUrl: state.url }}).then();
       return false;
     }
     return true;

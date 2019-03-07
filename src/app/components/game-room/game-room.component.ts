@@ -1,10 +1,6 @@
 import {Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
-import {GameService} from '../../services/game.service';
-import {Subscription} from 'rxjs';
-import {RxStompService} from '@stomp/ng2-stompjs';
-import {Message} from '@stomp/stompjs';
 import {Player} from '../../model/player';
 
 import {Notification} from '../../model/notification';
@@ -16,6 +12,9 @@ import {ChatComponent} from '../chat/chat.component';
 import {Act} from '../../model/act';
 import {PlayerComponent} from '../player/player.component';
 import {UserService} from '../../services/user.service';
+import {Location} from '@angular/common';
+import {WebSocketService} from '../../services/web-socket.service';
+import {HomeVisibleService} from '../../services/home-visible.service';
 
 @Component({
   selector: 'app-room',
@@ -25,32 +24,29 @@ import {UserService} from '../../services/user.service';
 export class GameRoomComponent implements OnInit, OnDestroy {
   room: Room = Room.create();
   player: Player = Player.create();
-  roomSubscription: Subscription;
-  roundSubscription: Subscription;
   done: boolean;
+  joined: Boolean = false;
   round: Round;
   joinRoomInterval: any;
   getRoundInterval: any;
   @ViewChild(ChatComponent) chatChild: ChatComponent;
   @ViewChildren(PlayerComponent) playerChildren: QueryList<PlayerComponent>;
   lastAct: Act;
+  ws: any;
 
-  constructor(private curRouter: ActivatedRoute, private router: Router, private gameService: GameService,
-              private webSocketService: RxStompService, private authorizationService: AuthorizationService,
-              private roomService: RoomService, private userService: UserService) {
-
-  }
+  constructor(private curRouter: ActivatedRoute, private router: Router, private websocketService: WebSocketService,
+              private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService,
+              private location: Location, private homeObservable: HomeVisibleService) {}
 
   ngOnInit() {
+    this.homeObservable.emitNewState(true);
     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
 
     this.getRoom(roomId as number);
 
     this.joinRoomInterval = setInterval(() => {
-      if (this.room.gameRules !== undefined) {
-        this.initializeRoomConnection();
-        this.initializeRoundConnection();
-        this.initializeWinnerConnection();
+      if (this.room.gameRules.id !== 0) {
+        this.initializeWebSocketConnection();
         this.joinRoom();
         clearInterval(this.joinRoomInterval);
       }
@@ -66,46 +62,56 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.roomSubscription !== undefined) {
+    this.homeObservable.emitNewState(false);
+    if (this.ws !== undefined) {
       this.leaveRoom();
-      this.roomSubscription.unsubscribe();
-    }
-    if (this.roundSubscription !== undefined) {
-      this.roundSubscription.unsubscribe();
+      this.ws.disconnect();
     }
   }
 
   /**
    * Subscribes to the room channel. All room changes will now be received here.
-   */
-  initializeRoomConnection() {
-    this.roomSubscription = this.webSocketService.watch('/room/receive-room/' + this.room.id).subscribe((message: Message) => {
-      if (message) {
-        this.room = JSON.parse(message.body) as Room;
-        // console.log(this.room);
-      }
-    }, error => {
-      console.log(error.error.error_description);
-    });
-  }
-
-  /**
    * Subscribes to the round channel. All round changes will now be received here.
+   * Subscribes to the winner channel. Every time someone wins it is received here.
    */
-  initializeRoundConnection() {
-    this.roundSubscription = this.webSocketService.watch('/room/receive-round/' + this.room.id).subscribe((message: Message) => {
-      if (message) {
-        this.round = JSON.parse(message.body) as Round;
-        this.updatePlayersInRound();
-        // console.log(this.round);
-      }
-    }, error => {
-      console.log(error.error.error_description);
+  initializeWebSocketConnection() {
+    this.ws = this.websocketService.connectGameService();
+    this.ws.connect({}, (frame) => {
+      this.ws.subscribe('/room/receive-room/' + this.room.id, (message) => {
+        if (message) {
+          this.room = JSON.parse(message.body) as Room;
+          // console.log(this.room);
+        }
+      });
+
+      this.ws.subscribe('/room/receive-round/' + this.room.id, (message) => {
+        if (message) {
+          this.round = JSON.parse(message.body) as Round;
+          this.updatePlayersInRound();
+          // console.log(this.round);
+        }
+      });
+
+      this.ws.subscribe('/room/receive-winner/' + this.room.id, (message) => {
+        if (message) {
+          const winningPlayer = JSON.parse(message.body) as Player;
+          if (winningPlayer.userId === this.player.userId) {
+            this.player = winningPlayer;
+            this.chatChild.addMessage('You win, my bro');
+            this.chatChild.addMessage('You had ' + this.player.handType);
+          } else {
+            this.roomService.getPlayer().subscribe((player: Player) => {
+              this.player = player;
+              this.chatChild.addMessage('You lose, my bro');
+              this.chatChild.addMessage('You had ' + this.player.handType);
+            });
+          }
+        }
+      });
     });
   }
 
   /**
-   <<<<<<< HEAD
    * Sent a notification to someone for joining a game of poker.
    *
    * @param someoneId The person that needs to receive the request.
@@ -120,37 +126,13 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * Returns the players that are in the room including yourself.
-   * Subscribes to the winner channel. Every time someone wins it is received here.
-   */
-  initializeWinnerConnection() {
-    this.roundSubscription = this.webSocketService.watch('/room/receive-winner/' + this.room.id).subscribe((message: Message) => {
-      if (message) {
-        const winningPlayer = JSON.parse(message.body) as Player;
-        if (winningPlayer.userId === this.player.userId) {
-          this.player = winningPlayer;
-          this.chatChild.addMessage('You win, my bro');
-          this.chatChild.addMessage('You had ' + this.player.handType);
-        } else {
-          this.roomService.getPlayer().subscribe((player: Player) => {
-            this.player = player;
-            this.chatChild.addMessage('You lose, my bro');
-            this.chatChild.addMessage('You had ' + this.player.handType);
-          });
-        }
-      }
-    }, error => {
-      console.log(error.error.error_description);
-    });
-  }
 
   getRoom(id: number): void {
-    this.gameService.getRoom(id).subscribe(room => {
+    this.roomService.getRoom(id).subscribe(room => {
       this.room = room as Room;
 
       if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
-        this.navigateToOverview();
+        this.navigateBack();
       }
     });
   }
@@ -175,7 +157,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Calls the leave room API call in the game service.
    */
   private leaveRoom(): void {
-    this.gameService.leaveRoom(this.room.id).subscribe();
+    this.roomService.leaveRoom(this.room.id).subscribe();
   }
 
   /**
@@ -184,17 +166,18 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   private joinRoom(): void {
     this.roomService.joinRoom(this.room.id).subscribe(player => {
       this.player = player;
+      this.joined = true;
     }, error => {
       console.log(error.error.message);
-      this.navigateToOverview();
+      this.navigateBack();
     });
   }
 
   /**
    * Navigates to the rooms overview.
    */
-  private navigateToOverview(): void {
-    this.router.navigateByUrl('/rooms').then(/* DO NOTHING WITH PROMISE */);
+  private navigateBack(): void {
+    this.location.back();
   }
 
   private updatePlayersInRound(): void {

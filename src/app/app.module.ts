@@ -23,19 +23,17 @@ import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angul
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {TranslateService} from './services/translate.service';
 import { TranslatePipe } from './translate.pipe';
-import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
-import { websocket_game_serviceConfig } from './configs/websocket_game_service.config';
 import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';
 import { UserAccountComponent } from './components/user-account/user-account.component';
-import { GameRoomAdminComponent } from './components/game-room-admin/game-room-admin.component';
+import { GameRoomEditComponent } from './components/game-room-edit/game-room-edit.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
 import {MatSnackBarModule, MatTableModule} from '@angular/material';
-import {webSocketConfigUserService} from './configs/websocket_user_service.config';
-import {NotifierModule, NotifierOptions} from 'angular-notifier';
+import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
+import { RoomCardComponent } from './components/room-card/room-card.component';
 
 const config = new AuthServiceConfig([
   {
@@ -79,9 +77,10 @@ export function setupTranslateFactory(
     FriendsComponent,
     SearchComponent,
     UserAccountComponent,
-    GameRoomAdminComponent,
+    GameRoomEditComponent,
     RankingsComponent,
     NotificationComponent,
+    RoomCardComponent
   ],
   imports: [
     BrowserModule,
@@ -114,20 +113,6 @@ export function setupTranslateFactory(
       useFactory: setupTranslateFactory,
       deps: [ TranslateService ],
       multi: true
-    },
-    {
-      provide: InjectableRxStompConfig,
-      useValue: websocket_game_serviceConfig,
-    },
-    /*{
-      provide: InjectableRxStompConfig,
-      useValue: webSocketConfigUserService,
-      multi: true,
-    },*/
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
     }
   ],
   bootstrap: [AppComponent]

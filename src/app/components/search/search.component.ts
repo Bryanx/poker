@@ -7,6 +7,8 @@ import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Router} from '@angular/router';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {Friend} from '../../model/friend';
 
 /**
  * This component will be used for searching through all the users
@@ -15,12 +17,24 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+  styleUrls: ['./search.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({opacity: 1})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(90)
+      ]),
+      transition(':leave',
+        animate(90, style({opacity: 0})))
+    ])
+  ]
 })
 export class SearchComponent implements OnInit {
   private debounceTime: Number = 400;
   users: User[] = [];
   admins: User[] = [];
+  typed: Boolean = false;
   inputString: String = '';
   subject: Subject<String> = new Subject();
   myself: User = User.create();
@@ -53,7 +67,7 @@ export class SearchComponent implements OnInit {
         this.users = [];
       } else {
         this.users = users;
-      }
+    }
     });
   }
 
@@ -70,18 +84,22 @@ export class SearchComponent implements OnInit {
    * Adds the input string that is two-way-bind to the input-field to the subject.
    */
   addToSubject(): void {
+    this.typed = true;
     this.subject.next(this.inputString);
   }
 
   /**
    * Adds a friend to the current user.
    *
-   * @param friend The friend that needs to be added.
+   * @param friendId The friend that needs to be added.
    */
-  addFriend(friend: User) {
+  addFriend(friendId: string) {
+    const friend: Friend = new Friend();
+    friend.userId = friendId;
     this.myself.friends.push(friend);
+
     this.userService.changeUser(this.myself).subscribe();
-    this.sendFriendRequest(friend.id);
+    this.sendFriendRequest(friendId);
   }
 
   /**
@@ -107,7 +125,7 @@ export class SearchComponent implements OnInit {
     if (user.id === this.myself.id) {
       return false;
     } else {
-      return !this.myself.friends.some(friend => friend.id === user.id);
+      return !this.myself.friends.some(friend => friend.userId === user.id);
     }
   }
 

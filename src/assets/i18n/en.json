@@ -54,5 +54,7 @@
   "WON": "won",
   "LOST": "lost",
   "UNKNOWN": "unknown",
-  "WAITINGFORPLAYERS": "Waiting for players..."
+  "WAITINGFORPLAYERS": "Waiting for players...",
+  "GLOBAL MESSAGES": "Global messages",
+  "ANNOUNCE SOMETHING": "Announce something"
 }

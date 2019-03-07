@@ -54,5 +54,7 @@
   "WON": "gewonnen",
   "LOST": "verloren",
   "UNKNOWN": "onbekend",
-  "WAITINGFORPLAYERS": "Wachten op spelers.."
+  "WAITINGFORPLAYERS": "Wachten op spelers..",
+  "GLOBAL MESSAGES": "Globale berichten",
+  "ANNOUNCE SOMETHING": "Deel iets mee"
 }

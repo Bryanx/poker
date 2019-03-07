@@ -1,0 +1,52 @@
+@import "../../../styles";
+@include custom_button
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.message-bar {
+  display: flex;
+  align-items: flex-end;
+  width: 70%;
+  margin: 0 20px 20px;
+
+  .message-button {
+    height: 50px;
+    width: 125px;
+    margin-left: 15px;
+
+    background-color: #44e2a8;
+    border-radius: 1rem;
+    min-width: auto;
+    position: relative;
+
+    &:hover {
+      background-color: #40c690;
+    }
+
+    &:active {
+      background-color: #3fb47f;
+      top: 0;
+    }
+  }
+
+  input {
+    height: 50px;
+    display: block;
+    width: 100%;
+    font-size: large;
+    padding: 15px;
+    border-radius: 1rem;
+    border: none;
+  }
+}
+
+h2 {
+  margin-top: 30px;
+  color: white;
+}

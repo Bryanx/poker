@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoundService {
-    void saveAct(int roundId, String userId, ActType type, Phase phase, int bet) throws RoundException;
+    void saveAct(int roundId, String userId, ActType type, Phase phase, int bet, boolean allIn) throws RoundException;
 
     List<ActType> getPossibleActs(int roundId, String userId) throws RoundException;
 

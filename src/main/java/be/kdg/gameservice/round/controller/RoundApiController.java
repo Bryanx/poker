@@ -71,7 +71,7 @@ public class RoundApiController {
     @PostMapping("/rounds/act")
     public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO) throws RoundException, RoomException {
         this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
-                actDTO.getType(), actDTO.getPhase(), actDTO.getBet());
+                actDTO.getType(), actDTO.getPhase(), actDTO.getBet(), actDTO.isAllIn());
 
         Optional<Player> playerOptional = roundService.checkEndOfRound(actDTO.getRoundId());
 

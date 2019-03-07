@@ -1,3 +1,6 @@
+  <div class="pot" *ngIf="_round">
+    <p *ngIf="_round.pot !== 0">{{_round.pot}}</p>
+  </div>
 <div class="game-table">
   <div class="cards">
     <app-card *ngIf="firstCard" [card]="_round.cards[0]"></app-card>

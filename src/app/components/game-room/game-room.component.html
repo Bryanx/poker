@@ -1,3 +1,8 @@
+<div class="joining" *ngIf="!done">
+  <h1>{{'JOINING' | translate | uppercase}}</h1>
+  <img src="../../../assets/img/icons/loading.gif"/>
+</div>
+
 <div class="grid-container" *ngIf="done">
   <button (click)="goBack()" class="leave-button"><img src="../../../assets/img/icons/leave1.svg"></button>
   <app-player *ngFor="let player of room.playersInRoom; index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"
@@ -11,6 +16,13 @@
                  *ngIf="room"
                  [room]="room"
   [round]="round"
-  (actEvent)="onActEvent($event)"></app-actionbar>
+  (actEvent)="onActEvent($event)"
+  (currentPhaseBetEvent)="onCurrentPhaseBetEvent($event)"></app-actionbar>
   <app-game-table class="grid-item-table" [round]="round"></app-game-table>
+  <section class="grid-player-bet">
+    <div *ngFor="let currentPhaseBet of currentPhaseBets; index as i" [class]="'player-bet bet-' + (currentPhaseBet.seatNumber - 1)">
+      {{(currentPhaseBet.bet)}}
+    </div>
+
+  </section>
 </div>

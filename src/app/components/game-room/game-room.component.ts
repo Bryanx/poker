@@ -126,6 +126,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     });
   }
 
+
   getRoom(id: number): void {
     this.roomService.getRoom(id).subscribe(room => {
       this.room = room as Room;

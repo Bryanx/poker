@@ -44,6 +44,13 @@ export class UserService {
   }
 
   /**
+   * Returns all the users that are in the system.
+   */
+  getAdmins(): Observable<User[]> {
+    return this.http.get<User[]>(this.url + 's/admin/all');
+  }
+
+  /**
    * Gives back all the users that have the name-string inside
    * their name.
    *
@@ -111,6 +118,18 @@ export class UserService {
    */
   changePassword(user: any): Observable<Auth> {
     return this.http.patch<any>(this.url, user);
+  }
+
+  disableUser(user: User) {
+    return this.http.put(this.url + '/disable', user)
+  }
+
+  changeToAdmin(user: User) {
+    return this.http.put(this.url + '/' + user.id + '/admin', user)
+  }
+
+  changeToUser(user: User) {
+    return this.http.put(this.url + '/' + user.id + '/user', user)
   }
 
   deleteNotification(id: number): Observable<Notification> {

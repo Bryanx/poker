@@ -15,6 +15,7 @@ export class User {
   wins: number;
   gamesPlayed: number;
   bestHand: string;
+  enabled: number;
   friends: Friend[];
 
   static create() {
@@ -33,7 +34,8 @@ export class User {
       chips: 0,
       wins: 0,
       gamesPlayed: 0,
-      bestHand: ''
+      bestHand: '',
+      enabled: 1
     };
   }
 }

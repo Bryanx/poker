@@ -36,6 +36,7 @@ const routes: Routes = [
   {path: 'game-rooms/add', component: GameRoomEditComponent, canActivate: [AdminGuardService]},
   {path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuardService]},
   {path: 'user/:id', component: UserAccountComponent, canActivate: [AuthGuardService]},
+  { path: 'users', component: SearchComponent, canActivate: [AdminGuardService] },
   {path: '**', redirectTo: '/login', pathMatch: 'full'}
 ];
 

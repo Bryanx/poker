@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@{viewmodel.room.name}"
+            android:textColor="@color/colorWhite"
             android:textSize="@dimen/smallest_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +56,8 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <SeekBar
-                android:id="@+id/camera_sb_expose"
+                android:id="@+id/sbBet"
+                android:max="@{viewmodel.room.gameRules.startingChips}"
                 android:layout_width="180dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"

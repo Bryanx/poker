@@ -21,4 +21,5 @@ public class PlayerDTO {
     private int seatNumber;
     @NotNull
     private String username;
+    private boolean allIn;
 }

@@ -84,6 +84,9 @@ public final class Player {
     @Setter
     private int seatNumber;
 
+    @Setter
+    private boolean allIn;
+
     /**
      * The Player is created with default values for all parameters.
      * @param chipCount The default chip count passed by the game rules.

@@ -45,7 +45,7 @@ public class RoundServiceImpl implements RoundService {
      * @see Player To get insight in all the util methods that are used.
      */
     @Override
-    public void saveAct(int roundId, String userId, ActType type, Phase phase, int bet) throws RoundException {
+    public void saveAct(int roundId, String userId, ActType type, Phase phase, int bet, boolean allIn) throws RoundException {
         //Get data
         Round round = getRound(roundId);
         Optional<Player> playerOpt = round.getPlayersInRound().stream()
@@ -64,6 +64,7 @@ public class RoundServiceImpl implements RoundService {
             round.setPot(round.getPot() + bet);
             player.setLastAct(type);
             player.setChipCount(player.getChipCount() - bet);
+            player.setAllIn(allIn);
             checkEndOfPhase(round);
 
             //update database

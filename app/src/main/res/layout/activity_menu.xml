@@ -35,20 +35,20 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/btnJoinGame"
+            android:id="@+id/btnPublicGame"
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:text="@string/join_game" />
+            android:text="@string/public_game" />
 
         <Button
-            android:id="@+id/btnSettings"
+            android:id="@+id/btnPrivateGame"
+            style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
-            style="@style/greenButton"
             android:layout_marginBottom="12dp"
-            android:text="@string/settings"/>
+            android:text="@string/private_game" />
 
         <Button
             android:id="@+id/btnFriends"
@@ -59,20 +59,20 @@
             android:text="@string/friends" />
 
         <Button
-            android:id="@+id/btnReplays"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="@string/replays" />
-
-        <Button
             android:id="@+id/btnRankings"
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:text="@string/rankings" />
+
+        <Button
+            android:id="@+id/btnSettings"
+            style="@style/greenButton"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/settings" />
 
         <Button
             android:id="@+id/btnLogout"

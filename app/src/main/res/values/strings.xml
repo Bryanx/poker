@@ -19,10 +19,10 @@
     <string name="no_account_message">I don\'t have an account bro :-(</string>
 
     <!-- Main menu -->
-    <string name="join_game">JOIN GAME</string>
+    <string name="public_game">PUBLIC GAME</string>
     <string name="settings">SETTINGS</string>
     <string name="friends">FRIENDS</string>
-    <string name="replays">REPLAYS</string>
+    <string name="private_game">PRIVATE GAME</string>
     <string name="rankings">RANKINGS</string>
     <string name="logout">LOGOUT</string>
 

@@ -42,7 +42,6 @@ public interface ControllerComponent {
     void inject(UserSearchActivity userSearchActivity);
     void inject(UserViewModel userViewModel);
     void inject(StompClient stompClient);
-    void inject(GameService gameService);
     void inject(AccountSettingsActivity accountSettingsActivity);
     void inject(RoomService roomService);
     WebSocketService websocketService();

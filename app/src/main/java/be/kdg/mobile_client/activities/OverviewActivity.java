@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -17,6 +18,7 @@ import be.kdg.mobile_client.model.Room;
 import be.kdg.mobile_client.services.RoomService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 /**
@@ -25,8 +27,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class OverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
-    @Inject
-    RoomService roomService;
+    @Inject RoomService roomService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +45,15 @@ public class OverviewActivity extends BaseActivity {
 
     @SuppressLint("CheckResult")
     private void getRooms() {
-        roomService.getRooms().observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::initializeAdapter, error -> Log.e("OverviewActivity", error.getMessage()));
+        Observable<List<Room>> roomObs;
+
+        if (getIntent().getStringExtra("TYPE").equals("PUBLIC")) {
+            roomObs = roomService.getRooms().observeOn(AndroidSchedulers.mainThread());
+        } else {
+            roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
+        }
+
+        roomObs.subscribe(this::initializeAdapter, error -> Log.e("OverviewActivity", error.getMessage()));
     }
 
     /**
@@ -55,6 +63,7 @@ public class OverviewActivity extends BaseActivity {
      * @param rooms The rooms that need to be used by the adapter.
      */
     private void initializeAdapter(List<Room> rooms) {
+        System.out.println(Arrays.toString(rooms.toArray()));
         RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(this, rooms);
         lvRoom.setAdapter(roomAdapter);
         lvRoom.setLayoutManager(new LinearLayoutManager(this));

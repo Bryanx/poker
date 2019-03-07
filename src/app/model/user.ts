@@ -15,6 +15,7 @@ export class User {
   wins: number;
   gamesPlayed: number;
   bestHand: string;
+  enabled: number;
   friends: Friend[];
   level: number;
   thresholdTillNextLevel: number;
@@ -40,6 +41,7 @@ export class User {
       level: 0,
       thresholdTillNextLevel: 0,
       xpTillNext: 0,
+      enabled: 1
     };
   }
 }

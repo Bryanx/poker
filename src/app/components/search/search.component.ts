@@ -5,6 +5,8 @@ import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
+import {AuthorizationService} from '../../services/authorization.service';
+import {Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Friend} from '../../model/friend';
 
@@ -31,12 +33,13 @@ import {Friend} from '../../model/friend';
 export class SearchComponent implements OnInit {
   private debounceTime: Number = 400;
   users: User[] = [];
+  admins: User[] = [];
   typed: Boolean = false;
   inputString: String = '';
   subject: Subject<String> = new Subject();
   myself: User = User.create();
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private authService: AuthorizationService, private router: Router) {
   }
 
   /**
@@ -46,7 +49,7 @@ export class SearchComponent implements OnInit {
    * that the stream will only accept strings as input.
    */
   ngOnInit(): void {
-    this.userService.getMyself().subscribe(user => this.myself = user);
+    this.updateUsers();
 
     this.subject.pipe(
       debounceTime(this.debounceTime as number),
@@ -57,7 +60,7 @@ export class SearchComponent implements OnInit {
         this.users = [];
       } else {
         this.users = users;
-    }
+      }
     });
   }
 
@@ -116,6 +119,39 @@ export class SearchComponent implements OnInit {
       return false;
     } else {
       return !this.myself.friends.some(friend => friend.userId === user.id);
+    }
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
+  }
+
+  adminDisable(user: User) {
+    if (user.enabled == 1) {
+      user.enabled = 0;
+    } else {
+      user.enabled = 1;
+    }
+    this.userService.disableUser(user).subscribe();
+  }
+
+  makeAdmin(user: User) {
+    this.userService.changeToAdmin(user).subscribe();
+    this.ngOnInit();
+  }
+
+  makeUser(user: User) {
+    this.userService.changeToUser(user).subscribe();
+    this.updateUsers();
+  }
+
+  private updateUsers() {
+    this.userService.getMyself().subscribe(user => this.myself = user);
+    if (this.isAdmin()) {
+      this.userService.getUsers().subscribe(users => this.users = users);
+      this.userService.getAdmins().subscribe(admins => this.admins = admins);
+    } else {
+      this.userService.getUsers().subscribe(users => this.users = users);
     }
   }
 }

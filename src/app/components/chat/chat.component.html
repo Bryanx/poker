@@ -1,4 +1,4 @@
-<section class="chat-content">
+<section class="chat-content" #chatScroll (scroll)="onScroll()">
   <div *ngIf="error" class="error">Something wen't wrong.</div>
   <div class="message" *ngFor="let message of messages"
        [class.my-message]="myMessage(message)"

@@ -59,5 +59,6 @@
   "ANNOUNCE SOMETHING": "Announce something",
   "SEND": "Send",
   "OLDER MESSAGES": "Older messages",
-  "NO OLDER MESSAGES": "No older messages"
+  "NO OLDER MESSAGES": "No older messages",
+  "JOINING": "joining..."
 }

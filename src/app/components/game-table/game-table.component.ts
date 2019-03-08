@@ -63,4 +63,6 @@ export class GameTableComponent implements OnInit {
         this.fifthCard = false;
     }
   }
+
+
 }

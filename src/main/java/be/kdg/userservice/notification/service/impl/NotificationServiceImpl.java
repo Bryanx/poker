@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -30,6 +29,17 @@ public class NotificationServiceImpl implements NotificationService {
     private final UserService userService;
     private final NotificationRepository notificationRepository;
 
+    /**
+     * Adds a notification to the system.
+     *
+     * @param senderId   The Id of the user that send the notification.
+     * @param receiverId The Id of the user that received the notification.
+     * @param message    The message itself.
+     * @param type       The type of message.
+     * @param ref        The reference to the senders user account. Needed for the routerlink in the front end.
+     * @return A newly created notification.
+     * @throws UserException Thrown if the user does not exist.
+     */
     @Override
     public Notification addNotification(String senderId, String receiverId, String message, NotificationType type, String ref) throws UserException {
         //Get data
@@ -45,6 +55,13 @@ public class NotificationServiceImpl implements NotificationService {
         return notification;
     }
 
+    /**
+     * Toggles a notification to read.
+     *
+     * @param id The id of the notification that needs to be toggled.
+     * @return The modified notification.
+     * @throws NotificationException Thrown if the notification was not found.
+     */
     @Override
     public Notification readNotification(int id) throws NotificationException {
         Notification notification = getNotification(id);
@@ -52,12 +69,24 @@ public class NotificationServiceImpl implements NotificationService {
         return notificationRepository.save(notification);
     }
 
+    /**
+     * Gives back all the notifications for a specific user.
+     *
+     * @param userId The id of the user.
+     * @return All the notifications of that user.
+     */
     @Override
     public List<Notification> getNotificationsForUser(String userId) {
         List<Notification> notifications = userService.findUserById(userId).getNotifications();
         return Collections.unmodifiableList(notifications);
     }
 
+    /**
+     * Gives back all the unread notifications of the a specefic user.
+     *
+     * @param userId The id of that user.
+     * @return All the unread notifications of that user.
+     */
     @Override
     public List<Notification> getUnreadNotificationsForUser(String userId) {
         return userService.findUserById(userId).getNotifications().stream()
@@ -65,6 +94,12 @@ public class NotificationServiceImpl implements NotificationService {
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
+    /**
+     * Deletes all the notifications of a specific user.
+     *
+     * @param userId The id of that user.
+     * @throws UserException Thrown if the user was not found in the database.
+     */
     @Override
     public void deleteAllNotifications(String userId) throws UserException {
         //Get data
@@ -75,6 +110,14 @@ public class NotificationServiceImpl implements NotificationService {
         userService.changeUser(user);
     }
 
+    /**
+     * Deletes a specific notification from the account of a specific user.
+     *
+     * @param userId         The id of the user.
+     * @param notificationId The id of the notification.
+     * @throws NotificationException Thrown if the notification was not found in the database.
+     * @throws UserException         Thrown if the user was not found in the database.
+     */
     @Override
     public void deleteNotification(String userId, int notificationId) throws NotificationException, UserException {
         //Get data
@@ -86,6 +129,13 @@ public class NotificationServiceImpl implements NotificationService {
         userService.changeUser(user);
     }
 
+    /**
+     * Returns a specific notification.
+     *
+     * @param id The id of that notification.
+     * @return The requested notification.
+     * @throws NotificationException Thrown if the notification was not found in the database.
+     */
     private Notification getNotification(int id) throws NotificationException {
         return notificationRepository.findById(id)
                 .orElseThrow(() -> new NotificationException(NotificationServiceImpl.class, "Notification was not found in the database."));

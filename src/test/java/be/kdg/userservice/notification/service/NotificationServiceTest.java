@@ -2,11 +2,13 @@ package be.kdg.userservice.notification.service;
 
 import be.kdg.userservice.UtilTesting;
 import be.kdg.userservice.notification.model.Notification;
+import be.kdg.userservice.notification.model.NotificationType;
 import be.kdg.userservice.notification.persistence.NotificationRepository;
 import be.kdg.userservice.notification.service.api.NotificationService;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.persistence.UserRepository;
 import be.kdg.userservice.user.persistence.UserRoleRepository;
+import org.assertj.core.condition.Not;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -39,7 +43,7 @@ public class NotificationServiceTest extends UtilTesting {
 
     @Test
     public void getNotificationsForUser() {
-        assertEquals(2, notificationService.getNotificationsForUser(testableUserId1).size());
+        assertEquals(3, notificationService.getNotificationsForUser(testableUserId1).size());
     }
 
     @Test
@@ -53,7 +57,7 @@ public class NotificationServiceTest extends UtilTesting {
     public void deleteNotification() throws Exception {
         notificationService.deleteNotification(testableUserId1, testableNotificationId1);
         User user = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
-        assertEquals(1, user.getNotifications().size());
+        assertEquals(2, user.getNotifications().size());
     }
 
     @Test

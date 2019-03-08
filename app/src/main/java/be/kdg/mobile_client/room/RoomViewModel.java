@@ -11,11 +11,10 @@ import be.kdg.mobile_client.room.model.ActType;
 import be.kdg.mobile_client.room.model.Player;
 import be.kdg.mobile_client.round.Round;
 import be.kdg.mobile_client.round.RoundRepository;
-import io.reactivex.Observable;
+import be.kdg.mobile_client.user.UserRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
 import lombok.Setter;
-import retrofit2.Response;
 
 /**
  * The main viewmodel for joining a room and fetching its state.
@@ -26,6 +25,7 @@ import retrofit2.Response;
 public class RoomViewModel extends ViewModel {
     private final RoomRepository roomRepo;
     private final RoundRepository roundRepo;
+    private final UserRepository userRepo;
     @Getter MutableLiveData<Room> room = new MutableLiveData<>();
     @Getter MutableLiveData<Round> round = new MutableLiveData<>();
     @Getter MutableLiveData<Player> player = new MutableLiveData<>();
@@ -36,9 +36,10 @@ public class RoomViewModel extends ViewModel {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
-    public RoomViewModel(RoomRepository roomRepo, RoundRepository roundRepo) {
+    public RoomViewModel(RoomRepository roomRepo, RoundRepository roundRepo, UserRepository userRepo) {
         this.roomRepo = roomRepo;
         this.roundRepo = roundRepo;
+        this.userRepo = userRepo;
     }
 
     /**
@@ -52,8 +53,7 @@ public class RoomViewModel extends ViewModel {
                     roomRepo.listenOnRoomUpdate(roomId).subscribe(room::postValue, this::notifyUser);
                     roundRepo.listenOnRoundUpdate(roomId).subscribe(value -> {
                         round.postValue(value);
-                        updateRoomPlayers(value);
-                        updatePlayer(value);
+                        updatePlayers(value);
                         checkTurnByBlinds(value);
                     }, this::notifyUser);
                     //TODO: initializeWinnerConnection();
@@ -62,18 +62,18 @@ public class RoomViewModel extends ViewModel {
                 }, this::notifyUser));
     }
 
-    private void updateRoomPlayers(Round rnd) {
+    private void updatePlayers(Round rnd) {
         Room tempRoom = room.getValue();
         tempRoom.setPlayersInRoom(rnd.getPlayersInRound());
-        room.setValue(tempRoom);
-    }
-
-    private void updatePlayer(Round rnd) {
-        rnd.getPlayersInRound().forEach(otherPlayer -> {
-            if (otherPlayer.getUserId().equals(player.getValue().getUserId())) {
-                player.postValue(otherPlayer);
+        for (Player roomPlayer : tempRoom.getPlayersInRoom()) {
+            if (roomPlayer.getUserId().equals(player.getValue().getUserId())) {
+                player.postValue(roomPlayer); // update self
             }
-        });
+            compositeDisposable.add(userRepo.getUser(roomPlayer.getUserId()).subscribe(nextUser -> {
+                        roomPlayer.setUsername(nextUser.getUsername());
+                        room.postValue(tempRoom); // update room
+                    }, this::notifyUser));
+        }
     }
 
     /**

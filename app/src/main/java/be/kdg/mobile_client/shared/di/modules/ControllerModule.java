@@ -194,8 +194,8 @@ public class ControllerModule {
 
     @Provides
     @Singleton
-    RoomViewModel roomViewModel(RoomRepository roomRepo, RoundRepository roundRepo){
-        return new RoomViewModel(roomRepo, roundRepo);
+    RoomViewModel roomViewModel(RoomRepository roomRepo, RoundRepository roundRepo, UserRepository userRepo){
+        return new RoomViewModel(roomRepo, roundRepo, userRepo);
     }
 
     @Provides

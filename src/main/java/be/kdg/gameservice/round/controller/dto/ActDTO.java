@@ -22,4 +22,5 @@ public class ActDTO {
     private int totalBet;
     private String nextUserId;
     private boolean allIn;
+    private int seatNumber;
 }

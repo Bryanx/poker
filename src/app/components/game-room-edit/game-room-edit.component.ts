@@ -82,7 +82,7 @@ export class GameRoomEditComponent implements OnInit {
     this.room.gameRules.startingChips = this.updateRoomForm.controls.startingChips.value;
     this.room.gameRules.minLevel = this.updateRoomForm.controls.minLevel.value;
     this.room.gameRules.maxLevel = this.updateRoomForm.controls.maxLevel.value;
-    console.log(this.room);
+
 
     if (this.isAddingPrivate()) {
       this.roomService.addPrivateRoom(this.room as PrivateRoom).subscribe(() => this.location.back());

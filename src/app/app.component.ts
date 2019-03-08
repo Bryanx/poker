@@ -95,7 +95,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
           const not: Notification = JSON.parse(message.body) as Notification;
           this.userService.readNotification(not.id).subscribe();
           this.showNotification(not);
-          console.log(not);
+
           this.newNotification = not;
         }
       });

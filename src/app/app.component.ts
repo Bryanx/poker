@@ -144,7 +144,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.levelPrev = user.level;
 
     if (user.xpTillNext - this.xpPrev !== 0) {
-      console.log('DIFFERENT!');
+
       this.xpPrev = user.xpTillNext;
       this.showXp = true;
       setTimeout(() => this.showXp = false, 3000);
@@ -152,7 +152,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private showNotification(not: Notification) {
-    console.log(not);
+
     let type;
     if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
       type = 'error';

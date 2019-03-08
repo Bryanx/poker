@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -33,11 +32,11 @@ public class NotificationServiceImpl implements NotificationService {
     /**
      * Adds a notification to the system.
      *
-     * @param senderId The Id of the user that send the notification.
+     * @param senderId   The Id of the user that send the notification.
      * @param receiverId The Id of the user that received the notification.
-     * @param message The message itself.
-     * @param type The type of message.
-     * @param ref The reference to the senders user account. Needed for the routerlink in the front end.
+     * @param message    The message itself.
+     * @param type       The type of message.
+     * @param ref        The reference to the senders user account. Needed for the routerlink in the front end.
      * @return A newly created notification.
      * @throws UserException Thrown if the user does not exist.
      */
@@ -83,17 +82,6 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     /**
-     * Gets all the notifications for a specific type.
-     *
-     * @param type The type of notifications we want to get.
-     * @return The notifications of a specific type.
-     */
-    @Override
-    public List<Notification> getNotificationsForType(NotificationType type) {
-        return Collections.unmodifiableList(notificationRepository.findAllByType(type));
-    }
-
-    /**
      * Gives back all the unread notifications of the a specefic user.
      *
      * @param userId The id of that user.
@@ -125,10 +113,10 @@ public class NotificationServiceImpl implements NotificationService {
     /**
      * Deletes a specific notification from the account of a specific user.
      *
-     * @param userId The id of the user.
+     * @param userId         The id of the user.
      * @param notificationId The id of the notification.
      * @throws NotificationException Thrown if the notification was not found in the database.
-     * @throws UserException Thrown if the user was not found in the database.
+     * @throws UserException         Thrown if the user was not found in the database.
      */
     @Override
     public void deleteNotification(String userId, int notificationId) throws NotificationException, UserException {

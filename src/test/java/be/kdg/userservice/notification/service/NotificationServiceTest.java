@@ -66,10 +66,4 @@ public class NotificationServiceTest extends UtilTesting {
         User user = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
         assertEquals(0, user.getNotifications().size());
     }
-
-    @Test
-    public void getAdminMessages() {
-        List<Notification> notifications = notificationRepository.findAllByType(NotificationType.GLOBAL_MESSAGE);
-        assertEquals(1, notifications.size());
-    }
 }

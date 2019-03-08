@@ -30,6 +30,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   ws: any;
   allIn: boolean;
   betraise: boolean;
+  counter: number;
+  progressBarCounter: number;
+  timerInterval: any;
 
   constructor(private roundService: RoundService, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService) {
@@ -42,6 +45,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.ws !== undefined) {
       this.ws.disconnect();
+    }
+    if (this.timerInterval !== undefined) {
+      clearInterval(this.timerInterval);
     }
   }
 
@@ -84,6 +90,8 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   playAct(actType: ActType, allIn?: boolean) {
     // console.log(actType);
     if (this.canAct) {
+      clearInterval(this.timerInterval);
+      this.progressBarCounter = 0;
       this.canAct = false;
       const act: Act = new Act();
       act.roundId = this._round.id;
@@ -142,6 +150,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
       this.getPlayer();
       this.checkTurn();
+      this.setTimer();
 
       if (this.myTurn && this.player.allIn) {
         this.playAct(ActType.Check, this.player.allIn);
@@ -208,6 +217,21 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     } else {
       this.allIn = false;
       this.betraise = false;
+    }
+  }
+
+  setTimer() {
+    if (this.myTurn) {
+      this.counter = this.room.gameRules.playDelay;
+       this.timerInterval = setInterval(() => {
+        if (this.counter > 0) {
+          this.counter -= 1;
+          this.progressBarCounter = this.counter / this.room.gameRules.playDelay * 100;
+        } else {
+          clearInterval(this.timerInterval);
+          this.playAct(ActType.Fold);
+        }
+      }, 1000);
     }
   }
 }

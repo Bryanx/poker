@@ -2,11 +2,11 @@
 
 <section class="message-bar" >
   <input type="text" placeholder="Your message" [(ngModel)]="inputString">
-  <button (click)="sendMessage()" class="message-button">SEND</button>
+  <button (click)="sendMessage()" class="message-button">{{'SEND' | translate | uppercase}}</button>
 </section>
 
-<h2 *ngIf="notifications.length > 0">Older messages</h2>
-<h2 *ngIf="notifications.length <= 0">No older messages</h2>
+<h2 *ngIf="notifications.length > 0">{{'OLDER MESSAGES' | translate | uppercase}}</h2>
+<h2 *ngIf="notifications.length <= 0">{{'NO OLDER MESSAGES' | translate | uppercase}}</h2>
 
 <section class="message-section">
   <div class="message-row" *ngFor="let not of notifications" [@simpleFadeAnimation]="'in'">

@@ -56,5 +56,8 @@
   "UNKNOWN": "unknown",
   "WAITINGFORPLAYERS": "Waiting for players...",
   "GLOBAL MESSAGES": "Global messages",
-  "ANNOUNCE SOMETHING": "Announce something"
+  "ANNOUNCE SOMETHING": "Announce something",
+  "SEND": "Send",
+  "OLDER MESSAGES": "Older messages",
+  "NO OLDER MESSAGES": "No older messages"
 }

@@ -74,6 +74,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Room room = rooms.get(position);
 
+        holder.roomCard.setEnabled(true);
         holder.tvRoomName.setText(rooms.get(position).getName());
         holder.tvBuyIn.setText(String.format(Locale.ENGLISH, "Buy-in: %d", room.getGameRules().getStartingChips()));
         holder.tvBlinds.setText(String.format(Locale.ENGLISH, "%d/%d", room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind()));
@@ -85,6 +86,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         placeImage(R.drawable.not_full, holder.ivCap);
         
         holder.roomCard.setOnClickListener(e -> {
+            holder.roomCard.setEnabled(false);
             if (room.getGameRules().getStartingChips() > myself.getChips()) {
                 Toast.makeText(ctx, "You don't have enough chips.", Toast.LENGTH_LONG).show();
             } else if (room.getPlayersInRoom().size() >= room.getGameRules().getMaxPlayerCount()) {
@@ -148,6 +150,10 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             ivTimer = itemView.findViewById(R.id.ivTimer);
             ivCap = itemView.findViewById(R.id.ivCap);
             roomCard = itemView.findViewById(R.id.roomCard);
+        }
+
+        public CardView getRoomCard() {
+            return roomCard;
         }
     }
 }

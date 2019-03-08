@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -35,6 +36,7 @@ public class RoomOverviewActivity extends BaseActivity {
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @Inject RoomService roomService;
     @Inject UserService userService;
+    private RoomRecyclerAdapter roomAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +80,15 @@ public class RoomOverviewActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(myself -> {
                     progressBar.setVisibility(View.GONE);
-                    RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(this, rooms, myself);
+                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself);
                     lvRoom.setAdapter(roomAdapter);
                     lvRoom.setLayoutManager(new LinearLayoutManager(this));
                 }));
+    }
+
+    @Override
+    protected void onResume() {
+        if (roomAdapter != null) roomAdapter.notifyDataSetChanged(); // refresh rooms
+        super.onResume();
     }
 }

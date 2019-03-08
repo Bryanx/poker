@@ -168,8 +168,8 @@ public class ControllerModule {
 
     @Provides
     @Singleton
-    WebSocketService webSocketService(StompClient stompClient) {
-        return new WebSocketService(stompClient);
+    WebSocketService webSocketService() {
+        return new WebSocketService();
     }
 
     @Provides

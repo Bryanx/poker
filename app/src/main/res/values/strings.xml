@@ -83,6 +83,7 @@
     <string name="act_call">CALL</string>
     <string name="act_raise">RAISE</string>
     <string name="act_check">CHECK</string>
+    <string name="act_bet">BET</string>
     <string name="_0">0</string>
 
     <!-- account settings -->
@@ -97,4 +98,5 @@
     <string name="error_updating_user">Error updating user</string>
     <string name="error_updating_password">Error updating password for user</string>
     <string name="failed_to_connect">Failed to connect</string>
+    <string name="room">ROOM</string>
 </resources>

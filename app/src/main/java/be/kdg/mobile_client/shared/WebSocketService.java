@@ -10,6 +10,7 @@ import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import ua.naiksoftware.stomp.Stomp;
 import ua.naiksoftware.stomp.StompClient;
 import ua.naiksoftware.stomp.dto.StompMessage;
 
@@ -17,12 +18,17 @@ import ua.naiksoftware.stomp.dto.StompMessage;
  * All websocket traffic is handled here.
  */
 public class WebSocketService {
-    private final StompClient stompClient;
+    private StompClient stompClient;
     private static final String TAG = "WebSocketService";
+    private static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
+    private static final int WEBSOCKET_HEARTBEAT_MS = 10000;
 
-    @Inject
-    public WebSocketService(StompClient stompClient) {
-        this.stompClient = stompClient;
+    public void connect() {
+        if (stompClient == null) {
+            stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, WEBSOCKET_URL);
+            stompClient.withClientHeartbeat(WEBSOCKET_HEARTBEAT_MS).withServerHeartbeat(WEBSOCKET_HEARTBEAT_MS);
+            stompClient.connect();
+        }
     }
 
     public <T> Flowable<T> watch(String url, Class<T> clazz) {
@@ -43,6 +49,12 @@ public class WebSocketService {
 
     private <T> Function<StompMessage, T> parseWithGsonInto(Class<T> clazz) {
         return msg -> new Gson().fromJson(msg.getPayload(), clazz);
+    }
+
+    public void disconnect() {
+        if (stompClient.isConnected()) {
+            stompClient.disconnect();
+        }
     }
 
 }

@@ -3,10 +3,13 @@ package be.kdg.mobile_client.round;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import be.kdg.mobile_client.room.model.Act;
+import be.kdg.mobile_client.room.model.ActType;
 import be.kdg.mobile_client.shared.WebSocketService;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -30,11 +33,19 @@ public class RoundRepository {
     public RoundRepository(WebSocketService webSocketService, RoundService roundService) {
         this.webSocketService = webSocketService;
         this.roundService = roundService;
+        webSocketService.connect();
     }
 
     public synchronized Observable<Response<Void>> addAct(Act act) {
         onErrorMsg = "Failed to play act";
         return roundService.addAct(act)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnError(this::logError);
+    }
+
+    public synchronized Observable<List<ActType>> getPossibleActs(int roundId) {
+        onErrorMsg = "Failed to get possible acts";
+        return roundService.getPossibleActs(String.valueOf(roundId))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::logError);
     }
@@ -51,5 +62,9 @@ public class RoundRepository {
             Log.e(TAG, error.getMessage());
             error.printStackTrace();
         }
+    }
+
+    public void disconnectWebsocket() {
+        webSocketService.disconnect();
     }
 }

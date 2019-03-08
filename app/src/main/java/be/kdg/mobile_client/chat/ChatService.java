@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import javax.inject.Inject;
 
 import be.kdg.mobile_client.shared.WebSocketService;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
@@ -14,7 +15,7 @@ import io.reactivex.functions.Consumer;
 public class ChatService {
     private final WebSocketService webSocketService;
     private int roomNumber;
-    private Disposable chatDisposable;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
     public ChatService(WebSocketService webSocketService) {
@@ -23,6 +24,7 @@ public class ChatService {
 
     public void init(int roomNumber) {
         this.roomNumber = roomNumber;
+        webSocketService.connect();
     }
 
     public void sendMessage(String name, String message) {
@@ -32,11 +34,11 @@ public class ChatService {
     }
 
     public void setOnIncomingMessage(Consumer<ChatMessage> onNext, Consumer<Throwable> onError) {
-        chatDisposable = webSocketService.watch("/chatroom/receive/" + roomNumber, ChatMessage.class)
-                .subscribe(onNext, onError);
+        compositeDisposable.add(webSocketService.watch("/chatroom/receive/" + roomNumber, ChatMessage.class)
+                .subscribe(onNext, onError));
     }
 
     public void disconnect() {
-        chatDisposable.dispose();
+        compositeDisposable.dispose();
     }
 }

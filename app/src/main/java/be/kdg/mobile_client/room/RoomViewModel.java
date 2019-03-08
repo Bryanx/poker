@@ -1,6 +1,6 @@
 package be.kdg.mobile_client.room;
 
-import android.annotation.SuppressLint;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -11,8 +11,11 @@ import be.kdg.mobile_client.room.model.ActType;
 import be.kdg.mobile_client.room.model.Player;
 import be.kdg.mobile_client.round.Round;
 import be.kdg.mobile_client.round.RoundRepository;
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
 import lombok.Setter;
+import retrofit2.Response;
 
 /**
  * The main viewmodel for joining a room and fetching its state.
@@ -20,7 +23,6 @@ import lombok.Setter;
  * The LiveData variables are directly linked and accessible from the layout.
  * When the LiveData variables change, the bound data in the layout is subsequently changed.
  */
-@SuppressLint("CheckResult")
 public class RoomViewModel extends ViewModel {
     private final RoomRepository roomRepo;
     private final RoundRepository roundRepo;
@@ -29,7 +31,9 @@ public class RoomViewModel extends ViewModel {
     @Getter MutableLiveData<Player> player = new MutableLiveData<>();
     @Getter MutableLiveData<String> toast = new MutableLiveData<>();
     @Getter MutableLiveData<Boolean> myTurn = new MutableLiveData<>();
+    @Getter MutableLiveData<List<ActType>> possibleActs = new MutableLiveData<>();
     @Getter @Setter MutableLiveData<Integer> seekBarValue = new MutableLiveData<>();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
     public RoomViewModel(RoomRepository roomRepo, RoundRepository roundRepo) {
@@ -40,10 +44,10 @@ public class RoomViewModel extends ViewModel {
     /**
      * Setup initial room connection
      */
-    public void init(int roomId) {
-        roomRepo.findById(roomId)
+    void init(int roomId) {
+        compositeDisposable.add(roomRepo.findById(roomId)
                 .subscribe(next -> {
-                    if (playerCapReached(next)) return;
+                    if (playerCapReached(next)) notifyUser(new Exception("Room is full."));
                     room.setValue(next);
                     roomRepo.listenOnRoomUpdate(roomId).subscribe(room::postValue, this::notifyUser);
                     roundRepo.listenOnRoundUpdate(roomId).subscribe(value -> {
@@ -55,7 +59,7 @@ public class RoomViewModel extends ViewModel {
                     //TODO: initializeWinnerConnection();
                     roomRepo.joinRoom(roomId).subscribe(player::postValue, this::notifyUser);
                     roomRepo.listenOnActUpdate(roomId).subscribe(this::onNewAct, this::notifyUser);
-                }, this::notifyUser);
+                }, this::notifyUser));
     }
 
     private void updateRoomPlayers(Round rnd) {
@@ -77,11 +81,17 @@ public class RoomViewModel extends ViewModel {
      */
     private void onNewAct(Act act) {
         myTurn.setValue(false);
+        updatePossibleActs(act.getRoundId());
         if (act.getNextUserId().equals(player.getValue().getUserId())) {
             myTurn.setValue(true);
         } else {
             checkTurnByBlinds(round.getValue());
         }
+    }
+
+    private void updatePossibleActs(int roundId) {
+        compositeDisposable.add(roundRepo.getPossibleActs(roundId)
+                .subscribe(possibleActs::postValue, this::notifyUser));
     }
 
     /**
@@ -92,6 +102,7 @@ public class RoomViewModel extends ViewModel {
         int nextPlayerIndex = rnd.getButton() >= rnd.getPlayersInRound().size() - 1 ? 0 : rnd.getButton() + 1;
         if (rnd.getPlayersInRound().get(nextPlayerIndex).getUserId().equals(player.getValue().getUserId())) {
             myTurn.setValue(true);
+            updatePossibleActs(rnd.getId());
         }
     }
 
@@ -119,17 +130,19 @@ public class RoomViewModel extends ViewModel {
             act.setBet(bet);
             act.setTotalBet(bet);
         }
-        roundRepo.addAct(act).subscribe(e -> seekBarValue.setValue(0),  this::notifyUser);
+        compositeDisposable.add(roundRepo.addAct(act).subscribe(e -> seekBarValue.setValue(0), this::notifyUser));
     }
 
     /**
      * Update the toast livedata variable, RoomActivity listens on this variable and shows a toast
      */
-    public void notifyUser(Throwable throwable) {
+    private void notifyUser(Throwable throwable) {
         toast.postValue(throwable.getMessage());
     }
 
-    public void leaveRoom() {
-        roomRepo.leaveRoom(room.getValue().getId()).subscribe(e -> {}, this::notifyUser);
+    void leaveRoom() {
+        compositeDisposable.add(roomRepo.leaveRoom(room.getValue().getId())
+                .subscribe(e -> compositeDisposable.dispose(), this::notifyUser));
+        roundRepo.disconnectWebsocket();
     }
 }

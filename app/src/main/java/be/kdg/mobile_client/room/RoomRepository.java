@@ -30,6 +30,7 @@ public class RoomRepository {
     public RoomRepository(RoomService roomService, WebSocketService webSocketService) {
         this.roomService = roomService;
         this.webSocketService = webSocketService;
+        webSocketService.connect();
     }
 
     public synchronized Observable<Room> findById(int roomId) {

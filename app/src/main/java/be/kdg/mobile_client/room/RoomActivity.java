@@ -12,11 +12,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
-import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.BaseActivity;
-import be.kdg.mobile_client.databinding.ActivityRoomBinding;
+import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.chat.ChatFragment;
 import be.kdg.mobile_client.chat.ChatService;
+import be.kdg.mobile_client.databinding.ActivityRoomBinding;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,9 +69,7 @@ public class RoomActivity extends BaseActivity {
                 newTransaction().hide(chatFragment).commit();
             }
         });
-        viewModel.getToast().observe(this, message -> {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        });
+        viewModel.getToast().observe(this, message -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());
     }
 
     /**
@@ -84,8 +82,8 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        viewModel.leaveRoom();
         chatFragment.leaveChat();
+        viewModel.leaveRoom();
         super.onDestroy();
     }
 }

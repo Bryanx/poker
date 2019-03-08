@@ -20,15 +20,28 @@
         android:background="@color/colorDarkerBackground">
 
         <TextView
+            android:id="@+id/tvRoom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:text="@string/room"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="@{viewmodel.room.name}"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/smallest_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tvRoom" />
 
         <TextView
             android:id="@+id/vSliderValue"
@@ -57,18 +70,18 @@
 
             <SeekBar
                 android:id="@+id/sbBet"
-                android:max="@{viewmodel.room.gameRules.startingChips}"
                 android:layout_width="180dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
                 android:enabled="@{viewmodel.myTurn}"
+                android:max="@{viewmodel.room.gameRules.startingChips}"
                 android:progress="@={viewmodel.seekBarValue}"
                 android:rotation="270" />
 
         </FrameLayout>
 
         <Button
-            android:id="@+id/btnBet"
+            android:id="@+id/btnRaise"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
@@ -77,6 +90,22 @@
             android:onClick="@{() -> viewmodel.onAct(ActType.RAISE)}"
             android:text="@string/act_raise"
             android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
+            android:visibility="@{viewmodel.myTurn &amp;&amp; viewmodel.possibleActs.contains(ActType.RAISE)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnBet"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:background="@{viewmodel.myTurn ? @drawable/circle_yellow : @drawable/circle_grey}"
+            android:clickable="@{viewmodel.myTurn}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.BET)}"
+            android:text="@string/act_bet"
+            android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
+            android:visibility="@{viewmodel.myTurn &amp;&amp; viewmodel.possibleActs.contains(ActType.BET)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

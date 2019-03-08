@@ -29,7 +29,7 @@ public class EmailValidator implements TextWatcher {
     /**
      * Validates if the given input is a valid email address.
      */
-    static boolean isValidEmail(CharSequence email) {
+    public static boolean isValidEmail(CharSequence email) {
         return email != null && EMAIL_PATTERN.matcher(email).matches();
     }
 

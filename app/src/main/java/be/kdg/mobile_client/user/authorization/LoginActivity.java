@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import androidx.annotation.UiThread;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.MenuActivity;
@@ -17,15 +18,15 @@ import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.user.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.HttpException;
 
 public class LoginActivity extends BaseActivity {
     @BindView(R.id.etSearch) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
     @BindView(R.id.tvBroMessageLogin) TextView tvBroMessage;
     @BindView(R.id.btnLogin) Button btnLogin;
+    @Inject AuthorizationService authService;
     @Inject SharedPrefService sharedPrefService;
-    @Inject
-    UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +56,8 @@ public class LoginActivity extends BaseActivity {
      * Retrieves token from backend with a POST request.
      */
     private void getTokenFromServer(String username, String password) {
-        userService.login(username, password, "password").enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response != null && response.isSuccessful()) {
-                onLoginSuccess(response.body());
-            } else {
-                onLoginFailed(throwable == null ? "" : throwable.getMessage());
-            }
-        }));
+        compositeDisposable.add(authService.login(username, password, "password")
+                .subscribe(this::onLoginSuccess, this::onLoginFailed));
     }
 
     /**
@@ -71,19 +67,28 @@ public class LoginActivity extends BaseActivity {
         token.setSignedIn(true);
         token.setUsername(etUsername.getText().toString());
         sharedPrefService.saveToken(this, token);
-        Toast.makeText(getBaseContext(), getString(R.string.logging_in), Toast.LENGTH_LONG).show();
-        btnLogin.setEnabled(true);
-        setResult(RESULT_OK);
-        finish();
+        runOnUiThread(() -> Toast.makeText(this, getString(R.string.logging_in), Toast.LENGTH_LONG).show());
         navigateTo(MenuActivity.class);
     }
 
     /**
      * Gets called when user fails to log in and shows toast.
      */
-    public void onLoginFailed(String message) {
-        Toast.makeText(getBaseContext(), getString(R.string.error_login_message), Toast.LENGTH_LONG).show();
-        Log.e("Can't login", message);
-        btnLogin.setEnabled(true);
+    @UiThread
+    public void onLoginFailed(Throwable throwable) {
+        runOnUiThread(() -> {
+            String toastMessage = throwable.getMessage();
+            if (throwable instanceof HttpException) {
+                HttpException error = (HttpException) throwable;
+                switch (error.response().code()) {
+                    case 401: toastMessage = "Incorrect username or password"; break;
+                    case 503: toastMessage = "Service is currently unavailable"; break;
+                    case 500: toastMessage = "Internal server error"; break;
+                }
+            }
+            Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show();
+            Log.e("Can't login", throwable.getMessage());
+            btnLogin.setEnabled(true);
+        });
     }
 }

@@ -18,12 +18,10 @@ import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.MenuActivity;
 import be.kdg.mobile_client.user.User;
 import be.kdg.mobile_client.user.UserService;
-import be.kdg.mobile_client.user.authorization.Register;
+import be.kdg.mobile_client.user.authorization.Credential;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.shared.CallbackWrapper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Response;
 
 /**
  * Activity to alter user settings
@@ -41,8 +39,7 @@ public class UserSettingsActivity extends BaseActivity {
     @BindView(R.id.btnUpdatePassword) Button btnUpdatePassword;
 
     @Inject SharedPrefService sharedPrefService;
-    @Inject
-    UserService userService;
+    @Inject UserService userService;
 
     private User user;
 
@@ -59,15 +56,17 @@ public class UserSettingsActivity extends BaseActivity {
 
     private void getUser() {
         String userId = sharedPrefService.getUserId(this);
-        userService.getUser(userId).enqueue(new CallbackWrapper<>(this::onResult));
-    }
-
-    private boolean responseSuccess(Response response) {
-        return response != null && response.body() != null && response.isSuccessful();
-    }
-
-    private void handleError(Throwable throwable, String tag, String msg) {
-        if (throwable != null) Log.e(tag, throwable.getMessage());
+        compositeDisposable.add(userService.getUser(userId).subscribe(response -> {
+            if (response != null) {
+                user = response;
+                etUsername.setText(user.getUsername());
+                etFirstName.setText(user.getFirstname());
+                etLastName.setText(user.getLastname());
+                byte[] decodedString = Base64.decode(user.getProfilePicture(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                ivPicture.setImageBitmap(decodedByte);
+            }
+        }, throwable -> handleError(throwable, getString(R.string.user_settings_activity), getString(R.string.error_loading_user))));
     }
 
     private void addEventListeners() {
@@ -89,15 +88,13 @@ public class UserSettingsActivity extends BaseActivity {
 
     private void updatePassword() {
         // Check if passwords match
-        if(etPassword1.getText().toString().equals(etPassword2.getText().toString())) {
-            Register authDTO = new Register(user.getUsername(), user.getEmail(), etPassword1.getText().toString());
-            userService.changePassword(authDTO).enqueue(new CallbackWrapper<>((throwable, response) -> {
-                if (responseSuccess(response)) {
+        if (etPassword1.getText().toString().equals(etPassword2.getText().toString())) {
+            Credential authDTO = new Credential(user.getUsername(), user.getEmail(), etPassword1.getText().toString());
+            compositeDisposable.add(userService.changePassword(authDTO).subscribe(response -> {
+                if (response != null) {
                     onUpdateUserSuccess();
-                } else {
-                    handleError(throwable, "changeUser", "Error updating user");
                 }
-            }));
+            }, throwable -> handleError(throwable, getString(R.string.user_settings_activity), getString(R.string.error_updating_user))));
         }
     }
 
@@ -105,30 +102,11 @@ public class UserSettingsActivity extends BaseActivity {
      * API call to update user
      */
     private void updateUser() {
-        userService.changeUser(user).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (responseSuccess(response)) {
+        compositeDisposable.add(userService.changeUser(user).subscribe(response -> {
+            if (response != null) {
                 onUpdateUserSuccess();
-            } else {
-                handleError(throwable, "changeUser", "Error updating password for user");
             }
-        }));
-    }
-
-    /**
-     * Gets called when user object is received
-     */
-    private void onResult(Throwable throwable, Response<User> response) {
-        if (responseSuccess(response)) {
-            user = response.body();
-            etUsername.setText(user.getUsername());
-            etFirstName.setText(user.getFirstname());
-            etLastName.setText(user.getLastname());
-            byte[] decodedString = Base64.decode(user.getProfilePicture(), Base64.DEFAULT);
-            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            ivPicture.setImageBitmap(decodedByte);
-        } else {
-            handleError(throwable, "loadUser", "Error loading user");
-        }
+        }, throwable -> handleError(throwable, getString(R.string.user_settings_activity), getString(R.string.error_updating_password))));
     }
 
     /**
@@ -141,5 +119,19 @@ public class UserSettingsActivity extends BaseActivity {
         finish();
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
+    }
+
+    /**
+     * Convenient method for handling errors
+     */
+    public void handleError(Throwable error, String tag, String message) {
+        Log.e(tag, message);
+        if (error != null) {
+            Toast.makeText(this, error.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+            Log.e(tag, error.getMessage());
+            error.printStackTrace();
+        } else {
+            Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG).show();
+        }
     }
 }

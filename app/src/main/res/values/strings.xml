@@ -90,4 +90,11 @@
     <string name="lastname">Last name</string>
     <string name="update">Update</string>
     <string name="update_account_settings">Update account settings</string>
+    <string name="login_activity">LoginActivity</string>
+    <string name="register_activity">RegisterActivity</string>
+    <string name="user_settings_activity">UserSettingsActivity</string>
+    <string name="error_loading_user">Error loading user</string>
+    <string name="error_updating_user">Error updating user</string>
+    <string name="error_updating_password">Error updating password for user</string>
+    <string name="failed_to_connect">Failed to connect</string>
 </resources>

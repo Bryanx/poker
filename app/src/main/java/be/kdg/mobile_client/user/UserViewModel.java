@@ -7,9 +7,8 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import be.kdg.mobile_client.user.User;
-import be.kdg.mobile_client.user.UserService;
 import be.kdg.mobile_client.shared.CallbackWrapper;
+import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import retrofit2.Response;
@@ -20,6 +19,7 @@ import retrofit2.Response;
  */
 @RequiredArgsConstructor
 public class UserViewModel extends ViewModel {
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final UserService userService;
     @Getter MutableLiveData<User> user;
     private MutableLiveData<List<User>> users;
@@ -42,41 +42,37 @@ public class UserViewModel extends ViewModel {
     }
 
     public void changeUser(User user) {
-        userService.changeUser(user).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (responseSuccess(response)) {
-                message.setValue("User was updated");
-            } else {
-                handleError(throwable, "changeUser", "Error updating user");
+        compositeDisposable.add(userService.changeUser(user).subscribe(response -> {
+            if (response != null) {
+                message.postValue("User was updated");
             }
-        }));
+        }, throwable -> handleError(throwable, "changeUser", "Error updating user")));
     }
 
     private void loadUser(String id) {
-        userService.getUser(id).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (responseSuccess(response)) {
-                user.setValue(response.body());
-            } else {
-                handleError(throwable, "loadUser", "Error loading user");
+        compositeDisposable.add(userService.getUser(id).subscribe(response -> {
+            if (response != null) {
+                user.postValue(response);
             }
-        }));
+        }, throwable -> handleError(throwable, "loadUser", "Error loading user")));
     }
 
     private void loadUsers(String name) {
-        userService.getUsersByName(name).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (responseSuccess(response)) {
-                users.setValue(response.body());
-            } else {
-                handleError(throwable, "loadUsers", "Error loading users");
+        compositeDisposable.add(userService.getUsersByName(name).subscribe(response -> {
+            if (response != null) {
+                users.postValue(response);
             }
-        }));
-    }
-
-    private boolean responseSuccess(Response response) {
-        return response != null && response.body() != null && response.isSuccessful();
+        }, throwable -> handleError(throwable, "loadUsers", "Error loading users")));
     }
 
     private void handleError(Throwable throwable, String tag, String msg) {
         if (throwable != null) Log.e(tag, throwable.getMessage());
-        message.setValue(msg);
+        message.postValue(msg);
+    }
+
+    @Override
+    protected void onCleared() {
+        compositeDisposable.dispose();
+        super.onCleared();
     }
 }

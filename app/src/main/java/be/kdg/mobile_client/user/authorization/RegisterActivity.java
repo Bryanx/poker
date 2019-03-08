@@ -12,11 +12,9 @@ import javax.inject.Inject;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.MenuActivity;
-import be.kdg.mobile_client.shared.CallbackWrapper;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.shared.validators.EmailValidator;
 import be.kdg.mobile_client.shared.validators.UsernameValidator;
-import be.kdg.mobile_client.user.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -27,8 +25,7 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.tvBroMessageRegister) TextView tvBroMessage;
     @BindView(R.id.btnRegister) Button btnRegister;
     @Inject SharedPrefService sharedPrefService;
-    @Inject
-    UserService userService;
+    @Inject AuthorizationService authService;
     @Inject EmailValidator emailValidator;
     @Inject UsernameValidator usernameValidator;
 
@@ -55,21 +52,16 @@ public class RegisterActivity extends BaseActivity {
 
         if (validateRegister(password)) {
             btnRegister.setEnabled(false);
-            getTokenFromServer(new Register(username, email, password));
+            getTokenFromServer(new Credential(username, email, password));
         }
     }
 
     /**
      * Retrieves token from backend with a POST request.
      */
-    private void getTokenFromServer(Register register) {
-        userService.register(register).enqueue(new CallbackWrapper<>((throwable, response) -> {
-            if (response != null && response.body() != null && response.isSuccessful()) {
-                onRegisterSuccess(response.body());
-            } else {
-                onRegisterFailed(throwable == null ? "" : throwable.getMessage());
-            }
-        }));
+    private void getTokenFromServer(Credential credential) {
+        compositeDisposable.add(authService.register(credential)
+                .subscribe(this::onRegisterSuccess, this::onRegisterFailed));
     }
 
     /**
@@ -79,19 +71,16 @@ public class RegisterActivity extends BaseActivity {
         token.setSignedIn(true);
         token.setUsername(etUsername.getText().toString());
         sharedPrefService.saveToken(this, token);
-        Toast.makeText(getBaseContext(), getString(R.string.logging_in), Toast.LENGTH_LONG).show();
-        btnRegister.setEnabled(true);
-        setResult(RESULT_OK);
-        finish();
+        runOnUiThread(() -> Toast.makeText(getBaseContext(), getString(R.string.logging_in), Toast.LENGTH_LONG).show());
         navigateTo(MenuActivity.class);
     }
 
     /**
      * Gets called when user fails to regsiter and shows toast.
      */
-    public void onRegisterFailed(String message) {
-        Toast.makeText(getBaseContext(), getString(R.string.error_register_message), Toast.LENGTH_LONG).show();
-        Log.e("Can't register", message);
+    public void onRegisterFailed(Throwable throwable) {
+        runOnUiThread(() -> Toast.makeText(this, getString(R.string.error_register_message), Toast.LENGTH_LONG).show());
+        Log.e("Can't register", throwable.getMessage());
         btnRegister.setEnabled(true);
     }
 

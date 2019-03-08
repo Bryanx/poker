@@ -26,7 +26,7 @@
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="@string/register"
-                android:textColor="#fff"
+                android:textColor="@color/colorWhite"
                 android:textSize="36sp"
                 android:textStyle="bold" />
 
@@ -44,8 +44,8 @@
                     android:backgroundTint="@color/colorWhite"
                     android:hint="@string/email"
                     android:inputType="textEmailAddress"
-                    android:textColor="#fff"
-                    android:textColorHint="#fff" />
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
             </LinearLayout>
 
             <LinearLayout
@@ -62,8 +62,8 @@
                     android:backgroundTint="@color/colorWhite"
                     android:hint="@string/username"
                     android:inputType="text"
-                    android:textColor="#fff"
-                    android:textColorHint="#fff" />
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
             </LinearLayout>
 
             <!--  Password Label -->
@@ -81,8 +81,8 @@
                     android:backgroundTint="@color/colorWhite"
                     android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:textColor="#fff"
-                    android:textColorHint="#fff" />
+                    android:textColor="@color/colorWhite"
+                    android:textColorHint="@color/colorWhite" />
             </LinearLayout>
 
 

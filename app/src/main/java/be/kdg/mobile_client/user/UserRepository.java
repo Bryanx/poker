@@ -5,6 +5,7 @@ import javax.inject.Singleton;
 
 import be.kdg.mobile_client.user.User;
 import be.kdg.mobile_client.user.UserService;
+import io.reactivex.Observable;
 import retrofit2.Call;
 
 @Singleton
@@ -16,7 +17,7 @@ public class UserRepository {
         this.userService = userService;
     }
 
-    public Call<User> getUser(String userId) {
+    public Observable<User> getUser(String userId) {
         return userService.getUser(userId);
     }
 }

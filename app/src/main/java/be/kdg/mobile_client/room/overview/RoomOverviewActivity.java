@@ -25,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * This activity is used to display all the rooms as cards.
@@ -34,8 +35,7 @@ public class RoomOverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @Inject
-    RoomService roomService;
+    @Inject RoomService roomService;
     @Inject UserService userService;
 
     @Override
@@ -56,15 +56,17 @@ public class RoomOverviewActivity extends BaseActivity {
         Observable<List<Room>> roomObs;
 
         if (getIntent().getStringExtra("TYPE").equals("PUBLIC")) {
-            roomObs = roomService.getRooms().observeOn(AndroidSchedulers.mainThread());
+            roomObs = roomService.getRooms();
         } else {
-            roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
+            roomObs = roomService.getPrivateRooms();
         }
 
-        roomObs.subscribe(this::initializeAdapter, error -> {
-                    Toast.makeText(this, "Failed to connect", Toast.LENGTH_LONG).show();
+        compositeDisposable.add(roomObs
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::initializeAdapter, error -> {
+                    Toast.makeText(this, getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();
                     Log.e("RoomOverviewActivity", error.getMessage());
-                });
+                }));
     }
 
     /**
@@ -74,11 +76,13 @@ public class RoomOverviewActivity extends BaseActivity {
      * @param rooms The rooms that need to be used by the adapter.
      */
     private void initializeAdapter(List<Room> rooms) {
-        userService.getUser("").enqueue(new CallbackWrapper<>((throwable, myself) -> {
-            progressBar.setVisibility(View.GONE);
-            RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(this, rooms, myself.body());
-            lvRoom.setAdapter(roomAdapter);
-            lvRoom.setLayoutManager(new LinearLayoutManager(this));
-        }));
+        compositeDisposable.add(userService.getUser("")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(myself -> {
+                    progressBar.setVisibility(View.GONE);
+                    RoomRecyclerAdapter roomAdapter = new RoomRecyclerAdapter(this, rooms, myself);
+                    lvRoom.setAdapter(roomAdapter);
+                    lvRoom.setLayoutManager(new LinearLayoutManager(this));
+                }));
     }
 }

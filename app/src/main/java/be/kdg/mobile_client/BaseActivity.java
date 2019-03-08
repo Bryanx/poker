@@ -1,18 +1,23 @@
 package be.kdg.mobile_client;
 
 import android.content.Intent;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
+import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.shared.di.components.ControllerComponent;
 import be.kdg.mobile_client.shared.di.modules.ControllerModule;
-import be.kdg.mobile_client.shared.SharedPrefService;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Overrides a standard activity and provides the controller component to its children.
  * @see be.kdg.mobile_client.App
  */
 public abstract class BaseActivity extends AppCompatActivity {
+
+    protected CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     /**
      * Navigate to a different activity
@@ -50,5 +55,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         return ((App)getApplication())
                 .getAppComponent()
                 .newControllerComponent(new ControllerModule(this));
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.dispose();
+        super.onDestroy();
     }
 }

@@ -22,7 +22,7 @@ public class UsernameValidator implements TextWatcher {
      * Validates if the given input is a valid username.
      * System username is not allowed.
      */
-    static boolean isValidUsername(CharSequence username) {
+    public static boolean isValidUsername(CharSequence username) {
         return username != null && USERNAME_PATTERN.matcher(username).matches() && username != "system";
     }
 

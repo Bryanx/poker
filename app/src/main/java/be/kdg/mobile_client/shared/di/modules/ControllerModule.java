@@ -10,21 +10,22 @@ import javax.inject.Singleton;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
-import be.kdg.mobile_client.user.authorization.Token;
-import be.kdg.mobile_client.room.RoomRepository;
-import be.kdg.mobile_client.round.RoundRepository;
-import be.kdg.mobile_client.user.UserRepository;
 import be.kdg.mobile_client.chat.ChatService;
+import be.kdg.mobile_client.room.RoomRepository;
 import be.kdg.mobile_client.room.RoomService;
+import be.kdg.mobile_client.room.RoomViewModel;
+import be.kdg.mobile_client.round.RoundRepository;
 import be.kdg.mobile_client.round.RoundService;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.user.UserService;
+import be.kdg.mobile_client.shared.ViewModelProviderFactory;
 import be.kdg.mobile_client.shared.WebSocketService;
 import be.kdg.mobile_client.shared.validators.EmailValidator;
 import be.kdg.mobile_client.shared.validators.UsernameValidator;
-import be.kdg.mobile_client.shared.ViewModelProviderFactory;
-import be.kdg.mobile_client.room.RoomViewModel;
+import be.kdg.mobile_client.user.UserRepository;
+import be.kdg.mobile_client.user.UserService;
 import be.kdg.mobile_client.user.UserViewModel;
+import be.kdg.mobile_client.user.authorization.AuthorizationService;
+import be.kdg.mobile_client.user.authorization.Token;
 import dagger.Module;
 import dagger.Provides;
 import io.reactivex.schedulers.Schedulers;
@@ -84,7 +85,7 @@ public class ControllerModule {
     }
 
     @Provides
-    public Gson gson() {
+    Gson gson() {
         return new Gson();
     }
 
@@ -92,7 +93,7 @@ public class ControllerModule {
     EmailValidator emailValidator() { return new EmailValidator(); }
 
     @Provides
-    public UsernameValidator usernameValidator() { return new UsernameValidator(); }
+    UsernameValidator usernameValidator() { return new UsernameValidator(); }
 
     @Provides
     OkHttpClient okHttpClient() {
@@ -114,6 +115,7 @@ public class ControllerModule {
                 .Builder()
                 .client(okHttpClient())
                 .addConverterFactory(gsonConverter())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
                 .baseUrl(API_BASE_URL_USER)
                 .build()
                 .create(UserService.class);
@@ -144,6 +146,18 @@ public class ControllerModule {
     }
 
     @Provides
+    AuthorizationService authorizationService() {
+        return new Retrofit
+                .Builder()
+                .client(okHttpClient())
+                .addConverterFactory(gsonConverter())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .baseUrl(API_BASE_URL_USER)
+                .build()
+                .create(AuthorizationService.class);
+    }
+
+    @Provides
     @Singleton
     StompClient stompClient() {
         StompClient stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, WEBSOCKET_URL);
@@ -165,12 +179,6 @@ public class ControllerModule {
     }
 
     @Provides
-    @Singleton
-    RoomViewModel roomViewModel(RoomRepository roomRepo, RoundRepository roundRepo){
-        return new RoomViewModel(roomRepo, roundRepo);
-    }
-
-    @Provides
     UserRepository userRepository(UserService userService) {
         return new UserRepository(userService);
     }
@@ -182,6 +190,12 @@ public class ControllerModule {
     @Provides
     RoundRepository roundRepository(WebSocketService webSocketService) {
         return new RoundRepository(webSocketService, roundService());
+    }
+
+    @Provides
+    @Singleton
+    RoomViewModel roomViewModel(RoomRepository roomRepo, RoundRepository roundRepo){
+        return new RoomViewModel(roomRepo, roundRepo);
     }
 
     @Provides

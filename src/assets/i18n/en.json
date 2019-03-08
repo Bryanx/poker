@@ -59,6 +59,11 @@
   "MAX LEVEL REQUIRED": "Max level is not entered correctly",
   "MIN LEVEL": "Min level",
   "MIN LEVEL REQUIRED": "Min level is not entered correctly",
-  "LEVEL": "level"
-  "JOINING": "joining..."
+  "LEVEL": "level",
+  "JOINING": "joining...",
+  "NO ROOMS": "You have no rooms bro, add some!",
+  "ADD FRIENDS": "Add friends",
+  "WHITE FRIENDS": "Whitelisted friends",
+  "NON WHITE FRIENDS": "Non whitelisted friends",
+  "DONE": "Done"
 }

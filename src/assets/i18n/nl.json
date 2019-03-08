@@ -59,6 +59,11 @@
   "MAX LEVEL REQUIRED": "Max level werd niet goed ingegeven",
   "MIN LEVEL": "Min level",
   "MIN LEVEL REQUIRED": "Min level werd niet goed ingegeven",
-  "LEVEL": "level"
-  "JOINING": "meedoen..."
+  "LEVEL": "level",
+  "JOINING": "meedoen...",
+  "NO ROOMS": "Je hebt geen tafels bro, voeg er een aantal toe!",
+  "ADD FRIENDS": "Vrienden toevoegen",
+  "WHITE FRIENDS": "Vrienden op de witte lijst",
+  "NON WHITE FRIENDS": "Vrienden niet op de witte lijst",
+  "DONE": "Klaar"
 }

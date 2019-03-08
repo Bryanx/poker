@@ -101,14 +101,17 @@ export class AuthorizationService {
   }
 
   private showNotification(not: Notification) {
-    console.log(not);
     let type;
-    if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
-      type = 'error';
-    } else if (not.type === NotificationType.ADD_PRIVATE_ROOM) {
-      type = 'success';
-    } else {
-      type = 'default';
+
+    switch (not.type) {
+      case NotificationType.DELETE_PRIVATE_ROOM:
+        type = 'error';
+        break;
+      case NotificationType.ADD_PRIVATE_ROOM:
+        type = 'success';
+        break;
+      default:
+        type = 'default';
     }
 
     this.notifier.notify(type, not.message);

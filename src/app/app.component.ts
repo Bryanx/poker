@@ -152,7 +152,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private showNotification(not: Notification) {
-    console.log(not);
+
     let type;
     if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
       type = 'error';

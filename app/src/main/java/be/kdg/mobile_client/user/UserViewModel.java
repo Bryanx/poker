@@ -7,11 +7,9 @@ import java.util.List;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import be.kdg.mobile_client.shared.CallbackWrapper;
 import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import retrofit2.Response;
 
 /**
  * ViewModel for users (directly bound to the layout)

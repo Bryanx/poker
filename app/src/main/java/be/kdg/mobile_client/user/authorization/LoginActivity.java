@@ -11,11 +11,9 @@ import javax.inject.Inject;
 
 import androidx.annotation.UiThread;
 import be.kdg.mobile_client.BaseActivity;
-import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.MenuActivity;
+import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.shared.CallbackWrapper;
-import be.kdg.mobile_client.user.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.HttpException;

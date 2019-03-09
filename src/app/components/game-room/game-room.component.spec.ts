@@ -7,7 +7,7 @@ import {GameTableComponent} from '../game-table/game-table.component';
 import {ActionbarComponent} from '../actionbar/actionbar.component';
 import {FormsModule} from '@angular/forms';
 import {CardComponent} from '../card/card.component';
-import {MatSlider} from '@angular/material';
+import {MatProgressBar, MatSlider} from '@angular/material';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {NotifierModule} from 'angular-notifier';
@@ -28,6 +28,7 @@ describe('GameRoomComponent', () => {
         ActionbarComponent,
         CardComponent,
         MatSlider,
+        MatProgressBar,
         TranslatePipe
       ],
       imports: [

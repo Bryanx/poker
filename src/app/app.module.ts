@@ -29,7 +29,7 @@ import { UserAccountComponent } from './components/user-account/user-account.com
 import { GameRoomEditComponent } from './components/game-room-edit/game-room-edit.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
-import {MatSnackBarModule, MatTableModule} from '@angular/material';
+import {MatProgressBarModule, MatSnackBarModule, MatTableModule} from '@angular/material';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
@@ -95,7 +95,8 @@ export function setupTranslateFactory(
     AngularFontAwesomeModule,
     MatTableModule,
     MatSnackBarModule,
-    NotifierModule.withConfig(customNotifierOptions)
+    NotifierModule.withConfig(customNotifierOptions),
+    MatProgressBarModule
   ],
   providers: [
     {

@@ -34,6 +34,7 @@ public class RoomViewModel extends ViewModel {
     @Getter MutableLiveData<List<ActType>> possibleActs = new MutableLiveData<>();
     @Getter @Setter MutableLiveData<Integer> seekBarValue = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private Act lastAct;
 
     @Inject
     public RoomViewModel(RoomRepository roomRepo, RoundRepository roundRepo, UserRepository userRepo) {
@@ -50,11 +51,16 @@ public class RoomViewModel extends ViewModel {
                 .subscribe(next -> {
                     if (playerCapReached(next)) notifyUser(new Exception("Room is full."));
                     room.setValue(next);
-                    roomRepo.listenOnRoomUpdate(roomId).subscribe(room::postValue, this::notifyUser);
-                    roundRepo.listenOnRoundUpdate(roomId).subscribe(value -> {
-                        round.postValue(value);
-                        updatePlayers(value);
-                        checkTurnByBlinds(value);
+                    roomRepo.listenOnRoomUpdate(roomId).subscribe(newRoom -> {
+                        room.postValue(newRoom);
+                        if (room.getValue().getPlayersInRoom().size() < 2) { // alone in room
+                            updateRoomPlayers(newRoom.getPlayersInRoom());
+                        }
+                    }, this::notifyUser);
+                    roundRepo.listenOnRoundUpdate(roomId).subscribe(newRound -> {
+                        round.postValue(newRound);
+                        updateRoomPlayers(newRound.getPlayersInRound());
+                        checkTurns(newRound);
                     }, this::notifyUser);
                     //TODO: initializeWinnerConnection();
                     roomRepo.joinRoom(roomId).subscribe(player::postValue, this::notifyUser);
@@ -62,31 +68,30 @@ public class RoomViewModel extends ViewModel {
                 }, this::notifyUser));
     }
 
-    private void updatePlayers(Round rnd) {
+    /**
+     * Updates all players in the room with the new round.
+     * The new round may contain new players.
+     */
+    private synchronized void updateRoomPlayers(List<Player> players) {
         Room tempRoom = room.getValue();
-        tempRoom.setPlayersInRoom(rnd.getPlayersInRound());
+        tempRoom.setPlayersInRoom(players);
         for (Player roomPlayer : tempRoom.getPlayersInRoom()) {
             if (roomPlayer.getUserId().equals(player.getValue().getUserId())) {
                 player.postValue(roomPlayer); // update self
             }
-            compositeDisposable.add(userRepo.getUser(roomPlayer.getUserId()).subscribe(nextUser -> {
-                        roomPlayer.setUsername(nextUser.getUsername());
-                        room.postValue(tempRoom); // update room
-                    }, this::notifyUser));
+            if (roomPlayer.getUsername() == null) {
+                compositeDisposable.add(userRepo.getUser(roomPlayer.getUserId()).subscribe(nextUser -> {
+                    roomPlayer.setUsername(nextUser.getUsername());
+                    room.postValue(tempRoom); // update room
+                }, this::notifyUser));
+            } else {
+                room.postValue(tempRoom);
+            }
         }
     }
 
-    /**
-     * Check if its my turn
-     */
     private void onNewAct(Act act) {
-        myTurn.setValue(false);
-        updatePossibleActs(act.getRoundId());
-        if (act.getNextUserId().equals(player.getValue().getUserId())) {
-            myTurn.setValue(true);
-        } else {
-            checkTurnByBlinds(round.getValue());
-        }
+        lastAct = act;
     }
 
     private void updatePossibleActs(int roundId) {
@@ -94,16 +99,27 @@ public class RoomViewModel extends ViewModel {
                 .subscribe(possibleActs::postValue, this::notifyUser));
     }
 
-    /**
-     * Check if its my turn by looking at the blinds
-     */
-    private void checkTurnByBlinds(Round rnd) {
-        if (rnd == null) return;
-        int nextPlayerIndex = rnd.getButton() >= rnd.getPlayersInRound().size() - 1 ? 0 : rnd.getButton() + 1;
-        if (rnd.getPlayersInRound().get(nextPlayerIndex).getUserId().equals(player.getValue().getUserId())) {
-            myTurn.setValue(true);
-            updatePossibleActs(rnd.getId());
+    private void checkTurns(Round newRound) {
+        if (lastAct != null) {
+            updateTurns(lastAct.getNextUserId(), newRound);
+        } else { // beginning of the round, no act has been played
+            if (newRound == null) return; // round doesn't have 2 players
+            int nextPlayerIndex = newRound.getButton() >= newRound.getPlayersInRound().size() - 1 ? 0 : newRound.getButton() + 1;
+            updateTurns(newRound.getPlayersInRound().get(nextPlayerIndex).getUserId(), newRound);
         }
+    }
+
+    private void updateTurns(String userIdTurn, Round newRound) {
+        Room tempRoom = room.getValue();
+        tempRoom.getPlayersInRoom().forEach(roomPlayer -> {
+            roomPlayer.setMyTurn(roomPlayer.getUserId().equals(userIdTurn));
+            if (player.getValue().getUserId().equals(roomPlayer.getUserId())) {
+                player.postValue(roomPlayer);
+                myTurn.postValue(roomPlayer.isMyTurn());
+                if (roomPlayer.isMyTurn()) updatePossibleActs(newRound.getId());
+            }
+        });
+        room.setValue(tempRoom);
     }
 
     private boolean playerCapReached(Room newRoom) {

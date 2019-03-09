@@ -16,4 +16,7 @@ public class Player {
     private String handType;
     private int seatNumber;
     private String access_token;
+
+    private transient boolean myTurn;
+    private transient String bet;
 }

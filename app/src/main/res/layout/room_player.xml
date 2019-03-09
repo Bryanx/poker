@@ -40,7 +40,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/circle_white"
+            android:background="@{player.myTurn ? @drawable/circle_green : @drawable/circle_white}"
             android:text="@{player.username.charAt(0)}"
             android:textColor="@color/colorWhite"
             android:textSize="32sp"

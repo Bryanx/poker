@@ -86,4 +86,11 @@ public class RoomActivity extends BaseActivity {
         viewModel.leaveRoom();
         super.onDestroy();
     }
+
+    @Override
+    protected void onStop() {
+        chatFragment.leaveChat();
+        viewModel.leaveRoom();
+        super.onStop();
+    }
 }

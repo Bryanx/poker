@@ -1,6 +1,5 @@
 package be.kdg.mobile_client.room.overview;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -29,7 +27,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 /**
  * This activity is used to display all the rooms as cards.
  */
-@SuppressLint("CheckResult")
 public class RoomOverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;

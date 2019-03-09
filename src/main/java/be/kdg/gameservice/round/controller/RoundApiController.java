@@ -1,7 +1,6 @@
 package be.kdg.gameservice.round.controller;
 
 import be.kdg.gameservice.room.controller.dto.PlayerDTO;
-import be.kdg.gameservice.room.controller.dto.UserDTO;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.service.api.RoomService;
@@ -134,7 +133,7 @@ public class RoundApiController {
     }
 
     /**
-     * Sends a rest template request to the user-service to increase the user his wins.
+     * Sends a rest template request to the user-service to increase the user his gamesPlayed.
      */
     private void addGamesPlayed(List<String> userIds) {
         RestTemplate restTemplate = new RestTemplate();

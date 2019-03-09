@@ -217,6 +217,24 @@ public class UserApiController {
     }
 
     /**
+     * This api will increase the user his wins by 1.
+     */
+    @PostMapping("/user/win")
+    public ResponseEntity addWin(@Valid @RequestBody String userId) throws UserException {
+        userService.addWin(userId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     * This api will increase gamesPlayed of all in-game users with 1.
+     */
+    @PostMapping("/user/gamesplayed")
+    public ResponseEntity addGamesPlayed(@Valid @RequestBody List<String> userIds) throws UserException {
+        userService.addGamesPlayed(userIds);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
      * Rest endpoint that creates a user and returns a CREATED status code.
      */
     @PostMapping("/sociallogin")

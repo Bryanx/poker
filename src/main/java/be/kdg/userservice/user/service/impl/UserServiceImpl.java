@@ -176,6 +176,24 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return saveUser(user);
     }
 
+    @Override
+    public User addWin(String id) {
+        User user = findUserById(id);
+        user.setWins(user.getWins() + 1);
+
+        return saveUser(user);
+    }
+
+    @Override
+    public void addGamesPlayed(List<String> ids) {
+        ids.forEach(id -> {
+            User user = findUserById(id);
+            user.setGamesPlayed(user.getGamesPlayed() + 1);
+            saveUser(user);
+        });
+    }
+
+
     private User saveUser(User user) {
         return userRepository.save(user);
     }

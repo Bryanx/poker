@@ -1,6 +1,7 @@
 package be.kdg.mobile_client.room;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -11,6 +12,7 @@ import be.kdg.mobile_client.room.model.ActType;
 import be.kdg.mobile_client.room.model.Player;
 import be.kdg.mobile_client.round.Round;
 import be.kdg.mobile_client.round.RoundRepository;
+import be.kdg.mobile_client.shared.LiveDataList;
 import be.kdg.mobile_client.user.UserRepository;
 import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
@@ -26,6 +28,7 @@ public class RoomViewModel extends ViewModel {
     private final RoomRepository roomRepo;
     private final RoundRepository roundRepo;
     private final UserRepository userRepo;
+    @Getter LiveDataList<Act> acts = new LiveDataList<>();
     @Getter MutableLiveData<Room> room = new MutableLiveData<>();
     @Getter MutableLiveData<Round> round = new MutableLiveData<>();
     @Getter MutableLiveData<Player> player = new MutableLiveData<>();
@@ -92,6 +95,18 @@ public class RoomViewModel extends ViewModel {
 
     private void onNewAct(Act act) {
         lastAct = act;
+        acts.add(act);
+    }
+
+    public String getBetByPhase(int index) {
+        if (round.getValue() == null || room.getValue() == null || room.getValue().getPlayersInRoom().size() < index+1) return "0";
+        Player roomPlayer = room.getValue().getPlayersInRoom().get(index);
+        return String.valueOf(acts.getValue()
+                .stream()
+                .filter(a -> a.getPhase() == round.getValue().getCurrentPhase() && a.getUserId().equals(roomPlayer.getUserId()))
+                .findFirst()
+                .map(Act::getBet)
+                .orElse(0));
     }
 
     private void updatePossibleActs(int roundId) {
@@ -141,7 +156,7 @@ public class RoomViewModel extends ViewModel {
         int roomId = room.getValue().getId();
         Act act = new Act(rnd.getId(), me.getUserId(), me.getId(), roomId, actType,
                 rnd.getCurrentPhase(), 0, 0, "");
-        if (actType == ActType.RAISE || actType == ActType.CALL) {
+        if (actType == ActType.BET || actType == ActType.RAISE || actType == ActType.CALL) {
             final int bet = seekBarValue.getValue();
             act.setBet(bet);
             act.setTotalBet(bet);

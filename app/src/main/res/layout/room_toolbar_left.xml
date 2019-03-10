@@ -2,13 +2,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.RoomActivity">
+    android:id="@+id/layout"
+    tools:context=".room.RoomActivity">
 
     <data>
 
+        <import type="be.kdg.mobile_client.room.model.ActType" />
+
         <variable
             name="viewmodel"
-            type="be.kdg.mobile_client.viewmodels.RoomViewModel" />
+            type="be.kdg.mobile_client.room.RoomViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,36 +19,94 @@
         android:layout_height="match_parent"
         android:background="@color/colorDarkerBackground">
 
+        <TextView
+            android:id="@+id/tvRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/room"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="@{viewmodel.room.name}"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/smallest_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRoom" />
+
+        <TextView
+            android:id="@+id/vSliderValue"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="8dp"
+            android:background="@{viewmodel.myTurn ? @drawable/circle_white : @drawable/circle_grey}"
+            android:gravity="center"
+            android:text="@{viewmodel.seekBarValue}"
+            android:textAlignment="center"
+            android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
+            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <FrameLayout
             android:id="@+id/frameLayout2"
             android:layout_width="32dp"
             android:layout_height="180dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="84dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent">
 
             <SeekBar
-                android:id="@+id/camera_sb_expose"
+                android:id="@+id/sbBet"
                 android:layout_width="180dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center"
+                android:enabled="@{viewmodel.myTurn}"
+                android:max="@{viewmodel.room.gameRules.startingChips}"
+                android:progress="@={viewmodel.seekBarValue}"
                 android:rotation="270" />
 
         </FrameLayout>
 
         <Button
+            android:id="@+id/btnRaise"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:background="@{viewmodel.myTurn ? @drawable/circle_yellow : @drawable/circle_grey}"
+            android:clickable="@{viewmodel.myTurn}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.RAISE)}"
+            android:text="@string/act_raise"
+            android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
+            android:visibility="@{viewmodel.myTurn &amp;&amp; viewmodel.possibleActs.contains(ActType.RAISE)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
             android:id="@+id/btnBet"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/circle_yellow"
-            android:text="100"
-            android:textColor="@color/colorWhite"
-            app:layout_constraintBottom_toTopOf="@+id/frameLayout2"
+            android:layout_marginBottom="16dp"
+            android:background="@{viewmodel.myTurn ? @drawable/circle_yellow : @drawable/circle_grey}"
+            android:clickable="@{viewmodel.myTurn}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.BET)}"
+            android:text="@string/act_bet"
+            android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
+            android:visibility="@{viewmodel.myTurn &amp;&amp; viewmodel.possibleActs.contains(ActType.BET)}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

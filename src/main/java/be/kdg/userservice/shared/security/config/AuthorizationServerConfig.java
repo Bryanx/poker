@@ -53,7 +53,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient("my-trusted-client").secret(passwordEncoder.encode("secret"))
                 .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
                 .scopes("read", "write")
-                .accessTokenValiditySeconds(5000)
+                .accessTokenValiditySeconds(999999999)
                 .refreshTokenValiditySeconds(600);
     }
 

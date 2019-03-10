@@ -105,7 +105,7 @@
             android:onClick="@{() -> viewmodel.onAct(ActType.BET)}"
             android:text="@string/act_bet"
             android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
-            android:visibility="@{viewmodel.myTurn &amp;&amp; viewmodel.possibleActs.contains(ActType.BET)}"
+            android:visibility="@{viewmodel.possibleActs.contains(ActType.RAISE) == false}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

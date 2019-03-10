@@ -1,7 +1,6 @@
 package be.kdg.mobile_client.room;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -104,9 +103,8 @@ public class RoomViewModel extends ViewModel {
         return String.valueOf(acts.getValue()
                 .stream()
                 .filter(a -> a.getPhase() == round.getValue().getCurrentPhase() && a.getUserId().equals(roomPlayer.getUserId()))
-                .findFirst()
-                .map(Act::getBet)
-                .orElse(0));
+                .mapToInt(Act::getBet)
+                .sum());
     }
 
     private void updatePossibleActs(int roundId) {

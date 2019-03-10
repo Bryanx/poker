@@ -52,7 +52,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="16dp"
-            android:visibility="@{viewmodel.myTurn &amp;&amp; viewmodel.possibleActs.contains(ActType.CHECK)}"
+            android:visibility="@{viewmodel.possibleActs.contains(ActType.CALL) == false}"
             android:text="@string/act_check"
             android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
             android:background="@{viewmodel.myTurn ? @drawable/circle_green : @drawable/circle_grey}"

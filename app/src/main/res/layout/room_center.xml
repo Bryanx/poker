@@ -351,7 +351,7 @@
             android:background="@drawable/rounded_corners_dark"
             app:card="@{viewmodel.player.firstCard}"
             app:onPokerTable="@{false}"
-            app:isHidden="@{false}"
+            app:isHidden="@{viewmodel.player.firstCard == null ? true : false}"
             app:layout_constraintBottom_toBottomOf="@+id/vOwnCard2"
             app:layout_constraintEnd_toStartOf="@+id/vOwnCard2" />
 
@@ -365,7 +365,7 @@
             android:background="@drawable/rounded_corners_dark"
             app:card="@{viewmodel.player.secondCard}"
             app:onPokerTable="@{false}"
-            app:isHidden="@{false}"
+            app:isHidden="@{viewmodel.player.secondCard == null ? true : false}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/vTable" />

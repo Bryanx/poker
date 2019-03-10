@@ -109,4 +109,9 @@
     <string name="editRooms">Edit your rooms</string>
     <string name="load_room_tag">load rooms</string>
     <string name="error_loading_rooms">Error loading rooms</string>
+    <string name="no_rooms">No rooms :(</string>
+    <string name="message">message</string>
+    <string name="date">date</string>
+    <string name="default_desc">default_desc</string>
+    <string name="not_fragment_tag">not_fragment_tag</string>
 </resources>

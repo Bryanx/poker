@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 
 import be.kdg.mobile_client.room.model.Act;
 import be.kdg.mobile_client.room.model.Player;
+import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.shared.WebSocketService;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;

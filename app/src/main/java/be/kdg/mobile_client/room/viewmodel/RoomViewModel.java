@@ -1,13 +1,12 @@
 package be.kdg.mobile_client.room.viewmodel;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import be.kdg.mobile_client.room.Room;
+import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.room.RoomRepository;
 import be.kdg.mobile_client.room.model.Act;
 import be.kdg.mobile_client.room.model.ActType;

@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 /**
  * Fragment in which a chat conversation is shown
  */
-@NoArgsConstructor // required for fragments
+@NoArgsConstructor
 public class ChatFragment extends Fragment {
     @BindView(R.id.btnSend) Button btnSend;
     @BindView(R.id.etMessage) EditText etMessage;

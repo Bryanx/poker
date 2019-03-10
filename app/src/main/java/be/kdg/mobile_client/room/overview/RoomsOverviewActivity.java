@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.MenuActivity;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.room.Room;
+import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.room.RoomService;
 import be.kdg.mobile_client.room.viewmodel.OverviewViewModel;
 import be.kdg.mobile_client.shared.SharedPrefService;
@@ -34,6 +34,7 @@ public class RoomsOverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
     @BindView(R.id.progressBar) ProgressBar progressBar;
+    @BindView(R.id.tvNoRooms) TextView tvNoRooms;
     @Inject OverviewViewModel viewModel;
     @Inject UserService userService;
     @Inject RoomService roomService;
@@ -114,6 +115,7 @@ public class RoomsOverviewActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(myself -> {
                     progressBar.setVisibility(View.GONE);
+                    if (rooms.size() == 0) tvNoRooms.setVisibility(View.VISIBLE);
                     roomAdapter = new RoomRecyclerAdapter(this, rooms, myself, roomService, editMode);
                     lvRoom.setAdapter(roomAdapter);
                     lvRoom.setLayoutManager(new LinearLayoutManager(this));

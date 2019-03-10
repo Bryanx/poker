@@ -3,6 +3,7 @@ package be.kdg.mobile_client.room;
 import java.util.List;
 
 import be.kdg.mobile_client.room.model.Player;
+import be.kdg.mobile_client.room.model.Room;
 import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.DELETE;

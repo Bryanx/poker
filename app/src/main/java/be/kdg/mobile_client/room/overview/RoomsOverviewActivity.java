@@ -20,6 +20,7 @@ import be.kdg.mobile_client.MenuActivity;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.room.Room;
 import be.kdg.mobile_client.room.RoomService;
+import be.kdg.mobile_client.room.viewmodel.OverviewViewModel;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.user.UserService;
 import butterknife.BindView;
@@ -27,12 +28,12 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class RoomsOverViewActivity extends BaseActivity {
+public class RoomsOverviewActivity extends BaseActivity {
     @BindView(R.id.tvOverviewHeader) TextView tvOverviewHeader;
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @Inject RoomService roomService;
+    @Inject OverviewViewModel viewModel;
     @Inject UserService userService;
     @Inject SharedPrefService sharedPrefService;
     private Button btnEdit;
@@ -77,31 +78,29 @@ public class RoomsOverViewActivity extends BaseActivity {
      * If the rooms are loaded, that the progress bar will disappear
      */
     public void getRooms() {
-        Observable<List<Room>> roomObs;
+        progressBar.setVisibility(View.VISIBLE);
         String header;
 
         if (editMode) {
-            roomObs = roomService.getPrivateRoomsOwner().observeOn(AndroidSchedulers.mainThread());
+            viewModel.getPrivateRoomsOnwner().observe(this, this::initializeAdapter);
             header = getString(R.string.editRooms).toUpperCase();
         } else if (!publicRooms) {
-            roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
+            viewModel.getPrivateRooms().observe(this, this::initializeAdapter);
             header = getString(R.string.privateRooms).toUpperCase();
         } else {
-            roomObs = roomService.getRooms().observeOn(AndroidSchedulers.mainThread());
+            viewModel.getPublicRooms().observe(this, this::initializeAdapter);
             header = getString(R.string.publicRooms).toUpperCase();
         }
 
         tvOverviewHeader.setText(header);
-        addToComposite(roomObs);
     }
 
     private void addToComposite(Observable<List<Room>> roomObs) {
-        progressBar.setVisibility(View.VISIBLE);
         compositeDisposable.add(roomObs
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::initializeAdapter, error -> {
                     Toast.makeText(this, getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();
-                    Log.e("RoomsOverViewActivity", error.getMessage());
+                    Log.e("RoomsOverviewActivity", error.getMessage());
                 }));
     }
 

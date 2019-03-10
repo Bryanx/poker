@@ -102,6 +102,10 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
                 ctx.startActivity(intent);
             }
         });
+
+        holder.ivDelete.setOnClickListener(e -> {
+
+        });
     }
 
 

@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import be.kdg.mobile_client.chat.ChatService;
 import be.kdg.mobile_client.room.RoomRepository;
 import be.kdg.mobile_client.room.RoomService;
-import be.kdg.mobile_client.room.RoomViewModel;
+import be.kdg.mobile_client.room.viewmodel.RoomViewModel;
 import be.kdg.mobile_client.round.RoundRepository;
 import be.kdg.mobile_client.round.RoundService;
 import be.kdg.mobile_client.shared.SharedPrefService;

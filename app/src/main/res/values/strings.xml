@@ -107,4 +107,6 @@
     <string name="edit">edit</string>
     <string name="done">Done</string>
     <string name="editRooms">Edit your rooms</string>
+    <string name="load_room_tag">load rooms</string>
+    <string name="error_loading_rooms">Error loading rooms</string>
 </resources>

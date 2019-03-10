@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.room;
+package be.kdg.mobile_client.room.viewmodel;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,6 +7,8 @@ import javax.inject.Inject;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import be.kdg.mobile_client.room.Room;
+import be.kdg.mobile_client.room.RoomRepository;
 import be.kdg.mobile_client.room.model.Act;
 import be.kdg.mobile_client.room.model.ActType;
 import be.kdg.mobile_client.room.model.Player;
@@ -49,7 +51,7 @@ public class RoomViewModel extends ViewModel {
     /**
      * Setup initial room connection
      */
-    void init(int roomId) {
+    public void init(int roomId) {
         compositeDisposable.add(roomRepo.findById(roomId)
                 .subscribe(next -> {
                     if (playerCapReached(next)) notifyUser(new Exception("Room is full."));
@@ -171,7 +173,7 @@ public class RoomViewModel extends ViewModel {
         toast.postValue(throwable.getMessage());
     }
 
-    void leaveRoom() {
+    public void leaveRoom() {
         compositeDisposable.add(roomRepo.leaveRoom(room.getValue().getId())
                 .subscribe(e -> compositeDisposable.dispose(), this::notifyUser));
         roundRepo.disconnectWebsocket();

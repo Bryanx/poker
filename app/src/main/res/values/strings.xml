@@ -74,17 +74,39 @@
     <string name="error_updating_friends">Error updating friends</string>
     <string name="was_added_as_a_friend">was added as a friend</string>
     <string name="was_removed_as_a_friend">was removed from friends</string>
-    <string name="no_friends_message">You\'re a loner bro :-(</string>
+    <string name="no_bros">You have no bros :-(</string>
 
     <!-- rooms -->
     <string name="error_getting_rooms">Error getting rooms</string>
+    <string name="publicRooms">Public rooms</string>
+    <string name="privateRooms">Private rooms</string>
     <string name="room_id">ROOM_ID</string>
-    <string name="fold">FOLD</string>
-    <string name="call">CALL</string>
+    <string name="act_fold">FOLD</string>
+    <string name="act_call">CALL</string>
+    <string name="act_raise">RAISE</string>
+    <string name="act_check">CHECK</string>
+    <string name="act_bet">BET</string>
+    <string name="_0">0</string>
 
-    <!-- account settings -->
+    <!-- user settings -->
     <string name="firstname">First name</string>
     <string name="lastname">Last name</string>
     <string name="update">Update</string>
     <string name="update_account_settings">Update account settings</string>
+    <string name="login_activity">LoginActivity</string>
+    <string name="register_activity">RegisterActivity</string>
+    <string name="user_settings_activity">UserSettingsActivity</string>
+    <string name="error_loading_user">Error loading user</string>
+    <string name="error_updating_password">Error updating password for user</string>
+    <string name="failed_to_connect">Failed to connect</string>
+    <string name="room">ROOM</string>
+    <string name="load_user_tag">loadUser</string>
+    <string name="change_user_tag">changeUser</string>
+    <string name="error_updating_user">Error updating user</string>
+    <string name="user_was_updated">User was updated</string>
+    <string name="edit">edit</string>
+    <string name="done">Done</string>
+    <string name="editRooms">Edit your rooms</string>
+    <string name="load_room_tag">load rooms</string>
+    <string name="error_loading_rooms">Error loading rooms</string>
 </resources>

@@ -2,13 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.RoomActivity">
+    tools:context=".room.RoomActivity">
 
     <data>
 
         <variable
             name="viewmodel"
-            type="be.kdg.mobile_client.viewmodels.RoomViewModel" />
+            type="be.kdg.mobile_client.room.viewmodel.RoomViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
 
             <fragment
                 android:id="@+id/fragmentChat"
-                android:name="be.kdg.mobile_client.fragments.ChatFragment"
+                android:name="be.kdg.mobile_client.chat.ChatFragment"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".5"

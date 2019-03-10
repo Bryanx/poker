@@ -2,6 +2,8 @@ package be.kdg.mobile_client.shared;
 
 import org.junit.Test;
 
+import be.kdg.mobile_client.shared.validators.UsernameValidator;
+
 import static org.junit.Assert.*;
 
 public class UsernameValidatorTest {

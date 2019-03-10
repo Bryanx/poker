@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.RoomActivity">
+    tools:context=".room.RoomActivity">
 
     <data>
 
@@ -12,7 +12,7 @@
 
         <variable
             name="player"
-            type="be.kdg.mobile_client.model.Player" />
+            type="be.kdg.mobile_client.room.model.Player" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,8 @@
             android:layout_marginBottom="4dp"
             android:text="@{player.lastAct.toString()}"
             android:textAlignment="center"
-            android:textColor="@color/colorGreen"
+            android:textColor="@color/colorTransparent"
+            app:player_status_color="@{player.lastAct.toString()}"
             app:layout_constraintBottom_toTopOf="@+id/btnPlayerPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -39,7 +40,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@drawable/circle_white"
+            android:background="@{player.myTurn ? @drawable/circle_green : @drawable/circle_white}"
             android:text="@{player.username.charAt(0)}"
             android:textColor="@color/colorWhite"
             android:textSize="32sp"

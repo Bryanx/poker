@@ -2,46 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.RoomActivity">
+    tools:context=".room.RoomActivity">
 
     <data>
-        <import type="be.kdg.mobile_client.model.ActType" />
+
+        <import type="be.kdg.mobile_client.room.model.ActType" />
 
         <variable
             name="viewmodel"
-            type="be.kdg.mobile_client.viewmodels.RoomViewModel" />
+            type="be.kdg.mobile_client.room.viewmodel.RoomViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorDarkerBackground">
-
-        <Button
-            android:id="@+id/btnCall"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/circle_green"
-            android:text="@string/call"
-            android:textColor="@color/colorWhite"
-            android:onClick="@{() -> viewmodel.onAct(ActType.CALL)}"
-            app:layout_constraintBottom_toTopOf="@+id/btnFold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/btnFold"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/circle_red"
-            android:text="@string/fold"
-            android:textColor="@color/colorWhite"
-            android:onClick="@{() -> viewmodel.onAct(ActType.FOLD)}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/btnShowChat"
@@ -56,6 +31,50 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnCall"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="@{viewmodel.myTurn &amp;&amp; viewmodel.possibleActs.contains(ActType.CALL)}"
+            android:text="@{@string/act_call }"
+            android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
+            android:background="@{viewmodel.myTurn ? @drawable/circle_green : @drawable/circle_grey}"
+            android:clickable="@{viewmodel.myTurn}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.CALL)}"
+            app:layout_constraintBottom_toTopOf="@+id/btnFold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnCheck"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:visibility="@{viewmodel.myTurn &amp;&amp; viewmodel.possibleActs.contains(ActType.CHECK)}"
+            android:text="@string/act_check"
+            android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
+            android:background="@{viewmodel.myTurn ? @drawable/circle_green : @drawable/circle_grey}"
+            android:clickable="@{viewmodel.myTurn}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.CHECK)}"
+            app:layout_constraintBottom_toTopOf="@+id/btnFold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnFold"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/act_fold"
+            android:textColor="@{viewmodel.myTurn ? @color/colorWhite : @color/colorGrey}"
+            android:background="@{viewmodel.myTurn ? @drawable/circle_red : @drawable/circle_grey}"
+            android:clickable="@{viewmodel.myTurn}"
+            android:onClick="@{() -> viewmodel.onAct(ActType.FOLD)}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

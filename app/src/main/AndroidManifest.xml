@@ -20,7 +20,8 @@
         <activity
             android:name=".user.authorization.RegisterActivity"
             android:label="@string/title_activity_register" />
-        <activity android:name=".room.overview.RoomOverviewActivity" />
+        <activity android:name=".room.overview.PublicRoomOverviewActivity" />
+        <activity android:name=".room.overview.PrivateRoomOverviewActivity" />
         <activity
             android:name=".user.search.UserSearchActivity" />
         <activity

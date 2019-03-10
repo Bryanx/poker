@@ -104,4 +104,5 @@
     <string name="change_user_tag">changeUser</string>
     <string name="error_updating_user">Error updating user</string>
     <string name="user_was_updated">User was updated</string>
+    <string name="edit">edit</string>
 </resources>

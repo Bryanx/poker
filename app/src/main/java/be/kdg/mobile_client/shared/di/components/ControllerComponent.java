@@ -10,6 +10,8 @@ import be.kdg.mobile_client.friends.FriendsActivity;
 import be.kdg.mobile_client.room.RoomActivity;
 import be.kdg.mobile_client.room.RoomService;
 import be.kdg.mobile_client.room.RoomViewModel;
+import be.kdg.mobile_client.room.overview.PrivateRoomOverviewActivity;
+import be.kdg.mobile_client.room.overview.PublicRoomOverviewActivity;
 import be.kdg.mobile_client.room.overview.RoomOverviewActivity;
 import be.kdg.mobile_client.shared.WebSocketService;
 import be.kdg.mobile_client.shared.di.modules.ControllerModule;
@@ -40,6 +42,8 @@ public interface ControllerComponent {
     void inject(RankingsActivity rankingsActivity);
     void inject(UserActivity userActivity);
     void inject(UserSearchActivity userSearchActivity);
+    void inject(PrivateRoomOverviewActivity privateRoomOverviewActivity);
+    void inject(PublicRoomOverviewActivity publicRoomOverviewActivity);
     void inject(UserViewModel userViewModel);
     void inject(StompClient stompClient);
     void inject(UserSettingsActivity userSettingsActivity);

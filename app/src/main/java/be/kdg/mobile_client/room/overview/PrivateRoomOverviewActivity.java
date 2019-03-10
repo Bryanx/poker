@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.BaseActivity;
@@ -26,24 +27,22 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-/**
- * This activity is used to display all the rooms as cards.
- */
-public class RoomOverviewActivity extends BaseActivity {
+public class PrivateRoomOverviewActivity extends BaseActivity {
+    @BindView(R.id.tvOverviewHeader) TextView tvOverviewHeader;
     @BindView(R.id.btnBack) Button btnBack;
+    @BindView(R.id.btnEdit) Button btnEdit;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @BindView(R.id.tvOverviewHeader) TextView tvOverviewHeader;
     @Inject RoomService roomService;
     @Inject UserService userService;
     @Inject SharedPrefService sharedPrefService;
     private RoomRecyclerAdapter roomAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getControllerComponent().inject(this);
-        setContentView(R.layout.activity_overview);
+        setContentView(R.layout.activity_overview_private);
         ButterKnife.bind(this);
         addEventHandlers();
         getRooms();
@@ -51,24 +50,24 @@ public class RoomOverviewActivity extends BaseActivity {
 
     private void addEventHandlers() {
         btnBack.setOnClickListener(e -> navigateTo(MenuActivity.class));
+        //TODO: add edit button.
     }
 
-    private void getRooms() {
-        Observable<List<Room>> roomObs;
-
-        if (getIntent().getStringExtra("TYPE").equals("PUBLIC")) {
-            roomObs = roomService.getRooms().observeOn(AndroidSchedulers.mainThread());
-            tvOverviewHeader.setText(getString(R.string.publicRooms).toUpperCase());
-        } else {
-            roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
-            tvOverviewHeader.setText(getString(R.string.privateRooms).toUpperCase());
-        }
+    /**
+     * Gets all the private rooms that a specific user owns or that the user is authorized to view
+     * and join.
+     * <p>
+     * If the rooms are loaded, that the progress bar will disappear
+     */
+    public void getRooms() {
+        Observable<List<Room>> roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
+        tvOverviewHeader.setText(getString(R.string.privateRooms).toUpperCase());
 
         compositeDisposable.add(roomObs
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::initializeAdapter, error -> {
                     Toast.makeText(this, getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();
-                    Log.e("RoomOverviewActivity", error.getMessage());
+                    Log.e("PrivateRoomOverviewActivity", error.getMessage());
                 }));
     }
 
@@ -89,6 +88,9 @@ public class RoomOverviewActivity extends BaseActivity {
                 }));
     }
 
+    /**
+     * If the activity starts again than we need to check if the user is still authorized.
+     */
     @Override
     protected void onResume() {
         checkIfAuthorized(sharedPrefService);

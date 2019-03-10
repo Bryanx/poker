@@ -34,6 +34,7 @@ import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RoomCardComponent } from './components/room-card/room-card.component';
+import { GlobalMessageComponent } from './components/global-message/global-message.component';
 
 const config = new AuthServiceConfig([
   {
@@ -80,7 +81,8 @@ export function setupTranslateFactory(
     GameRoomEditComponent,
     RankingsComponent,
     NotificationComponent,
-    RoomCardComponent
+    RoomCardComponent,
+    GlobalMessageComponent
   ],
   imports: [
     BrowserModule,

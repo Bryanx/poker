@@ -32,7 +32,6 @@ public class MenuActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getControllerComponent().inject(this);
-        checkIfAuthorized(sharedPrefService);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
@@ -58,5 +57,11 @@ public class MenuActivity extends BaseActivity {
             sharedPrefService.saveToken(this, null); // remove token
             navigateTo(MainActivity.class);
         });
+    }
+
+    @Override
+    protected void onResume() {
+        checkIfAuthorized(sharedPrefService);
+        super.onResume();
     }
 }

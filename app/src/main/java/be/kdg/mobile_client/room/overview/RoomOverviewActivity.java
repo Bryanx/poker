@@ -18,6 +18,7 @@ import be.kdg.mobile_client.MenuActivity;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.room.Room;
 import be.kdg.mobile_client.room.RoomService;
+import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.user.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,6 +34,7 @@ public class RoomOverviewActivity extends BaseActivity {
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @Inject RoomService roomService;
     @Inject UserService userService;
+    @Inject SharedPrefService sharedPrefService;
     private RoomRecyclerAdapter roomAdapter;
 
     @Override
@@ -85,6 +87,7 @@ public class RoomOverviewActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
+        checkIfAuthorized(sharedPrefService);
         if (roomAdapter != null) roomAdapter.notifyDataSetChanged(); // refresh rooms
         super.onResume();
     }

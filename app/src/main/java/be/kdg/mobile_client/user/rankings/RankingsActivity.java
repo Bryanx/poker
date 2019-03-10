@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.user.User;
 import be.kdg.mobile_client.user.UserActivity;
 import be.kdg.mobile_client.user.UserViewModel;
@@ -31,6 +32,7 @@ import butterknife.ButterKnife;
 public class RankingsActivity extends BaseActivity {
     @BindView(R.id.tblRankings) TableLayout tblRankings;
     @BindView(R.id.progressBar) ProgressBar progressBar;
+    @Inject SharedPrefService sharedPrefService;
     @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
 
@@ -79,5 +81,11 @@ public class RankingsActivity extends BaseActivity {
      */
     private void addOnClickListener(TableRow row, User user) {
         row.setOnClickListener(v -> navigateTo(UserActivity.class, getString(R.string.userid), user.getId()));
+    }
+
+    @Override
+    protected void onResume() {
+        checkIfAuthorized(sharedPrefService);
+        super.onResume();
     }
 }

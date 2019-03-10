@@ -38,7 +38,6 @@ public class RoomActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getControllerComponent().inject(this);
-        checkIfAuthorized(sharedPrefService);
         super.onCreate(savedInstanceState);
         roomId = getIntent().getIntExtra(getString(R.string.room_id), 0);
         setUpViewModel();
@@ -78,6 +77,12 @@ public class RoomActivity extends BaseActivity {
     private FragmentTransaction newTransaction() {
         return fragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left);
+    }
+
+    @Override
+    protected void onResume() {
+        checkIfAuthorized(sharedPrefService);
+        super.onResume();
     }
 
     @Override

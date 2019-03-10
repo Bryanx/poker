@@ -27,47 +27,81 @@ import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class PrivateRoomOverviewActivity extends BaseActivity {
+public class RoomsOverViewActivity extends BaseActivity {
     @BindView(R.id.tvOverviewHeader) TextView tvOverviewHeader;
     @BindView(R.id.btnBack) Button btnBack;
-    @BindView(R.id.btnEdit) Button btnEdit;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @Inject RoomService roomService;
     @Inject UserService userService;
     @Inject SharedPrefService sharedPrefService;
+    private Button btnEdit;
     private RoomRecyclerAdapter roomAdapter;
+    private boolean publicRooms;
+    private boolean editMode = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getControllerComponent().inject(this);
-        setContentView(R.layout.activity_overview_private);
+
+        publicRooms = getIntent().getStringExtra("type").equalsIgnoreCase("PUBLIC");
+        if (publicRooms) setContentView(R.layout.activity_overview_public);
+        else setContentView(R.layout.activity_overview_private);
+
+        if (!publicRooms) btnEdit = findViewById(R.id.btnEdit);
+
         ButterKnife.bind(this);
         addEventHandlers();
         getRooms();
     }
 
+    /**
+     * Only adds the second handler if we are in a private room overview.
+     */
     private void addEventHandlers() {
         btnBack.setOnClickListener(e -> navigateTo(MenuActivity.class));
-        //TODO: add edit button.
+
+        if (!publicRooms) {
+            btnEdit.setOnClickListener(e -> {
+                editMode = !editMode;
+                getRooms();
+            });
+        }
     }
 
     /**
-     * Gets all the private rooms that a specific user owns or that the user is authorized to view
-     * and join.
+     * Gets all the rooms that are needed based on the type of rooms that need to be
+     * displayed.
      * <p>
      * If the rooms are loaded, that the progress bar will disappear
      */
     public void getRooms() {
-        Observable<List<Room>> roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
-        tvOverviewHeader.setText(getString(R.string.privateRooms).toUpperCase());
+        Observable<List<Room>> roomObs;
+        String header;
 
+        if (editMode) {
+            roomObs = roomService.getPrivateRoomsOwner().observeOn(AndroidSchedulers.mainThread());
+            header = getString(R.string.editRooms).toUpperCase();
+        } else if (!publicRooms) {
+            roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
+            header = getString(R.string.privateRooms).toUpperCase();
+        } else {
+            roomObs = roomService.getRooms().observeOn(AndroidSchedulers.mainThread());
+            header = getString(R.string.publicRooms).toUpperCase();
+        }
+
+        tvOverviewHeader.setText(header);
+        addToComposite(roomObs);
+    }
+
+    private void addToComposite(Observable<List<Room>> roomObs) {
+        progressBar.setVisibility(View.VISIBLE);
         compositeDisposable.add(roomObs
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::initializeAdapter, error -> {
                     Toast.makeText(this, getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();
-                    Log.e("PrivateRoomOverviewActivity", error.getMessage());
+                    Log.e("RoomsOverViewActivity", error.getMessage());
                 }));
     }
 
@@ -82,7 +116,7 @@ public class PrivateRoomOverviewActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(myself -> {
                     progressBar.setVisibility(View.GONE);
-                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself);
+                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself, editMode);
                     lvRoom.setAdapter(roomAdapter);
                     lvRoom.setLayoutManager(new LinearLayoutManager(this));
                 }));

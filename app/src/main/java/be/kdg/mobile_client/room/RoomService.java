@@ -20,6 +20,9 @@ public interface RoomService {
     @GET("/api/rooms/private")
     Observable<List<Room>> getPrivateRooms();
 
+    @GET("/api/rooms/private/owner")
+    Observable<List<Room>> getPrivateRoomsOwner();
+
     @GET("/api/rooms/{id}")
     Observable<Room> getRoom(@Path("id") int id);
 

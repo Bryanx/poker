@@ -9,11 +9,10 @@ import com.squareup.picasso.Picasso;
 import javax.inject.Inject;
 
 import be.kdg.mobile_client.friends.FriendsActivity;
-import be.kdg.mobile_client.room.overview.PublicRoomOverviewActivity;
-import be.kdg.mobile_client.room.overview.RoomOverviewActivity;
+import be.kdg.mobile_client.room.overview.RoomsOverViewActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.user.settings.UserSettingsActivity;
 import be.kdg.mobile_client.user.rankings.RankingsActivity;
+import be.kdg.mobile_client.user.settings.UserSettingsActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -49,8 +48,8 @@ public class MenuActivity extends BaseActivity {
     }
 
     private void addEventHandlers() {
-        btnPublicGame.setOnClickListener(e -> navigateTo(PublicRoomOverviewActivity.class));
-        btnPrivateGame.setOnClickListener(e -> navigateTo(RoomOverviewActivity.class));
+        btnPublicGame.setOnClickListener(e -> navigateTo(RoomsOverViewActivity.class, "type", "PUBLIC"));
+        btnPrivateGame.setOnClickListener(e -> navigateTo(RoomsOverViewActivity.class, "type", "PRIVATE"));
         btnFriends.setOnClickListener(e -> navigateTo(FriendsActivity.class));
         btnRankings.setOnClickListener(e -> navigateTo(RankingsActivity.class));
         btnSettings.setOnClickListener(e -> navigateTo(UserSettingsActivity.class));

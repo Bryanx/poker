@@ -105,4 +105,6 @@
     <string name="error_updating_user">Error updating user</string>
     <string name="user_was_updated">User was updated</string>
     <string name="edit">edit</string>
+    <string name="done">Done</string>
+    <string name="editRooms">Edit your rooms</string>
 </resources>

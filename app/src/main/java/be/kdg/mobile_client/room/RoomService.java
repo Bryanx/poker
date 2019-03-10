@@ -32,6 +32,9 @@ public interface RoomService {
     @DELETE("/api/rooms/{id}/leave-room")
     Observable<Response<Void>> leaveRoom(@Path("id") int id);
 
+    @DELETE("/api/rooms/{id}")
+    Observable<Response<Void>> deleteRoom(@Path("id") int id);
+
     @GET("/api/rooms/{id}/current-round")
     Observable<Response<Void>> getCurrentRound(@Path("id") int id);
 }

@@ -15,12 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.room.Room;
 import be.kdg.mobile_client.room.RoomActivity;
+import be.kdg.mobile_client.room.RoomService;
 import be.kdg.mobile_client.user.User;
 import lombok.AllArgsConstructor;
 
@@ -31,6 +34,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapter.ViewHolder> {
     private final User myself;
+    private final RoomService roomService;
     private Context ctx;
     private List<Room> rooms;
     private boolean edit;
@@ -40,10 +44,11 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
      *
      * @param rooms All the rooms.
      */
-    RoomRecyclerAdapter(Context ctx, List<Room> rooms, User user, boolean edit) {
+    RoomRecyclerAdapter(Context ctx, List<Room> rooms, User user, RoomService roomService, boolean edit) {
         this.ctx = ctx;
         this.myself = user;
         this.edit = edit;
+        this.roomService = roomService;
         List<Room> newRooms = new ArrayList<>();
 
         for (Room room : rooms) {
@@ -90,6 +95,16 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         placeImage(R.drawable.delete, holder.ivDelete);
         if (!edit) holder.ivDelete.setVisibility(View.GONE);
 
+        addEventListeners(holder, room);
+    }
+
+    /**
+     * Adds the appropriate event listeners to some of the items in the view holder.
+     *
+     * @param holder The items in the holder that need to be linked to a listener.
+     * @param room The room that will correspond with those listeners.
+     */
+    private void addEventListeners(@NonNull ViewHolder holder, Room room) {
         holder.roomCard.setOnClickListener(e -> {
             holder.roomCard.setEnabled(false);
             if (room.getGameRules().getStartingChips() > myself.getChips()) {
@@ -104,7 +119,9 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         });
 
         holder.ivDelete.setOnClickListener(e -> {
-
+            roomService.deleteRoom(room.getId()).subscribe();
+            rooms.remove(room);
+            notifyDataSetChanged();
         });
     }
 

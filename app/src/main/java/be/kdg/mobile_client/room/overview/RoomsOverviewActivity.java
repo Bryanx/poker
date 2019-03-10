@@ -1,12 +1,10 @@
 package be.kdg.mobile_client.room.overview;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -25,7 +23,6 @@ import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.user.UserService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class RoomsOverviewActivity extends BaseActivity {
@@ -35,6 +32,7 @@ public class RoomsOverviewActivity extends BaseActivity {
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @Inject OverviewViewModel viewModel;
     @Inject UserService userService;
+    @Inject RoomService roomService;
     @Inject SharedPrefService sharedPrefService;
     private Button btnEdit;
     private RoomRecyclerAdapter roomAdapter;
@@ -82,10 +80,12 @@ public class RoomsOverviewActivity extends BaseActivity {
         String header;
 
         if (editMode) {
-            viewModel.getPrivateRoomsOnwner().observe(this, this::initializeAdapter);
+            viewModel.getPrivateRoomsOwner().observe(this, this::initializeAdapter);
+            btnEdit.setText(R.string.done);
             header = getString(R.string.editRooms).toUpperCase();
         } else if (!publicRooms) {
             viewModel.getPrivateRooms().observe(this, this::initializeAdapter);
+            btnEdit.setText(R.string.edit);
             header = getString(R.string.privateRooms).toUpperCase();
         } else {
             viewModel.getPublicRooms().observe(this, this::initializeAdapter);
@@ -93,15 +93,6 @@ public class RoomsOverviewActivity extends BaseActivity {
         }
 
         tvOverviewHeader.setText(header);
-    }
-
-    private void addToComposite(Observable<List<Room>> roomObs) {
-        compositeDisposable.add(roomObs
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::initializeAdapter, error -> {
-                    Toast.makeText(this, getString(R.string.failed_to_connect), Toast.LENGTH_LONG).show();
-                    Log.e("RoomsOverviewActivity", error.getMessage());
-                }));
     }
 
     /**
@@ -115,7 +106,7 @@ public class RoomsOverviewActivity extends BaseActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(myself -> {
                     progressBar.setVisibility(View.GONE);
-                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself, editMode);
+                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself, roomService, editMode);
                     lvRoom.setAdapter(roomAdapter);
                     lvRoom.setLayoutManager(new LinearLayoutManager(this));
                 }));

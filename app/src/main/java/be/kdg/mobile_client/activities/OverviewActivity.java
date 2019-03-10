@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 public class OverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
+    @BindView(R.id.tvOverviewHeader) TextView tvOverviewHeader;
     @Inject RoomService roomService;
 
     @Override
@@ -49,8 +51,10 @@ public class OverviewActivity extends BaseActivity {
 
         if (getIntent().getStringExtra("TYPE").equals("PUBLIC")) {
             roomObs = roomService.getRooms().observeOn(AndroidSchedulers.mainThread());
+            tvOverviewHeader.setText(getString(R.string.publicRooms).toUpperCase());
         } else {
             roomObs = roomService.getPrivateRooms().observeOn(AndroidSchedulers.mainThread());
+            tvOverviewHeader.setText(getString(R.string.privateRooms).toUpperCase());
         }
 
         roomObs.subscribe(this::initializeAdapter, error -> Log.e("OverviewActivity", error.getMessage()));

@@ -122,6 +122,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             roomService.deleteRoom(room.getId()).subscribe();
             rooms.remove(room);
             notifyDataSetChanged();
+            Toast.makeText(ctx, "Deleted " + room.getName(), Toast.LENGTH_LONG).show();
         });
     }
 

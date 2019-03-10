@@ -25,6 +25,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
+/**
+ * Activity that can show a list of public rooms, private rooms or rooms that need to
+ * be edited.
+ */
 public class RoomsOverviewActivity extends BaseActivity {
     @BindView(R.id.tvOverviewHeader) TextView tvOverviewHeader;
     @BindView(R.id.btnBack) Button btnBack;
@@ -39,6 +43,10 @@ public class RoomsOverviewActivity extends BaseActivity {
     private boolean publicRooms;
     private boolean editMode = false;
 
+    /**
+     * The string resource that was passed to this activity will determine which data
+     * needs to be loaded into the adapter.
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

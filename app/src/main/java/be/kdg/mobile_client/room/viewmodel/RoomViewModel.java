@@ -21,7 +21,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * The main viewmodel for joining a room and fetching its state.
+ * The main view model for joining a room and fetching its state.
  * It works similarly to a Presenter in the MVP pattern.
  * The LiveData variables are directly linked and accessible from the layout.
  * When the LiveData variables change, the bound data in the layout is subsequently changed.

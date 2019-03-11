@@ -90,7 +90,6 @@ public class RoundServiceImpl implements RoundService {
         else checkEndOfPhaseWithBetOrRaise(round);
     }
 
-    //TODO: maarten, enhance code quality (or readability).
 
     /**
      * Check if phase has ended when enough Call/Folds are followed by a Bet of Raise
@@ -124,7 +123,9 @@ public class RoundServiceImpl implements RoundService {
         }
     }
 
-    //TODO: remi, document this. Try to avoid returning optionals.
+    /**
+     * Checks the end of a round.
+     */
     @Override
     public Optional<Player> checkEndOfRound(int roundId) throws RoundException {
         Round round = getRound(roundId);
@@ -341,13 +342,20 @@ public class RoundServiceImpl implements RoundService {
         return winningPlayer;
     }
 
-    //TODO, remi and maarten, refactor this, user better documentation!
+    @Override
+    public Optional<Player> checkFolds(int roundId) throws RoundException {
+        Round round = getRound(roundId);
+
+        if (round.getActivePlayers().size() == 1) {
+            return Optional.of(round.getActivePlayers().get(0));
+        }
+
+        return Optional.empty();
+    }
+
     /**
      * Determines winning player based on all hand combinations of all the players
      *
-     * @param roundId
-     * @return
-     * @throws RoundException
      */
     public Player determineWinner(int roundId) throws RoundException {
         //Get data
@@ -390,7 +398,6 @@ public class RoundServiceImpl implements RoundService {
         return handService.determineBestPossibleHand(playerCards);
     }
 
-    //TODO: remi, this should be better documented.
     /**
      * Checks which player should play the next act.
      */

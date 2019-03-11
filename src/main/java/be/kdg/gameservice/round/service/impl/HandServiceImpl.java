@@ -119,15 +119,9 @@ public final class HandServiceImpl implements HandService {
         return new Hand(HandType.HIGH_CARD, hand);
     }
 
-    //TODO: maarten, document the parameters.
     /**
      * Creates all subsets of size k based on superSet
      *
-     * @param superSet
-     * @param k
-     * @param idx
-     * @param current
-     * @param solution
      */
     private void getSubsets(List<Card> superSet, int k, int idx, Set<Card> current, List<Set<Card>> solution) {
         //successful stop clause

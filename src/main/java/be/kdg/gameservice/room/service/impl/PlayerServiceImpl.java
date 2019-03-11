@@ -42,6 +42,11 @@ public class PlayerServiceImpl implements PlayerService {
         if (room.getPlayersInRoom().size() > room.getGameRules().getMaxPlayerCount())
             throw new RoomException(PlayerServiceImpl.class, "Maximum player capacity is reached.");
 
+        //Determine if player is already in room
+        Optional<Player> playerOptional = room.getPlayersInRoom().stream().filter(player -> player.getUserId().equals(userId)).findFirst();
+        if (playerOptional.isPresent())
+            throw new RoomException(PlayerServiceImpl.class, "Player is already in room.");
+
         //Add player to room
         Player player = new Player(room.getGameRules().getStartingChips(), userId, room.getFirstEmptySeat());
         player = playerRepository.save(player);

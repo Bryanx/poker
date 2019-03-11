@@ -24,13 +24,10 @@ public final class Hand implements Comparable<Hand> {
      */
     private HandType handType;
 
-    //TODO: maarten, add documentation.
     private List<Card> cards;
 
-    //TODO: maarten, add documentation.
     private List<Integer> cardRankValue;
 
-    //TODO: maarten, add documentation.
     public Hand(HandType handType, List<Card> cards) {
         this.cards = cards;
         this.handType = handType;

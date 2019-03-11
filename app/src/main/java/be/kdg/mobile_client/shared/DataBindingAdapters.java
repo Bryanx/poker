@@ -127,4 +127,10 @@ public class DataBindingAdapters {
         view.setText(String.valueOf(input));
     }
 
+    @BindingAdapter("app:start")
+    public static void start(CircularProgressBar view, boolean start) {
+        if (start) view.start();
+        else view.cancel();
+    }
+
 }

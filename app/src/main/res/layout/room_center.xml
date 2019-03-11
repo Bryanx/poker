@@ -164,7 +164,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:player="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.room.playersInRoom.get(5) : null}" />
+            app:viewmodel="@{viewmodel}"
+            app:player="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.room.playersInRoom.get(5) : null}"/>
 
         <TextView
             android:id="@+id/tvBetPlayerTopRight"
@@ -203,6 +204,7 @@
             app:layout_constraintEnd_toEndOf="@+id/vTable"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
+            app:viewmodel="@{viewmodel}"
             app:player="@{viewmodel.room.playersInRoom.size > 4 ? viewmodel.room.playersInRoom.get(4) : null}" />
 
         <TextView
@@ -238,6 +240,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintStart_toStartOf="@+id/vTable"
             app:layout_constraintTop_toTopOf="parent"
+            app:viewmodel="@{viewmodel}"
             app:player="@{viewmodel.room.playersInRoom.size > 3 ? viewmodel.room.playersInRoom.get(3) : null}" />
 
         <TextView
@@ -272,6 +275,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/vTable"
             app:layout_constraintTop_toTopOf="parent"
+            app:viewmodel="@{viewmodel}"
             app:player="@{viewmodel.room.playersInRoom.size > 2 ? viewmodel.room.playersInRoom.get(2) : null}" />
 
 
@@ -306,6 +310,7 @@
             app:layout_constraintEnd_toStartOf="@+id/vTable"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:viewmodel="@{viewmodel}"
             app:player="@{viewmodel.room.playersInRoom.size > 1 ? viewmodel.room.playersInRoom.get(1) : null}" />
 
         <TextView
@@ -340,6 +345,7 @@
             app:layout_constraintEnd_toEndOf="@+id/vTable"
             app:layout_constraintStart_toStartOf="@+id/vTable"
             app:layout_constraintTop_toBottomOf="@+id/vTable"
+            app:viewmodel="@{viewmodel}"
             app:player="@{viewmodel.room.playersInRoom.size > 0 ? viewmodel.room.playersInRoom.get(0) : null}" />
 
         <include

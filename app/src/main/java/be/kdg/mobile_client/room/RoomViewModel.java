@@ -1,6 +1,9 @@
 package be.kdg.mobile_client.room;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -63,6 +66,7 @@ public class RoomViewModel extends ViewModel {
                         round.postValue(newRound);
                         updateRoomPlayers(newRound.getPlayersInRound());
                         checkTurns(newRound);
+                        if (newRound.isFinished()) acts.clear();
                     }, this::notifyUser);
                     //TODO: initializeWinnerConnection();
                     roomRepo.joinRoom(roomId).subscribe(player::postValue, this::notifyUser);
@@ -148,18 +152,41 @@ public class RoomViewModel extends ViewModel {
     /**
      * This method is called when the user clicks on an act
      */
-    public void onAct(ActType actType) {
+    public synchronized void onAct(ActType actType) {
+        if (!myTurn.getValue()) return;
+        myTurn.setValue(false);
         Player me = player.getValue();
         Round rnd = round.getValue();
         int roomId = room.getValue().getId();
         Act act = new Act(rnd.getId(), me.getUserId(), me.getId(), roomId, actType,
                 rnd.getCurrentPhase(), 0, 0, "");
-        if (actType == ActType.BET || actType == ActType.RAISE || actType == ActType.CALL) {
+        if (actType == ActType.BET || actType == ActType.RAISE) {
             final int bet = seekBarValue.getValue();
             act.setBet(bet);
             act.setTotalBet(bet);
+        } else if (actType == ActType.CALL) {
+            act.setBet(getLastHighestBet());
         }
         compositeDisposable.add(roundRepo.addAct(act).subscribe(e -> seekBarValue.setValue(0), this::notifyUser));
+    }
+
+    private int getLastHighestBet() {
+        Optional<Map.Entry<String, Integer>> max = acts.getValue().stream()
+                .filter(a -> a.getPhase() == round.getValue().getCurrentPhase())
+                .collect(Collectors.groupingBy(Act::getUserId, Collectors.summingInt(Act::getBet)))
+                .entrySet().stream()
+                .max((e1, e2) -> e1.getValue().compareTo(e2.getValue()));
+        if (max.isPresent()) return max.get().getValue();
+        else return 0;
+    }
+
+    /**
+     * Called when turn timer is finished
+     */
+    public void onTimerFinished(Player finishedPlayer) {
+        if (finishedPlayer.getUserId().equals(player.getValue().getUserId())) {
+            onAct(ActType.FOLD);
+        }
     }
 
     /**

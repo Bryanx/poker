@@ -14,6 +14,7 @@ import be.kdg.mobile_client.room.viewmodel.OverviewViewModel;
 import be.kdg.mobile_client.room.viewmodel.RoomViewModel;
 import be.kdg.mobile_client.shared.WebSocketService;
 import be.kdg.mobile_client.shared.di.modules.ControllerModule;
+import be.kdg.mobile_client.notification.NotificationService;
 import be.kdg.mobile_client.user.UserActivity;
 import be.kdg.mobile_client.user.UserViewModel;
 import be.kdg.mobile_client.user.authorization.LoginActivity;
@@ -46,6 +47,7 @@ public interface ControllerComponent {
     void inject(StompClient stompClient);
     void inject(UserSettingsActivity userSettingsActivity);
     void inject(RoomService roomService);
+    void inject(NotificationService notificationService);
     WebSocketService websocketService();
     ChatService chatService();
     RoomViewModel roomViewModel();

@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.user;
+package be.kdg.mobile_client.notification;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class NotificationFragment extends Fragment {
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -3,7 +3,6 @@ package be.kdg.mobile_client;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -11,11 +10,10 @@ import javax.inject.Inject;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import be.kdg.mobile_client.chat.ChatFragment;
 import be.kdg.mobile_client.friends.FriendsActivity;
 import be.kdg.mobile_client.room.overview.RoomsOverviewActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.user.NotificationFragment;
+import be.kdg.mobile_client.notification.NotificationFragment;
 import be.kdg.mobile_client.user.rankings.RankingsActivity;
 import be.kdg.mobile_client.user.settings.UserSettingsActivity;
 import butterknife.BindView;

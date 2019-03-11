@@ -5,6 +5,7 @@ import android.util.Log;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import be.kdg.mobile_client.user.model.User;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 

@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.MenuActivity;
-import be.kdg.mobile_client.user.User;
+import be.kdg.mobile_client.user.model.User;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.user.search.UserSearchActivity;
 import be.kdg.mobile_client.user.UserViewModel;

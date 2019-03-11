@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/llMessage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -29,7 +28,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tvUserName"
+                android:id="@+id/tvMessage"
                 android:layout_width="129dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -45,7 +44,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tvDate"
                 android:layout_width="126dp"
                 android:layout_height="17dp"
                 android:layout_marginStart="16dp"
@@ -55,11 +54,11 @@
                 android:textColor="@color/colorWhite"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvUserName"
+                app:layout_constraintTop_toBottomOf="@+id/tvMessage"
                 app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/ivDelete"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginTop="8dp"

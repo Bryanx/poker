@@ -22,7 +22,7 @@ import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.room.RoomActivity;
 import be.kdg.mobile_client.room.RoomService;
-import be.kdg.mobile_client.user.User;
+import be.kdg.mobile_client.user.model.User;
 import lombok.AllArgsConstructor;
 
 /**

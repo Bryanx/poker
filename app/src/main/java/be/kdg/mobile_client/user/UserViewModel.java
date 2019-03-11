@@ -12,9 +12,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.App;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.user.model.User;
 import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 /**
  * ViewModel for users (directly bound to the layout)

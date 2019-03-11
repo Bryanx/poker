@@ -61,12 +61,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
         placeImage(R.drawable.delete, holder.ivDelete);
 
         if (ctx.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            if (not.getType() == NotificationType.FRIEND_REQUEST)
-                placeImage(R.drawable.friend_request, holder.ivType);
-            else if (not.getType() == NotificationType.GLOBAL_MESSAGE)
-                placeImage(R.drawable.announcement, holder.ivType);
-            else
-                placeImage(R.drawable.game_request, holder.ivType);
+            //TODO
         }
 
         addEventHandlers(holder, not);
@@ -150,14 +145,12 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
         TextView tvMessage;
         TextView tvDate;
         ImageView ivDelete;
-        ImageView ivType;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvMessage = itemView.findViewById(R.id.tvMessage);
             tvDate = itemView.findViewById(R.id.tvDate);
             ivDelete = itemView.findViewById(R.id.ivDelete);
-            ivType = itemView.findViewById(R.id.ivType);
         }
     }
 }

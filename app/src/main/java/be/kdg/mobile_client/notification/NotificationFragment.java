@@ -1,5 +1,7 @@
 package be.kdg.mobile_client.notification;
 
+import android.content.res.Configuration;
+import android.media.VolumeShaper;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -71,14 +74,12 @@ public class NotificationFragment extends Fragment {
         btnDeleteAll.setOnClickListener(e -> {
             progressBar.setVisibility(View.VISIBLE);
             viewModel.deleteAllNotifications();
-            initializeAdapter(new ArrayList<>());
+
+            initializeAdapter(new ArrayList<>()); //refresh data with empty set.
             Toast.makeText(getContext(), "Deleted all notifications", Toast.LENGTH_LONG).show();
         });
 
-        ivRefresh.setOnClickListener(e -> {
-            getNotifications();
-            Toast.makeText(getContext(), "Refreshed data", Toast.LENGTH_LONG).show();
-        });
+        ivRefresh.setOnClickListener(e -> getNotifications());
     }
 
     /**

@@ -11,6 +11,7 @@ import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import be.kdg.gameservice.shared.config.WebConfig;
+import org.aspectj.apache.bcel.util.Play;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -21,6 +22,7 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
@@ -85,14 +87,16 @@ public class RoundApiController {
         this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet(), actDTO.isAllIn());
 
-        Optional<Player> playerOptional = roundService.checkEndOfRound(actDTO.getRoundId());
+        Optional<Player> winnerOptional = roundService.checkEndOfRound(actDTO.getRoundId());
+        Optional<Player> playerOptional = roundService.checkFolds(actDTO.getRoundId());
         Round round;
         RoundDTO roundOut;
 
-        if (playerOptional.isPresent()) {
-            addWin(playerOptional.get().getUserId());
+        if (winnerOptional.isPresent() || playerOptional.isPresent()) {
+            Player winner = winnerOptional.orElseGet(playerOptional::get);
+            addWin(winner.getUserId());
 
-            this.template.convertAndSend("/room/receive-winner/" + actDTO.getRoomId(), modelMapper.map(playerOptional.get(), PlayerDTO.class));
+            this.template.convertAndSend("/room/receive-winner/" + actDTO.getRoomId(), modelMapper.map(winner, PlayerDTO.class));
             round = roomService.startNewRoundForRoom(actDTO.getRoomId());
             roundOut = modelMapper.map(round, RoundDTO.class);
 

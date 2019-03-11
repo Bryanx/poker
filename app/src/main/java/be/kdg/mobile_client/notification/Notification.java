@@ -9,7 +9,7 @@ class Notification {
     private String message;
     private NotificationType type;
     private String timestamp;
-    @Setter
+
     private boolean read;
     private String ref;
 }

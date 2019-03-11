@@ -62,4 +62,8 @@ public class LiveDataList<T> {
         tempData.remove(item);
         data.postValue(tempData);
     }
+
+    public void clear() {
+        data.setValue(new ArrayList<>());
+    }
 }

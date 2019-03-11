@@ -80,8 +80,9 @@ public class DataBindingAdapters {
         switch (cardType) {
             case "FOLD": resourceId = R.color.colorRed;break;
             case "CALL": resourceId = R.color.colorGreen;break;
-            case "RAISE": resourceId = R.color.colorYellow;break;
             case "CHECK": resourceId = R.color.colorGreen;break;
+            case "RAISE": resourceId = R.color.colorYellow;break;
+            case "BET": resourceId = R.color.colorYellow;break;
             case "UNDECIDED": resourceId = R.color.colorTransparent;
         }
         view.setTextColor(view.getContext().getColor(resourceId));
@@ -124,6 +125,12 @@ public class DataBindingAdapters {
     @BindingAdapter("android:text")
     public static void setDouble(TextView view, double input) {
         view.setText(String.valueOf(input));
+    }
+
+    @BindingAdapter("app:start")
+    public static void start(CircularProgressBar view, boolean start) {
+        if (start) view.start();
+        else view.cancel();
     }
 
 }

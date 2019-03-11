@@ -17,7 +17,6 @@ import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.chat.ChatFragment;
 import be.kdg.mobile_client.chat.ChatService;
 import be.kdg.mobile_client.databinding.ActivityRoomBinding;
-import be.kdg.mobile_client.room.viewmodel.RoomViewModel;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import butterknife.BindView;
 import butterknife.ButterKnife;

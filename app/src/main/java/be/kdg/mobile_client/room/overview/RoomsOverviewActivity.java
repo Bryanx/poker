@@ -9,15 +9,21 @@ import android.widget.TextView;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.MenuActivity;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.databinding.ActivityRoomBinding;
 import be.kdg.mobile_client.room.Room;
 import be.kdg.mobile_client.room.RoomService;
+import be.kdg.mobile_client.room.RoomViewModel;
 import be.kdg.mobile_client.room.viewmodel.OverviewViewModel;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.user.UserService;
@@ -34,14 +40,15 @@ public class RoomsOverviewActivity extends BaseActivity {
     @BindView(R.id.btnBack) Button btnBack;
     @BindView(R.id.lvUser) RecyclerView lvRoom;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @Inject OverviewViewModel viewModel;
     @Inject UserService userService;
     @Inject RoomService roomService;
     @Inject SharedPrefService sharedPrefService;
+    @Inject @Named("OverviewViewModel") ViewModelProvider.Factory factory;
     private Button btnEdit;
     private RoomRecyclerAdapter roomAdapter;
     private boolean publicRooms;
     private boolean editMode = false;
+    private OverviewViewModel viewModel;
 
     /**
      * The string resource that was passed to this activity will determine which data
@@ -52,6 +59,8 @@ public class RoomsOverviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getControllerComponent().inject(this);
 
+        setUpViewModel();
+
         publicRooms = getIntent().getStringExtra("type").equalsIgnoreCase("PUBLIC");
         if (publicRooms) setContentView(R.layout.activity_overview_public);
         else setContentView(R.layout.activity_overview_private);
@@ -61,6 +70,10 @@ public class RoomsOverviewActivity extends BaseActivity {
         ButterKnife.bind(this);
         addEventHandlers();
         getRooms();
+    }
+
+    private void setUpViewModel() {
+        viewModel = ViewModelProviders.of(this,factory).get(OverviewViewModel.class);
     }
 
     /**

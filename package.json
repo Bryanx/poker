@@ -27,6 +27,7 @@
     "@auth0/angular-jwt": "^2.1.0",
     "angular-font-awesome": "^3.1.2",
     "angular-notifier": "4.0.0",
+    "angular-svg-round-progressbar": "^2.0.0",
     "angularx-social-login": "^1.2.4",
     "core-js": "^2.5.4",
     "express": "^4.16.4",

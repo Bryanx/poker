@@ -8,6 +8,7 @@ import {Player} from '../../model/player';
 import {Room} from '../../model/room';
 import {CurrentPhaseBet} from '../../model/currentPhaseBet';
 import {WebSocketService} from '../../services/web-socket.service';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 @Component({
   selector: 'app-actionbar',

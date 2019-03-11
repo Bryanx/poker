@@ -34,6 +34,8 @@ import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RoomCardComponent } from './components/room-card/room-card.component';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
+
 
 const config = new AuthServiceConfig([
   {
@@ -96,7 +98,8 @@ export function setupTranslateFactory(
     MatTableModule,
     MatSnackBarModule,
     NotifierModule.withConfig(customNotifierOptions),
-    MatProgressBarModule
+    MatProgressBarModule,
+    RoundProgressModule
   ],
   providers: [
     {

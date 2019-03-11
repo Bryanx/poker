@@ -22,7 +22,7 @@ import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.friends.FriendsActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.user.User;
+import be.kdg.mobile_client.user.model.User;
 import be.kdg.mobile_client.user.UserViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;

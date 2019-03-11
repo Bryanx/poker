@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.user;
+package be.kdg.mobile_client.user.model;
 
 import java.util.List;
 

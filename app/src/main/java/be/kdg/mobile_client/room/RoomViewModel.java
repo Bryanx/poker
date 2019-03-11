@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.room.model.Act;
 import be.kdg.mobile_client.room.model.ActType;
 import be.kdg.mobile_client.room.model.Player;
+import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.round.Round;
 import be.kdg.mobile_client.round.RoundRepository;
 import be.kdg.mobile_client.shared.LiveDataList;

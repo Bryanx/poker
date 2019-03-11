@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.user.UserActivity;
-import be.kdg.mobile_client.user.User;
+import be.kdg.mobile_client.user.model.User;
 import lombok.AllArgsConstructor;
 
 /**
@@ -22,8 +22,8 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAdapter.ViewHolder> {
-    private Context ctx;
-    private List<User> users;
+    private final Context ctx;
+    private final List<User> users;
 
     /**
      * Inflates the layout that will be used to display each friend.

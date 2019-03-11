@@ -13,7 +13,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.user.User;
+import be.kdg.mobile_client.user.model.User;
 import be.kdg.mobile_client.user.UserActivity;
 import lombok.AllArgsConstructor;
 

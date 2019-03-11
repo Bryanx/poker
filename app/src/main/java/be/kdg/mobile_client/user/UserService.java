@@ -4,6 +4,7 @@ import java.util.List;
 
 import be.kdg.mobile_client.user.authorization.Credential;
 import be.kdg.mobile_client.user.authorization.Token;
+import be.kdg.mobile_client.user.model.User;
 import io.reactivex.Observable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;

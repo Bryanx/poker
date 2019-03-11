@@ -12,7 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.App;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.room.Room;
+import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.room.RoomService;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".MenuActivity"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    tools:context=".MenuActivity">
 
     <TextView
         android:id="@+id/tvOverviewHeader"
@@ -82,5 +82,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lvUser"
         app:layout_constraintVertical_bias="0.285" />
+
+    <TextView
+        android:id="@+id/tvNoRooms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/no_rooms"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

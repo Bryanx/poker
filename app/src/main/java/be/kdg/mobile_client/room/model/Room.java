@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.room;
+package be.kdg.mobile_client.room.model;
 
 import java.util.List;
 

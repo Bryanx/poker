@@ -3,6 +3,7 @@ package be.kdg.mobile_client.shared.di.modules;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -22,6 +23,7 @@ import be.kdg.mobile_client.shared.ViewModelProviderFactory;
 import be.kdg.mobile_client.shared.WebSocketService;
 import be.kdg.mobile_client.shared.validators.EmailValidator;
 import be.kdg.mobile_client.shared.validators.UsernameValidator;
+import be.kdg.mobile_client.notification.NotificationService;
 import be.kdg.mobile_client.user.UserRepository;
 import be.kdg.mobile_client.user.UserService;
 import be.kdg.mobile_client.user.UserViewModel;
@@ -144,6 +146,18 @@ public class ControllerModule {
                 .baseUrl(API_BASE_URL_GAME)
                 .build()
                 .create(RoundService.class);
+    }
+
+    @Provides
+    NotificationService notificationService() {
+        return new Retrofit
+                .Builder()
+                .client(okHttpClient())
+                .addConverterFactory(gsonConverter())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+                .baseUrl(API_BASE_URL_USER)
+                .build()
+                .create(NotificationService.class);
     }
 
     @Provides

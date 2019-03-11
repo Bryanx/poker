@@ -15,16 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.room.Room;
+import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.room.RoomActivity;
 import be.kdg.mobile_client.room.RoomService;
-import be.kdg.mobile_client.user.User;
+import be.kdg.mobile_client.user.model.User;
 import lombok.AllArgsConstructor;
 
 /**

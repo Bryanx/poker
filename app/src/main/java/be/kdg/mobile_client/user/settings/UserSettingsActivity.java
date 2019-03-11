@@ -16,7 +16,7 @@ import javax.inject.Inject;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.MenuActivity;
-import be.kdg.mobile_client.user.User;
+import be.kdg.mobile_client.user.model.User;
 import be.kdg.mobile_client.user.UserService;
 import be.kdg.mobile_client.user.authorization.Credential;
 import be.kdg.mobile_client.shared.SharedPrefService;

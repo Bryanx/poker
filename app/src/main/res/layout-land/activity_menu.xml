@@ -114,7 +114,7 @@
     <fragment
         android:id="@+id/fragmentNot"
         android:name="be.kdg.mobile_client.notification.NotificationFragment"
-        android:layout_width="434dp"
+        android:layout_width="581dp"
         android:layout_height="match_parent"
         android:layout_weight=".5"
         android:tag="@string/not_fragment_tag"

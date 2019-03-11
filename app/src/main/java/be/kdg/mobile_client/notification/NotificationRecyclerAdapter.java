@@ -1,6 +1,9 @@
 package be.kdg.mobile_client.notification;
 
 import android.content.Context;
+import android.content.res.Configuration;
+import android.media.Image;
+import android.media.VolumeShaper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +59,10 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
         holder.tvMessage.setText(not.getMessage());
         holder.tvDate.setText(formatTime(not.getTimestamp()));
         placeImage(R.drawable.delete, holder.ivDelete);
+
+        if (ctx.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //TODO
+        }
 
         addEventHandlers(holder, not);
     }

@@ -33,9 +33,11 @@ public class UserSearchActivity extends BaseActivity {
     @BindView(R.id.etSearch) EditText etSearch;
     @BindView(R.id.lvUser) RecyclerView lvUser;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
+    @Inject
+    @Named("UserViewModel") ViewModelProvider.Factory factory;
     @Inject SharedPrefService sharedPrefService;
     private UserViewModel viewModel;
+    private User myself;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,9 @@ public class UserSearchActivity extends BaseActivity {
         getControllerComponent().inject(this);
         setContentView(R.layout.activity_usersearch);
         ButterKnife.bind(this);
-        viewModel = ViewModelProviders.of(this,factory).get(UserViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
         addEventHandlers();
+        viewModel.getUser("").observe(this, me -> myself = me);
     }
 
     private void addEventHandlers() {
@@ -60,9 +63,6 @@ public class UserSearchActivity extends BaseActivity {
                 }
             }
             return false;
-        });
-        viewModel.getMessage().observe(this, message -> {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
         });
     }
 
@@ -85,7 +85,7 @@ public class UserSearchActivity extends BaseActivity {
      */
     private void initializeAdapter(List<User> users) {
         progressBar.setVisibility(View.GONE);
-        UserRecyclerAdapter userAdapter = new UserRecyclerAdapter(this, users);
+        UserRecyclerAdapter userAdapter = new UserRecyclerAdapter(this, users, myself);
         lvUser.setAdapter(userAdapter);
         lvUser.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -96,9 +96,7 @@ public class UserSearchActivity extends BaseActivity {
      * @param friend friend to be added
      */
     public void addFriend(User friend) {
-        viewModel.getUser("").observe(this, me -> {
-            me.addFriend(new Friend(friend.getId()));
-            viewModel.changeUser(me);
-        });
+        myself.addFriend(new Friend(friend.getId()));
+        viewModel.changeUser(myself);
     }
 }

@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.user.model.User;
@@ -23,8 +25,9 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapter.ViewHolder> {
-    private Context ctx;
-    private List<User> users;
+    private final Context ctx;
+    private final List<User> users;
+    private final User myself;
 
     /**
      * Inflates the layout that will be used to display each user.
@@ -48,15 +51,33 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
         holder.tvName.setText(user.getUsername());
-        holder.tvName.setOnClickListener(e -> {
+
+        myself.getFriends().stream()
+                .filter(friend -> friend.getUserId().equals(user.getId()))
+                .findAny()
+                .ifPresent(friend -> holder.btnAdd.setVisibility(View.GONE));
+        if (user.getId().equals(myself.getId())) holder.btnAdd.setVisibility(View.GONE);
+
+        addEventListeners(holder, user);
+    }
+
+    /**
+     * @param holder The holder that "holds" the views that are created so they can be recycled.
+     * @param user   The user that needs to correspond with the listeners.
+     */
+    private void addEventListeners(ViewHolder holder, User user) {
+        holder.userCard.setOnClickListener(e -> {
             Intent intent = new Intent(ctx, UserActivity.class);
             intent.putExtra(ctx.getString(R.string.userid), user.getId());
             ctx.startActivity(intent);
         });
+
         holder.btnAdd.setOnClickListener(e -> {
-            if (ctx instanceof  UserSearchActivity) {
+            if (ctx instanceof UserSearchActivity) {
                 ((UserSearchActivity) ctx).addFriend(user);
             }
+            holder.btnAdd.setVisibility(View.GONE);
+            Toast.makeText(ctx, "Befriended " + user.getUsername(), Toast.LENGTH_LONG).show();
         });
     }
 
@@ -77,11 +98,13 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
         Button btnAdd;
+        CardView userCard;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvUserName);
             btnAdd = itemView.findViewById(R.id.btnAdd);
+            userCard = itemView.findViewById(R.id.userCard);
         }
     }
 }

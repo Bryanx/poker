@@ -7,7 +7,7 @@
 
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/roomCard"
+        android:id="@+id/friendCard"
         android:layout_width="345dp"
         android:layout_height="74dp"
         android:layout_marginStart="8dp"

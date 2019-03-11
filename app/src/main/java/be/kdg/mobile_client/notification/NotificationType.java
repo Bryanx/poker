@@ -1,4 +1,4 @@
-package be.kdg.mobile_client.user.model;
+package be.kdg.mobile_client.notification;
 
 /**
  * All the types of notifications that a user can receive.

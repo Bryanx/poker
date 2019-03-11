@@ -7,6 +7,8 @@ import be.kdg.mobile_client.MenuActivity;
 import be.kdg.mobile_client.chat.ChatFragment;
 import be.kdg.mobile_client.chat.ChatService;
 import be.kdg.mobile_client.friends.FriendsActivity;
+import be.kdg.mobile_client.notification.NotificationFragment;
+import be.kdg.mobile_client.notification.NotificationViewModel;
 import be.kdg.mobile_client.room.RoomActivity;
 import be.kdg.mobile_client.room.RoomService;
 import be.kdg.mobile_client.room.overview.RoomsOverviewActivity;
@@ -36,6 +38,7 @@ public interface ControllerComponent {
     void inject(MenuActivity menuActivity);
     void inject(RoomActivity roomActivity);
     void inject(ChatFragment chatFragment);
+    void inject(NotificationFragment notificationFragment);
     void inject(RegisterActivity registerActivity);
     void inject(FriendsActivity friendsActivity);
     void inject(RankingsActivity rankingsActivity);
@@ -44,6 +47,7 @@ public interface ControllerComponent {
     void inject(RoomsOverviewActivity roomsOverViewActivity);
     void inject(UserViewModel userViewModel);
     void inject(OverviewViewModel overviewViewModel);
+    void inject(NotificationViewModel notificationViewModel);
     void inject(StompClient stompClient);
     void inject(UserSettingsActivity userSettingsActivity);
     void inject(RoomService roomService);

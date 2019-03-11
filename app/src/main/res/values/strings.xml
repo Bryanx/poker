@@ -114,4 +114,6 @@
     <string name="date">date</string>
     <string name="default_desc">default_desc</string>
     <string name="not_fragment_tag">not_fragment_tag</string>
+    <string name="error_loading_nots">Error loading notifications</string>
+    <string name="load_notifications_tag">Load notifications</string>
 </resources>

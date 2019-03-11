@@ -9,7 +9,7 @@
     android:background="@color/colorBackground">
 
     <TextView
-        android:id="@+id/tvLogin"
+        android:id="@+id/tvOverviewHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -44,7 +44,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         android:divider="@null"
         android:dividerHeight="5dp"
         android:stackFromBottom="true"
@@ -52,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/tvOverviewHeader" />
 
     <Button
         android:id="@+id/btnBack"

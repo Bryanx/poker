@@ -14,7 +14,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.user.model.Notification;
 import lombok.AllArgsConstructor;
 
 /**
@@ -51,8 +50,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
         Notification not = notifications.get(position);
 
         holder.tvMessage.setText(not.getMessage());
-        System.out.println(not.getTimestamp());
-
+        holder.tvDate.setText(not.getTimestamp());
         placeImage(R.drawable.delete, holder.ivDelete);
 
         addEventHandlers(holder, not);

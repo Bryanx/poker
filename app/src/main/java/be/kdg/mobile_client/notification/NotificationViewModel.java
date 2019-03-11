@@ -11,7 +11,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import be.kdg.mobile_client.App;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.user.model.Notification;
 import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
 
@@ -33,9 +32,10 @@ public class NotificationViewModel {
      *
      * @return A live data set of the rooms that will be loaded into that list.
      */
-    public LiveData<List<Notification>> getNotifications() {
+    LiveData<List<Notification>> getNotifications() {
+        System.out.println("getting notifications");
         compositeDisposable.add(notificationService.getNotifications().subscribe(notifications::postValue,
-                throwable -> handleError(throwable, app.getString(R.string.load_room_tag), app.getString(R.string.error_loading_rooms))));
+                throwable -> handleError(throwable, app.getString(R.string.load_notifications_tag), app.getString(R.string.error_loading_nots))));
         return notifications;
     }
 

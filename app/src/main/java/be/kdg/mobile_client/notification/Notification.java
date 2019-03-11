@@ -1,16 +1,14 @@
-package be.kdg.mobile_client.user.model;
-
-import java.time.LocalDateTime;
+package be.kdg.mobile_client.notification;
 
 import lombok.Data;
 import lombok.Setter;
 
 @Data
-public class Notification {
+class Notification {
     private int id;
     private String message;
     private NotificationType type;
-    private LocalDateTime timestamp;
+    private String timestamp;
     @Setter
     private boolean read;
     private String ref;

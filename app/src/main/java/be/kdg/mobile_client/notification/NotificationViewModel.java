@@ -15,11 +15,11 @@ import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
 
 public class NotificationViewModel {
-    private final NotificationService notificationService;
+    @Getter private final NotificationService notificationService;
+    @Getter MutableLiveData<String> message = new MutableLiveData<>();
+    private final MutableLiveData<List<Notification>> notifications = new MutableLiveData<>();
     private final Context app;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    @Getter MutableLiveData<List<Notification>> notifications = new MutableLiveData<>();
-    @Getter MutableLiveData<String> message = new MutableLiveData<>();
 
     @Inject
     NotificationViewModel(NotificationService notificationService) {
@@ -33,10 +33,16 @@ public class NotificationViewModel {
      * @return A live data set of the rooms that will be loaded into that list.
      */
     LiveData<List<Notification>> getNotifications() {
-        System.out.println("getting notifications");
         compositeDisposable.add(notificationService.getNotifications().subscribe(notifications::postValue,
                 throwable -> handleError(throwable, app.getString(R.string.load_notifications_tag), app.getString(R.string.error_loading_nots))));
         return notifications;
+    }
+
+    /**
+     * Deletes all the notifications of a specific user.
+     */
+    void deleteAllNotifications() {
+        compositeDisposable.add(notificationService.deleteNotifications().subscribe());
     }
 
     /**

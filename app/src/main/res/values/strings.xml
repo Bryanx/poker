@@ -116,4 +116,6 @@
     <string name="not_fragment_tag">not_fragment_tag</string>
     <string name="error_loading_nots">Error loading notifications</string>
     <string name="load_notifications_tag">Load notifications</string>
+    <string name="delete_all">Delete all</string>
+    <string name="no_notifications">no notifications</string>
 </resources>

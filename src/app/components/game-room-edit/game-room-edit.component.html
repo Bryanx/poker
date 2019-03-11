@@ -34,6 +34,15 @@
           {{'PLAYDELAYREQUIRED' | translate}}
         </div>
       </section>
+
+      <section *ngIf="!isAddingPrivate()" class="inputfield">
+        <label for="playDelay">{{'MIN LEVEL' | translate | titlecase}}</label>
+        <input type="number" name="playDelay" formControlName="minLevel" id="minLevel" autocomplete="off">
+        <div class="error"
+             *ngIf="validationRequired('minLevel') || validationMin('minLevel')">
+          {{'MIN LEVEL REQUIRED' | translate}}
+        </div>
+      </section>
     </section>
 
     <section class="grid-two">
@@ -52,6 +61,15 @@
         <div class="error"
              *ngIf="validationRequired('startingChips') || validationMin('startingChips')">
           {{'STARTINGCHIPSREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <section *ngIf="!isAddingPrivate()" class="inputfield">
+        <label for="playDelay">{{'MAX LEVEL' | translate | titlecase}}</label>
+        <input type="number" name="playDelay" formControlName="maxLevel" id="maxLevel" autocomplete="off">
+        <div class="error"
+             *ngIf="validationRequired('maxLevel') || validationMin('maxLevel')">
+          {{'MAX LEVEL REQUIRED' | translate}}
         </div>
       </section>
     </section>

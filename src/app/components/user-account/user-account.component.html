@@ -28,4 +28,12 @@
   </div>
 </section>
 
+<h2 class="level-header">Level {{user.level}}</h2>
+<section class="progress-section">
+  <span>{{user.xpTillNext}}</span>
+  <mat-progress-bar class="progress" mode="determinate"
+                    [value]="(user.xpTillNext / user.thresholdTillNextLevel) * 100"></mat-progress-bar>
+  <span>{{user.thresholdTillNextLevel}}</span>
+</section>
+
 <button class="back-button" (click)="goBack()">{{'BACK' | translate | titlecase}}</button>

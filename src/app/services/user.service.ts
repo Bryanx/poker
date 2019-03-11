@@ -119,6 +119,10 @@ export class UserService {
     return this.http.put<Auth>(this.url, user);
   }
 
+  addXp(xp: number): Observable<User> {
+    return this.http.patch<User>(this.url + '/level/' + xp, '');
+  }
+
   /**
    * Changes the password of the given user.
    *

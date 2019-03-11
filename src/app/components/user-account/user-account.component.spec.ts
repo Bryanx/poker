@@ -6,7 +6,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {ReactiveFormsModule} from '@angular/forms';
 import {TranslatePipe} from '../../translate.pipe';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
-import {MatSnackBarModule} from '@angular/material';
+import {MatProgressBarModule, MatSnackBarModule} from '@angular/material';
 
 describe('UserAccountComponent', () => {
   let component: UserAccountComponent;
@@ -15,7 +15,7 @@ describe('UserAccountComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UserAccountComponent, TranslatePipe ],
-      imports: [ HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule, AngularFontAwesomeModule, MatSnackBarModule ]
+      imports: [ HttpClientTestingModule, RouterTestingModule, ReactiveFormsModule, AngularFontAwesomeModule, MatSnackBarModule, MatProgressBarModule ]
     })
     .compileComponents();
   }));

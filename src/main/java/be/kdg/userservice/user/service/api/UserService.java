@@ -28,4 +28,8 @@ public interface UserService {
     User changeUserRoleToUser(User user) throws UserException;
 
     User addExperience(String id, int xp);
+
+    User addWin(String id);
+
+    void addGamesPlayed(List<String> ids);
 }

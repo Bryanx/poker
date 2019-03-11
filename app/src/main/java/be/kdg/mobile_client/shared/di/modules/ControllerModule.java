@@ -14,6 +14,7 @@ import be.kdg.mobile_client.chat.ChatService;
 import be.kdg.mobile_client.room.RoomRepository;
 import be.kdg.mobile_client.room.RoomService;
 import be.kdg.mobile_client.room.RoomViewModel;
+import be.kdg.mobile_client.room.viewmodel.OverviewViewModel;
 import be.kdg.mobile_client.round.RoundRepository;
 import be.kdg.mobile_client.round.RoundService;
 import be.kdg.mobile_client.shared.SharedPrefService;
@@ -45,12 +46,12 @@ import ua.naiksoftware.stomp.StompClient;
 @Module
 public class ControllerModule {
     private static final String API_BASE_URL_USER = "https://poker-user-service.herokuapp.com";
-    private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
-    private static final String WEBSOCKET_URL = "wss://poker-game-service.herokuapp.com/connect/websocket";
+//    private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
+//    private static final String WEBSOCKET_URL = "wss://poker-game-service.herokuapp.com/connect/websocket";
     private static final int WEBSOCKET_HEARTBEAT_MS = 10000;
 //    private static final String API_BASE_URL_USER = "http://10.0.2.2:5000";
-//    private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
-//    private static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
+    private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
+    private static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 
@@ -204,6 +205,11 @@ public class ControllerModule {
     }
 
     @Provides
+    OverviewViewModel overViewViewModel(RoomService roomService){
+        return new OverviewViewModel(roomService);
+    }
+
+    @Provides
     @Named("UserViewModel")
     ViewModelProvider.Factory userViewModelFactory(UserViewModel viewModel){
         return new ViewModelProviderFactory<>(viewModel);
@@ -212,6 +218,11 @@ public class ControllerModule {
     @Provides
     @Named("RoomViewModel")
     ViewModelProvider.Factory roomViewModelFactory(RoomViewModel viewModel){
+        return new ViewModelProviderFactory<>(viewModel);
+    }
+    @Provides
+    @Named("OverviewViewModel")
+    ViewModelProvider.Factory overviewViewModelFactory(OverviewViewModel viewModel){
         return new ViewModelProviderFactory<>(viewModel);
     }
 }

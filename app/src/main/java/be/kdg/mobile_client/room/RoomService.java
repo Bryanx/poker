@@ -20,6 +20,9 @@ public interface RoomService {
     @GET("/api/rooms/private")
     Observable<List<Room>> getPrivateRooms();
 
+    @GET("/api/rooms/private/owner")
+    Observable<List<Room>> getPrivateRoomsOwner();
+
     @GET("/api/rooms/{id}")
     Observable<Room> getRoom(@Path("id") int id);
 
@@ -28,6 +31,9 @@ public interface RoomService {
 
     @DELETE("/api/rooms/{id}/leave-room")
     Observable<Response<Void>> leaveRoom(@Path("id") int id);
+
+    @DELETE("/api/rooms/{id}")
+    Observable<Response<Void>> deleteRoom(@Path("id") int id);
 
     @GET("/api/rooms/{id}/current-round")
     Observable<Response<Void>> getCurrentRound(@Path("id") int id);

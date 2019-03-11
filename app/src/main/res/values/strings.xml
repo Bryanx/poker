@@ -78,6 +78,8 @@
 
     <!-- rooms -->
     <string name="error_getting_rooms">Error getting rooms</string>
+    <string name="publicRooms">Public rooms</string>
+    <string name="privateRooms">Private rooms</string>
     <string name="room_id">ROOM_ID</string>
     <string name="act_fold">FOLD</string>
     <string name="act_call">CALL</string>
@@ -102,4 +104,9 @@
     <string name="change_user_tag">changeUser</string>
     <string name="error_updating_user">Error updating user</string>
     <string name="user_was_updated">User was updated</string>
+    <string name="edit">edit</string>
+    <string name="done">Done</string>
+    <string name="editRooms">Edit your rooms</string>
+    <string name="load_room_tag">load rooms</string>
+    <string name="error_loading_rooms">Error loading rooms</string>
 </resources>

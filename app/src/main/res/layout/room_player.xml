@@ -13,7 +13,6 @@
         <variable
             name="player"
             type="be.kdg.mobile_client.room.model.Player" />
-
         <variable
             name="viewmodel"
             type="be.kdg.mobile_client.room.RoomViewModel" />

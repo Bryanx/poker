@@ -49,11 +49,13 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
         holder.tvName.setText(user.getUsername());
+
         holder.tvName.setOnClickListener(e -> {
             Intent intent = new Intent(ctx, UserActivity.class);
             intent.putExtra(ctx.getString(R.string.userid), user.getId());
             ctx.startActivity(intent);
         });
+
         holder.btnRemoveFriend.setOnClickListener(e -> {
             if (ctx instanceof  FriendsActivity) {
                 ((FriendsActivity) ctx).removeFriend(user);

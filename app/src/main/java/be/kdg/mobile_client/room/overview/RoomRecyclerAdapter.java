@@ -15,12 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.room.Room;
 import be.kdg.mobile_client.room.RoomActivity;
+import be.kdg.mobile_client.room.RoomService;
 import be.kdg.mobile_client.user.User;
 import lombok.AllArgsConstructor;
 
@@ -31,18 +34,23 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapter.ViewHolder> {
     private final User myself;
+    private final RoomService roomService;
     private Context ctx;
     private List<Room> rooms;
+    private boolean edit;
 
     /**
      * Filters out all the rooms that are full before initializing the collection.
      *
      * @param rooms All the rooms.
      */
-    public RoomRecyclerAdapter(Context ctx, List<Room> rooms, User user) {
+    RoomRecyclerAdapter(Context ctx, List<Room> rooms, User user, RoomService roomService, boolean edit) {
         this.ctx = ctx;
         this.myself = user;
+        this.edit = edit;
+        this.roomService = roomService;
         List<Room> newRooms = new ArrayList<>();
+
         for (Room room : rooms) {
             if (room.getPlayersInRoom().size() < room.getGameRules().getMaxPlayerCount()) {
                 newRooms.add(room);
@@ -84,7 +92,19 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         placeImage(R.drawable.coins, holder.ivCoin);
         placeImage(R.drawable.timer, holder.ivTimer);
         placeImage(R.drawable.not_full, holder.ivCap);
-        
+        placeImage(R.drawable.delete, holder.ivDelete);
+        if (!edit) holder.ivDelete.setVisibility(View.GONE);
+
+        addEventListeners(holder, room);
+    }
+
+    /**
+     * Adds the appropriate event listeners to some of the items in the view holder.
+     *
+     * @param holder The items in the holder that need to be linked to a listener.
+     * @param room The room that will correspond with those listeners.
+     */
+    private void addEventListeners(@NonNull ViewHolder holder, Room room) {
         holder.roomCard.setOnClickListener(e -> {
             holder.roomCard.setEnabled(false);
             if (room.getGameRules().getStartingChips() > myself.getChips()) {
@@ -97,13 +117,20 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
                 ctx.startActivity(intent);
             }
         });
+
+        holder.ivDelete.setOnClickListener(e -> {
+            roomService.deleteRoom(room.getId()).subscribe();
+            rooms.remove(room);
+            notifyDataSetChanged();
+            Toast.makeText(ctx, "Deleted " + room.getName(), Toast.LENGTH_LONG).show();
+        });
     }
 
 
     /**
      * Places an image inside the image view.
      *
-     * @param src The source of the image.
+     * @param src    The source of the image.
      * @param target The target where the source needs to be placed.
      */
     private void placeImage(int src, ImageView target) {
@@ -138,6 +165,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         ImageView ivCoin;
         ImageView ivTimer;
         ImageView ivCap;
+        ImageView ivDelete;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -149,6 +177,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             ivCoin = itemView.findViewById(R.id.ivCoin);
             ivTimer = itemView.findViewById(R.id.ivTimer);
             ivCap = itemView.findViewById(R.id.ivCap);
+            ivDelete = itemView.findViewById(R.id.ivDelete);
             roomCard = itemView.findViewById(R.id.roomCard);
         }
 

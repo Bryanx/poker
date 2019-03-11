@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -25,6 +26,7 @@ import be.kdg.mobile_client.R;
 /**
  * Custom view for circular timers.
  */
+@SuppressLint("ObjectAnimatorBinding")
 public class CircularProgressBar extends ProgressBar {
     private static final String TAG = "CircularProgressBar";
 

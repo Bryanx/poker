@@ -42,4 +42,7 @@ dependencies {
     compile('javax.xml.bind:jaxb-api:2.3.0')
     compile('javax.activation:activation:1.1')
     compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.1'
+
+
 }

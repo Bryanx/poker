@@ -13,6 +13,7 @@ import be.kdg.gameservice.room.service.api.PrivateRoomService;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.controller.dto.RoundDTO;
 import be.kdg.gameservice.round.exception.RoundException;
+import be.kdg.gameservice.round.model.Phase;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.shared.config.WebConfig;
 import org.modelmapper.ModelMapper;
@@ -30,6 +31,9 @@ import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 /**
  * This API is used for managing all the rooms.
@@ -178,6 +182,12 @@ public class RoomApiController {
     @GetMapping("/rooms/{roomId}/current-round")
     public void getCurrentRound(@PathVariable int roomId) throws RoomException {
         Round round = roomService.getCurrentRound(roomId);
+
+        if (round.getCurrentPhase() == Phase.PRE_FLOP) {
+            List<String> userIds = round.getPlayersInRound().stream().map(Player::getUserId).collect(collectingAndThen(toList(), Collections::unmodifiableList));
+            addGamesPlayed(userIds);
+        }
+
         RoundDTO roundOut = modelMapper.map(round, RoundDTO.class);
         this.template.convertAndSend("/room/receive-round/" + roomId, roundOut);
     }
@@ -358,5 +368,18 @@ public class RoomApiController {
         HttpEntity<UserDTO> entity = new HttpEntity<>(userDto, headers);
 
         return restTemplate.exchange(USER_SERVICE_URL, HttpMethod.PUT, entity, UserDTO.class).getBody();
+    }
+
+    /**
+     * Sends a rest template request to the user-service to increase the user his wins.
+     */
+    private void addGamesPlayed(List<String> userIds) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        HttpEntity<List<String>> entity = new HttpEntity<>(userIds, headers);
+
+        System.out.println(USER_SERVICE_URL + "/gamesplayed" + " " + userIds);
+        restTemplate.exchange(USER_SERVICE_URL + "/gamesplayed", HttpMethod.POST, entity, void.class);
     }
 }

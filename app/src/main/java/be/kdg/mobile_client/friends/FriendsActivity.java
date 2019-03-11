@@ -60,7 +60,8 @@ public class FriendsActivity extends BaseActivity {
     }
 
     private void getFriends() {
-        viewModel.getUser("").observe(this, user -> initializeAdapter(user.getFriends()));
+        //TODO
+        //viewModel.getUser("").observe(this, user -> initializeAdapter(user.getFriends()));
     }
 
     /**

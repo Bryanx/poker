@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.friends.Friend;
 import be.kdg.mobile_client.friends.FriendsActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.user.model.User;
@@ -72,6 +73,7 @@ public class UserSearchActivity extends BaseActivity {
      * @param name The search string.
      */
     private void getUsersByName(String name) {
+        progressBar.setVisibility(View.VISIBLE);
         viewModel.getUsers(name).observe(this, this::initializeAdapter);
     }
 
@@ -95,7 +97,7 @@ public class UserSearchActivity extends BaseActivity {
      */
     public void addFriend(User friend) {
         viewModel.getUser("").observe(this, me -> {
-            me.getFriends().add(friend);
+            me.addFriend(new Friend(friend.getId()));
             viewModel.changeUser(me);
         });
     }

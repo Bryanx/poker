@@ -2,6 +2,7 @@ package be.kdg.mobile_client.user.model;
 
 import java.util.List;
 
+import be.kdg.mobile_client.friends.Friend;
 import lombok.Data;
 
 @Data
@@ -21,10 +22,14 @@ public class User implements Comparable<User> {
     private int wins;
     private int gamesPlayed;
     private String bestHand;
-    private List<User> friends;
+    private List<Friend> friends;
 
     @Override
     public int compareTo(User o) {
         return o.chips - this.chips;
+    }
+
+    public void addFriend(Friend friend) {
+        friends.add(friend);
     }
 }

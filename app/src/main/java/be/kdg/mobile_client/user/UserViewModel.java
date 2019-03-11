@@ -43,16 +43,14 @@ public class UserViewModel extends ViewModel {
     }
 
     public LiveData<List<User>> getUsers(String name) {
-        if (users == null) {
-            users = new MutableLiveData<>();
-            loadUsers(name);
-        }
+        users = new MutableLiveData<>();
+        loadUsers(name);
         return users;
     }
 
     public void changeUser(User user) {
         compositeDisposable.add(userService.changeUser(user).subscribe(response -> {
-                message.postValue(app.getString(R.string.user_was_updated));
+            message.postValue(app.getString(R.string.user_was_updated));
         }, throwable -> handleError(throwable, app.getString(R.string.change_user_tag), app.getString(R.string.error_updating_user))));
     }
 
@@ -63,7 +61,7 @@ public class UserViewModel extends ViewModel {
 
     private void loadUsers(String name) {
         compositeDisposable.add(userService.getUsersByName(name).subscribe(users::postValue,
-                        throwable -> handleError(throwable, app.getString(R.string.load_user_tag), app.getString(R.string.error_loading_user))));
+                throwable -> handleError(throwable, app.getString(R.string.load_user_tag), app.getString(R.string.error_loading_user))));
     }
 
     private void handleError(Throwable throwable, String tag, String msg) {

@@ -35,6 +35,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   lastAct: Act;
   ws: any;
   currentPhaseBets: CurrentPhaseBet[] = CurrentPhaseBet.createArrayOfSix();
+  isJoined: boolean;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService,
@@ -185,7 +186,9 @@ export class GameRoomComponent implements OnInit, OnDestroy {
    * Calls the leave room API call in the game service.
    */
   private leaveRoom(): void {
-    this.roomService.leaveRoom(this.room.id).subscribe();
+    if (this.isJoined) {
+      this.roomService.leaveRoom(this.room.id).subscribe();
+    }
   }
 
   /**
@@ -194,6 +197,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   private joinRoom(): void {
     this.roomService.joinRoom(this.room.id).subscribe(player => {
       this.player = player;
+      this.isJoined = true;
     }, error => {
       console.log(error.error.message);
       this.navigateBack();

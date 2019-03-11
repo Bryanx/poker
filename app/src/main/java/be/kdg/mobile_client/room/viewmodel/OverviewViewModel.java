@@ -29,7 +29,7 @@ public class OverviewViewModel extends ViewModel {
     @Getter MutableLiveData<String> message = new MutableLiveData<>();
 
     @Inject
-    OverviewViewModel(RoomService roomService) {
+    public OverviewViewModel(RoomService roomService) {
         this.roomService = roomService;
         this.app = App.getContext();
     }

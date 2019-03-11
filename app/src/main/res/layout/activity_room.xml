@@ -8,7 +8,7 @@
 
         <variable
             name="viewmodel"
-            type="be.kdg.mobile_client.room.viewmodel.RoomViewModel" />
+            type="be.kdg.mobile_client.room.RoomViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

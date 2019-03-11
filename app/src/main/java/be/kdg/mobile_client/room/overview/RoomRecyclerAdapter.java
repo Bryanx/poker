@@ -178,5 +178,9 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             ivDelete = itemView.findViewById(R.id.ivDelete);
             roomCard = itemView.findViewById(R.id.roomCard);
         }
+
+        public CardView getRoomCard() {
+            return roomCard;
+        }
     }
 }

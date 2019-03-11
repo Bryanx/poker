@@ -12,4 +12,5 @@
     <dimen name="card_width">16dp</dimen>
     <dimen name="card_height_small">10dp</dimen>
     <dimen name="card_width_small">8dp</dimen>
+    <dimen name="player_button">60dp</dimen>
 </resources>

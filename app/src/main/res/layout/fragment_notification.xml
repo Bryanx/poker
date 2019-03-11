@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    tools:context=".chat.ChatFragment"
     android:background="@color/colorBackground"
     android:orientation="horizontal"
-    android:weightSum="1.0"
-    tools:context=".chat.ChatFragment">
+    android:weightSum="1.0">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,7 +23,6 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:translationZ="150dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/lvNots"
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +33,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/lvNots"
             android:layout_width="match_parent"
-            android:layout_height="646dp"
+            android:layout_height="339dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +56,7 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lvNots"
-            app:layout_constraintVertical_bias="0.619" />
+            app:layout_constraintVertical_bias="0.074" />
 
         <TextView
             android:id="@+id/tvNoNots"
@@ -68,21 +67,11 @@
             android:text="@string/no_notifications"
             android:textColor="@color/colorWhite"
             android:textSize="20sp"
-            android:textStyle="bold"
             android:visibility="gone"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/lvNots"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/lvNots" />
-
-        <ImageView
-            android:id="@+id/ivRefresh"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="40dp"
-            android:contentDescription="@string/default_desc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

@@ -81,6 +81,8 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Room room = rooms.get(position);
 
+
+
         holder.roomCard.setEnabled(true);
         holder.tvRoomName.setText(rooms.get(position).getName());
         holder.tvLevels.setText(String.format(Locale.ENGLISH, "%d - %d", room.getGameRules().getMinLevel(), room.getGameRules().getMaxLevel()));
@@ -95,7 +97,11 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         placeImage(R.drawable.delete, holder.ivDelete);
         if (!edit) holder.ivDelete.setVisibility(View.GONE);
 
-        addEventListeners(holder, room);
+        if (room.getGameRules().getMinLevel() > myself.getLevel()) {
+            System.out.println("jajajaja");
+            placeImage(R.drawable.lock, holder.ivLock);
+            holder.ivLock.setVisibility(View.VISIBLE);
+        } else addEventListeners(holder, room);
     }
 
     /**
@@ -167,6 +173,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         ImageView ivTimer;
         ImageView ivCap;
         ImageView ivDelete;
+        ImageView ivLock;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -179,12 +186,9 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             ivCoin = itemView.findViewById(R.id.ivCoin);
             ivTimer = itemView.findViewById(R.id.ivTimer);
             ivCap = itemView.findViewById(R.id.ivCap);
+            ivLock = itemView.findViewById(R.id.ivLock);
             ivDelete = itemView.findViewById(R.id.ivDelete);
             roomCard = itemView.findViewById(R.id.roomCard);
-        }
-
-        public CardView getRoomCard() {
-            return roomCard;
         }
     }
 }

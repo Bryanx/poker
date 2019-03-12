@@ -26,9 +26,11 @@ public class UserViewModel extends ViewModel {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final UserService userService;
     private final Context app;
-    @Getter private MutableLiveData<User> user;
+    @Getter
+    private MutableLiveData<User> user;
     private MutableLiveData<List<User>> users;
-    @Getter MutableLiveData<String> message = new MutableLiveData<>();
+    @Getter
+    MutableLiveData<String> message = new MutableLiveData<>();
 
     @Inject
     public UserViewModel(UserService userService) {
@@ -37,10 +39,8 @@ public class UserViewModel extends ViewModel {
     }
 
     public LiveData<User> getUser(String id) {
-        if (user == null) {
-            user = new MutableLiveData<>();
-            loadUser(id);
-        }
+        user = new MutableLiveData<>();
+        loadUser(id);
         return user;
     }
 

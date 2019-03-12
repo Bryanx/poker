@@ -100,9 +100,16 @@ public class FriendsActivity extends BaseActivity {
      */
     private void initializeAdapter(List<User> friends) {
         progressBar.setVisibility(View.GONE);
-        if (friends.size() == 0) tvNoBros.setVisibility(View.VISIBLE);
+        if (friends.size() == 0) showNoBros();
         FriendRecyclerAdapter friendAdapter = new FriendRecyclerAdapter(this, friends, myself, viewModel);
         lvFriends.setAdapter(friendAdapter);
         lvFriends.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    /**
+     * Shows the no bros label if the user has no friends
+     */
+    void showNoBros() {
+        tvNoBros.setVisibility(View.VISIBLE);
     }
 }

@@ -80,6 +80,7 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
             Toast.makeText(ctx, "Defriended " + friend.getUsername(), Toast.LENGTH_LONG).show();
             users.remove(friend);
             notifyDataSetChanged();
+            ((FriendsActivity) ctx).showNoBros();
         });
     }
 

@@ -5,7 +5,6 @@
     tools:context=".user.UserActivity">
 
     <data>
-
         <variable
             name="viewmodel"
             type="be.kdg.mobile_client.user.UserViewModel" />

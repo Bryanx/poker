@@ -18,9 +18,10 @@
         android:contentDescription="@string/logo"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.705" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -59,20 +60,20 @@
             android:text="@string/friends" />
 
         <Button
+            android:id="@+id/btnAccount"
+            style="@style/greenButton"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/account" />
+
+        <Button
             android:id="@+id/btnRankings"
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:text="@string/rankings" />
-
-        <Button
-            android:id="@+id/btnSettings"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="@string/settings" />
 
         <Button
             android:id="@+id/btnLogout"
@@ -91,6 +92,16 @@
         android:contentDescription="@string/default_desc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivSettings"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="@string/default_desc"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tvUserLevel"

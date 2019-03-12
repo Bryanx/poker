@@ -24,7 +24,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@string/user_profile_picture"
             android:scaleType="centerCrop"
-            android:src="@{viewmodel.user.profilePicture, default=@drawable/user}"/>
+            android:src="@{viewmodel.user.profilePicture, default=@drawable/user}" />
 
         <LinearLayout
             android:id="@+id/llContent"

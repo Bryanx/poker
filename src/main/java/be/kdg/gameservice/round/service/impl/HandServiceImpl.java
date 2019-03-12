@@ -32,7 +32,7 @@ public final class HandServiceImpl implements HandService {
     @Override
     public Hand determineBestPossibleHand(List<Card> playerCards) {
         List<Set<Card>> res = new ArrayList<>();
-        getSubsets(playerCards, 5, 0, new HashSet<Card>(), res);
+        getSubsets(playerCards, 5, 0, new HashSet<>(), res);
 
         List<Hand> allHands = new ArrayList<>();
         for (Set<Card> handPossibility : res) {
@@ -60,7 +60,7 @@ public final class HandServiceImpl implements HandService {
         long flush = 0;
 
         for(Card card : hand) {
-            int face = ranks.indexOf(card.getType().getRank().getName());
+            int face = ranks.indexOf(card.type.getRank().getName());
 
             // Non existing face detected
             if (face == -1) {
@@ -72,10 +72,10 @@ public final class HandServiceImpl implements HandService {
             faceCount[face]++;
 
             // Non existing suit detected
-            if(!suits.contains(card.getType().getSuit().getName())) {
+            if(!suits.contains(card.type.getSuit().getName())) {
                 return new Hand(HandType.BAD, hand);
             }
-            flush |= (1 << card.getType().getSuit().getName().charAt(0));
+            flush |= (1 << card.type.getSuit().getName().charAt(0));
         }
 
         // Shift bit pattern to rhe right as far as possible

@@ -1,5 +1,6 @@
 package be.kdg.mobile_client.room.overview;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -82,6 +83,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
 
         holder.roomCard.setEnabled(true);
         holder.tvRoomName.setText(rooms.get(position).getName());
+        holder.tvLevels.setText(String.format(Locale.ENGLISH, "%d - %d", room.getGameRules().getMinLevel(), room.getGameRules().getMaxLevel()));
         holder.tvBuyIn.setText(String.format(Locale.ENGLISH, "Buy-in: %d", room.getGameRules().getStartingChips()));
         holder.tvBlinds.setText(String.format(Locale.ENGLISH, "%d/%d", room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind()));
         holder.tvTimer.setText(String.format(Locale.ENGLISH, "%ds", room.getGameRules().getPlayDelay()));
@@ -160,6 +162,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         TextView tvBlinds;
         TextView tvTimer;
         TextView tvCap;
+        TextView tvLevels;
         ImageView ivCoin;
         ImageView ivTimer;
         ImageView ivCap;
@@ -172,6 +175,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             tvBlinds = itemView.findViewById(R.id.tvBlinds);
             tvTimer = itemView.findViewById(R.id.tvTimer);
             tvCap = itemView.findViewById(R.id.tvCap);
+            tvLevels = itemView.findViewById(R.id.tvLevels);
             ivCoin = itemView.findViewById(R.id.ivCoin);
             ivTimer = itemView.findViewById(R.id.ivTimer);
             ivCap = itemView.findViewById(R.id.ivCap);

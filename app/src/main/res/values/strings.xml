@@ -118,4 +118,5 @@
     <string name="load_notifications_tag">Load notifications</string>
     <string name="delete_all">Delete all</string>
     <string name="no_notifications">no notifications</string>
+    <string name="levels">10 - 50</string>
 </resources>

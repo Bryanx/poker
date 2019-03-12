@@ -7,7 +7,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -23,8 +22,8 @@ import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.friends.Friend;
 import be.kdg.mobile_client.friends.FriendsActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.user.model.User;
 import be.kdg.mobile_client.user.UserViewModel;
+import be.kdg.mobile_client.user.model.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -33,8 +32,7 @@ public class UserSearchActivity extends BaseActivity {
     @BindView(R.id.etSearch) EditText etSearch;
     @BindView(R.id.lvUser) RecyclerView lvUser;
     @BindView(R.id.progressBar) ProgressBar progressBar;
-    @Inject
-    @Named("UserViewModel") ViewModelProvider.Factory factory;
+    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     @Inject SharedPrefService sharedPrefService;
     private UserViewModel viewModel;
     private User myself;
@@ -50,6 +48,9 @@ public class UserSearchActivity extends BaseActivity {
         viewModel.getUser("").observe(this, me -> myself = me);
     }
 
+    /**
+     * Adds event handlers to this activity.
+     */
     private void addEventHandlers() {
         btnBack.setOnClickListener(e -> navigateTo(FriendsActivity.class));
         etSearch.setOnEditorActionListener((v, actionId, event) -> {

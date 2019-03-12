@@ -26,7 +26,7 @@ public class UserViewModel extends ViewModel {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final UserService userService;
     private final Context app;
-    @Getter MutableLiveData<User> user;
+    @Getter private MutableLiveData<User> user;
     private MutableLiveData<List<User>> users;
     @Getter MutableLiveData<String> message = new MutableLiveData<>();
 

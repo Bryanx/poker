@@ -65,7 +65,14 @@ public class RoomServiceImpl implements RoomService {
         if (room.getRounds().size() > 0) room.getCurrentRound().setFinished(true);
         room.addRound(round);
         saveRoom(room);
-        return getCurrentRound(roomId);
+
+        Round roundFromDB = getCurrentRound(roomId);
+        try {
+            roundService.playBlinds(roundFromDB, room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind());
+        } catch (RoundException e) {
+            throw new RoomException(RoomServiceImpl.class, "Unable to play Small and big Blinds");
+        }
+        return roundFromDB;
     }
 
     /**

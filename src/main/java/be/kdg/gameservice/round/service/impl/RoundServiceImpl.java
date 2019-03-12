@@ -1,6 +1,7 @@
 package be.kdg.gameservice.round.service.impl;
 
 import be.kdg.gameservice.card.Card;
+import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.*;
@@ -90,6 +91,42 @@ public class RoundServiceImpl implements RoundService {
         else checkEndOfPhaseWithBetOrRaise(round);
     }
 
+    /**
+     * Plays small and big blind in first Phase (Pre Flop) of a round
+     * @param round round where small and big blind should be played
+     */
+    public void playBlinds(Round round, int smallBlind, int bigBlind) throws RoundException {
+        System.out.println("PLAYING BLINDS NOW!");
+        Player player = this.firstPlayer(round);
+        this.saveAct(round.getId(), player.getUserId(), ActType.BET, Phase.PRE_FLOP, smallBlind, false);
+        this.saveAct(round.getId(), this.determineNextUserId(round.getId(), player.getUserId()), ActType.RAISE, Phase.PRE_FLOP, bigBlind, false);
+
+    }
+
+    /**
+     * Returns the first player that should play the Small blind
+     * @param round round where first player should be looked for
+     * @return first player to play small blind
+     * @throws RoundException throws exception if no suitable player is found
+     */
+    private Player firstPlayer(Round round) throws RoundException {
+        List<Player> sortedActivePlayers = round.getActivePlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getSeatNumber))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+
+        for (Player activePlayer : sortedActivePlayers) {
+            if (activePlayer.getSeatNumber() > round.getButton()) {
+                return activePlayer;
+            }
+        }
+
+        Optional<Player> optionalPlayer = round.getActivePlayers().stream().min(Comparator.comparing(Player::getSeatNumber));
+        if (optionalPlayer.isPresent()) {
+            return optionalPlayer.get();
+        } else {
+            throw new RoundException(RoundServiceImpl.class, "No suitable players found.");
+        }
+    }
 
     /**
      * Check if phase has ended when enough Call/Folds are followed by a Bet of Raise

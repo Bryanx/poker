@@ -25,4 +25,6 @@ public interface RoundService {
     Player distributeCoins(int roundId, Player player) throws RoundException ;
 
     Optional<Player> checkFolds(int roundId) throws RoundException;
+
+    void playBlinds(Round round, int smallBlind, int bigBlind) throws RoundException;
 }

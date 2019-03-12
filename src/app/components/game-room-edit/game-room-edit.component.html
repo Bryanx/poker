@@ -76,10 +76,10 @@
 
     <section class="grid-save">
       <section class="buttons">
-        <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid">{{'SAVE' | translate |
+        <button [disabled]="updateRoomForm.invalid" [class.disabled]="!updateRoomForm.valid" [class]="isAdding() ? 'btn' : 'btn save'">{{'SAVE' | translate |
           titlecase}}
         </button>
-        <button *ngIf="!isAdding()" (click)="deleteRoom()" class="btn delete">{{'DELETEROOM' | translate | titlecase}}
+        <button *ngIf="!isAdding()" (click)="deleteRoom()" [class]="isAdding() ? 'btn' : 'btn delete'">{{'DELETEROOM' | translate | titlecase}}
         </button>
       </section>
       <button class="btn" type="button" (click)="goBackPrev()">{{'BACK' | translate | titlecase}}</button>

@@ -1,6 +1,8 @@
 package be.kdg.gameservice.round.controller;
 
+import be.kdg.gameservice.chat.MessageDTO;
 import be.kdg.gameservice.room.controller.dto.PlayerDTO;
+import be.kdg.gameservice.room.controller.dto.UserDTO;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
 import be.kdg.gameservice.room.service.api.RoomService;
@@ -10,23 +12,18 @@ import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
-import be.kdg.gameservice.shared.config.WebConfig;
-import org.aspectj.apache.bcel.util.Play;
+import be.kdg.gameservice.shared.UserApiGateway;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.*;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.collectingAndThen;
@@ -39,23 +36,14 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class RoundApiController {
     private static final String ID_KEY = "uuid";
-    private final ResourceServerTokenServices resourceTokenServices;
     private final ModelMapper modelMapper;
     private final RoundService roundService;
     private final RoomService roomService;
+    private final UserApiGateway userApiGateway;
     private final SimpMessagingTemplate template;
-    private final String USER_SERVICE_URL;
-
-    public RoundApiController(ResourceServerTokenServices resourceTokenServices, ModelMapper modelMapper, RoundService roundService, RoomService roomService, SimpMessagingTemplate template, WebConfig webConfig) {
-        this.resourceTokenServices = resourceTokenServices;
-        this.modelMapper = modelMapper;
-        this.roundService = roundService;
-        this.roomService = roomService;
-        this.template = template;
-        this.USER_SERVICE_URL = webConfig.getUserServiceUrl();
-    }
 
     /**
      * Gets all the possible acts that can be played for a specific player
@@ -69,7 +57,7 @@ public class RoundApiController {
     @GetMapping("/rounds/{roundId}/possible-acts")
     public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId,
                                                      OAuth2Authentication authentication) throws RoundException {
-        List<ActType> actTypes = roundService.getPossibleActs(roundId, getUserInfo(authentication).get(ID_KEY).toString());
+        List<ActType> actTypes = roundService.getPossibleActs(roundId, userApiGateway.getUserInfo(authentication).get(ID_KEY).toString());
         return new ResponseEntity<>(modelMapper.map(actTypes, ActType[].class), HttpStatus.OK);
     }
 
@@ -83,7 +71,7 @@ public class RoundApiController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rounds/act")
-    public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO) throws RoundException, RoomException {
+    public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO, OAuth2Authentication authentication) throws RoundException, RoomException {
         this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet(), actDTO.isAllIn());
 
@@ -91,17 +79,16 @@ public class RoundApiController {
         Optional<Player> playerOptional = roundService.checkFolds(actDTO.getRoundId());
         Round round;
         RoundDTO roundOut;
-
         if (winnerOptional.isPresent() || playerOptional.isPresent()) {
             Player winner = winnerOptional.orElseGet(playerOptional::get);
-            addWin(winner.getUserId());
-
+            userApiGateway.addWin(winner.getUserId());
+            sendWinMessages(authentication, winner, actDTO);
             this.template.convertAndSend("/room/receive-winner/" + actDTO.getRoomId(), modelMapper.map(winner, PlayerDTO.class));
             round = roomService.startNewRoundForRoom(actDTO.getRoomId());
             roundOut = modelMapper.map(round, RoundDTO.class);
 
             List<String> userIds = round.getPlayersInRound().stream().map(Player::getUserId).collect(collectingAndThen(toList(), Collections::unmodifiableList));
-            addGamesPlayed(userIds);
+            userApiGateway.addGamesPlayed(userIds);
         } else {
             actDTO.setNextUserId(roundService.determineNextUserId(actDTO.getRoundId(), actDTO.getUserId()));
             this.template.convertAndSend("/room/receive-act/" + actDTO.getRoomId(), actDTO);
@@ -114,38 +101,13 @@ public class RoundApiController {
         return new ResponseEntity<>(actDTO, HttpStatus.CREATED);
     }
 
-    /**
-     * @param authentication Needed as authentication.
-     * @return Gives back the details of a specific user.
-     */
-    private Map<String, Object> getUserInfo(OAuth2Authentication authentication) {
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
+    private void sendWinMessages(OAuth2Authentication authentication, Player winner, ActDTO actDTO) {
+        String token = userApiGateway.getTokenFromAuthentication(authentication);
+        UserDTO user = userApiGateway.getUser(token, actDTO.getUserId());
+        String username = user.getUsername();
+        String winnerString = String.format("Winner is: %s with %s", username, winner.getHandType().name());
+        MessageDTO winnerMsg = new MessageDTO("system", winnerString);
+        this.template.convertAndSend("/chatroom/receive/" + actDTO.getRoomId(), winnerMsg);
     }
 
-    /**
-     * Sends a rest template request to the user-service to increase the user his wins.
-     */
-    private void addWin(String userId) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<>(userId, headers);
-
-        System.out.println(USER_SERVICE_URL + "/win" + " " + userId);
-        restTemplate.exchange(USER_SERVICE_URL + "/win", HttpMethod.POST, entity, void.class);
-    }
-
-    /**
-     * Sends a rest template request to the user-service to increase the user his gamesPlayed.
-     */
-    private void addGamesPlayed(List<String> userIds) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<List<String>> entity = new HttpEntity<>(userIds, headers);
-
-        System.out.println(USER_SERVICE_URL + "/gamesplayed" + " " + userIds);
-        restTemplate.exchange(USER_SERVICE_URL + "/gamesplayed", HttpMethod.POST, entity, void.class);
-    }
 }

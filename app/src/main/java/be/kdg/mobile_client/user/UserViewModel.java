@@ -8,7 +8,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.App;
 import be.kdg.mobile_client.R;
@@ -24,7 +26,7 @@ public class UserViewModel extends ViewModel {
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final UserService userService;
     private final Context app;
-    @Getter MutableLiveData<User> user;
+    @Getter private MutableLiveData<User> user;
     private MutableLiveData<List<User>> users;
     @Getter MutableLiveData<String> message = new MutableLiveData<>();
 
@@ -43,27 +45,25 @@ public class UserViewModel extends ViewModel {
     }
 
     public LiveData<List<User>> getUsers(String name) {
-        if (users == null) {
-            users = new MutableLiveData<>();
-            loadUsers(name);
-        }
+        users = new MutableLiveData<>();
+        loadUsers(name);
         return users;
     }
 
     public void changeUser(User user) {
         compositeDisposable.add(userService.changeUser(user).subscribe(response -> {
-                message.postValue(app.getString(R.string.user_was_updated));
+            message.postValue(app.getString(R.string.user_was_updated));
         }, throwable -> handleError(throwable, app.getString(R.string.change_user_tag), app.getString(R.string.error_updating_user))));
     }
 
     private void loadUser(String id) {
-        compositeDisposable.add(userService.getUser(id).subscribe(user::postValue,
+        compositeDisposable.add(userService.getUser(id).subscribe(value -> user.postValue(value),
                 throwable -> handleError(throwable, app.getString(R.string.load_user_tag), app.getString(R.string.error_loading_user))));
     }
 
     private void loadUsers(String name) {
         compositeDisposable.add(userService.getUsersByName(name).subscribe(users::postValue,
-                        throwable -> handleError(throwable, app.getString(R.string.load_user_tag), app.getString(R.string.error_loading_user))));
+                throwable -> handleError(throwable, app.getString(R.string.load_user_tag), app.getString(R.string.error_loading_user))));
     }
 
     private void handleError(Throwable throwable, String tag, String msg) {

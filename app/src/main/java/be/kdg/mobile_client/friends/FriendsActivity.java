@@ -7,7 +7,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,12 +19,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.BaseActivity;
-import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.MenuActivity;
-import be.kdg.mobile_client.user.model.User;
+import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.user.search.UserSearchActivity;
 import be.kdg.mobile_client.user.UserViewModel;
+import be.kdg.mobile_client.user.model.User;
+import be.kdg.mobile_client.user.search.UserSearchActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -38,6 +40,7 @@ public class FriendsActivity extends BaseActivity {
     @Inject SharedPrefService sharedPrefService;
     @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     private UserViewModel viewModel;
+    private User myself;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +49,14 @@ public class FriendsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         ButterKnife.bind(this);
-        viewModel = ViewModelProviders.of(this,factory).get(UserViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
         addEventListners();
         getFriends();
     }
 
+    /**
+     * Adss event handlers to this activity.
+     */
     private void addEventListners() {
         btnSearch.setOnClickListener(e -> navigateTo(UserSearchActivity.class));
         btnBack.setOnClickListener(e -> navigateTo(MenuActivity.class));
@@ -59,8 +65,31 @@ public class FriendsActivity extends BaseActivity {
         });
     }
 
+    /**
+     * Retrieves all the friends of a specific user.
+     */
     private void getFriends() {
-        viewModel.getUser("").observe(this, user -> initializeAdapter(user.getFriends()));
+        viewModel.getUser("").observe(this, user -> {
+            this.myself = user;
+            viewModel.getUsers("").observe(this, users -> filterFriends(users, user));
+        });
+    }
+
+    /**
+     * Filters out the friends that a specific user has.
+     *
+     * @param users  All the users in the system.
+     * @param myself The current user.
+     */
+    private void filterFriends(List<User> users, User myself) {
+        List<User> friends = new ArrayList<>();
+        for (User user : users) {
+            Optional<Friend> friendOpt = myself.getFriends().stream()
+                    .filter(friend -> friend.getUserId().equals(user.getId()))
+                    .findAny();
+            if (friendOpt.isPresent()) friends.add(user);
+        }
+        initializeAdapter(friends);
     }
 
     /**
@@ -71,16 +100,16 @@ public class FriendsActivity extends BaseActivity {
      */
     private void initializeAdapter(List<User> friends) {
         progressBar.setVisibility(View.GONE);
-        if (friends.size() == 0) tvNoBros.setVisibility(View.VISIBLE);
-        FriendRecyclerAdapter friendAdapter = new FriendRecyclerAdapter(this, friends);
+        if (friends.size() == 0) showNoBros();
+        FriendRecyclerAdapter friendAdapter = new FriendRecyclerAdapter(this, friends, myself, viewModel);
         lvFriends.setAdapter(friendAdapter);
         lvFriends.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public void removeFriend(User friend) {
-        viewModel.getUser("").observe(this, me -> {
-            me.getFriends().remove(friend);
-            viewModel.changeUser(me);
-        });
+    /**
+     * Shows the no bros label if the user has no friends
+     */
+    void showNoBros() {
+        tvNoBros.setVisibility(View.VISIBLE);
     }
 }

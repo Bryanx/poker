@@ -5,14 +5,19 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.user.UserActivity;
+import be.kdg.mobile_client.user.UserViewModel;
 import be.kdg.mobile_client.user.model.User;
 import lombok.AllArgsConstructor;
 
@@ -24,6 +29,8 @@ import lombok.AllArgsConstructor;
 public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAdapter.ViewHolder> {
     private final Context ctx;
     private final List<User> users;
+    private final User myself;
+    private final UserViewModel viewModel;
 
     /**
      * Inflates the layout that will be used to display each friend.
@@ -49,17 +56,31 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         User user = users.get(position);
         holder.tvName.setText(user.getUsername());
+        addEventListeners(holder, user);
+    }
 
-        holder.tvName.setOnClickListener(e -> {
+    /**
+     * @param holder The holder that "holds" the views that are created so they can be recycled.
+     * @param friend The user that needs to correspond with the listeners.
+     */
+    private void addEventListeners(ViewHolder holder, User friend) {
+        holder.friendCard.setOnClickListener(e -> {
             Intent intent = new Intent(ctx, UserActivity.class);
-            intent.putExtra(ctx.getString(R.string.userid), user.getId());
+            intent.putExtra(ctx.getString(R.string.userid), friend.getId());
             ctx.startActivity(intent);
         });
 
         holder.btnRemoveFriend.setOnClickListener(e -> {
-            if (ctx instanceof  FriendsActivity) {
-                ((FriendsActivity) ctx).removeFriend(user);
-            }
+            List<Friend> newFriends = myself.getFriends().stream()
+                    .filter(f -> !f.getUserId().equals(friend.getId()))
+                    .collect(Collectors.toList());
+
+            myself.setFriends(newFriends);
+            viewModel.changeUser(myself);
+            Toast.makeText(ctx, "Defriended " + friend.getUsername(), Toast.LENGTH_LONG).show();
+            users.remove(friend);
+            notifyDataSetChanged();
+            ((FriendsActivity) ctx).showNoBros();
         });
     }
 
@@ -79,12 +100,14 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
      */
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
-        View btnRemoveFriend;
+        Button btnRemoveFriend;
+        CardView friendCard;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvFriendsRow);
             btnRemoveFriend = itemView.findViewById(R.id.btnRemoveFriend);
+            friendCard = itemView.findViewById(R.id.friendCard);
         }
     }
 }

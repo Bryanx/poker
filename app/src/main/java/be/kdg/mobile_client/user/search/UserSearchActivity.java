@@ -7,7 +7,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,10 +19,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.friends.Friend;
 import be.kdg.mobile_client.friends.FriendsActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import be.kdg.mobile_client.user.model.User;
 import be.kdg.mobile_client.user.UserViewModel;
+import be.kdg.mobile_client.user.model.User;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -35,6 +35,7 @@ public class UserSearchActivity extends BaseActivity {
     @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     @Inject SharedPrefService sharedPrefService;
     private UserViewModel viewModel;
+    private User myself;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +43,14 @@ public class UserSearchActivity extends BaseActivity {
         getControllerComponent().inject(this);
         setContentView(R.layout.activity_usersearch);
         ButterKnife.bind(this);
-        viewModel = ViewModelProviders.of(this,factory).get(UserViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
         addEventHandlers();
+        viewModel.getUser("").observe(this, me -> myself = me);
     }
 
+    /**
+     * Adds event handlers to this activity.
+     */
     private void addEventHandlers() {
         btnBack.setOnClickListener(e -> navigateTo(FriendsActivity.class));
         etSearch.setOnEditorActionListener((v, actionId, event) -> {
@@ -60,9 +65,6 @@ public class UserSearchActivity extends BaseActivity {
             }
             return false;
         });
-        viewModel.getMessage().observe(this, message -> {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        });
     }
 
     /**
@@ -72,6 +74,7 @@ public class UserSearchActivity extends BaseActivity {
      * @param name The search string.
      */
     private void getUsersByName(String name) {
+        progressBar.setVisibility(View.VISIBLE);
         viewModel.getUsers(name).observe(this, this::initializeAdapter);
     }
 
@@ -83,7 +86,7 @@ public class UserSearchActivity extends BaseActivity {
      */
     private void initializeAdapter(List<User> users) {
         progressBar.setVisibility(View.GONE);
-        UserRecyclerAdapter userAdapter = new UserRecyclerAdapter(this, users);
+        UserRecyclerAdapter userAdapter = new UserRecyclerAdapter(this, users, myself);
         lvUser.setAdapter(userAdapter);
         lvUser.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -94,9 +97,7 @@ public class UserSearchActivity extends BaseActivity {
      * @param friend friend to be added
      */
     public void addFriend(User friend) {
-        viewModel.getUser("").observe(this, me -> {
-            me.getFriends().add(friend);
-            viewModel.changeUser(me);
-        });
+        myself.addFriend(new Friend(friend.getId()));
+        viewModel.changeUser(myself);
     }
 }

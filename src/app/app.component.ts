@@ -98,10 +98,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   private getCredentials() {
     this.userService.getMyself().subscribe(user => {
       this.myself = user;
-      console.log(user.username);
       this.xpPrev = user.xpTillNext;
       this.levelPrev = user.level;
-      this.ws.unsubscribe();
       this.initializeConnections();
     });
   }

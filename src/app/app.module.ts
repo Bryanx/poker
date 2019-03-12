@@ -34,7 +34,7 @@ import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RoomCardComponent } from './components/room-card/room-card.component';
-import { RoundProgressModule } from 'angular-svg-round-progressbar';
+import {NgCircleProgressModule} from 'ng-circle-progress';
 
 
 const config = new AuthServiceConfig([
@@ -99,7 +99,15 @@ export function setupTranslateFactory(
     MatSnackBarModule,
     NotifierModule.withConfig(customNotifierOptions),
     MatProgressBarModule,
-    RoundProgressModule
+    NgCircleProgressModule.forRoot({
+      // set defaults here
+      radius: 100,
+      outerStrokeWidth: 16,
+      innerStrokeWidth: 8,
+      outerStrokeColor: '#78C000',
+      innerStrokeColor: '#C7E596',
+      animationDuration: 300,
+    })
   ],
   providers: [
     {

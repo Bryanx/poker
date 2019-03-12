@@ -8,7 +8,6 @@ import {Player} from '../../model/player';
 import {Room} from '../../model/room';
 import {CurrentPhaseBet} from '../../model/currentPhaseBet';
 import {WebSocketService} from '../../services/web-socket.service';
-import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 @Component({
   selector: 'app-actionbar',
@@ -34,6 +33,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   counter: number;
   progressBarCounter: number;
   timerInterval: any;
+  @Output() playerEvent: EventEmitter<Player> = new EventEmitter<Player>();
 
   constructor(private roundService: RoundService, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService) {
@@ -170,10 +170,10 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   /**
    * Check if the current player should post the Small Blind
    */
-  private checkSmallBlind() {
-    if(this._round.pot === 0) {
+ /* private checkSmallBlind() {
+    if (this._round.pot === 0) {
       console.log('Pot empty');
-      if(this.myTurn) {
+      if (this.myTurn) {
         console.log('My turn');
         if (this.canAct) {
           console.log('Can Act');
@@ -202,15 +202,15 @@ export class ActionbarComponent implements OnInit, OnDestroy {
         }
       }
     }
-  }
+  }*/
 
   /**
    * Check if the current player should post the Big Blind
    */
-  private checkBigBlind() {
-    if(this._round.pot === this.room.gameRules.smallBlind) {
+ /* private checkBigBlind() {
+    if (this._round.pot === this.room.gameRules.smallBlind) {
       console.log('Pot equals small blind');
-      if(this.myTurn) {
+      if (this.myTurn) {
         console.log('My turn');
         if (this.canAct) {
           console.log('Can Act');
@@ -240,7 +240,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
         }
       }
     }
-  }
+  }*/
 
   checkTurn() {
     console.log('Check if my turn');
@@ -250,22 +250,22 @@ export class ActionbarComponent implements OnInit, OnDestroy {
       const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
       if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
         this.myTurn = true;
-        this.checkSmallBlind();
-        this.checkBigBlind();
+       // this.checkSmallBlind();
+       // this.checkBigBlind();
       }
     } else {
       if (this.currentAct.nextUserId === undefined) {
         const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
         if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
           this.myTurn = true;
-          this.checkSmallBlind();
-          this.checkBigBlind();
+         // this.checkSmallBlind();
+          // this.checkBigBlind();
         }
       } else {
         if (this.currentAct.nextUserId === this.player.userId) {
           this.myTurn = true;
-          this.checkSmallBlind();
-          this.checkBigBlind();
+          // this.checkSmallBlind();
+           // this.checkBigBlind();
         }
       }
     }
@@ -307,7 +307,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   setTimer() {
     if (this.myTurn) {
       this.counter = this.room.gameRules.playDelay;
-       this.timerInterval = setInterval(() => {
+      this.timerInterval = setInterval(() => {
         if (this.counter > 0) {
           this.counter -= 1;
           this.progressBarCounter = this.counter / this.room.gameRules.playDelay * 100;
@@ -316,6 +316,8 @@ export class ActionbarComponent implements OnInit, OnDestroy {
           this.playAct(ActType.Fold);
         }
       }, 1000);
+
+      this.playerEvent.emit(this.player);
     }
   }
 }

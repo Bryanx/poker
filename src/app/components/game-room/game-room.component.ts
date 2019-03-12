@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
 import {Player} from '../../model/player';
@@ -16,6 +16,7 @@ import {Location} from '@angular/common';
 import {WebSocketService} from '../../services/web-socket.service';
 import {HomeVisibleService} from '../../services/home-visible.service';
 import {Phase} from '../../model/phase';
+import {PlayerComponent} from '../player/player.component';
 
 @Component({
   selector: 'app-room',
@@ -34,6 +35,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   ws: any;
   currentPhaseBets: CurrentPhaseBet[] = CurrentPhaseBet.createArrayOfSix();
   isJoined: boolean;
+  @ViewChildren(PlayerComponent) playerChildren: QueryList<PlayerComponent>;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService,
@@ -224,6 +226,14 @@ export class GameRoomComponent implements OnInit, OnDestroy {
             theArray[index].bet = currentPhaseBet.bet;
           }
         }
+      }
+    });
+  }
+
+  onPlayerEvent(player: Player) {
+    this.playerChildren.forEach(playerComponent => {
+      if (player.userId === playerComponent.player.userId) {
+        playerComponent.setTimer();
       }
     });
   }

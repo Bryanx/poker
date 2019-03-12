@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -6,6 +6,7 @@ import {Player} from '../../model/player';
 import {ActType} from '../../model/actType';
 import {Act} from '../../model/act';
 import {Phase} from '../../model/phase';
+import {GameRules} from '../../model/gamerules';
 
 @Component({
   selector: 'app-player',
@@ -18,8 +19,13 @@ export class PlayerComponent implements OnInit {
   user: User = User.create();
   _currentAct: ActType;
   currentActStyle: string;
+  @Input() gameRules: GameRules;
+  counter: number;
+  timerInterval: any;
+  progressBarCounter = 20;
 
-  constructor(private userService: UserService, private sanitizer: DomSanitizer) { }
+  constructor(private userService: UserService, private sanitizer: DomSanitizer, private cdRef: ChangeDetectorRef) {
+  }
 
   ngOnInit() {
     this.userService.getUser(this.player.userId).subscribe(user => {
@@ -52,5 +58,19 @@ export class PlayerComponent implements OnInit {
         }
       }
     }
+  }
+
+  setTimer() {
+    this.counter = this.gameRules.playDelay;
+    this.timerInterval = setInterval(() => {
+      if (this.counter > 0) {
+        this.counter -= 1;
+        this.progressBarCounter = this.counter / this.gameRules.playDelay * 100;
+        console.log(this.progressBarCounter);
+      } else {
+        clearInterval(this.timerInterval);
+        console.log('fold');
+      }
+    }, 1000);
   }
 }

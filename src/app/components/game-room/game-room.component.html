@@ -8,6 +8,7 @@
   <app-player *ngFor="let player of room.playersInRoom; index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"
               [player]="player"
               [currentAct]="lastAct"
+              [gameRules]="room.gameRules"
   ></app-player>
   <div class="grid-tmiddle"></div>
   <app-chat class="grid-chat" *ngIf="room"
@@ -17,7 +18,8 @@
                  [room]="room"
   [round]="round"
   (actEvent)="onActEvent($event)"
-  (currentPhaseBetEvent)="onCurrentPhaseBetEvent($event)"></app-actionbar>
+  (currentPhaseBetEvent)="onCurrentPhaseBetEvent($event)"
+  (playerEvent)="onPlayerEvent($event)"></app-actionbar>
   <app-game-table class="grid-item-table" [round]="round"></app-game-table>
   <section class="grid-player-bet">
     <div *ngFor="let currentPhaseBet of currentPhaseBets; index as i" [class]="'player-bet bet-' + (currentPhaseBet.seatNumber - 1)">

@@ -1,6 +1,5 @@
 <div [className]="!myTurn || room.playersInRoom.length < 2 || player.allIn ? 'actionbar-disabled' : 'actionbar'" *ngIf="room || room.playersInRoom.length < 2">
   <div class="timer-bar">
-    <round-progress [current]="12" [max]="100"></round-progress>
     <mat-progress-bar [value]="progressBarCounter"></mat-progress-bar>
   </div>
   <p *ngIf="room.playersInRoom.length < 2">

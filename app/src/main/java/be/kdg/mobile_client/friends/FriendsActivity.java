@@ -7,7 +7,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ForkJoinTask;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,8 +39,8 @@ public class FriendsActivity extends BaseActivity {
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @BindView(R.id.tvNoBros) TextView tvNoBros;
     @Inject SharedPrefService sharedPrefService;
-    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
-    private UserViewModel viewModel;
+    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;private UserViewModel viewModel;
+    private User myself;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +49,8 @@ public class FriendsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
         ButterKnife.bind(this);
-        viewModel = ViewModelProviders.of(this,factory).get(UserViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
+
         addEventListners();
         getFriends();
     }
@@ -59,9 +63,22 @@ public class FriendsActivity extends BaseActivity {
         });
     }
 
+    //nee brian, het gaat niet met een forkjoin, ik heb 2 uur gezocht.
     private void getFriends() {
-        //TODO
-        //viewModel.getUser("").observe(this, user -> initializeAdapter(user.getFriends()));
+        viewModel.getUser("").observe(this, user -> {
+            viewModel.getUsers("").observe(this, users -> filterFriends(users, user));
+        });
+    }
+
+    private void filterFriends(List<User> users, User myself) {
+        List<User> friends = new ArrayList<>();
+        for (User user: users) {
+            Optional<Friend> friendOpt = myself.getFriends().stream()
+                    .filter(friend -> friend.getUserId().equals(user.getId()))
+                    .findAny();
+            if (friendOpt.isPresent()) friends.add(user);
+        }
+        initializeAdapter(friends);
     }
 
     /**
@@ -78,10 +95,13 @@ public class FriendsActivity extends BaseActivity {
         lvFriends.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    //TODO
+    /*
     public void removeFriend(User friend) {
         viewModel.getUser("").observe(this, me -> {
             me.getFriends().remove(friend);
             viewModel.changeUser(me);
         });
     }
+    */
 }

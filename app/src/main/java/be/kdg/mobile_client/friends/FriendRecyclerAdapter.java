@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -50,6 +51,7 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
         User user = users.get(position);
         holder.tvName.setText(user.getUsername());
 
+        /*
         holder.tvName.setOnClickListener(e -> {
             Intent intent = new Intent(ctx, UserActivity.class);
             intent.putExtra(ctx.getString(R.string.userid), user.getId());
@@ -61,6 +63,7 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
                 ((FriendsActivity) ctx).removeFriend(user);
             }
         });
+        */
     }
 
     /**
@@ -79,7 +82,7 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
      */
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
-        View btnRemoveFriend;
+        Button btnRemoveFriend;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

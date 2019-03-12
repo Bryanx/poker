@@ -8,7 +8,9 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.App;
 import be.kdg.mobile_client.R;
@@ -55,7 +57,7 @@ public class UserViewModel extends ViewModel {
     }
 
     private void loadUser(String id) {
-        compositeDisposable.add(userService.getUser(id).subscribe(user::postValue,
+        compositeDisposable.add(userService.getUser(id).subscribe(value -> user.postValue(value),
                 throwable -> handleError(throwable, app.getString(R.string.load_user_tag), app.getString(R.string.error_loading_user))));
     }
 

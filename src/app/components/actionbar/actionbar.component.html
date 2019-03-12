@@ -21,10 +21,10 @@
     <button (click)="playAct(actTypes.Fold)" class="fold" [disabled]="!myTurn">FOLD</button>
   </div>
   <div class="raise">
-    <button *ngIf="isActPossible(actTypes.Raise) && !allIn && betraise" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn">RAISE</button>
-    <button *ngIf="isActPossible(actTypes.Bet) && !allIn && betraise" (click)="playAct(actTypes.Bet)" [disabled]="!myTurn">BET</button>
-    <button *ngIf="isActPossible(actTypes.Bet) && allIn && !betraise" (click)="playAct(actTypes.Bet)" [disabled]="!myTurn">ALL-IN</button>
-    <button *ngIf="isActPossible(actTypes.Raise) && allIn && !betraise" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn">ALL-IN</button>
+    <button *ngIf="isActPossible(actTypes.Raise) && !allIn" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn || !betraise">RAISE</button>
+    <button *ngIf="isActPossible(actTypes.Bet) && !allIn" (click)="playAct(actTypes.Bet)" [disabled]="!myTurn || !betraise">BET</button>
+    <button *ngIf="isActPossible(actTypes.Bet) && allIn" (click)="playAct(actTypes.Bet)" [disabled]="!myTurn || !betraise">ALL-IN</button>
+    <button *ngIf="isActPossible(actTypes.Raise) && allIn" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn || !betraise">ALL-IN</button>
     <mat-slider *ngIf="player"
       thumbLabel
       [displayWith]="formatLabel"

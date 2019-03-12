@@ -26,6 +26,7 @@
 }
 
 .button-actions {
+  margin-bottom: auto;
   grid-area: action;
   button {
     float: right;
@@ -48,6 +49,7 @@
 }
 
 .raise {
+  margin-bottom: auto;
   grid-area: raise;
   display: flex;
   align-items: center;
@@ -65,7 +67,8 @@ button {
   height: 10vh;
   border-radius: 100%;
   font-size: 1rem;
-  min-width: 6rem;
+  min-width: 5rem;
+  min-height: 5rem;
   font-weight: normal;
   background-color: transparent;
   border: 3px solid;

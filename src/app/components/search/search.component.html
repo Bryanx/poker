@@ -8,14 +8,14 @@
 
 <h2 class="welcome-message" *ngIf="!typed">Type something to get started</h2>
 
-<h2 *ngIf="isAdmin() && users.length > 0">USER</h2>
-<section [@simpleFadeAnimation]="'in'" *ngIf="users.length > 0" class="results">
-  <div *ngFor="let user of users; index as i" [@simpleFadeAnimation]="'in'">
-    <div class="image-wrapper">
-      {{getInitials(user)}}
-    </div>
-    <span class="username-span" routerLink="/user/{{user.id}}">{{user.username}}</span>
-    <button *ngIf="checkShowButton(user) && !isAdmin()" (click)="addFriend(user.id)">Befriend bro</button>
+<h2 *ngIf="isAdmin() && users.length > 0">USERS</h2>
+<section [@simpleFadeAnimation]="'in'" *ngIf="typed && users.length > 0" class="results">
+  <div *ngFor="let user of users; index as i" [@simpleFadeAnimation]="'in'" routerLink="/user/{{user.id}}">
+      <div class="image-wrapper">
+        {{getInitials(user)}}
+      </div>
+      <span class="username-span" routerLink="/user/{{user.id}}">{{user.username}}</span>
+    <button *ngIf="checkShowButton(user) && !isAdmin()" (click)="addFriend(user.id); stop($event)">Befriend bro</button>
     <button [class]="user.enabled == 1 ? 'admin-button-red' : ''" *ngIf="isAdmin()" (click)="adminDisable(user)">
       {{user.enabled == 1 ? 'Disable' : 'Enable'}}
     </button>
@@ -25,7 +25,7 @@
 <h2 class="nothing-found" *ngIf="inputString && users.length <= 0">No bros :(</h2>
 
 
-<h2 *ngIf="isAdmin() && admins.length > 0">ADMIN</h2>
+<h2 *ngIf="isAdmin() && admins.length > 0">ADMINS</h2>
 <section *ngIf="admins.length > 0" class="results">
   <div *ngFor="let admin of admins; index as i">
     <div class="image-wrapper">

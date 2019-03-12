@@ -8,6 +8,7 @@ import {MatSnackBar} from '@angular/material';
 import {NotificationType} from '../../model/notificationType';
 import {Notification} from '../../model/notification';
 import {Friend} from '../../model/friend';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-user-account',
@@ -23,7 +24,8 @@ export class UserAccountComponent implements OnInit {
               private route: ActivatedRoute,
               private sanitizer: DomSanitizer,
               private router: Router,
-              private snackbar: MatSnackBar) {
+              private snackbar: MatSnackBar,
+              private location: Location) {
   }
 
   ngOnInit() {
@@ -89,6 +91,14 @@ export class UserAccountComponent implements OnInit {
   }
 
   goBack() {
-    return this.router.navigateByUrl('/');
+    return this.location.back();
+  }
+
+  settings() {
+    return this.router.navigateByUrl("/settings/" + this.myself.id);
+  }
+
+  myAccount() {
+    return this.user.id == this.myself.id;
   }
 }

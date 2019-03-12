@@ -4,7 +4,6 @@
     tools:context=".user.UserActivity">
 
     <data>
-
         <variable
             name="viewmodel"
             type="be.kdg.mobile_client.user.UserViewModel" />
@@ -34,13 +33,13 @@
             android:layout_weight=".6"
             android:orientation="vertical"
             android:paddingStart="32dp"
-            android:paddingTop="32dp"
+            android:paddingTop="16dp"
             android:paddingEnd="32dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="@{viewmodel.user.username}"
                 android:textColor="@color/colorWhite"
                 android:textSize="36sp"
@@ -77,6 +76,14 @@
             <TextView
                 style="@style/accountContentData"
                 android:text="@{viewmodel.user.bestHand}" />
+
+            <TextView
+                style="@style/accountContentHeader"
+                android:text="@string/level" />
+
+            <TextView
+                style="@style/accountContentData"
+                android:text="@{viewmodel.user.level}" />
 
         </LinearLayout>
     </LinearLayout>

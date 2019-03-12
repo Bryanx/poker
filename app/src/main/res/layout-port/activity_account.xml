@@ -83,6 +83,14 @@
                 style="@style/accountContentData"
                 android:text="@{viewmodel.user.bestHand}" />
 
+            <TextView
+                style="@style/accountContentHeader"
+                android:text="@string/level" />
+
+            <TextView
+                style="@style/accountContentData"
+                android:text="@{viewmodel.user.level}" />
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

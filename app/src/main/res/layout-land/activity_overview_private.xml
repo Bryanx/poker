@@ -61,10 +61,12 @@
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="216dp"
+        android:layout_marginStart="232dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnEdit"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -72,7 +74,7 @@
         style="@style/greenButton"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="216dp"
+        android:layout_marginEnd="240dp"
         android:layout_marginBottom="16dp"
         android:text="@string/edit"
         app:layout_constraintBottom_toBottomOf="parent"

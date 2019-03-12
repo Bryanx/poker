@@ -53,6 +53,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         holder.tvName.setText(user.getUsername());
 
         myself.getFriends().stream()
+                .filter(friend -> friend.getUserId() != null)
                 .filter(friend -> friend.getUserId().equals(user.getId()))
                 .findAny()
                 .ifPresent(friend -> holder.btnAdd.setVisibility(View.GONE));

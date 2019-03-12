@@ -81,8 +81,6 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Room room = rooms.get(position);
 
-
-
         holder.roomCard.setEnabled(true);
         holder.tvRoomName.setText(rooms.get(position).getName());
         holder.tvLevels.setText(String.format(Locale.ENGLISH, "%d - %d", room.getGameRules().getMinLevel(), room.getGameRules().getMaxLevel()));
@@ -98,17 +96,28 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         if (!edit) holder.ivDelete.setVisibility(View.GONE);
 
         if (room.getGameRules().getMinLevel() > myself.getLevel()) {
-            System.out.println("jajajaja");
-            placeImage(R.drawable.lock, holder.ivLock);
             holder.ivLock.setVisibility(View.VISIBLE);
+            addDisableEventListeners(holder);
         } else addEventListeners(holder, room);
+    }
+
+    /**
+     * Adds a event listener to notify the user that he is to low of a level to join
+     * the room.
+     *
+     * @param holder The holder that "holds" the views that are created so they can be recycled.
+     */
+    private void addDisableEventListeners(ViewHolder holder) {
+        holder.roomCard.setOnClickListener(e ->
+                Toast.makeText(ctx, "This room is locked!", Toast.LENGTH_LONG).show()
+        );
     }
 
     /**
      * Adds the appropriate event listeners to some of the items in the view holder.
      *
      * @param holder The items in the holder that need to be linked to a listener.
-     * @param room The room that will correspond with those listeners.
+     * @param room   The room that will correspond with those listeners.
      */
     private void addEventListeners(@NonNull ViewHolder holder, Room room) {
         holder.roomCard.setOnClickListener(e -> {
@@ -173,7 +182,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         ImageView ivTimer;
         ImageView ivCap;
         ImageView ivDelete;
-        ImageView ivLock;
+        View ivLock;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

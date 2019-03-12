@@ -85,6 +85,7 @@ public class FriendsActivity extends BaseActivity {
         List<User> friends = new ArrayList<>();
         for (User user : users) {
             Optional<Friend> friendOpt = myself.getFriends().stream()
+                    .filter(friend -> friend.getUserId() != null)
                     .filter(friend -> friend.getUserId().equals(user.getId()))
                     .findAny();
             if (friendOpt.isPresent()) friends.add(user);

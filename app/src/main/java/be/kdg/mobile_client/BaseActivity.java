@@ -1,9 +1,13 @@
 package be.kdg.mobile_client;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+
+import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
@@ -16,8 +20,13 @@ import io.reactivex.disposables.CompositeDisposable;
  * @see be.kdg.mobile_client.App
  */
 public abstract class BaseActivity extends AppCompatActivity {
-
     protected CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        FirebaseApp.initializeApp(this);
+    }
 
     /**
      * Navigate to a different activity

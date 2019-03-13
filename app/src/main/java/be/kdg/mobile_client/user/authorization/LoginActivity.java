@@ -28,8 +28,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
+        getControllerComponent().inject(this);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         addEventListeners();

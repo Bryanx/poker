@@ -1,7 +1,6 @@
 package be.kdg.mobile_client.notification;
 
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 class Notification {

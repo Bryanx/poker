@@ -37,8 +37,8 @@ public class MenuActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getControllerComponent().inject(this);
         super.onCreate(savedInstanceState);
+        getControllerComponent().inject(this);
         setContentView(R.layout.activity_menu);
         ButterKnife.bind(this);
         addEventHandlers();

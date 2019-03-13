@@ -57,15 +57,17 @@ public class UserSettingsActivity extends BaseActivity {
     private void getUser() {
         String userId = sharedPrefService.getUserId(this);
         compositeDisposable.add(userService.getUser(userId).subscribe(response -> {
-            if (response != null) {
+            runOnUiThread(() -> {
                 user = response;
-                etUsername.setText(user.getUsername());
-                etFirstName.setText(user.getFirstname());
-                etLastName.setText(user.getLastname());
-                byte[] decodedString = Base64.decode(user.getProfilePicture(), Base64.DEFAULT);
-                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                ivPicture.setImageBitmap(decodedByte);
-            }
+                etUsername.setText(response.getUsername());
+                etFirstName.setText(response.getFirstname());
+                etLastName.setText(response.getLastname());
+                if(response.getProfilePicture() != null) {
+                    byte[] decodedString = Base64.decode(response.getProfilePicture(), Base64.DEFAULT);
+                    Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                    ivPicture.setImageBitmap(decodedByte);
+                }
+            });
         }, throwable -> handleError(throwable, getString(R.string.user_settings_activity), getString(R.string.error_loading_user))));
     }
 
@@ -113,7 +115,10 @@ public class UserSettingsActivity extends BaseActivity {
      * Gets called when user updates successfully and closes update activity.
      */
     public void onUpdateUserSuccess() {
-        btnUpdate.setEnabled(true);
+        runOnUiThread(() -> {
+            btnUpdate.setEnabled(true);
+        }); 
+        
         setResult(RESULT_OK);
         finish();
         Intent intent = new Intent(this, MenuActivity.class);
@@ -126,11 +131,17 @@ public class UserSettingsActivity extends BaseActivity {
     public void handleError(Throwable error, String tag, String message) {
         Log.e(tag, message);
         if (error != null) {
-            Toast.makeText(this, error.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, error.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+                btnUpdate.setEnabled(true);
+            });
+
             Log.e(tag, error.getMessage());
             error.printStackTrace();
         } else {
-            Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG).show();
+            });
         }
     }
 }

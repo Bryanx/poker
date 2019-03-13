@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.room.model.Act;
@@ -39,6 +40,7 @@ public class RoomViewModel extends ViewModel {
     @Getter MutableLiveData<Boolean> myTurn = new MutableLiveData<>();
     @Getter MutableLiveData<List<ActType>> possibleActs = new MutableLiveData<>();
     @Getter @Setter MutableLiveData<Integer> seekBarValue = new MutableLiveData<>();
+    @Getter ObservableBoolean loading = new ObservableBoolean(true);
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Act lastAct;
 
@@ -70,7 +72,10 @@ public class RoomViewModel extends ViewModel {
                         if (newRound.isFinished()) acts.clear();
                     }, this::notifyUser);
                     //TODO: initializeWinnerConnection();
-                    roomRepo.joinRoom(roomId).subscribe(player::postValue, this::notifyUser);
+                    roomRepo.joinRoom(roomId).subscribe(value -> {
+                        loading.set(false);
+                        player.postValue(value);
+                    }, this::notifyUser);
                     roomRepo.listenOnActUpdate(roomId).subscribe(this::onNewAct, this::notifyUser);
                 }, this::notifyUser));
     }

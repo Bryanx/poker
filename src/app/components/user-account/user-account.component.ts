@@ -95,7 +95,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   settings() {
-    return this.router.navigateByUrl("/settings/" + this.myself.id);
+    return this.router.navigateByUrl("/settings");
   }
 
   myAccount() {

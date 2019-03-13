@@ -13,8 +13,8 @@
                     [notifications]="newNotification"
                     (deleteEvent)="getAllNotifications()"
   ></app-notification>
-  <button (click)="setLang('nl')">NL</button>
-  <button (click)="setLang('en')">EN</button>
+  <button *ngIf="homeVisible" (click)="setLang('nl')">NL</button>
+  <button *ngIf="homeVisible" (click)="setLang('en')">EN</button>
 </header>
 
 <notifier-container></notifier-container>

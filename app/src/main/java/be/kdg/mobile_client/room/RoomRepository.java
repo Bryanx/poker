@@ -77,6 +77,12 @@ public class RoomRepository {
                 .doOnError(this::logError);
     }
 
+    public Flowable<Player> listenForWinner(int roomId) {
+        onErrorMsg = "Could not receive winner: " + roomId;
+        return webSocketService.watch("/room/receive-winner/" + roomId, Player.class)
+                .doOnError(this::logError);
+    }
+
     private void logError(Throwable error) {
         Log.e(TAG, onErrorMsg);
         if (error != null) {

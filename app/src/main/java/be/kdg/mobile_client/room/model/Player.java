@@ -1,5 +1,7 @@
 package be.kdg.mobile_client.room.model;
 
+import java.util.Objects;
+
 import lombok.Data;
 
 @Data
@@ -19,4 +21,17 @@ public class Player {
 
     private transient boolean myTurn;
     private transient String bet;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(userId, player.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
+    }
 }

@@ -49,11 +49,10 @@ import ua.naiksoftware.stomp.StompClient;
 public class ControllerModule {
     private static final String API_BASE_URL_USER = "https://poker-user-service.herokuapp.com";
     private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
-    private static final String WEBSOCKET_URL = "wss://poker-game-service.herokuapp.com/connect/websocket";
-    private static final int WEBSOCKET_HEARTBEAT_MS = 10000;
+    public static final String WEBSOCKET_URL = "wss://poker-game-service.herokuapp.com/connect/websocket";
     //private static final String API_BASE_URL_USER = "http://10.0.2.2:5000";
-    //private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
-    //private static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
+//    private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
+//    private static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 
@@ -170,15 +169,6 @@ public class ControllerModule {
                 .baseUrl(API_BASE_URL_USER)
                 .build()
                 .create(AuthorizationService.class);
-    }
-
-    @Provides
-    @Singleton
-    StompClient stompClient() {
-        StompClient stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, WEBSOCKET_URL);
-        stompClient.withClientHeartbeat(WEBSOCKET_HEARTBEAT_MS).withServerHeartbeat(WEBSOCKET_HEARTBEAT_MS);
-        stompClient.connect();
-        return stompClient;
     }
 
     @Provides

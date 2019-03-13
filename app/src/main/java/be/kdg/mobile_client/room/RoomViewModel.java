@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.room.model.Act;
@@ -39,6 +40,7 @@ public class RoomViewModel extends ViewModel {
     @Getter MutableLiveData<Boolean> myTurn = new MutableLiveData<>();
     @Getter MutableLiveData<List<ActType>> possibleActs = new MutableLiveData<>();
     @Getter @Setter MutableLiveData<Integer> seekBarValue = new MutableLiveData<>();
+    @Getter ObservableBoolean loading = new ObservableBoolean(true);
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private Act lastAct;
 
@@ -70,7 +72,10 @@ public class RoomViewModel extends ViewModel {
                         if (newRound.isFinished()) acts.clear();
                     }, this::notifyUser);
                     //TODO: initializeWinnerConnection();
-                    roomRepo.joinRoom(roomId).subscribe(player::postValue, this::notifyUser);
+                    roomRepo.joinRoom(roomId).subscribe(value -> {
+                        loading.set(false);
+                        player.postValue(value);
+                    }, this::notifyUser);
                     roomRepo.listenOnActUpdate(roomId).subscribe(this::onNewAct, this::notifyUser);
                 }, this::notifyUser));
     }
@@ -105,11 +110,7 @@ public class RoomViewModel extends ViewModel {
     public String getBetByPhase(int index) {
         if (round.getValue() == null || room.getValue() == null || room.getValue().getPlayersInRoom().size() < index+1) return "0";
         Player roomPlayer = room.getValue().getPlayersInRoom().get(index);
-        return String.valueOf(acts.getValue()
-                .stream()
-                .filter(a -> a.getPhase() == round.getValue().getCurrentPhase() && a.getUserId().equals(roomPlayer.getUserId()))
-                .mapToInt(Act::getBet)
-                .sum());
+        return String.valueOf(getPlayerBet(roomPlayer));
     }
 
     private void updatePossibleActs(int roundId) {
@@ -166,19 +167,25 @@ public class RoomViewModel extends ViewModel {
             act.setBet(bet);
             act.setTotalBet(bet);
         } else if (actType == ActType.CALL) {
-            act.setBet(getLastHighestBet());
+            act.setBet(getLastHighestBet() - getPlayerBet(player.getValue()));
         }
         compositeDisposable.add(roundRepo.addAct(act).subscribe(e -> seekBarValue.setValue(0), this::notifyUser));
     }
 
-    private int getLastHighestBet() {
-        Optional<Map.Entry<String, Integer>> max = acts.getValue().stream()
-                .filter(a -> a.getPhase() == round.getValue().getCurrentPhase())
-                .collect(Collectors.groupingBy(Act::getUserId, Collectors.summingInt(Act::getBet)))
-                .entrySet().stream()
-                .max((e1, e2) -> e1.getValue().compareTo(e2.getValue()));
-        if (max.isPresent()) return max.get().getValue();
-        else return 0;
+    private int getPlayerBet(Player player) {
+        return acts.getValue()
+            .stream()
+            .filter(a -> a.getPhase() == round.getValue().getCurrentPhase() && a.getUserId().equals(player.getUserId()))
+            .mapToInt(Act::getBet)
+            .sum();
+    }
+
+    public int getLastHighestBet() {
+        return room.getValue().getPlayersInRoom()
+                .stream()
+                .mapToInt(this::getPlayerBet)
+                .max()
+                .orElse(0);
     }
 
     /**

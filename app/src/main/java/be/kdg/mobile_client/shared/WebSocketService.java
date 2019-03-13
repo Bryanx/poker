@@ -1,11 +1,15 @@
 package be.kdg.mobile_client.shared;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import javax.inject.Inject;
 
+import be.kdg.mobile_client.App;
+import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.shared.di.modules.ControllerModule;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
@@ -19,13 +23,13 @@ import ua.naiksoftware.stomp.dto.StompMessage;
  */
 public class WebSocketService {
     private StompClient stompClient;
-    private static final String TAG = "WebSocketService";
-    private static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
+    private final Context ctx = App.getContext();
+    private final String TAG = ctx.getString(R.string.websocket_service);
     private static final int WEBSOCKET_HEARTBEAT_MS = 10000;
 
     public void connect() {
         if (stompClient == null) {
-            stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, WEBSOCKET_URL);
+            stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, ControllerModule.WEBSOCKET_URL);
             stompClient.withClientHeartbeat(WEBSOCKET_HEARTBEAT_MS).withServerHeartbeat(WEBSOCKET_HEARTBEAT_MS);
             stompClient.connect();
         }
@@ -36,8 +40,8 @@ public class WebSocketService {
                 .map(parseWithGsonInto(clazz))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(s -> Log.i(TAG, "Started listening on " + url))
-                .doOnEach(each -> Log.i(TAG, "Update " + clazz.getSimpleName() + " received: " + each.getValue()));
+                .doOnSubscribe(s -> Log.i(TAG, ctx.getString(R.string.started_listening_on, url)))
+                .doOnEach(each -> Log.i(TAG, ctx.getString(R.string.update_received, clazz.getSimpleName(), each.getValue())));
     }
 
     public void send(String url, String json) {

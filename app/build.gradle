@@ -69,6 +69,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'androidx.test:core:1.1.0'
     testImplementation 'org.mockito:mockito-core:2.23.4'
+    testImplementation 'android.arch.core:core-testing:1.0.0-alpha3'
 
     //viewmodels
     implementation "android.arch.lifecycle:extensions:1.1.1"

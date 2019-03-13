@@ -42,25 +42,36 @@
             layout="@layout/room_toolbar_left"
             android:layout_width="@dimen/toolbar_width"
             android:layout_height="match_parent"
-            app:viewmodel="@{viewmodel}"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:viewmodel="@{viewmodel}" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{viewmodel.loading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <include
             android:id="@+id/centerLayout"
             layout="@layout/room_center"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            app:viewmodel="@{viewmodel}"
             app:layout_constraintEnd_toStartOf="@+id/toolBarRight"
-            app:layout_constraintStart_toEndOf="@+id/toolBarLeft" />
+            app:layout_constraintStart_toEndOf="@+id/toolBarLeft"
+            app:viewmodel="@{viewmodel}" />
 
         <include
             android:id="@+id/toolBarRight"
             layout="@layout/room_toolbar_right"
             android:layout_width="@dimen/toolbar_width"
             android:layout_height="match_parent"
-            app:viewmodel="@{viewmodel}"
-            app:layout_constraintEnd_toEndOf="parent" />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:viewmodel="@{viewmodel}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

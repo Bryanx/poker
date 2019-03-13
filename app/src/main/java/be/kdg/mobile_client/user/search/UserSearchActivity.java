@@ -39,8 +39,8 @@ public class UserSearchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         getControllerComponent().inject(this);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usersearch);
         ButterKnife.bind(this);
         viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);

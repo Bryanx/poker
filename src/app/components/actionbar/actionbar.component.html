@@ -1,7 +1,4 @@
 <div [className]="!myTurn || room.playersInRoom.length < 2 || player.allIn ? 'actionbar-disabled' : 'actionbar'" *ngIf="room || room.playersInRoom.length < 2">
-  <div class="timer-bar">
-    <mat-progress-bar [value]="progressBarCounter"></mat-progress-bar>
-  </div>
   <p *ngIf="room.playersInRoom.length < 2">
      {{'WAITINGFORPLAYERS' | translate | uppercase}}
   </p>
@@ -19,6 +16,25 @@
     <button *ngIf="isActPossible(actTypes.Call)" (click)="playAct(actTypes.Call)" class="call" [disabled]="!myTurn">CALL</button>
     <button *ngIf="isActPossible(actTypes.Check)" (click)="playAct(actTypes.Check)" class="call" [disabled]="!myTurn">CHECK</button>
     <button (click)="playAct(actTypes.Fold)" class="fold" [disabled]="!myTurn">FOLD</button>
+    <div class="timer">
+      <circle-progress
+        [percent]="progressBarCounter"
+        [radius]="100"
+        [outerStrokeWidth]="16"
+        [innerStrokeWidth]="8"
+        [outerStrokeColor]="'#78C000'"
+        [innerStrokeColor]="'#C7E596'"
+        [animation]="false"
+        [animationDuration]="300"
+        [responsive]="true"
+        [showTitle]="true"
+        [title]="counter"
+        [titleFontSize]="titleFontSize"
+        [showSubtitle]="false"
+        [showUnits]="false"
+        [titleColor]="titleFontColor"
+      ></circle-progress>
+    </div>
   </div>
   <div class="raise">
     <button *ngIf="isActPossible(actTypes.Raise) && !allIn && betraise" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn">RAISE</button>

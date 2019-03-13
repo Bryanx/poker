@@ -28,6 +28,7 @@ export class PlayerComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('component created');
     this.userService.getUser(this.player.userId).subscribe(user => {
       this.user = user;
       if (this.user.profilePicture !== null) {
@@ -58,19 +59,5 @@ export class PlayerComponent implements OnInit {
         }
       }
     }
-  }
-
-  setTimer() {
-    this.counter = this.gameRules.playDelay;
-    this.timerInterval = setInterval(() => {
-      if (this.counter > 0) {
-        this.counter -= 1;
-        this.progressBarCounter = this.counter / this.gameRules.playDelay * 100;
-        console.log(this.progressBarCounter);
-      } else {
-        clearInterval(this.timerInterval);
-        console.log('fold');
-      }
-    }, 1000);
   }
 }

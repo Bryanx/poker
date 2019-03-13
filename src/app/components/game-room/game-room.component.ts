@@ -35,7 +35,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   ws: any;
   currentPhaseBets: CurrentPhaseBet[] = CurrentPhaseBet.createArrayOfSix();
   isJoined: boolean;
-  @ViewChildren(PlayerComponent) playerChildren: QueryList<PlayerComponent>;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService,
@@ -226,14 +225,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
             theArray[index].bet = currentPhaseBet.bet;
           }
         }
-      }
-    });
-  }
-
-  onPlayerEvent(player: Player) {
-    this.playerChildren.forEach(playerComponent => {
-      if (player.userId === playerComponent.player.userId) {
-        playerComponent.setTimer();
       }
     });
   }

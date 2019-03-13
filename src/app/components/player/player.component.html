@@ -1,21 +1,8 @@
 <div class="wrapper">
   <div class="action">{{_currentAct}}</div>
-  <div class="progress-container">
   <div [class]="'avatar ' + (usePicture ? 'image-use' : 'init-use')">
     <p *ngIf="!usePicture">{{getInitials()}}</p>
     <img *ngIf="usePicture" [src]="getProfilePicture()" alt="Profile picture">
-  </div>
-    <circle-progress
-      [percent]="progressBarCounter"
-      [radius]="100"
-      [outerStrokeWidth]="16"
-      [innerStrokeWidth]="8"
-      [outerStrokeColor]="'#78C000'"
-      [innerStrokeColor]="'#C7E596'"
-      [animation]="true"
-      [animationDuration]="300"
-      [responsive]="true"
-    ></circle-progress>
   </div>
   <div class="money">{{player.chipCount}}</div>
 </div>

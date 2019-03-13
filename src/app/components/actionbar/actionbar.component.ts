@@ -33,7 +33,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   counter: number;
   progressBarCounter: number;
   timerInterval: any;
-  @Output() playerEvent: EventEmitter<Player> = new EventEmitter<Player>();
+  title = 'test';
+  titleFontSize = '60';
+  titleFontColor = 'white';
 
   constructor(private roundService: RoundService, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService) {
@@ -316,8 +318,6 @@ export class ActionbarComponent implements OnInit, OnDestroy {
           this.playAct(ActType.Fold);
         }
       }, 1000);
-
-      this.playerEvent.emit(this.player);
     }
   }
 }

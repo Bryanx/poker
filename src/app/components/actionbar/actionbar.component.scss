@@ -27,7 +27,7 @@
 
 .button-actions {
   grid-area: action;
-  button {
+  button, div {
     float: right;
     margin-left: 1vh;
   }
@@ -44,6 +44,11 @@
     &:hover {
       background-color: darken($red, 30%);
     }
+  }
+
+  .timer {
+    width: 13vh;
+    height: 13vh;
   }
 }
 
@@ -128,12 +133,4 @@ p {
   color: $green;
   z-index: 90;
   font-weight: bold;
-}
-
-.timer-bar {
-  grid-area: cards;
-  margin-top: -30px;
-  width: 50%;
-  margin-left: auto;
-  margin-right: auto;
 }

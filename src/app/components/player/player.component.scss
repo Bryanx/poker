@@ -22,7 +22,7 @@ img {
   font-weight: 600;
   font-size: 1.2rem;
   color: $white-antique;
-  width: 60%;
+  width: 100%;
   border-radius: 50%;
 }
 
@@ -51,16 +51,4 @@ img {
 .wrapper {
   display: block;
   text-align: center;
-}
-
-.progress-container {
-  position: relative;
-  width: 150px;
-  height: 150px;
-
-  div {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
 }

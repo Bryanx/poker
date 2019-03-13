@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public List<User> getUsersByName(String name) throws UserException {
         return getUsers("ROLE_USER").stream()
-                .filter(u -> u.getUsername().contains(name))
+                .filter(u -> u.getUsername().toLowerCase().contains(name.toLowerCase()))
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 

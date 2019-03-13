@@ -7,7 +7,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {TranslatePipe} from '../../translate.pipe';
 import {AuthService, AuthServiceConfig} from 'angularx-social-login';
 import {provideConfig} from '../../app.module';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from '../../notifierOptions';
 

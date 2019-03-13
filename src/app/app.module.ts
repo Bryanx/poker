@@ -21,7 +21,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { RoomsOverviewComponent } from './components/rooms-overview/rooms-overview.component';
 import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angularx-social-login';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TranslateService} from './services/translate.service';
+import {TranslateService} from './services/other/translate.service';
 import { TranslatePipe } from './translate.pipe';
 import { FriendsComponent } from './components/friends/friends.component';
 import { SearchComponent } from './components/search/search.component';

@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import * as moment from 'moment';
-import {Auth} from '../model/auth';
+import {Auth} from '../../model/auth';
 import {Observable} from 'rxjs';
-import {User} from '../model/user';
+import {User} from '../../model/user';
 import {JwtHelperService} from '@auth0/angular-jwt';
-import {UrlService} from './url.service';
+import {UrlService} from '../other/url.service';
 import {NotifierService} from 'angular-notifier';
-import {UserService} from './user.service';
-import {Notification} from '../model/notification';
-import {NotificationType} from '../model/notificationType';
+import {UserService} from '../user.service';
+import {Notification} from '../../model/notification';
+import {NotificationType} from '../../model/notificationType';
 
 @Injectable({
   providedIn: 'root'

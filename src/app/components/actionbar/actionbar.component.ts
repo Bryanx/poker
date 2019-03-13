@@ -3,7 +3,7 @@ import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
 import {RoundService} from '../../services/round.service';
 import {Round} from '../../model/round';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {Player} from '../../model/player';
 import {Room} from '../../model/room';
 import {CurrentPhaseBet} from '../../model/currentPhaseBet';
@@ -15,7 +15,6 @@ import {WebSocketService} from '../../services/web-socket.service';
   styleUrls: ['./actionbar.component.scss']
 })
 export class ActionbarComponent implements OnInit, OnDestroy {
-  @Input() room: Room = Room.create();
   public actTypes: typeof ActType = ActType;
   _round: Round;
   sliderValue = 0;
@@ -24,15 +23,18 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   currentAct: Act;
   possibleActs: ActType[];
   currentPhaseBet: CurrentPhaseBet = CurrentPhaseBet.create();
-  @Output() actEvent: EventEmitter<Act> = new EventEmitter<Act>();
   canAct = true;
-  @Output() currentPhaseBetEvent: EventEmitter<CurrentPhaseBet> = new EventEmitter<CurrentPhaseBet>();
   ws: any;
   allIn: boolean;
   betraise: boolean;
   counter: number;
   progressBarCounter: number;
   timerInterval: any;
+
+  @Input() room: Room = Room.create();
+
+  @Output() currentPhaseBetEvent: EventEmitter<CurrentPhaseBet> = new EventEmitter<CurrentPhaseBet>();
+  @Output() actEvent: EventEmitter<Act> = new EventEmitter<Act>();
 
   constructor(private roundService: RoundService, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {UrlService} from './url.service';
+import {UrlService} from './other/url.service';
 import * as Stomp from 'stompjs';
 
 @Injectable({

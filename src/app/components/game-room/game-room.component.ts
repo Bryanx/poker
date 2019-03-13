@@ -5,7 +5,7 @@ import {Player} from '../../model/player';
 
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {Round} from '../../model/round';
 import {RoomService} from '../../services/room.service';
 import {ChatComponent} from '../chat/chat.component';
@@ -14,7 +14,7 @@ import {CurrentPhaseBet} from '../../model/currentPhaseBet';
 import {UserService} from '../../services/user.service';
 import {Location} from '@angular/common';
 import {WebSocketService} from '../../services/web-socket.service';
-import {HomeVisibleService} from '../../services/home-visible.service';
+import {HomeVisibleService} from '../../services/other/home-visible.service';
 import {forkJoin} from 'rxjs';
 import {User} from '../../model/user';
 import {Phase} from '../../model/phase';

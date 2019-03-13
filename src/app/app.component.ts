@@ -1,11 +1,11 @@
 import {AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {TranslateService} from './services/translate.service';
+import {TranslateService} from './services/other/translate.service';
 import {Notification} from './model/notification';
-import {AuthorizationService} from './services/authorization.service';
+import {AuthorizationService} from './services/security/authorization.service';
 import {UserService} from './services/user.service';
 import {User} from './model/user';
 import {NotifierService} from 'angular-notifier';
-import {HomeVisibleService} from './services/home-visible.service';
+import {HomeVisibleService} from './services/other/home-visible.service';
 import {NotificationType} from './model/notificationType';
 import {WebSocketService} from './services/web-socket.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';

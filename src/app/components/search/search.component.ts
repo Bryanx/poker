@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Friend} from '../../model/friend';

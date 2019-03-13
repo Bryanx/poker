@@ -5,9 +5,9 @@ import be.kdg.userservice.notification.exception.NotificationException;
 import be.kdg.userservice.notification.model.Notification;
 import be.kdg.userservice.notification.service.api.NotificationService;
 import be.kdg.userservice.user.exception.UserException;
+import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.service.api.UserService;
 import lombok.RequiredArgsConstructor;
-import be.kdg.userservice.user.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +34,7 @@ public class NotificationApiController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final SimpMessagingTemplate template;
+    private final FirebaseApiGateway firebaseApiGateway;
 
     /**
      * This api will give back all the notifications of a specific user
@@ -76,6 +77,7 @@ public class NotificationApiController {
                 getUserId(authentication), receiverId, notificationDTO.getMessage(),
                 notificationDTO.getType(), notificationDTO.getRef());
         NotificationDTO notificationOut = modelMapper.map(notificationIn, NotificationDTO.class);
+        firebaseApiGateway.sendAndroidMessage(receiverId, notificationOut);
         this.template.convertAndSend("/user/receive-notification/" + receiverId, notificationOut);
     }
 
@@ -93,6 +95,7 @@ public class NotificationApiController {
             Notification notification = notificationService.addNotification(getUserId(authentication), user.getId(), notificationDTO.getMessage(),
                     notificationDTO.getType(), "");
             NotificationDTO notificationOut = modelMapper.map(notification, NotificationDTO.class);
+            firebaseApiGateway.sendAndroidMessage(user.getId(), notificationOut);
             this.template.convertAndSend("/user/receive-notification/" + user.getId() , notificationOut);
         });
 

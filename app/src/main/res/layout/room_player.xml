@@ -27,14 +27,12 @@
             android:id="@+id/tvStatusPlayerPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
             android:text="@{player.lastAct.toString()}"
             android:textAlignment="center"
             android:textColor="@color/colorTransparent"
             app:player_status_color="@{player.lastAct.toString()}"
             app:layout_constraintBottom_toTopOf="@+id/btnPlayerPrimary"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <be.kdg.mobile_client.shared.CircularProgressBar
@@ -47,24 +45,22 @@
             app:duration="@{viewmodel.room.gameRules.playDelay}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:onFinished="@{() -> viewmodel.onTimerFinished(player)}"
             app:setBackground="@{player.myTurn ? @color/colorGreen : @color/colorWhite}"
             app:start="@{player.myTurn}"
-            app:title="@{String.valueOf(player.username.charAt(0)).toUpperCase()}" />
+            app:title="@{String.valueOf(player.username.charAt(0)).toUpperCase()}"
+            android:tooltipText="@{player.username}"/>
 
         <TextView
             android:id="@+id/tvCashPlayerPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:text="@{player.chipCount}"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnPlayerPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>

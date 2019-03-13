@@ -118,4 +118,7 @@
     <string name="load_notifications_tag">Load notifications</string>
     <string name="delete_all">Delete all</string>
     <string name="no_notifications">no notifications</string>
+    <string name="started_listening_on">Started listening on %1$s</string>
+    <string name="update_received">Update %1$s received: %2$s</string>
+    <string name="websocket_service">WebSocketService</string>
 </resources>

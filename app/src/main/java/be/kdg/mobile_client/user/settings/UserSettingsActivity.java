@@ -113,7 +113,6 @@ public class UserSettingsActivity extends BaseActivity {
      * Gets called when user updates successfully and closes update activity.
      */
     public void onUpdateUserSuccess() {
-        Toast.makeText(getBaseContext(), getString(R.string.update), Toast.LENGTH_LONG).show();
         btnUpdate.setEnabled(true);
         setResult(RESULT_OK);
         finish();

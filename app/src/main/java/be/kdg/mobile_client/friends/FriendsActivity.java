@@ -60,9 +60,6 @@ public class FriendsActivity extends BaseActivity {
     private void addEventListners() {
         btnSearch.setOnClickListener(e -> navigateTo(UserSearchActivity.class));
         btnBack.setOnClickListener(e -> navigateTo(MenuActivity.class));
-        viewModel.getMessage().observe(this, message -> {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        });
     }
 
     /**

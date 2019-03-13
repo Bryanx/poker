@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.notification.Notification;
+import be.kdg.mobile_client.notification.NotificationType;
+import be.kdg.mobile_client.notification.NotificationViewModel;
 import be.kdg.mobile_client.user.model.User;
 import be.kdg.mobile_client.user.UserActivity;
 import lombok.AllArgsConstructor;
@@ -28,6 +31,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     private final Context ctx;
     private final List<User> users;
     private final User myself;
+    private final NotificationViewModel viewModel;
 
     /**
      * Inflates the layout that will be used to display each user.
@@ -78,6 +82,11 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
                 ((UserSearchActivity) ctx).addFriend(user);
             }
             holder.btnAdd.setVisibility(View.GONE);
+            Notification not = new Notification();
+            not.setMessage(myself.getUsername() + " has sent you a friend request");
+            not.setRef(myself.getId());
+            not.setType(NotificationType.FRIEND_REQUEST);
+            viewModel.sendNotification(user.getId(), not);
             Toast.makeText(ctx, "Befriended " + user.getUsername(), Toast.LENGTH_LONG).show();
         });
     }

@@ -37,6 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:text="@{viewmodel.room.name}"
+            android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/smallest_text"
             app:layout_constraintEnd_toEndOf="parent"

@@ -121,4 +121,7 @@
     <string name="levels">10 - 50</string>
     <string name="level">level</string>
     <string name="account">ACCOUNT</string>
+    <string name="started_listening_on">Started listening on %1$s</string>
+    <string name="update_received">Update %1$s received: %2$s</string>
+    <string name="websocket_service">WebSocketService</string>
 </resources>

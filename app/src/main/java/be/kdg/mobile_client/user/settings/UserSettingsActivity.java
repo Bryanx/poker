@@ -132,11 +132,17 @@ public class UserSettingsActivity extends BaseActivity {
     public void handleError(Throwable error, String tag, String message) {
         Log.e(tag, message);
         if (error != null) {
-            Toast.makeText(this, error.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, error.getMessage(), android.widget.Toast.LENGTH_LONG).show();
+                btnUpdate.setEnabled(true);
+            });
+
             Log.e(tag, error.getMessage());
             error.printStackTrace();
         } else {
-            Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, message, android.widget.Toast.LENGTH_LONG).show();
+            });
         }
     }
 }

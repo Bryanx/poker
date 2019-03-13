@@ -6,13 +6,20 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.shared.di.components.ControllerComponent;
 import be.kdg.mobile_client.shared.di.modules.ControllerModule;
+import be.kdg.mobile_client.user.UserViewModel;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -20,12 +27,15 @@ import io.reactivex.disposables.CompositeDisposable;
  * @see be.kdg.mobile_client.App
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     protected CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
+        UserViewModel viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
+        FirebaseMessaging.getInstance().subscribeToTopic("testing");
     }
 
     /**

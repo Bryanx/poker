@@ -25,12 +25,15 @@ public class FirebaseMessagingServiceImpl extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        String title = remoteMessage.getNotification().getTitle();
-        String message = remoteMessage.getNotification().getBody();
-        Log.d(TAG, "Received message from remote: \n" +
-                "title: " + title + "\n" +
-                "message: " + message);
-        sendNotification(title, message);
+      if (remoteMessage.getNotification() != null) {
+          String title = remoteMessage.getNotification().getTitle();
+          String message = remoteMessage.getNotification().getBody();
+
+          Log.d(TAG, "Message notification title: " + title);
+          Log.d(TAG, "Message notification body: " + message);
+
+          sendNotification(title, message);
+      }
     }
 
     @Override

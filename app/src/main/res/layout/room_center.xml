@@ -143,8 +143,8 @@
             android:paddingTop="1dp"
             android:paddingEnd="5dp"
             android:paddingBottom="1dp"
-            android:visibility="@{viewmodel.room.playersInRoom.size > 5}"
-            android:text="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.getBetByPhase(5) : @string/_0}"
+            android:visibility="@{viewmodel.room.playersInRoom.size > 1}"
+            android:text="@{viewmodel.room.playersInRoom.size > 1 ? viewmodel.getBetByPhase(1) : @string/_0}"
             android:textAlignment="center"
             android:textColor="@color/colorDarkerBackground"
             android:textSize="@dimen/smallest_text"
@@ -159,14 +159,14 @@
             layout="@layout/room_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:isVisible="@{viewmodel.room.playersInRoom.size > 5}"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 1}"
             app:layout_constraintBottom_toTopOf="@+id/vTable"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:viewmodel="@{viewmodel}"
-            app:player="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.room.playersInRoom.get(5) : null}"/>
+            app:player="@{viewmodel.room.playersInRoom.size > 1 ? viewmodel.getPlayerBySeat(1) : null}"/>
 
         <TextView
             android:id="@+id/tvBetPlayerTopRight"
@@ -206,7 +206,7 @@
             app:layout_constraintStart_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
             app:viewmodel="@{viewmodel}"
-            app:player="@{viewmodel.room.playersInRoom.size > 4 ? viewmodel.room.playersInRoom.get(4) : null}" />
+            app:player="@{viewmodel.room.playersInRoom.size > 4 ? viewmodel.getPlayerBySeat(4) : null}" />
 
         <TextView
             android:id="@+id/tvBetPlayerTopLeft"
@@ -242,7 +242,7 @@
             app:layout_constraintStart_toStartOf="@+id/vTable"
             app:layout_constraintTop_toTopOf="parent"
             app:viewmodel="@{viewmodel}"
-            app:player="@{viewmodel.room.playersInRoom.size > 3 ? viewmodel.room.playersInRoom.get(3) : null}" />
+            app:player="@{viewmodel.room.playersInRoom.size > 3 ? viewmodel.getPlayerBySeat(3) : null}" />
 
         <TextView
             android:id="@+id/tvBetPlayerRight"
@@ -277,7 +277,7 @@
             app:layout_constraintStart_toEndOf="@+id/vTable"
             app:layout_constraintTop_toTopOf="parent"
             app:viewmodel="@{viewmodel}"
-            app:player="@{viewmodel.room.playersInRoom.size > 2 ? viewmodel.room.playersInRoom.get(2) : null}" />
+            app:player="@{viewmodel.room.playersInRoom.size > 2 ? viewmodel.getPlayerBySeat(2) : null}" />
 
 
         <TextView
@@ -290,8 +290,8 @@
             android:paddingTop="1dp"
             android:paddingEnd="5dp"
             android:paddingBottom="1dp"
-            android:visibility="@{viewmodel.room.playersInRoom.size > 1}"
-            android:text="@{viewmodel.room.playersInRoom.size > 1 ? viewmodel.getBetByPhase(1) : @string/_0}"
+            android:visibility="@{viewmodel.room.playersInRoom.size > 5}"
+            android:text="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.getBetByPhase(5) : @string/_0}"
             android:textAlignment="center"
             android:textColor="@color/colorDarkerBackground"
             android:textSize="@dimen/smallest_text"
@@ -306,13 +306,13 @@
             layout="@layout/room_player"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:isVisible="@{viewmodel.room.playersInRoom.size > 1}"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 5}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/vTable"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:viewmodel="@{viewmodel}"
-            app:player="@{viewmodel.room.playersInRoom.size > 1 ? viewmodel.room.playersInRoom.get(1) : null}" />
+            app:player="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.getPlayerBySeat(5) : null}" />
 
         <TextView
             android:id="@+id/tvBetPlayerPrimary"
@@ -347,7 +347,7 @@
             app:layout_constraintStart_toStartOf="@+id/vTable"
             app:layout_constraintTop_toBottomOf="@+id/vTable"
             app:viewmodel="@{viewmodel}"
-            app:player="@{viewmodel.room.playersInRoom.size > 0 ? viewmodel.room.playersInRoom.get(0) : null}" />
+            app:player="@{viewmodel.room.playersInRoom.size > 0 ? viewmodel.getPlayerBySeat(0) : null}" />
 
         <include
             android:id="@+id/vOwnCard1"

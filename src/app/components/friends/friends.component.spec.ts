@@ -8,6 +8,8 @@ import {RouterLink, RouterModule} from '@angular/router';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
+import {Friend} from '../../model/friend';
+import {User} from '../../model/user';
 
 describe('FriendsComponent', () => {
   let component: FriendsComponent;
@@ -29,5 +31,15 @@ describe('FriendsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('Should defriend someone', () => {
+    const friend: User = new User();
+    friend.id = '123456';
+
+    component.friends.push(friend);
+    expect(component.friends.length).toBe(1);
+    component.removeFriend(friend.id);
+    expect(component.friends.length).toBe(0);
   });
 });

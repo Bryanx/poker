@@ -24,10 +24,13 @@ import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Overrides a standard activity and provides the controller component to its children.
+ *
  * @see be.kdg.mobile_client.App
  */
 public abstract class BaseActivity extends AppCompatActivity {
-    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
+    @Inject
+    @Named("UserViewModel")
+    ViewModelProvider.Factory factory;
     protected CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
@@ -35,11 +38,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         UserViewModel viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
-        FirebaseMessaging.getInstance().subscribeToTopic("testing");
+        viewModel.getUser("").observe(this, user ->
+                FirebaseMessaging.getInstance().subscribeToTopic(user.getId())
+        );
     }
 
     /**
      * Navigate to a different activity
+     *
      * @param destination activity
      */
     protected void navigateTo(Class<?> destination) {
@@ -49,6 +55,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * Navigate to a different activity with extra
+     *
      * @param destination activity
      */
     protected void navigateTo(Class<?> destination, String extraTag, String extra) {
@@ -59,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     /**
      * All activities that require login should call this method
+     *
      * @param sharedPrefService injeted sharedprefservice fo the activity
      */
     @UiThread
@@ -71,7 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     @UiThread
     protected ControllerComponent getControllerComponent() {
-        return ((App)getApplication())
+        return ((App) getApplication())
                 .getAppComponent()
                 .newControllerComponent(new ControllerModule(this));
     }

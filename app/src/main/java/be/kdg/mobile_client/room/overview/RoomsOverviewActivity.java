@@ -54,8 +54,8 @@ public class RoomsOverviewActivity extends BaseActivity {
      */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         getControllerComponent().inject(this);
+        super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this,factory).get(OverviewViewModel.class);
 
         publicRooms = getIntent().getStringExtra("type").equalsIgnoreCase("PUBLIC");

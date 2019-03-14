@@ -66,7 +66,7 @@ public final class Hand implements Comparable<Hand> {
      * Integer value of the rank will be calculated based on index in ranks string
      */
     void generateCardRanks() {
-        List<String> cardRanks = cards.stream().map(c -> c.getType().getRank().getName()).collect(Collectors.toList());
+        List<String> cardRanks = cards.stream().map(c -> c.type.getRank().getName()).collect(Collectors.toList());
         cardRankValue = cardRanks.stream().map(ranks::indexOf).collect(Collectors.toList());
         this.sortCards(cardRankValue);
     }

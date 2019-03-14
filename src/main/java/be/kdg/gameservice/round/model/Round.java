@@ -60,7 +60,7 @@ public final class Round {
      * All the players that are participating in the round.
      */
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "roud_id")
+    @JoinColumn(name = "round_id")
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Player> playersInRound;
 

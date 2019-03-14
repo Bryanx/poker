@@ -15,22 +15,22 @@ import be.kdg.gameservice.round.controller.dto.RoundDTO;
 import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Phase;
 import be.kdg.gameservice.round.model.Round;
+import be.kdg.gameservice.shared.UserApiGateway;
 import be.kdg.gameservice.shared.config.WebConfig;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -40,33 +40,14 @@ import static java.util.stream.Collectors.toList;
  */
 @RestController
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class RoomApiController {
-    private static final String ID_KEY = "uuid";
-    private final String USER_SERVICE_URL;
-
-    private final ResourceServerTokenServices resourceTokenServices;
+    private final UserApiGateway userApiGateway;
     private final ModelMapper modelMapper;
     private final RoomService roomService;
     private final PlayerService playerService;
     private final PrivateRoomService privateRoomService;
     private final SimpMessagingTemplate template;
-
-    @Autowired
-    public RoomApiController(ResourceServerTokenServices resourceTokenServices,
-                             ModelMapper modelMapper,
-                             RoomService roomService,
-                             SimpMessagingTemplate template,
-                             WebConfig webConfig,
-                             PlayerService playerService,
-                             PrivateRoomService privateRoomService) {
-        this.resourceTokenServices = resourceTokenServices;
-        this.modelMapper = modelMapper;
-        this.roomService = roomService;
-        this.template = template;
-        this.USER_SERVICE_URL = webConfig.getUserServiceUrl();
-        this.playerService = playerService;
-        this.privateRoomService = privateRoomService;
-    }
 
     /**
      * @return Status code 200 with all the rooms from the database.
@@ -101,7 +82,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/rooms/players")
     public ResponseEntity<PlayerDTO> getPlayer(OAuth2Authentication authentication) throws RoomException {
-        Player playerIn = playerService.getPlayer(getUserId(authentication));
+        Player playerIn = playerService.getPlayer(userApiGateway.getUserId(authentication));
         PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
         return new ResponseEntity<>(playerOut, HttpStatus.OK);
     }
@@ -115,7 +96,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/rooms/private")
     public ResponseEntity<PrivateRoomDTO[]> getPrivateRooms(OAuth2Authentication authentication) {
-        List<PrivateRoom> privateRooms = privateRoomService.getPrivateRooms(getUserId(authentication));
+        List<PrivateRoom> privateRooms = privateRoomService.getPrivateRooms(userApiGateway.getUserId(authentication));
         PrivateRoomDTO[] privateRoomOut = modelMapper.map(privateRooms, PrivateRoomDTO[].class);
         return new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
     }
@@ -129,7 +110,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/rooms/private/owner")
     public ResponseEntity<PrivateRoomDTO[]> getPrivateRoomsFromOwner(OAuth2Authentication authentication) {
-        List<PrivateRoom> privateRooms = privateRoomService.getPrivateRoomsFromOwner(getUserId(authentication));
+        List<PrivateRoom> privateRooms = privateRoomService.getPrivateRoomsFromOwner(userApiGateway.getUserId(authentication));
         PrivateRoomDTO[] privateRoomOut = modelMapper.map(privateRooms, PrivateRoomDTO[].class);
         return new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
     }
@@ -146,7 +127,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/rooms/private/{roomId}")
     public ResponseEntity<PrivateRoomDTO> getPrivateRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
-        PrivateRoom privateRoom = privateRoomService.getPrivateRoom(roomId, getUserId(authentication));
+        PrivateRoom privateRoom = privateRoomService.getPrivateRoom(roomId, userApiGateway.getUserId(authentication));
         PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoom, PrivateRoomDTO.class);
         return new ResponseEntity<>(privateRoomOut, HttpStatus.OK);
     }
@@ -160,11 +141,11 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rooms/{roomId}/join")
     public synchronized ResponseEntity<PlayerDTO> joinRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException {
-        String token = getTokenFromAuthentication(authentication);
-        UserDTO userDto = getUser(token);
+        String token = userApiGateway.getTokenFromAuthentication(authentication);
+        UserDTO userDto = userApiGateway.getUser(token, "");
         userDto.setChips(userDto.getChips() - roomService.checkChips(roomId, userDto.getChips()));
-        Player playerIn = playerService.joinRoom(roomId, getUserId(authentication));
-        if (updateUser(token, userDto) != null && playerIn != null) {
+        Player playerIn = playerService.joinRoom(roomId, userApiGateway.getUserId(authentication));
+        if (userApiGateway.updateUser(token, userDto) != null && playerIn != null) {
             PlayerDTO playerOut = modelMapper.map(playerIn, PlayerDTO.class);
             Room roomIn = roomService.getRoom(roomId);
             RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);
@@ -185,7 +166,7 @@ public class RoomApiController {
 
         if (round.getCurrentPhase() == Phase.PRE_FLOP) {
             List<String> userIds = round.getPlayersInRound().stream().map(Player::getUserId).collect(collectingAndThen(toList(), Collections::unmodifiableList));
-            addGamesPlayed(userIds);
+            userApiGateway.addGamesPlayed(userIds);
         }
 
         RoundDTO roundOut = modelMapper.map(round, RoundDTO.class);
@@ -215,7 +196,7 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping("/rooms/private")
     public ResponseEntity<PrivateRoomDTO> addPrivateRoom(@RequestBody PrivateRoomDTO privateRoomDTO, OAuth2Authentication authentication) {
-        PrivateRoom privateRoomIn = privateRoomService.addPrivateRoom(getUserId(authentication), privateRoomDTO.getGameRules(), privateRoomDTO.getName());
+        PrivateRoom privateRoomIn = privateRoomService.addPrivateRoom(userApiGateway.getUserId(authentication), privateRoomDTO.getGameRules(), privateRoomDTO.getName());
         PrivateRoomDTO privateRoomOut = modelMapper.map(privateRoomIn, PrivateRoomDTO.class);
         return new ResponseEntity<>(privateRoomOut, HttpStatus.CREATED);
     }
@@ -299,15 +280,15 @@ public class RoomApiController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @DeleteMapping("/rooms/{roomId}/leave-room")
     public ResponseEntity<PlayerDTO> leaveRoom(@PathVariable int roomId, OAuth2Authentication authentication) throws RoomException, RoundException {
-        Player player = playerService.leaveRoom(roomId, getUserId(authentication));
+        Player player = playerService.leaveRoom(roomId, userApiGateway.getUserId(authentication));
 
         roomService.enoughRoundPlayers(roomId);
 
-        String token = getTokenFromAuthentication(authentication);
-        UserDTO userDto = getUser(token);
+        String token = userApiGateway.getTokenFromAuthentication(authentication);
+        UserDTO userDto = userApiGateway.getUser(token, "");
         userDto.setChips(userDto.getChips() + player.getChipCount());
 
-        if (updateUser(token, userDto) != null) {
+        if (userApiGateway.updateUser(token, userDto) != null) {
             Room roomIn = roomService.getRoom(roomId);
             RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);
             this.template.convertAndSend("/room/receive-room/" + roomId, roomOut);
@@ -315,71 +296,5 @@ public class RoomApiController {
         }
 
         return new ResponseEntity<>(HttpStatus.I_AM_A_TEAPOT);
-    }
-
-    /**
-     * @param authentication Needed as authentication.
-     * @return Gives back the details of a specific user.
-     */
-    private String getUserId(OAuth2Authentication authentication) {
-        String token = getTokenFromAuthentication(authentication);
-        return resourceTokenServices.readAccessToken(token).getAdditionalInformation().get(ID_KEY).toString();
-    }
-
-    /**
-     * Retries the token from the header that came in via a api request.
-     *
-     * @param authentication The authentication wrapper.
-     * @return The token.
-     */
-    private String getTokenFromAuthentication(OAuth2Authentication authentication) {
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        return oAuth2AuthenticationDetails.getTokenValue();
-    }
-
-    /**
-     * Sends a rest template request to the user-service.
-     *
-     * @param token The token used for making the request. (bearer)
-     * @return The requested user based on the token.
-     */
-    private UserDTO getUser(String token) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.setBearerAuth(token);
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-
-        return restTemplate.exchange(USER_SERVICE_URL, HttpMethod.GET, entity, UserDTO.class).getBody();
-    }
-
-    /**
-     * Sends a request to update a user using a rest template.
-     *
-     * @param token   The token used for making the request. (bearer)
-     * @param userDto The user DTO that needs to be updated.
-     * @return The updated user DTO.
-     */
-    private UserDTO updateUser(String token, UserDTO userDto) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.setBearerAuth(token);
-        HttpEntity<UserDTO> entity = new HttpEntity<>(userDto, headers);
-
-        return restTemplate.exchange(USER_SERVICE_URL, HttpMethod.PUT, entity, UserDTO.class).getBody();
-    }
-
-    /**
-     * Sends a rest template request to the user-service to increase the user his wins.
-     */
-    private void addGamesPlayed(List<String> userIds) {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<List<String>> entity = new HttpEntity<>(userIds, headers);
-
-        System.out.println(USER_SERVICE_URL + "/gamesplayed" + " " + userIds);
-        restTemplate.exchange(USER_SERVICE_URL + "/gamesplayed", HttpMethod.POST, entity, void.class);
     }
 }

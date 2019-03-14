@@ -5,9 +5,10 @@ import be.kdg.userservice.notification.controller.dto.NotificationDTO;
 import be.kdg.userservice.shared.config.WebConfig;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 @RequiredArgsConstructor
 class FirebaseApiGateway {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FirebaseApiGateway.class);
     private final RestTemplate restTemplate;
     private final WebConfig webConfig;
 
@@ -33,7 +35,7 @@ class FirebaseApiGateway {
         String body = new Gson().toJson(androidNotification);
 
         HttpEntity<String> entity = new HttpEntity<>(body, headers);
-        restTemplate.exchange(webConfig.getFirebaseUrl(), HttpMethod.POST, entity, String.class);
-        //String result = restTemplate.postForObject(webConfig.getFirebaseUrl(), entity, String.class);
+        String result = restTemplate.postForObject(webConfig.getFirebaseUrl(), entity, String.class);
+        LOGGER.info("Sent message to user " + receiverId + " with message ID " + result);
     }
 }

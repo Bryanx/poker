@@ -18,10 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
 
-
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -44,6 +41,19 @@ public class NotificationServiceTest extends UtilTesting {
     @Test
     public void getNotificationsForUser() {
         assertEquals(3, notificationService.getNotificationsForUser(testableUserId1).size());
+    }
+
+    @Test
+    public void addNotification() throws Exception {
+        Notification notification = notificationService.addNotification(testableUserId2, testableUserId1, "test message", NotificationType.FRIEND_REQUEST, testableUserId2);
+        assertNotEquals(0, notification.getId());
+        assertNotNull(notification.getTimestamp());
+        assertEquals(NotificationType.FRIEND_REQUEST, notification.getType());
+        assertEquals(testableUserId1, notification.getRef());
+        assertEquals("test message", notification.getMessage());
+
+        User user = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
+        assertEquals(1, user.getNotifications().size());
     }
 
     @Test

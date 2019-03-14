@@ -20,15 +20,11 @@ export class PlayerComponent implements OnInit {
   _currentAct: ActType;
   currentActStyle: string;
   @Input() gameRules: GameRules;
-  counter: number;
-  timerInterval: any;
-  progressBarCounter = 20;
 
   constructor(private userService: UserService, private sanitizer: DomSanitizer, private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    console.log('component created');
     this.userService.getUser(this.player.userId).subscribe(user => {
       this.user = user;
       if (this.user.profilePicture !== null) {

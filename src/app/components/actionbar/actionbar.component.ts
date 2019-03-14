@@ -33,9 +33,6 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   counter: number;
   progressBarCounter: number;
   timerInterval: any;
-  title = 'test';
-  titleFontSize = '60';
-  titleFontColor = 'white';
 
   constructor(private roundService: RoundService, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService) {
@@ -169,105 +166,23 @@ export class ActionbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Check if the current player should post the Small Blind
-   */
- /* private checkSmallBlind() {
-    if (this._round.pot === 0) {
-      console.log('Pot empty');
-      if (this.myTurn) {
-        console.log('My turn');
-        if (this.canAct) {
-          console.log('Can Act');
-          console.log('Small blind: ' + this.room.gameRules.smallBlind);
-          this.progressBarCounter = 0;
-          this.canAct = false;
-          const act: Act = new Act();
-          act.roundId = this._round.id;
-          act.type = ActType.Bet;
-          act.phase = this._round.currentPhase;
-          act.playerId = this.player.id;
-          act.userId = this.player.userId;
-          act.roomId = this.room.id;
-          act.seatNumber = this.player.seatNumber;
-
-          act.bet = this.room.gameRules.smallBlind;
-
-          this.currentPhaseBet.bet = act.bet;
-          this.currentPhaseBet.seatNumber = this.player.seatNumber;
-
-          this.roundService.addAct(act).subscribe(() => {
-          }, error => {
-            console.log(error.error.message);
-          });
-          setTimeout(() => this.canAct = true, 3000);
-        }
-      }
-    }
-  }*/
-
-  /**
-   * Check if the current player should post the Big Blind
-   */
- /* private checkBigBlind() {
-    if (this._round.pot === this.room.gameRules.smallBlind) {
-      console.log('Pot equals small blind');
-      if (this.myTurn) {
-        console.log('My turn');
-        if (this.canAct) {
-          console.log('Can Act');
-          console.log('Big blind: ' + this.room.gameRules.bigBlind);
-          this.progressBarCounter = 0;
-          this.canAct = false;
-          const act: Act = new Act();
-          act.roundId = this._round.id;
-          act.type = ActType.Raise;
-          act.phase = this._round.currentPhase;
-          act.playerId = this.player.id;
-          act.userId = this.player.userId;
-          act.roomId = this.room.id;
-          act.seatNumber = this.player.seatNumber;
-
-          act.bet = this.room.gameRules.bigBlind;
-
-          this.currentPhaseBet.bet = act.bet;
-          this.currentPhaseBet.seatNumber = this.player.seatNumber;
-
-
-          this.roundService.addAct(act).subscribe(() => {
-          }, error => {
-            console.log(error.error.message);
-          });
-          setTimeout(() => this.canAct = true, 3000);
-        }
-      }
-    }
-  }*/
-
   checkTurn() {
-    console.log('Check if my turn');
     this.myTurn = false;
 
     if (this.currentAct === undefined) {
       const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
       if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
         this.myTurn = true;
-       // this.checkSmallBlind();
-       // this.checkBigBlind();
       }
     } else {
       if (this.currentAct.nextUserId === undefined) {
         const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
         if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
           this.myTurn = true;
-         // this.checkSmallBlind();
-          // this.checkBigBlind();
         }
       } else {
         if (this.currentAct.nextUserId === this.player.userId) {
           this.myTurn = true;
-          // this.checkSmallBlind();
-           // this.checkBigBlind();
         }
       }
     }

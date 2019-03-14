@@ -1,4 +1,5 @@
 @import "../../../styles";
+
 @include custom_button
 
 .avatar {
@@ -35,7 +36,6 @@ img {
   border: 2px solid antiquewhite;
 }
 
-
 .action {
   padding-bottom: 0.5rem;
   letter-spacing: 1.2px;
@@ -52,5 +52,10 @@ img {
 .wrapper {
   display: block;
   text-align: center;
+}
+
+.cards {
+  display: inline-flex;
+  justify-content: center;
 }
 

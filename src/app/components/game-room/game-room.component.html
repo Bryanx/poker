@@ -8,6 +8,7 @@
   <app-player *ngFor="let player of room.playersInRoom; index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"
               [player]="player"
               [currentAct]="lastAct"
+              [round]="round"
   ></app-player>
   <div class="grid-tmiddle"></div>
   <app-chat class="grid-chat" *ngIf="room"

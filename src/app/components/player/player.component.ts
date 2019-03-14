@@ -6,6 +6,8 @@ import {Player} from '../../model/player';
 import {ActType} from '../../model/actType';
 import {Act} from '../../model/act';
 import {Phase} from '../../model/phase';
+import {AuthorizationService} from '../../services/authorization.service';
+import {Round} from '../../model/round';
 
 @Component({
   selector: 'app-player',
@@ -14,12 +16,13 @@ import {Phase} from '../../model/phase';
 })
 export class PlayerComponent implements OnInit {
   @Input() player: Player = Player.create();
+  @Input() round: Round = Round.create();
   usePicture: Boolean = false;
   user: User = User.create();
   _currentAct: ActType;
   currentActStyle: string;
 
-  constructor(private userService: UserService, private sanitizer: DomSanitizer) { }
+  constructor(private userService: UserService, private sanitizer: DomSanitizer, private authServie: AuthorizationService) { }
 
   ngOnInit() {
     this.userService.getUser(this.player.userId).subscribe(user => {
@@ -52,5 +55,9 @@ export class PlayerComponent implements OnInit {
         }
       }
     }
+  }
+
+  whoAmI() {
+    return this.authServie.getUserId() === this.user.id;
   }
 }

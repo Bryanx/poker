@@ -13,6 +13,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from '../../notifierOptions';
 import {TranslatePipe} from '../../translate.pipe';
+import {PlayerCardComponent} from '../player-card/player-card.component';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -29,7 +30,8 @@ describe('GameRoomComponent', () => {
         CardComponent,
         MatSlider,
         MatProgressBar,
-        TranslatePipe
+        TranslatePipe,
+        PlayerCardComponent
       ],
       imports: [
         FormsModule,

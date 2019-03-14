@@ -19,7 +19,7 @@
 
   <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rankings">{{'RANKINGS' | translate | uppercase}}</button>
 
-  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/settings/{{id}}">{{'SETTINGS' | translate | uppercase}}</button>
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/user/{{myself.id}}">{{'PROFILE' | translate | uppercase}}</button>
 
   <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/game-rooms">{{'ADMINROOM' | translate | uppercase}}</button>
 

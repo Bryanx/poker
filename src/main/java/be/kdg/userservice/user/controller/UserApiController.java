@@ -1,10 +1,11 @@
 package be.kdg.userservice.user.controller;
 
 
+import be.kdg.userservice.shared.BaseController;
+import be.kdg.userservice.shared.TokenDto;
 import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.controller.dto.AuthDto;
 import be.kdg.userservice.user.controller.dto.SocialUserDto;
-import be.kdg.userservice.shared.TokenDto;
 import be.kdg.userservice.user.controller.dto.UserDto;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
@@ -21,9 +22,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,9 +32,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class UserApiController {
-    private static final String ID_KEY = "uuid";
-    private final ResourceServerTokenServices resourceTokenServices;
+public class UserApiController extends BaseController {
     private final AuthorizationServerTokenServices authorizationServerTokenServices;
     private final SimpMessagingTemplate template;
     private final UserService userService;
@@ -243,16 +240,6 @@ public class UserApiController {
         User userOut = userService.checkSocialUser(userIn);
 
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
-    }
-
-    /**
-     * @param authentication Needed as authentication.
-     * @return Gives back the details of a specific user.
-     */
-    private String getUserId(OAuth2Authentication authentication) {
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue())
-                .getAdditionalInformation().get(ID_KEY).toString();
     }
 
     /**

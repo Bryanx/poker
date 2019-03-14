@@ -4,6 +4,7 @@ import be.kdg.userservice.notification.controller.dto.NotificationDTO;
 import be.kdg.userservice.notification.exception.NotificationException;
 import be.kdg.userservice.notification.model.Notification;
 import be.kdg.userservice.notification.service.api.NotificationService;
+import be.kdg.userservice.shared.BaseController;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.service.api.UserService;
@@ -14,8 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,9 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class NotificationApiController {
-    private static final String ID_KEY = "uuid";
-    private final ResourceServerTokenServices resourceTokenServices;
+public class NotificationApiController extends BaseController {
     private final NotificationService notificationService;
     private final UserService userService;
     private final ModelMapper modelMapper;
@@ -77,7 +74,7 @@ public class NotificationApiController {
                 getUserId(authentication), receiverId, notificationDTO.getMessage(),
                 notificationDTO.getType(), notificationDTO.getRef());
         NotificationDTO notificationOut = modelMapper.map(notificationIn, NotificationDTO.class);
-        firebaseApiGateway.sendAndroidMessage(receiverId, notificationOut);
+        firebaseApiGateway.sendMobileMessage(receiverId, notificationOut);
         this.template.convertAndSend("/user/receive-notification/" + receiverId, notificationOut);
     }
 
@@ -95,7 +92,7 @@ public class NotificationApiController {
             Notification notification = notificationService.addNotification(getUserId(authentication), user.getId(), notificationDTO.getMessage(),
                     notificationDTO.getType(), "");
             NotificationDTO notificationOut = modelMapper.map(notification, NotificationDTO.class);
-            firebaseApiGateway.sendAndroidMessage(user.getId(), notificationOut);
+            firebaseApiGateway.sendMobileMessage(user.getId(), notificationOut);
             this.template.convertAndSend("/user/receive-notification/" + user.getId() , notificationOut);
         });
 
@@ -156,15 +153,5 @@ public class NotificationApiController {
         String userId = getUserId(authentication);
         notificationService.deleteAllNotifications(userId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
-    }
-
-    /**
-     * @param authentication Needed as authentication.
-     * @return Gives back the details of a specific user.
-     */
-    private String getUserId(OAuth2Authentication authentication) {
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue())
-                .getAdditionalInformation().get(ID_KEY).toString();
     }
 }

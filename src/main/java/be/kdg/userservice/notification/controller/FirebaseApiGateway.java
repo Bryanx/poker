@@ -23,9 +23,9 @@ class FirebaseApiGateway {
     private final WebConfig webConfig;
 
     /**
-     * Pushes a notification to android using a rest template via firebase
+     * Pushes a notification to a mobile phone using a rest template via firebase
      */
-    void sendAndroidMessage(String receiverId, NotificationDTO notification) {
+    void sendMobileMessage(String receiverId, NotificationDTO notification) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json");
         headers.add("Authorization", "key=" + webConfig.getFirebaseApiKey());

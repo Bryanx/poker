@@ -72,6 +72,7 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
 
         holder.btnRemoveFriend.setOnClickListener(e -> {
             List<Friend> newFriends = myself.getFriends().stream()
+                    .filter(f -> f.getUserId() != null)
                     .filter(f -> !f.getUserId().equals(friend.getId()))
                     .collect(Collectors.toList());
 

@@ -121,7 +121,7 @@ public class RoomsOverviewActivity extends BaseActivity {
                 .subscribe(myself -> {
                     progressBar.setVisibility(View.GONE);
                     if (rooms.size() == 0) tvNoRooms.setVisibility(View.VISIBLE);
-                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself, roomService, editMode);
+                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself, roomService, editMode, publicRooms);
                     lvRoom.setAdapter(roomAdapter);
                     lvRoom.setLayoutManager(new LinearLayoutManager(this));
                 }));

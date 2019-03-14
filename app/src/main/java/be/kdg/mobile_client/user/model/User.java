@@ -23,6 +23,9 @@ public class User implements Comparable<User> {
     private int gamesPlayed;
     private String bestHand;
     private List<Friend> friends;
+    private int level;
+    private int thresholdTillNextLevel;
+    private int xpTillNext;
 
     @Override
     public int compareTo(User o) {

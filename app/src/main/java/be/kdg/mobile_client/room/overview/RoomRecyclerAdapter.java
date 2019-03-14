@@ -11,17 +11,17 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.room.RoomActivity;
 import be.kdg.mobile_client.room.RoomService;
+import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.user.model.User;
 import lombok.AllArgsConstructor;
 
@@ -33,29 +33,26 @@ import lombok.AllArgsConstructor;
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapter.ViewHolder> {
     private final User myself;
     private final RoomService roomService;
-    private Context ctx;
-    private List<Room> rooms;
-    private boolean edit;
+    private final Context ctx;
+    private final List<Room> rooms;
+    private final boolean edit;
+    private final boolean isPublic;
 
     /**
      * Filters out all the rooms that are full before initializing the collection.
      *
      * @param rooms All the rooms.
      */
-    RoomRecyclerAdapter(Context ctx, List<Room> rooms, User user, RoomService roomService, boolean edit) {
+    RoomRecyclerAdapter(Context ctx, List<Room> rooms, User user, RoomService roomService, boolean edit, boolean isPublic) {
         this.ctx = ctx;
         this.myself = user;
         this.edit = edit;
+        this.isPublic = isPublic;
         this.roomService = roomService;
-        List<Room> newRooms = new ArrayList<>();
-
-        for (Room room : rooms) {
-            if (room.getPlayersInRoom().size() < room.getGameRules().getMaxPlayerCount()) {
-                newRooms.add(room);
-            }
-        }
-
-        this.rooms = newRooms;
+        this.rooms = rooms.stream()
+                .filter((room -> room.getPlayersInRoom().size() < room.getGameRules().getMaxPlayerCount()))
+                .filter(room -> room.getGameRules().getMaxLevel() > user.getLevel())
+                .collect(Collectors.toList());
     }
 
     /**
@@ -82,6 +79,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
 
         holder.roomCard.setEnabled(true);
         holder.tvRoomName.setText(rooms.get(position).getName());
+        holder.tvLevels.setText(String.format(Locale.ENGLISH, "%d - %d", room.getGameRules().getMinLevel(), room.getGameRules().getMaxLevel()));
         holder.tvBuyIn.setText(String.format(Locale.ENGLISH, "Buy-in: %d", room.getGameRules().getStartingChips()));
         holder.tvBlinds.setText(String.format(Locale.ENGLISH, "%d/%d", room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind()));
         holder.tvTimer.setText(String.format(Locale.ENGLISH, "%ds", room.getGameRules().getPlayDelay()));
@@ -91,16 +89,32 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         placeImage(R.drawable.timer, holder.ivTimer);
         placeImage(R.drawable.not_full, holder.ivCap);
         placeImage(R.drawable.delete, holder.ivDelete);
-        if (!edit) holder.ivDelete.setVisibility(View.GONE);
 
-        addEventListeners(holder, room);
+        if (!edit) holder.ivDelete.setVisibility(View.GONE);
+        if (!isPublic) holder.tvLevels.setVisibility(View.GONE);
+        if (room.getGameRules().getMinLevel() > myself.getLevel() && isPublic) {
+            holder.ivLock.setVisibility(View.VISIBLE);
+            addDisableEventListeners(holder);
+        } else addEventListeners(holder, room);
+    }
+
+    /**
+     * Adds a event listener to notify the user that he is to low of a level to join
+     * the room.
+     *
+     * @param holder The holder that "holds" the views that are created so they can be recycled.
+     */
+    private void addDisableEventListeners(ViewHolder holder) {
+        holder.roomCard.setOnClickListener(e ->
+                Toast.makeText(ctx, "This room is locked!", Toast.LENGTH_LONG).show()
+        );
     }
 
     /**
      * Adds the appropriate event listeners to some of the items in the view holder.
      *
      * @param holder The items in the holder that need to be linked to a listener.
-     * @param room The room that will correspond with those listeners.
+     * @param room   The room that will correspond with those listeners.
      */
     private void addEventListeners(@NonNull ViewHolder holder, Room room) {
         holder.roomCard.setOnClickListener(e -> {
@@ -160,10 +174,12 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         TextView tvBlinds;
         TextView tvTimer;
         TextView tvCap;
+        TextView tvLevels;
         ImageView ivCoin;
         ImageView ivTimer;
         ImageView ivCap;
         ImageView ivDelete;
+        View ivLock;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -172,15 +188,13 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             tvBlinds = itemView.findViewById(R.id.tvBlinds);
             tvTimer = itemView.findViewById(R.id.tvTimer);
             tvCap = itemView.findViewById(R.id.tvCap);
+            tvLevels = itemView.findViewById(R.id.tvLevels);
             ivCoin = itemView.findViewById(R.id.ivCoin);
             ivTimer = itemView.findViewById(R.id.ivTimer);
             ivCap = itemView.findViewById(R.id.ivCap);
+            ivLock = itemView.findViewById(R.id.ivLock);
             ivDelete = itemView.findViewById(R.id.ivDelete);
             roomCard = itemView.findViewById(R.id.roomCard);
-        }
-
-        public CardView getRoomCard() {
-            return roomCard;
         }
     }
 }

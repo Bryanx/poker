@@ -18,9 +18,10 @@
         android:contentDescription="@string/logo"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.705" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -59,20 +60,20 @@
             android:text="@string/friends" />
 
         <Button
+            android:id="@+id/btnAccount"
+            style="@style/greenButton"
+            android:layout_width="175dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/account" />
+
+        <Button
             android:id="@+id/btnRankings"
             style="@style/greenButton"
             android:layout_width="175dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:text="@string/rankings" />
-
-        <Button
-            android:id="@+id/btnSettings"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:text="@string/settings" />
 
         <Button
             android:id="@+id/btnLogout"
@@ -92,15 +93,84 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <fragment
-        android:id="@+id/fragmentNot"
-        android:name="be.kdg.mobile_client.notification.NotificationFragment"
-        android:layout_width="354dp"
-        android:layout_height="match_parent"
-        android:layout_weight=".5"
-        android:tag="@string/not_fragment_tag"
+    <ImageView
+        android:id="@+id/ivSettings"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="12dp"
+        android:contentDescription="@string/default_desc"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUserLevel"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:translationZ="999dp"
+        app:layout_constraintEnd_toStartOf="@+id/ivBell"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/progressBarLevel"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="96dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:layout_marginEnd="12dp"
+        android:max="100"
+        android:scaleY="3"
+        app:layout_constraintEnd_toStartOf="@+id/tvUserLevel"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCoins"
+        android:layout_width="128dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/ivCoins"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivCoins"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="@string/default_desc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:layout_width="354dp"
+        android:translationZ="999dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:baselineAligned="false">
+
+        <fragment
+            android:id="@+id/fragmentNot"
+            android:name="be.kdg.mobile_client.notification.NotificationFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".5"
+            android:tag="@string/not_fragment_tag"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

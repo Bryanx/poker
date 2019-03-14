@@ -5,7 +5,6 @@
     tools:context=".user.UserActivity">
 
     <data>
-
         <variable
             name="viewmodel"
             type="be.kdg.mobile_client.user.UserViewModel" />
@@ -82,6 +81,14 @@
                 android:id="@+id/tvBestHand"
                 style="@style/accountContentData"
                 android:text="@{viewmodel.user.bestHand}" />
+
+            <TextView
+                style="@style/accountContentHeader"
+                android:text="@string/level" />
+
+            <TextView
+                style="@style/accountContentData"
+                android:text="@{viewmodel.user.level}" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

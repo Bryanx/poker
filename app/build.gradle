@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
 
     //androidx
+    implementation 'com.google.firebase:firebase-messaging:17.3.2'
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.2-alpha01'
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
@@ -74,4 +75,9 @@ dependencies {
     //viewmodels
     implementation "android.arch.lifecycle:extensions:1.1.1"
     implementation "android.arch.lifecycle:viewmodel:1.1.1"
+
+    //Push notifications
+    implementation 'com.google.firebase:firebase-core:16.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

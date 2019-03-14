@@ -21,8 +21,7 @@
             android:name=".user.authorization.RegisterActivity"
             android:label="@string/title_activity_register" />
         <activity android:name=".room.overview.RoomsOverviewActivity" />
-        <activity
-            android:name=".user.search.UserSearchActivity" />
+        <activity android:name=".user.search.UserSearchActivity" />
         <activity
             android:name=".room.RoomActivity"
             android:screenOrientation="landscape" />
@@ -36,6 +35,16 @@
         <activity android:name=".user.authorization.LoginActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".user.settings.UserSettingsActivity" />
-    </application>
 
+        <service android:name=".notification.FirebaseMessagingServiceImpl">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorRoomCard"
+            />
+    </application>
 </manifest>

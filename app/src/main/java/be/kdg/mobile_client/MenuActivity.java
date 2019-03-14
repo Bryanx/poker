@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.notification.NotificationFragment;
 import be.kdg.mobile_client.user.UserActivity;
 import be.kdg.mobile_client.user.UserViewModel;
+import be.kdg.mobile_client.user.model.User;
 import be.kdg.mobile_client.user.rankings.RankingsActivity;
 import be.kdg.mobile_client.user.settings.UserSettingsActivity;
 import butterknife.BindView;
@@ -49,6 +51,7 @@ public class MenuActivity extends BaseActivity {
     @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     private NotificationFragment notificationFragment;
     private UserViewModel viewModel;
+    private User myself;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class MenuActivity extends BaseActivity {
      */
     private void getUserInfo() {
         viewModel.getUser("").observe(this, user -> {
+            this.myself = user;
             tvUserLevel.setText(String.valueOf(user.getLevel()));
             progressBarLevel.setMax(user.getThresholdTillNextLevel());
             progressBarLevel.setProgress(user.getXpTillNext());
@@ -124,6 +128,7 @@ public class MenuActivity extends BaseActivity {
         ivSettings.setOnClickListener(e -> navigateTo(UserSettingsActivity.class));
         btnSettings.setOnClickListener(e -> navigateTo(UserActivity.class, "USER_ID", ""));
         btnLogout.setOnClickListener(e -> {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(myself.getId());
             sharedPrefService.saveToken(this, null); // remove token
             navigateTo(MainActivity.class);
         });

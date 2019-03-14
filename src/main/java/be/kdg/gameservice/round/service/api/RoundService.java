@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface RoundService {
     void saveAct(int roundId, String userId, ActType type, Phase phase, int bet, boolean allIn) throws RoundException;
 
-    List<ActType> getPossibleActs(int roundId, String userId) throws RoundException;
+    List<ActType> getPossibleActs(int roundId) throws RoundException;
 
     Round startNewRound(List<Player> playersForRound, int button);
 

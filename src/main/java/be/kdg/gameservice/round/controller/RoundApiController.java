@@ -67,9 +67,8 @@ public class RoundApiController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rounds/{roundId}/possible-acts")
-    public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId,
-                                                     OAuth2Authentication authentication) throws RoundException {
-        List<ActType> actTypes = roundService.getPossibleActs(roundId, getUserInfo(authentication).get(ID_KEY).toString());
+    public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId) throws RoundException {
+        List<ActType> actTypes = roundService.getPossibleActs(roundId);
         return new ResponseEntity<>(modelMapper.map(actTypes, ActType[].class), HttpStatus.OK);
     }
 

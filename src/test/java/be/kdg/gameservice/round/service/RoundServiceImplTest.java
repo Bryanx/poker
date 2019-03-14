@@ -64,7 +64,7 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void getPossibleActs() throws RoundException {
-        List<ActType> possibleActs = roundService.getPossibleActs(testableRoundIdWithPlayers, testableUserId);
+        List<ActType> possibleActs = roundService.getPossibleActs(testableRoundIdWithPlayers);
         assertEquals(3, possibleActs.size());
         assertTrue(possibleActs.contains(ActType.BET)
                 && possibleActs.contains(ActType.CHECK)
@@ -286,6 +286,7 @@ public class RoundServiceImplTest extends UtilTesting {
         roundService.saveAct(round.getId(), "Remi", ActType.BET, round.getCurrentPhase(), 50, false);
         roundService.saveAct(round.getId(), "Dirk", ActType.RAISE, round.getCurrentPhase(), 100, false);
         roundService.saveAct(round.getId(), "Maarten", ActType.FOLD, round.getCurrentPhase(), 0, false);
+        assertEquals(Phase.FLOP, round.getCurrentPhase());
         roundService.saveAct(round.getId(), "Remi", ActType.CALL, round.getCurrentPhase(), 50, false);
 
         assertEquals(260, round.getPot());

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -6,6 +6,7 @@ import {Player} from '../../model/player';
 import {ActType} from '../../model/actType';
 import {Act} from '../../model/act';
 import {Phase} from '../../model/phase';
+import {GameRules} from '../../model/gamerules';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Round} from '../../model/round';
 
@@ -21,8 +22,11 @@ export class PlayerComponent implements OnInit {
   user: User = User.create();
   _currentAct: ActType;
   currentActStyle: string;
+  @Input() gameRules: GameRules;
 
-  constructor(private userService: UserService, private sanitizer: DomSanitizer, private authServie: AuthorizationService) { }
+  constructor(private userService: UserService, private sanitizer: DomSanitizer, private cdRef: ChangeDetectorRef,
+     private authorizationService: AuthorizationService) {
+  }
 
   ngOnInit() {
     this.userService.getUser(this.player.userId).subscribe(user => {
@@ -58,6 +62,6 @@ export class PlayerComponent implements OnInit {
   }
 
   whoAmI() {
-    return this.authServie.getUserId() === this.user.id;
+    return this.authorizationService.getUserId() === this.user.id;
   }
 }

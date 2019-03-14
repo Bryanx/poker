@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
 import {RoundService} from '../../services/round.service';
@@ -137,6 +137,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   @Input() set round(round: Round) {
+    // console.log(round);
     if (round !== undefined) {
       if (this._round === undefined) {
         this.currentPhaseBet.bet = 0;
@@ -223,7 +224,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   setTimer() {
     if (this.myTurn) {
       this.counter = this.room.gameRules.playDelay;
-       this.timerInterval = setInterval(() => {
+      this.timerInterval = setInterval(() => {
         if (this.counter > 0) {
           this.counter -= 1;
           this.progressBarCounter = this.counter / this.room.gameRules.playDelay * 100;

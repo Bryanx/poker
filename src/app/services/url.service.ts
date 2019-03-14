@@ -13,14 +13,14 @@ export class UrlService {
   authUrl = 'https://poker-user-service.herokuapp.com/oauth/token';
   // authUrl = 'http://localhost:5000/oauth/token';
 
-  roundUrl = 'https://poker-game-service.herokuapp.com/api/rounds';
-  // roundUrl = 'http://localhost:5001/api/rounds';
+  // roundUrl = 'https://poker-game-service.herokuapp.com/api/rounds';
+  roundUrl = 'http://localhost:5001/api/rounds';
 
-  roomUrl = 'https://poker-game-service.herokuapp.com/api/rooms';
-  // roomUrl = 'http://localhost:5001/api/rooms';
+  // roomUrl = 'https://poker-game-service.herokuapp.com/api/rooms';
+  roomUrl = 'http://localhost:5001/api/rooms';
 
-  gameServiceWebSocketUrl = 'wss://poker-game-service.herokuapp.com/connect/websocket';
-  // gameServiceWebSocketUrl = 'ws://localhost:5001/connect/websocket';
+  // gameServiceWebSocketUrl = 'wss://poker-game-service.herokuapp.com/connect/websocket';
+  gameServiceWebSocketUrl = 'ws://localhost:5001/connect/websocket';
 
   userServiceWebSocketUrl = 'wss://poker-user-service.herokuapp.com/connect/websocket';
   // userServiceWebSocketUrl = 'ws://localhost:5000/connect/websocket';

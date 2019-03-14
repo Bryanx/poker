@@ -12,6 +12,7 @@
   cursor: pointer;
   text-align: center;
   user-select: none;
+  margin-top: -0.5rem;
 
   &:hover {
     background-color: darken($background-color, 10%);
@@ -39,6 +40,7 @@
   top: 0.2rem;
   right: 1rem;
   vertical-align: center;
+  margin-top: 0.5rem;
 
   .xpLabel {
     color: white;

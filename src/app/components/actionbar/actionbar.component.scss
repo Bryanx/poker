@@ -16,14 +16,6 @@
   grid-area: cards;
   display: inline-flex;
   justify-content: center;
-
-  // This is for the cards from the user
-  div {
-    background-color: antiquewhite;
-    top: -1.5rem;
-    height: 14vh;
-    width: 9vh;
-  }
 }
 
 .button-actions {

@@ -35,6 +35,7 @@ import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RoomCardComponent } from './components/room-card/room-card.component';
 import { GlobalMessageComponent } from './components/global-message/global-message.component';
+import { PlayerCardComponent } from './components/player-card/player-card.component';
 
 const config = new AuthServiceConfig([
   {
@@ -82,7 +83,8 @@ export function setupTranslateFactory(
     RankingsComponent,
     NotificationComponent,
     RoomCardComponent,
-    GlobalMessageComponent
+    GlobalMessageComponent,
+    PlayerCardComponent
   ],
   imports: [
     BrowserModule,

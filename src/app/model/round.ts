@@ -10,4 +10,16 @@ export class Round {
   button: number;
   isFinished: boolean;
   pot: number;
+
+  static create() {
+    return {
+      id: 0,
+      cards: undefined,
+      playersInRound: undefined,
+      currentPhase: Phase.Not_Started,
+      button: 0,
+      isFinished: false,
+      pot: 0
+    };
+  }
 }

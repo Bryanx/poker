@@ -23,9 +23,7 @@ public interface UserService {
 
     User checkSocialUser(User user) throws UserException;
 
-    User changeUserRoleToAdmin(User user) throws UserException;
-
-    User changeUserRoleToUser(User user) throws UserException;
+    User changeRole(User user, String role);
 
     User addExperience(String id, int xp);
 

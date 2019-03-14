@@ -2,6 +2,9 @@ package be.kdg.userservice.user.controller.dto;
 
 import lombok.Data;
 
+/**
+ * DTO that us user internally for authentication-.
+ */
 @Data
 public class AuthDto {
     private String username;

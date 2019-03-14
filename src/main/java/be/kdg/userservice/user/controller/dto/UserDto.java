@@ -3,6 +3,9 @@ package be.kdg.userservice.user.controller.dto;
 import be.kdg.userservice.user.model.Friend;
 import lombok.Data;
 
+/**
+ * Standard user DTO user for sending user information to the front end.
+ */
 @Data
 public class UserDto {
     private String id;

@@ -2,7 +2,7 @@ package be.kdg.userservice;
 
 import be.kdg.userservice.notification.model.Notification;
 import be.kdg.userservice.notification.model.NotificationType;
-import be.kdg.userservice.shared.TokenDto;
+import be.kdg.userservice.shared.dto.TokenDto;
 import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.model.UserRole;
@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import javax.persistence.Table;
 import javax.transaction.Transactional;
 import java.util.*;
 
@@ -83,7 +82,7 @@ public abstract class UtilTesting {
     /**
      * Helper method that lets us generate JWT token with only the username.
      */
-    private be.kdg.userservice.shared.TokenDto getBearerToken(User user, AuthorizationServerTokenServices authorizationServerTokenServices) {
+    private TokenDto getBearerToken(User user, AuthorizationServerTokenServices authorizationServerTokenServices) {
         HashMap<String, String> authorizationParameters = new HashMap<>();
         authorizationParameters.put("scope", "read");
         authorizationParameters.put("username", user.getUsername());
@@ -112,7 +111,7 @@ public abstract class UtilTesting {
         authenticationRequest.setAuthenticated(true);
 
         OAuth2AccessToken accessToken = authorizationServerTokenServices.createAccessToken(authenticationRequest);
-        return new be.kdg.userservice.shared.TokenDto(accessToken.getValue(), accessToken.getExpiresIn());
+        return new TokenDto(accessToken.getValue(), accessToken.getExpiresIn());
     }
 
     /**

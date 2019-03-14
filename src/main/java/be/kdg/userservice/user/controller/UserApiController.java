@@ -2,7 +2,7 @@ package be.kdg.userservice.user.controller;
 
 
 import be.kdg.userservice.shared.BaseController;
-import be.kdg.userservice.shared.TokenDto;
+import be.kdg.userservice.shared.dto.TokenDto;
 import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.controller.dto.AuthDto;
 import be.kdg.userservice.user.controller.dto.SocialUserDto;
@@ -45,7 +45,27 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/user")
     public ResponseEntity<UserDto> getUser(OAuth2Authentication authentication) {
+        logIncomingCall("getUser with authentication");
         User user = userService.findUserById(getUserId(authentication));
+        UserDto userDto = modelMapper.map(user, UserDto.class);
+
+        if (user.getProfilePictureBinary() != null) {
+            userDto.setProfilePicture(new String(user.getProfilePictureBinary()));
+        } else {
+            userDto.setProfilePicture(null);
+        }
+
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
+    }
+
+    /**
+     * Rest endpoint that returns the user based on his JWT.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<UserDto> getUser(@PathVariable String userId) {
+        logIncomingCall("getUser with id");
+        User user = userService.findUserById(userId);
         UserDto userDto = modelMapper.map(user, UserDto.class);
 
         if (user.getProfilePictureBinary() != null) {
@@ -65,6 +85,7 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/users")
     public ResponseEntity<UserDto[]> getUsers() {
+        logIncomingCall("getUsers");
         List<User> usersIn = userService.getUsers("ROLE_USER");
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
@@ -78,6 +99,7 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/users/admin/all")
     public ResponseEntity<UserDto[]> getAdmins() {
+        logIncomingCall("getAdmins");
         List<User> usersIn = userService.getUsers("ROLE_ADMIN");
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
@@ -92,28 +114,12 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/users/{name}")
     public ResponseEntity<UserDto[]> getUsersByName(@PathVariable String name) {
+        logIncomingCall("getUsersByName");
         List<User> usersIn = userService.getUsersByName(name);
         UserDto[] usersOut = modelMapper.map(usersIn, UserDto[].class);
         return new ResponseEntity<>(usersOut, HttpStatus.OK);
     }
 
-    /**
-     * Rest endpoint that returns the user based on his JWT.
-     */
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<UserDto> getUser(@PathVariable String userId) {
-        User user = userService.findUserById(userId);
-        UserDto userDto = modelMapper.map(user, UserDto.class);
-
-        if (user.getProfilePictureBinary() != null) {
-            userDto.setProfilePicture(new String(user.getProfilePictureBinary()));
-        } else {
-            userDto.setProfilePicture(null);
-        }
-
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
-    }
 
     /**
      * Changes user role to ROLE_ADMIN.
@@ -121,10 +127,10 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/user/{userId}/admin")
     public ResponseEntity<UserDto> changeUserRoleToAdmin(@PathVariable String userId) throws UserException {
+        logIncomingCall("changeUserRoleToAdmin");
         User user = userService.findUserById(userId);
-        User userout = userService.changeUserRoleToAdmin(user);
-        UserDto userDto = modelMapper.map(userout, UserDto.class);
-
+        User userOut = userService.changeRole(user, "ROLE_ADMIN");
+        UserDto userDto = modelMapper.map(userOut, UserDto.class);
         return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
     }
 
@@ -134,10 +140,10 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/user/{userId}/user")
     public ResponseEntity<UserDto> changeUserRoleToUser(@PathVariable String userId) throws UserException {
+        logIncomingCall("changeUserRoleToUser");
         User user = userService.findUserById(userId);
-        User userout = userService.changeUserRoleToUser(user);
-        UserDto userDto = modelMapper.map(userout, UserDto.class);
-
+        User userOut = userService.changeRole(user, "ROLE_USER");
+        UserDto userDto = modelMapper.map(userOut, UserDto.class);
         return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
     }
 
@@ -146,9 +152,9 @@ public class UserApiController extends BaseController {
      */
     @PostMapping("/user")
     public ResponseEntity<TokenDto> addUser(@Valid @RequestBody AuthDto authDto) throws UserException {
+        logIncomingCall("addUser");
         User userIn = modelMapper.map(authDto, User.class);
         User userOut = userService.addUser(userIn);
-
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.CREATED);
     }
 
@@ -158,6 +164,7 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/user/disable")
     public ResponseEntity<UserDto> changeEnabled(@Valid @RequestBody UserDto userDto) throws UserException {
+        logIncomingCall("changeEnabled");
         User userIn = modelMapper.map(userDto, User.class);
 
         if (userDto.getProfilePicture() != null) {
@@ -175,6 +182,7 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PutMapping("/user")
     public ResponseEntity<TokenDto> changeUser(@Valid @RequestBody UserDto userDto) throws UserException {
+        logIncomingCall("changeUser");
         User userIn = modelMapper.map(userDto, User.class);
 
         if (userDto.getProfilePicture() != null) {
@@ -193,6 +201,7 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PatchMapping("/user")
     public ResponseEntity<UserDto> changePassword(@Valid @RequestBody AuthDto authDto) throws UserException {
+        logIncomingCall("changePassword");
         User userIn = modelMapper.map(authDto, User.class);
         User userOut = userService.changePassword(userIn);
         return new ResponseEntity<>(modelMapper.map(userOut, UserDto.class), HttpStatus.OK);
@@ -208,6 +217,7 @@ public class UserApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/user/level/{xp}")
     public void addXp(@PathVariable int xp, OAuth2Authentication authentication) {
+        logIncomingCall("addXp");
         User user = userService.addExperience(getUserId(authentication), xp);
         UserDto userDTO = modelMapper.map(user, UserDto.class);
         this.template.convertAndSend("/user/receive-myself/" + getUserId(authentication), userDTO);
@@ -218,6 +228,7 @@ public class UserApiController extends BaseController {
      */
     @PostMapping("/user/win")
     public ResponseEntity addWin(@Valid @RequestBody String userId) throws UserException {
+        logIncomingCall("addWin");
         userService.addWin(userId);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -227,6 +238,7 @@ public class UserApiController extends BaseController {
      */
     @PostMapping("/user/gamesplayed")
     public ResponseEntity addGamesPlayed(@Valid @RequestBody List<String> userIds) throws UserException {
+        logIncomingCall("addGamesPlayed");
         userService.addGamesPlayed(userIds);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -236,9 +248,9 @@ public class UserApiController extends BaseController {
      */
     @PostMapping("/sociallogin")
     public ResponseEntity<TokenDto> socialLogin(@Valid @RequestBody SocialUserDto socialUserDto) throws UserException {
+        logIncomingCall("socialLogin");
         User userIn = modelMapper.map(socialUserDto, User.class);
         User userOut = userService.checkSocialUser(userIn);
-
         return new ResponseEntity<>(getBearerToken(userOut), HttpStatus.OK);
     }
 
@@ -265,11 +277,8 @@ public class UserApiController extends BaseController {
         scopes.add("write");
 
         OAuth2Request authorizationRequest = new OAuth2Request(authorizationParameters, "my-trusted-client", authorities, true, scopes, null, "", responseType, null);
-
         CustomUserDetails userPrincipal = new CustomUserDetails(user, roles);
-
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userPrincipal, null, authorities);
-
         OAuth2Authentication authenticationRequest = new OAuth2Authentication(authorizationRequest, authenticationToken);
         authenticationRequest.setAuthenticated(true);
 

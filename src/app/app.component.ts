@@ -86,7 +86,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
     const intervalId = setInterval(() => {
       if (!this.auth.isAuthenticated()) {
         clearInterval(intervalId);
-        this.ws.unsubscribe();
+        this.ws.disconnect();
         this.checkIfAuthenticated();
       }
     }, 750);

@@ -16,7 +16,6 @@ export class GameTableComponent implements OnInit {
   thirdCard: boolean;
   fourthCard: boolean;
   fifthCard: boolean;
-  @Input() room: Room = Room.create();
 
   constructor() { }
 

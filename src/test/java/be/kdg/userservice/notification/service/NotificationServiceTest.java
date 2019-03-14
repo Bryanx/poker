@@ -49,11 +49,11 @@ public class NotificationServiceTest extends UtilTesting {
         assertNotEquals(0, notification.getId());
         assertNotNull(notification.getTimestamp());
         assertEquals(NotificationType.FRIEND_REQUEST, notification.getType());
-        assertEquals(testableUserId1, notification.getRef());
+        assertEquals(testableUserId2, notification.getRef());
         assertEquals("test message", notification.getMessage());
 
         User user = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
-        assertEquals(1, user.getNotifications().size());
+        assertEquals(4, user.getNotifications().size());
     }
 
     @Test

@@ -64,16 +64,16 @@ public class UserServiceTest extends UtilTesting {
     @Test
     public void changeUser() throws Exception {
         User user = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
-        user.setUsername("jos");
-        user.setFirstname("jos");
+        user.setUsername("joske");
+        user.setFirstname("joske");
         user.setLastname("vermeiren");
-        user.setEmail("jos@test.com");
+        user.setEmail("joske@test.com");
 
         user = userService.changeUser(user);
-        assertEquals("jos", user.getUsername());
-        assertEquals("jos", user.getFirstname());
+        assertEquals("joske", user.getUsername());
+        assertEquals("joske", user.getFirstname());
         assertEquals("vermeiren", user.getLastname());
-        assertEquals("jos@test.com\"", user.getEmail());
+        assertEquals("joske@test.com", user.getEmail());
     }
 
     @Test

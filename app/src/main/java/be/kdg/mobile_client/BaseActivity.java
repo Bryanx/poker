@@ -20,6 +20,7 @@ import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.shared.di.components.ControllerComponent;
 import be.kdg.mobile_client.shared.di.modules.ControllerModule;
 import be.kdg.mobile_client.user.UserViewModel;
+import be.kdg.mobile_client.user.model.User;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -33,14 +34,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     ViewModelProvider.Factory factory;
     protected CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    /**
+     * Initializes the fire base app and subscribes to the richt
+     */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FirebaseApp.initializeApp(this);
         UserViewModel viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
-        viewModel.getUser("").observe(this, user ->
-                FirebaseMessaging.getInstance().subscribeToTopic(user.getId())
-        );
+        viewModel.getUser("").observe(this, user -> {
+            Log.d("BaseActivity", "onCreate: observing user " + user.getUsername());
+            FirebaseMessaging.getInstance().subscribeToTopic(user.getId());
+        });
     }
 
     /**

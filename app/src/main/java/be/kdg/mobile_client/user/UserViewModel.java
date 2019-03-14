@@ -39,7 +39,9 @@ public class UserViewModel extends ViewModel {
     }
 
     public LiveData<User> getUser(String id) {
-        user = new MutableLiveData<>();
+        if (user == null) {
+            user = new MutableLiveData<>();
+        }
         loadUser(id);
         return user;
     }

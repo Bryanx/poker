@@ -20,7 +20,10 @@
   [round]="round"
   (actEvent)="onActEvent($event)"
   (currentPhaseBetEvent)="onCurrentPhaseBetEvent($event)"></app-actionbar>
-  <app-game-table class="grid-item-table" [round]="round"></app-game-table>
+  <app-game-table class="grid-item-table"
+                  [round]="round"
+                  [room]="room"
+  ></app-game-table>
   <section class="grid-player-bet">
     <div *ngFor="let currentPhaseBet of currentPhaseBets; index as i" [class]="'player-bet bet-' + (currentPhaseBet.seatNumber - 1)">
       {{(currentPhaseBet.bet)}}

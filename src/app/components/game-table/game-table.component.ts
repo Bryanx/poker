@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Round} from '../../model/round';
 import {Phase} from '../../model/phase';
+import {Player} from '../../model/player';
+import {Room} from '../../model/room';
 
 @Component({
   selector: 'app-game-table',
@@ -14,6 +16,7 @@ export class GameTableComponent implements OnInit {
   thirdCard: boolean;
   fourthCard: boolean;
   fifthCard: boolean;
+  @Input() room: Room = Room.create();
 
   constructor() { }
 

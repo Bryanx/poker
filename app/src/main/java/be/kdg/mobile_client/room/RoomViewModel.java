@@ -34,7 +34,6 @@ public class RoomViewModel extends ViewModel {
     @Getter MutableLiveData<Round> round = new MutableLiveData<>();
     @Getter MutableLiveData<Player> player = new MutableLiveData<>();
     @Getter MutableLiveData<String> toast = new MutableLiveData<>();
-    @Getter MutableLiveData<Boolean> myTurn = new MutableLiveData<>();
     @Getter MutableLiveData<List<ActType>> possibleActs = new MutableLiveData<>();
     @Getter @Setter MutableLiveData<Integer> seekBarValue = new MutableLiveData<>();
     @Getter ObservableBoolean loading = new ObservableBoolean(true);
@@ -131,7 +130,6 @@ public class RoomViewModel extends ViewModel {
             roomPlayer.setMyTurn(roomPlayer.getUserId().equals(userIdTurn));
             if (roomPlayer.equals(player.getValue())) {
                 player.postValue(roomPlayer);
-                myTurn.postValue(roomPlayer.isMyTurn());
                 if (roomPlayer.isMyTurn()) updatePossibleActs(newRound.getId());
             }
         });
@@ -152,9 +150,10 @@ public class RoomViewModel extends ViewModel {
      * This method is called when the user clicks on an act
      */
     public synchronized void onAct(ActType actType) {
-        if (!myTurn.getValue()) return;
-        myTurn.setValue(false);
+        if (!player.getValue().isMyTurn()) return;
         Player me = player.getValue();
+        me.setMyTurn(false);
+        player.setValue(me);
         Round rnd = round.getValue();
         int roomId = room.getValue().getId();
         Act act = new Act(rnd.getId(), me.getUserId(), me.getId(), roomId, actType,

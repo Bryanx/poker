@@ -24,19 +24,19 @@
         android:visibility="@{isVisible}">
 
         <TextView
-            android:id="@+id/tvStatusPlayerPrimary"
+            android:id="@+id/tvPlayerStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{player.lastAct.toString()}"
             android:textAlignment="center"
             android:textColor="@color/colorTransparent"
-            app:player_status_color="@{player.lastAct.toString()}"
-            app:layout_constraintBottom_toTopOf="@+id/btnPlayerPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/loadingRing"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:player_status_color="@{player.lastAct.toString()}" />
 
         <be.kdg.mobile_client.shared.CircularProgressBar
-            android:id="@+id/btnPlayerPrimary"
+            android:id="@+id/loadingRing"
             style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
             android:layout_width="@dimen/player_button"
             android:layout_height="@dimen/player_button"
@@ -54,7 +54,7 @@
             android:tooltipText="@{player.username}"/>
 
         <TextView
-            android:id="@+id/tvCashPlayerPrimary"
+            android:id="@+id/tvPlayerCash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{player.chipCount}"
@@ -62,6 +62,6 @@
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPlayerPrimary" />
+            app:layout_constraintTop_toBottomOf="@+id/loadingRing" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

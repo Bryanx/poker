@@ -1,4 +1,4 @@
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
 import {Player} from '../../model/player';
@@ -18,6 +18,7 @@ import {HomeVisibleService} from '../../services/home-visible.service';
 import {forkJoin} from 'rxjs';
 import {User} from '../../model/user';
 import {Phase} from '../../model/phase';
+import {PlayerComponent} from '../player/player.component';
 
 @Component({
   selector: 'app-room',

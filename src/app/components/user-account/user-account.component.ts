@@ -57,6 +57,7 @@ export class UserAccountComponent implements OnInit {
         duration: 3000
       });
     });
+
     this.sendFriendRequest(this.user.id);
   }
 

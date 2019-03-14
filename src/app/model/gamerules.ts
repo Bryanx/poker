@@ -5,6 +5,8 @@ export class GameRules {
   playDelay: number;
   startingChips: number;
   maxPlayerCount: number;
+  minLevel: number;
+  maxLevel: number;
 
   static create() {
     return {
@@ -13,7 +15,9 @@ export class GameRules {
       bigBlind: 20,
       playDelay: 30,
       startingChips: 1000,
-      maxPlayerCount: 6
+      maxPlayerCount: 6,
+      minLevel: 1,
+      maxLevel: 50
     };
   }
 }

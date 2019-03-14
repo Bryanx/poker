@@ -29,13 +29,13 @@ import { UserAccountComponent } from './components/user-account/user-account.com
 import { GameRoomEditComponent } from './components/game-room-edit/game-room-edit.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import { RankingsComponent } from './components/rankings/rankings.component';
-import {MatProgressBarModule, MatSnackBarModule, MatTableModule} from '@angular/material';
+import {MatSnackBarModule, MatTableModule, MatProgressBarModule} from '@angular/material';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from './notifierOptions';
 import { NotificationComponent } from './components/notification/notification.component';
 import { RoomCardComponent } from './components/room-card/room-card.component';
 import {NgCircleProgressModule} from 'ng-circle-progress';
-
+import { GlobalMessageComponent } from './components/global-message/global-message.component';
 
 const config = new AuthServiceConfig([
   {
@@ -82,12 +82,14 @@ export function setupTranslateFactory(
     GameRoomEditComponent,
     RankingsComponent,
     NotificationComponent,
-    RoomCardComponent
+    RoomCardComponent,
+    GlobalMessageComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatSliderModule,
+    MatProgressBarModule,
     FormsModule,
     RouterModule,
     ReactiveFormsModule,
@@ -100,13 +102,11 @@ export function setupTranslateFactory(
     NotifierModule.withConfig(customNotifierOptions),
     MatProgressBarModule,
     NgCircleProgressModule.forRoot({
-      // set defaults here
       radius: 100,
       outerStrokeWidth: 16,
       innerStrokeWidth: 8,
       outerStrokeColor: '#78C000',
       innerStrokeColor: '#C7E596',
-      animationDuration: 300,
     })
   ],
   providers: [

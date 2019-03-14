@@ -8,18 +8,36 @@ import {NotifierService} from 'angular-notifier';
 import {HomeVisibleService} from './services/home-visible.service';
 import {NotificationType} from './model/notificationType';
 import {WebSocketService} from './services/web-socket.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  animations: [
+    trigger('simpleFadeAnimation', [
+      state('in', style({opacity: 1})),
+      transition(':enter', [
+        style({opacity: 0}),
+        animate(500)
+      ]),
+      transition(':leave',
+        animate(500, style({opacity: 0})))
+    ])
+  ]
 })
 
 export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   homeVisible: Boolean;
   newNotification: Notification;
-  myself: User;
+  myself: User = User.create();
   ws: any;
+
+  // levels
+  xpLabel: String = '';
+  xpPrev: number;
+  levelPrev: number;
+  showXp: Boolean = false;
 
   constructor(private translate: TranslateService,
               private userService: UserService,
@@ -31,7 +49,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.homeObservable.getState().subscribe(state => this.homeVisible = state);
+    this.homeObservable.getState().subscribe(newState => this.homeVisible = newState);
     this.checkIfAuthenticated();
   }
 
@@ -68,7 +86,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
     const intervalId = setInterval(() => {
       if (!this.auth.isAuthenticated()) {
         clearInterval(intervalId);
-        this.ws.unsubscribe();
+        this.ws.disconnect();
         this.checkIfAuthenticated();
       }
     }, 750);
@@ -80,35 +98,66 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   private getCredentials() {
     this.userService.getMyself().subscribe(user => {
       this.myself = user;
-      this.initializeNotificationConnection();
+      this.xpPrev = user.xpTillNext;
+      this.levelPrev = user.level;
+      this.initializeConnections();
     });
   }
 
   /**
    * Shows _notifications to the screen if any are pushed by the web socket.
    */
-  private initializeNotificationConnection() {
+  private initializeConnections() {
     this.ws = this.webSocketService.connectUserService();
     this.ws.connect({}, (frame) => {
+      // Level socket
+      this.ws.subscribe('/user/receive-myself/' + this.myself.id, (message) => {
+        if (message) {
+          const user: User = JSON.parse(message.body) as User;
+          this.changeLevelParameters(user);
+        }
+      });
+
+      // Notification socket
       this.ws.subscribe('/user/receive-notification/' + this.myself.id, (message) => {
         if (message) {
           const not: Notification = JSON.parse(message.body) as Notification;
           this.userService.readNotification(not.id).subscribe();
           this.showNotification(not);
+
           this.newNotification = not;
         }
       });
     });
   }
 
+  private changeLevelParameters(user: User) {
+    this.myself.chips = user.chips;
+    this.myself.xpTillNext = user.xpTillNext;
+    this.myself.thresholdTillNextLevel = user.thresholdTillNextLevel;
+    this.myself.level = user.level;
+
+    if (this.levelPrev !== user.level) {
+      this.xpLabel = 'LEVEL UP!';
+    } else {
+      this.xpLabel = '+ ' + (user.xpTillNext - this.xpPrev) + 'xp';
+    }
+    this.levelPrev = user.level;
+
+    if (user.xpTillNext - this.xpPrev !== 0) {
+
+      this.xpPrev = user.xpTillNext;
+      this.showXp = true;
+      setTimeout(() => this.showXp = false, 3000);
+    }
+  }
+
   private showNotification(not: Notification) {
-    console.log(not);
+
     let type;
     if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
-      console.log('YES');
       type = 'error';
     } else if (not.type === NotificationType.ADD_PRIVATE_ROOM) {
-      console.log('YES');
       type = 'success';
     } else {
       type = 'default';
@@ -118,7 +167,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   hasAuthentication(): boolean {
-    return this.auth.isAuthenticated();
+    return this.auth.isAuthenticated() && !this.auth.isAdmin();
+  }
+
+  isNormalUser(): boolean {
+    return !this.auth.isAdmin();
   }
 
   /**

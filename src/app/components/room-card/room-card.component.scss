@@ -17,8 +17,16 @@
       transform: scale(1.25);
     }
   }
-}
 
+  .lock {
+    z-index: 1;
+    position: absolute;
+    height: 75px;
+    width: 75px;
+    top: 60px;
+    left: 158px;
+  }
+}
 
 .room {
   display: flex;
@@ -44,15 +52,19 @@
   }
 
   .name {
-    top: 25px;
     align-self: center;
     font-size: 1.5rem;
     font-weight: bold;
   }
 
   .price {
-    top: 60px;
     align-self: center;
+  }
+
+  .levels {
+    top: 75px;
+    align-self: center;
+    font-size: 0.8rem;
   }
 
   img {
@@ -62,38 +74,38 @@
   }
 
   .blinds {
-    top: 95px;
+    top: 100px;
     left: 70px;
     font-size: 1.2rem;
     font-weight: bold;
   }
 
   .blind-img {
-    top: 125px;
+    top: 130px;
     left: 70px;
   }
 
   .timer {
-    top: 95px;
+    top: 100px;
     left: 150px;
     font-size: 1.2rem;
     font-weight: bold;
   }
 
   .timer-img {
-    top: 125px;
+    top: 130px;
     left: 150px;
   }
 
   .capacity {
-    top: 95px;
+    top: 100px;
     right: 70px;
     font-size: 1.2rem;
     font-weight: bold;
   }
 
   .cap-img {
-    top: 125px;
+    top: 130px;
     right: 70px;
   }
 }

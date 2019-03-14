@@ -1,8 +1,8 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {PrivateRoom} from '../../model/privateRoom';
 import {Room} from '../../model/room';
-import {GameRules} from '../../model/gamerules';
+import {User} from '../../model/user';
 
 @Component({
   selector: 'app-room-card',
@@ -20,9 +20,11 @@ import {GameRules} from '../../model/gamerules';
 })
 export class RoomCardComponent {
   @Input() room = Room.create();
+  @Input() me = User.create();
   @Input() inSettingMode;
   @Input() isAdmin;
   @Input() dataLoaded;
+  @Input() isPrivate;
 
   @Output() modalEvent: EventEmitter<Boolean> = new EventEmitter();
   @Output() roomEvent: EventEmitter<PrivateRoom> = new EventEmitter();
@@ -35,7 +37,7 @@ export class RoomCardComponent {
   determineSecondClass() {
     if (this.inSettingMode) {
       return 'enabled-settings';
-    } else if (this.isFull()) {
+    } else if ((this.isFull() || this.me.level < this.room.gameRules.minLevel) && !this.isAdmin) {
       return 'disabled';
     } else {
       return 'enabled';

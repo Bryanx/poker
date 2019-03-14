@@ -7,11 +7,13 @@
                  [inSettingMode]="inSettingMode"
                  [isAdmin]="isAdmin()"
                  [dataLoaded]="dataLoaded"
+                 [isPrivate]="isPrivate"
+                 [me]="myself"
                  (modalEvent)="showFriendModal = $event"
                  (roomEvent)="loadCorrespondingData($event)"
   ></app-room-card>
 </section>
-<h2 *ngIf="rooms.length <= 0 && !public" class="no-rooms">You have no rooms bro, add some!</h2>
+<h2 *ngIf="rooms.length <= 0 && !public" class="no-rooms">{{'NO ROOMS' | translate | titlecase}}</h2>
 
 <section class="nav">
   <button *ngIf="!inSettingMode" routerLink="/" class="nav-button">{{'BACK' | translate | titlecase}}</button>
@@ -28,9 +30,9 @@
 </section>
 
 <section [@simpleFadeAnimation]="'in'" class="friend-modal" *ngIf="showFriendModal">
-  <h1>ADD FRIENDS</h1>
+  <h1>{{'ADD FRIENDS' | translate | uppercase}}</h1>
 
-  <h2>Whitelisted users</h2>
+  <h2>{{'WHITE FRIENDS' | translate | titlecase}}</h2>
   <section class="user-list">
     <div class="user-row" *ngFor="let user of whiteListedUsers">
       {{user.username}}
@@ -39,14 +41,14 @@
     </div>
   </section>
 
-  <h2 *ngIf="nonWhiteListedUsers.length > 0">Non-whitelisted users</h2>
+  <h2 *ngIf="nonWhiteListedUsers.length > 0">{{'NON WHITE FRIENDS' | translate | titlecase}}</h2>
   <section class="user-list">
     <div class="user-row" *ngFor="let user of nonWhiteListedUsers">
       {{user.username}}
       <div (click)="addToWhiteList(user)" class="add-user"><fa name="plus"></fa></div>
     </div>
   </section>
-  <button (click)="showFriendModal = false" class="done">DONE</button>
+  <button (click)="showFriendModal = false" class="done">{{'DONE' | translate | titlecase}}</button>
 </section>
 
 

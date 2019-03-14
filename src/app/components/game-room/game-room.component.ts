@@ -15,6 +15,8 @@ import {UserService} from '../../services/user.service';
 import {Location} from '@angular/common';
 import {WebSocketService} from '../../services/web-socket.service';
 import {HomeVisibleService} from '../../services/home-visible.service';
+import {forkJoin} from 'rxjs';
+import {User} from '../../model/user';
 import {Phase} from '../../model/phase';
 import {PlayerComponent} from '../player/player.component';
 
@@ -44,8 +46,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.homeObservable.emitNewState(true);
     const roomId = this.curRouter.snapshot.paramMap.get('id') as unknown;
-
-    this.getRoom(roomId as number);
+    this.getData(roomId as number);
 
     this.joinRoomInterval = setInterval(() => {
       if (this.room.gameRules.id !== 0) {
@@ -114,18 +115,21 @@ export class GameRoomComponent implements OnInit, OnDestroy {
           const winningPlayer = JSON.parse(message.body) as Player;
           if (winningPlayer.userId === this.player.userId) {
             this.player = winningPlayer;
-            this.chatChild.addMessage('You win, my bro');
-            this.chatChild.addMessage('You had ' + this.player.handType);
+            this.userService.addXp(100).subscribe();
           } else {
             this.roomService.getPlayer().subscribe((player: Player) => {
               this.player = player;
-              this.chatChild.addMessage('You lose, my bro');
-              this.chatChild.addMessage('You had ' + this.player.handType);
             });
+            this.userService.addXp(20).subscribe();
           }
+          this.chatChild.addMessage('You had ' + this.player.handType);
         }
       });
     });
+  }
+
+  goBack() {
+    return this.location.back();
   }
 
   /**
@@ -143,13 +147,19 @@ export class GameRoomComponent implements OnInit, OnDestroy {
     });
   }
 
+  getData(id: number): void {
+    const getRoom = this.roomService.getRoom(id);
+    const getMyself = this.userService.getMyself();
 
-  getRoom(id: number): void {
-    this.roomService.getRoom(id).subscribe(room => {
-      this.room = room as Room;
-
+    forkJoin(getRoom, getMyself).subscribe(bundle => {
+      this.room = bundle[0] as Room;
       if (this.room.playersInRoom.length >= this.room.gameRules.maxPlayerCount) {
         this.navigateBack();
+      }
+
+      const me = bundle[1] as User;
+      if (me.level > this.room.gameRules.maxLevel || me.level < this.room.gameRules.minLevel) {
+        this.location.back();
       }
     });
   }

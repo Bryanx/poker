@@ -3,6 +3,7 @@ import {NotifierService} from 'angular-notifier';
 import {UserService} from '../../services/user.service';
 import {Notification} from '../../model/notification';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {NotificationType} from '../../model/notificationType';
 
 @Component({
   selector: 'app-notification',
@@ -42,6 +43,16 @@ export class NotificationComponent implements OnInit {
 
   private getAllNotifications() {
     this.userService.getNotifications().subscribe(nots => this._notifications = nots.reverse());
+  }
+
+  determineIcon(type: NotificationType) {
+    if (type === NotificationType.FRIEND_REQUEST) {
+      return '../../../assets/img/icons/friend_request_icon.svg';
+    } else if (type === NotificationType.GLOBAL_MESSAGE) {
+      return '../../../assets/img/icons/public_announcement.svg';
+    } else {
+      return '../../../assets/img/icons/game_request.svg';
+    }
   }
 
   formatTime(dateTime: string) {

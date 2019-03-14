@@ -1,0 +1,98 @@
+@import "../../../styles";
+@include custom_button
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.message-bar {
+  display: flex;
+  align-items: flex-end;
+  width: 70%;
+  margin: 0 20px 20px;
+
+  .message-button {
+    height: 50px;
+    margin-left: 15px;
+
+    background-color: #44e2a8;
+    border-radius: 1rem;
+    min-width: auto;
+    position: relative;
+
+    &:hover {
+      background-color: #40c690;
+    }
+
+    &:active {
+      background-color: #3fb47f;
+      top: 0;
+    }
+  }
+
+  input {
+    height: 50px;
+    display: block;
+    width: 100%;
+    font-size: large;
+    padding: 15px;
+    border-radius: 1rem;
+    border: none;
+  }
+}
+
+h2 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.message-section {
+  width: 70%;
+  height: 55vh;
+  overflow: auto;
+
+  .message-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    color: white;
+    background: darken($background-color, 2%);
+    font-size: 1.5rem;
+    border-radius: .5rem;
+    margin-bottom: .5rem;
+    cursor: pointer;
+
+    .delete-message {
+      z-index: 5;
+      @extend button;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: $red;
+      position: relative;
+      margin: 0;
+      min-width: 0;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      &:hover {
+        background-color: darken($red, 10%);
+      }
+      fa {
+        display: block;
+        transform: rotate(45deg);
+      }
+    }
+
+    &:hover {
+      background: darken($background-color, 3%);
+    }
+  }
+}

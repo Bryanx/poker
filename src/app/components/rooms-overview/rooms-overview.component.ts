@@ -37,6 +37,7 @@ export class RoomsOverviewComponent implements OnInit {
   nonWhiteListedUsers: User[];
   curRoom: PrivateRoom;
   dataLoaded: Boolean;
+  isPrivate: Boolean = false;
 
   constructor(private roomService: RoomService,
               private userService: UserService,
@@ -45,21 +46,26 @@ export class RoomsOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getMyself();
     const url: string = this.router.url;
+
     if (url.includes('private')) {
       if (url.includes('settings')) {
         this.roomService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
         this.getUsers();
-        this.getMyself();
         this.inSettingMode = true;
+        this.isPrivate = true;
       } else {
         this.roomService.getPrivateRooms().subscribe(rooms => this.rooms = rooms);
+        this.isPrivate = true;
       }
     } else {
       this.public = true;
       this.roomService.getRooms().subscribe(rooms => this.rooms = rooms);
     }
   }
+
+
 
   isAdmin() {
     return this.authService.isAdmin();
@@ -71,7 +77,8 @@ export class RoomsOverviewComponent implements OnInit {
     }
 
     this.whiteListedUsers = this.users.filter(user => this.isInWhiteList(user.id, this.curRoom.whiteListedUsers));
-    this.nonWhiteListedUsers = this.users.filter(user => !this.isInWhiteList(user.id, this.curRoom.whiteListedUsers));
+    this.nonWhiteListedUsers = this.users.filter(user => !this.isInWhiteList(user.id, this.curRoom.whiteListedUsers))
+      .filter(user => this.myself.friends.filter(friend => friend.userId === user.id).length === 1);
   }
 
   addToWhiteList(user: User) {

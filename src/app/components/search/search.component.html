@@ -16,10 +16,10 @@
       </div>
       <span class="username-span" routerLink="/user/{{user.id}}">{{user.username}}</span>
     <button *ngIf="checkShowButton(user) && !isAdmin()" (click)="addFriend(user.id); stop($event)">Befriend bro</button>
-    <button [class]="user.enabled == 1 ? 'admin-button-red' : ''" *ngIf="isAdmin()" (click)="adminDisable(user)">
+    <button [class]="user.enabled == 1 ? 'admin-button-red' : ''" *ngIf="isAdmin()" (click)="adminDisable(user); stop($event)">
       {{user.enabled == 1 ? 'Disable' : 'Enable'}}
     </button>
-    <button *ngIf="isAdmin()" (click)="makeAdmin(user)">Admin</button>
+    <button *ngIf="isAdmin()" (click)="makeAdmin(user); stop($event)">Admin</button>
   </div>
 </section>
 <h2 class="nothing-found" *ngIf="inputString && users.length <= 0">No bros :(</h2>

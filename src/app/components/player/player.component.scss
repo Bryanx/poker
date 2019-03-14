@@ -1,4 +1,5 @@
 @import "../../../styles";
+
 @include custom_button
 
 .avatar {
@@ -35,7 +36,6 @@ img {
   border: 2px solid antiquewhite;
 }
 
-
 .action {
   padding-bottom: 0.5rem;
   letter-spacing: 1.2px;
@@ -57,16 +57,5 @@ img {
 .cards {
   display: inline-flex;
   justify-content: center;
-}
-
-app-card {
-
-  // This is for the cards from the user
-  div {
-    background-color: antiquewhite;
-    top: -1.5rem;
-    height: 8vh !important;
-    width: 5vh !important;
-  }
 }
 

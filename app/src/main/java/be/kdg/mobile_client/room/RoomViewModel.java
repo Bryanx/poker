@@ -205,7 +205,7 @@ public class RoomViewModel extends ViewModel {
      * Called when turn timer is finished
      */
     public void onTimerFinished(Player finishedPlayer) {
-        if (finishedPlayer.equals(player.getValue())) {
+        if (player.getValue() != null && finishedPlayer.equals(player.getValue())) {
             onAct(ActType.FOLD);
         }
     }

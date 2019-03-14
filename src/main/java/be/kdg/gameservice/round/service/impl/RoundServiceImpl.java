@@ -143,17 +143,9 @@ public class RoundServiceImpl implements RoundService {
             }
         }
 
-        for (int i = 0; i < round.getActs().size(); i++) {
-            if (round.getActs().get(i).getPhase() == currentPhase) {
-                if (round.getActs().get(i).getType() == ActType.BET || round.getActs().get(i).getType() == ActType.RAISE) {
-                    lastAct = i;
-                }
-            }
-        }
-
         if (lastAct != -1) {
             List<Act> lastActs = round.getActs().subList(lastAct, round.getActs().size());
-            if (lastActs.stream().filter(a -> a.getType() == ActType.CALL).toArray().length == round.getActivePlayers().size() - 1) {
+            if (lastActs.stream().filter(a -> a.getType() == ActType.CALL).count() == round.getActivePlayers().size() - 1) {
                 round.nextPhase();
             }
         }

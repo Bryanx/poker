@@ -1,6 +1,7 @@
 package be.kdg.mobile_client;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -43,7 +44,7 @@ public class MenuActivity extends BaseActivity {
     @BindView(R.id.ivLogo) ImageView ivLogo;
     @BindView(R.id.ivBell) ImageView ivBell;
     @BindView(R.id.ivCoins) ImageView ivCoins;
-    @BindView(R.id.ivSettings) ImageView ivSettings;
+    @BindView(R.id.ivSettings) View ivSettings;
     @BindView(R.id.progressBarLevel) ProgressBar progressBarLevel;
 
     @Inject SharedPrefService sharedPrefService;
@@ -103,7 +104,6 @@ public class MenuActivity extends BaseActivity {
         placeImage(R.drawable.logo_white, ivLogo, 700, 400);
         placeImage(R.drawable.bell, ivBell, 35, 35);
         placeImage(R.drawable.coins, ivCoins, 35, 35);
-        placeImage(R.drawable.settings, ivSettings, 35, 35);
     }
 
     /**
@@ -128,7 +128,9 @@ public class MenuActivity extends BaseActivity {
         ivSettings.setOnClickListener(e -> navigateTo(UserSettingsActivity.class));
         btnSettings.setOnClickListener(e -> navigateTo(UserActivity.class, "USER_ID", ""));
         btnLogout.setOnClickListener(e -> {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(myself.getId());
+            if (myself != null ) {
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(myself.getId());
+            }
             sharedPrefService.saveToken(this, null); // remove token
             navigateTo(MainActivity.class);
         });

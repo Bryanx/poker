@@ -1,16 +1,12 @@
 package be.kdg.mobile_client.room;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,10 +17,8 @@ import be.kdg.mobile_client.chat.ChatFragment;
 import be.kdg.mobile_client.chat.ChatService;
 import be.kdg.mobile_client.chat.ChatViewModel;
 import be.kdg.mobile_client.databinding.ActivityRoomBinding;
-import be.kdg.mobile_client.room.model.ActType;
+import be.kdg.mobile_client.room.overview.RoomsOverviewActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Main activity of an individual room.
@@ -78,6 +72,10 @@ public class RoomActivity extends BaseActivity {
                 newTransaction().hide(chatFragment).commit();
             }
         });
+        binding.toolBarLeft.btnLeave.setOnClickListener(e -> {
+            exit();
+            navigateTo(RoomsOverviewActivity.class,"type", "PUBLIC");
+        });
         viewModel.getToast().observe(this, message -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());
     }
 
@@ -97,15 +95,18 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        chatFragment.leaveChat();
-        viewModel.leaveRoom();
+        exit();
         super.onDestroy();
     }
 
     @Override
     protected void onStop() {
+        exit();
+        super.onStop();
+    }
+
+    private void exit() {
         chatFragment.leaveChat();
         viewModel.leaveRoom();
-        super.onStop();
     }
 }

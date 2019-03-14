@@ -1,6 +1,7 @@
 package be.kdg.mobile_client.room;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.inject.Inject;
 
@@ -89,19 +90,22 @@ public class RoomViewModel extends ViewModel {
             if (roomPlayer.equals(player.getValue())) {
                 player.postValue(roomPlayer); // update self
             }
-            if (oldPlayers == null) {
-                compositeDisposable.add(userRepo.getUser(roomPlayer.getUserId()).subscribe(nextUser -> {
-                    roomPlayer.setUsername(nextUser.getUsername());
-                    room.postValue(tempRoom);
-                }, this::notifyUser));
-            } else {
-                oldPlayers.stream()
-                        .filter(roomPlayer::equals)
-                        .findFirst()
-                        .ifPresent(oldPlayer -> roomPlayer.setUsername(oldPlayer.getUsername()));
+            if (oldPlayers != null) {
+                Optional<Player> oldPlayer = oldPlayers.stream().filter(roomPlayer::equals).findFirst();
+                if (oldPlayer.isPresent()) roomPlayer.setUsername(oldPlayer.get().getUsername());
+                else updateUsername(tempRoom, roomPlayer);
                 room.postValue(tempRoom);
+            } else {
+                updateUsername(tempRoom, roomPlayer);
             }
         }
+    }
+
+    private void updateUsername(Room tempRoom, Player roomPlayer) {
+        compositeDisposable.add(userRepo.getUser(roomPlayer.getUserId()).subscribe(nextUser -> {
+            roomPlayer.setUsername(nextUser.getUsername());
+            room.postValue(tempRoom);
+        }, this::notifyUser));
     }
 
     private void onNewAct(Act act) {
@@ -205,7 +209,7 @@ public class RoomViewModel extends ViewModel {
      * Called when turn timer is finished
      */
     public void onTimerFinished(Player finishedPlayer) {
-        if (player.getValue() != null && finishedPlayer.equals(player.getValue())) {
+        if (player.getValue() != null && finishedPlayer != null && finishedPlayer.equals(player.getValue())) {
             onAct(ActType.FOLD);
         }
     }
@@ -218,6 +222,7 @@ public class RoomViewModel extends ViewModel {
     }
 
     void leaveRoom() {
+        if (room.getValue() == null) return;
         compositeDisposable.add(roomRepo.leaveRoom(room.getValue().getId())
                 .subscribe(e -> compositeDisposable.dispose(), this::notifyUser));
         roundRepo.disconnectWebsocket();

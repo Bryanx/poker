@@ -112,10 +112,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <View
         android:id="@+id/ivSettings"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:background="@drawable/settings"
         android:layout_marginEnd="12dp"
         android:contentDescription="@string/default_desc"
         android:layout_marginBottom="12dp"

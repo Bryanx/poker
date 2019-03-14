@@ -53,7 +53,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param destination activity
      */
-    protected void navigateTo(Class<?> destination) {
+    protected void navigateTo(Class<? extends AppCompatActivity> destination) {
         Intent intent = new Intent(this, destination);
         this.startActivity(intent);
     }
@@ -63,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      *
      * @param destination activity
      */
-    protected void navigateTo(Class<?> destination, String extraTag, String extra) {
+    protected void navigateTo(Class<? extends AppCompatActivity> destination, String extraTag, String extra) {
         Intent intent = new Intent(this, destination);
         intent.putExtra(extraTag, extra);
         this.startActivity(intent);

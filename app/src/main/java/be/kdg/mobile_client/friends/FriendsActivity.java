@@ -60,9 +60,6 @@ public class FriendsActivity extends BaseActivity {
     private void addEventListners() {
         btnSearch.setOnClickListener(e -> navigateTo(UserSearchActivity.class));
         btnBack.setOnClickListener(e -> navigateTo(MenuActivity.class));
-        viewModel.getMessage().observe(this, message -> {
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        });
     }
 
     /**
@@ -85,6 +82,7 @@ public class FriendsActivity extends BaseActivity {
         List<User> friends = new ArrayList<>();
         for (User user : users) {
             Optional<Friend> friendOpt = myself.getFriends().stream()
+                    .filter(friend -> friend.getUserId() != null)
                     .filter(friend -> friend.getUserId().equals(user.getId()))
                     .findAny();
             if (friendOpt.isPresent()) friends.add(user);

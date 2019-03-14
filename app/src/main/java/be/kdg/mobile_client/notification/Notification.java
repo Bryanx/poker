@@ -4,12 +4,11 @@ import lombok.Data;
 import lombok.Setter;
 
 @Data
-class Notification {
+public class Notification {
     private int id;
     private String message;
     private NotificationType type;
     private String timestamp;
-
     private boolean read;
     private String ref;
 }

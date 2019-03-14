@@ -224,6 +224,9 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   setTimer() {
     if (this.myTurn) {
       this.counter = this.room.gameRules.playDelay;
+      if (this.timerInterval !== undefined) {
+        clearInterval(this.timerInterval);
+      }
       this.timerInterval = setInterval(() => {
         if (this.counter > 0) {
           this.counter -= 1;

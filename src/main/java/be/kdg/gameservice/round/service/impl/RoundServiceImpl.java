@@ -99,7 +99,6 @@ public class RoundServiceImpl implements RoundService {
         Player player = this.firstPlayer(round);
         this.saveAct(round.getId(), player.getUserId(), ActType.BET, Phase.PRE_FLOP, smallBlind, false);
         this.saveAct(round.getId(), this.determineNextUserId(round.getId(), player.getUserId()), ActType.RAISE, Phase.PRE_FLOP, bigBlind, false);
-
     }
 
     /**

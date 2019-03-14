@@ -42,6 +42,7 @@ public class NotificationApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/user/notifications")
     public ResponseEntity<NotificationDTO[]> getNotifications(OAuth2Authentication authentication) {
+        logIncomingCall("getNotifications");
         List<Notification> notifications = notificationService.getNotificationsForUser(getUserId(authentication));
         NotificationDTO[] notificationsOut = modelMapper.map(notifications, NotificationDTO[].class);
         return new ResponseEntity<>(notificationsOut, HttpStatus.OK);
@@ -56,6 +57,7 @@ public class NotificationApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/user/notifications/un-read")
     public ResponseEntity<NotificationDTO[]> getUnreadNotifications(OAuth2Authentication authentication) {
+        logIncomingCall("getUnreadNotifications");
         List<Notification> notifications = notificationService.getUnreadNotificationsForUser(getUserId(authentication));
         NotificationDTO[] notificationsOut = modelMapper.map(notifications, NotificationDTO[].class);
         return new ResponseEntity<>(notificationsOut, HttpStatus.OK);
@@ -70,6 +72,7 @@ public class NotificationApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/user/{receiverId}/send-notification")
     public void sendNotification(@PathVariable String receiverId, @RequestBody @Valid NotificationDTO notificationDTO, OAuth2Authentication authentication) throws UserException {
+        logIncomingCall("sendNotification");
         Notification notificationIn = notificationService.addNotification(
                 getUserId(authentication), receiverId, notificationDTO.getMessage(),
                 notificationDTO.getType(), notificationDTO.getRef());
@@ -87,6 +90,8 @@ public class NotificationApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/user/notifications/public")
     public ResponseEntity<NotificationDTO> sendPublicNotification(@RequestBody @Valid NotificationDTO notificationDTO, OAuth2Authentication authentication) {
+        logIncomingCall("sendPublicNotification");
+
         //Send to users.
         userService.getUsers("ROLE_USER").forEach(user -> {
             Notification notification = notificationService.addNotification(getUserId(authentication), user.getId(), notificationDTO.getMessage(),
@@ -120,6 +125,7 @@ public class NotificationApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PatchMapping("/user/notifications/{notificationId}/read-notification")
     public ResponseEntity<NotificationDTO> readNotification(@PathVariable int notificationId) throws NotificationException {
+        logIncomingCall("sendPublicNotification");
         Notification notification = notificationService.readNotification(notificationId);
         NotificationDTO notificationOut = modelMapper.map(notification, NotificationDTO.class);
         return new ResponseEntity<>(notificationOut, HttpStatus.ACCEPTED);
@@ -135,6 +141,7 @@ public class NotificationApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @DeleteMapping("/user/notification/{notificationId}")
     public synchronized ResponseEntity<Void> deleteNotification(@PathVariable int notificationId, OAuth2Authentication authentication) throws NotificationException, UserException {
+        logIncomingCall("sendPublicNotification");
         String userId = getUserId(authentication);
         notificationService.deleteNotification(userId, notificationId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
@@ -150,6 +157,7 @@ public class NotificationApiController extends BaseController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/user/notification")
     public  ResponseEntity<Void> deleteNotifications(OAuth2Authentication authentication) throws UserException {
+        logIncomingCall("sendPublicNotification");
         String userId = getUserId(authentication);
         notificationService.deleteAllNotifications(userId);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);

@@ -107,7 +107,7 @@ public class RoundApiController {
 
     private void sendWinMessages(OAuth2Authentication authentication, Player winner, ActDTO actDTO) {
         String token = userApiGateway.getTokenFromAuthentication(authentication);
-        UserDTO user = userApiGateway.getUser(token, actDTO.getUserId());
+        UserDTO user = userApiGateway.getUser(token, winner.getUserId());
         String username = user.getUsername();
         String winnerString = String.format("Winner is: %s with %s", username, winner.getHandType().name());
         MessageDTO winnerMsg = new MessageDTO("system", winnerString);

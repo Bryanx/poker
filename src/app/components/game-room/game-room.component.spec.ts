@@ -13,6 +13,7 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from '../../notifierOptions';
 import {TranslatePipe} from '../../translate.pipe';
+import {NgCircleProgressModule} from 'ng-circle-progress';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -29,13 +30,27 @@ describe('GameRoomComponent', () => {
         CardComponent,
         MatSlider,
         MatProgressBar,
-        TranslatePipe
+        TranslatePipe,
       ],
       imports: [
         FormsModule,
         HttpClientTestingModule,
         RouterTestingModule,
-        NotifierModule.withConfig(customNotifierOptions)
+        NotifierModule.withConfig(customNotifierOptions),
+        NgCircleProgressModule.forRoot({
+          radius: 100,
+          outerStrokeWidth: 16,
+          innerStrokeWidth: 8,
+          outerStrokeColor: '#4577c0',
+          innerStrokeColor: '#3d8ee5',
+          animation: false,
+          responsive: true,
+          showTitle: true,
+          titleFontSize: '60',
+          showSubtitle: false,
+          showUnits: false,
+          titleColor: 'white'
+        })
       ],
       providers: []
     })

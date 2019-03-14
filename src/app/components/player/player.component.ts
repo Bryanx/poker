@@ -7,6 +7,8 @@ import {ActType} from '../../model/actType';
 import {Act} from '../../model/act';
 import {Phase} from '../../model/phase';
 import {GameRules} from '../../model/gamerules';
+import {AuthorizationService} from '../../services/authorization.service';
+import {Round} from '../../model/round';
 
 @Component({
   selector: 'app-player',
@@ -15,13 +17,15 @@ import {GameRules} from '../../model/gamerules';
 })
 export class PlayerComponent implements OnInit {
   @Input() player: Player = Player.create();
+  @Input() round: Round = Round.create();
   usePicture: Boolean = false;
   user: User = User.create();
   _currentAct: ActType;
   currentActStyle: string;
   @Input() gameRules: GameRules;
 
-  constructor(private userService: UserService, private sanitizer: DomSanitizer, private cdRef: ChangeDetectorRef) {
+  constructor(private userService: UserService, private sanitizer: DomSanitizer, private cdRef: ChangeDetectorRef,
+     private authorizationService: AuthorizationService) {
   }
 
   ngOnInit() {
@@ -55,5 +59,9 @@ export class PlayerComponent implements OnInit {
         }
       }
     }
+  }
+
+  whoAmI() {
+    return this.authorizationService.getUserId() === this.user.id;
   }
 }

@@ -1,4 +1,5 @@
 @import "../../../styles";
+
 @include custom_button
 
 :host {
@@ -54,9 +55,9 @@
     height: 3rem;
     border-radius: 0;
     font-size: 1rem;
-    min-width: 0;
     padding: 0;
     width: 9rem;
+    min-width: 4rem;
   }
 
   input {

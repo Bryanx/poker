@@ -64,4 +64,8 @@ export class PlayerComponent implements OnInit {
   whoAmI() {
     return this.authorizationService.getUserId() === this.user.id;
   }
+
+  showDown() {
+    return this.round.currentPhase === Phase.Showdown;
+  }
 }

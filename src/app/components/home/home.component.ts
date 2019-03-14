@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
    this.homeObservable.emitNewState(true);
-    this.homeObservable.emitHome(true);
+   this.homeObservable.emitHome(true);
    this.getMyself();
   }
 

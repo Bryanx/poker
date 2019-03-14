@@ -6,6 +6,28 @@
   min-height: 100%;
 }
 
+.vis {
+  margin-left: 0;
+  transition: margin-left .5s;
+}
+
+.un-vis {
+  margin-left: -125%;
+  transition: margin-left .5s;
+}
+
+.hide-button {
+  position: absolute;
+  bottom: 3rem;
+  left: 10rem;
+}
+
+.show-button {
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+}
+
 .chat-content {
   position: absolute;
   bottom: 3rem;
@@ -89,4 +111,50 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: $green;
+}
+
+//---------------------------------- ARROW ----------------------------------
+
+.arrow-right {
+  width: 3rem;
+  height: 3rem;
+  background: $background-color-2;
+  position: relative;
+  bottom: 6.4rem;
+  left: 0;
+}
+
+.arrow-right.active {
+  background: $background-color-2;
+}
+
+.arrow-right:before, .arrow-right:after {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 5px;
+  background: white;
+  position: absolute;
+  right: 15px;
+  transition: transform .5s;
+}
+
+.arrow-right:before {
+  top: 18px;
+  border-radius: 10px;
+  transform: rotate(135deg);
+}
+
+.arrow-right:after {
+  top: 29px;
+  border-radius: 10px;
+  transform: rotate(-135deg);
+}
+
+.arrow-right.active:before {
+  transform: rotate(225deg);
+}
+
+.arrow-right.active:after {
+  transform: rotate(-225deg);
 }

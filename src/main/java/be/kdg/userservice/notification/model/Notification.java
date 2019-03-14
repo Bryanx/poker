@@ -7,6 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Simple pojo class that hold the a notification
+ */
 @NoArgsConstructor
 @Getter
 @Entity

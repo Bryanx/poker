@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Component
 @RequiredArgsConstructor
-class FirebaseApiGateway {
+final class FirebaseApiGateway {
     private static final Logger LOGGER = LoggerFactory.getLogger(FirebaseApiGateway.class);
     private final RestTemplate restTemplate;
     private final WebConfig webConfig;

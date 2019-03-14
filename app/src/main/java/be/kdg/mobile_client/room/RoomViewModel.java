@@ -1,9 +1,6 @@
 package be.kdg.mobile_client.room;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -37,7 +34,6 @@ public class RoomViewModel extends ViewModel {
     @Getter MutableLiveData<Round> round = new MutableLiveData<>();
     @Getter MutableLiveData<Player> player = new MutableLiveData<>();
     @Getter MutableLiveData<String> toast = new MutableLiveData<>();
-    @Getter MutableLiveData<Boolean> myTurn = new MutableLiveData<>();
     @Getter MutableLiveData<List<ActType>> possibleActs = new MutableLiveData<>();
     @Getter @Setter MutableLiveData<Integer> seekBarValue = new MutableLiveData<>();
     @Getter ObservableBoolean loading = new ObservableBoolean(true);
@@ -62,16 +58,11 @@ public class RoomViewModel extends ViewModel {
                     roomRepo.listenOnRoomUpdate(roomId).subscribe(newRoom -> {
                         room.postValue(newRoom);
                         if (room.getValue().getPlayersInRoom().size() < 2) { // alone in room
-                            updateRoomPlayers(newRoom.getPlayersInRoom());
+                            updateRoomPlayers(null, newRoom.getPlayersInRoom());
                         }
                     }, this::notifyUser);
-                    roundRepo.listenOnRoundUpdate(roomId).subscribe(newRound -> {
-                        round.postValue(newRound);
-                        updateRoomPlayers(newRound.getPlayersInRound());
-                        checkTurns(newRound);
-                        if (newRound.isFinished()) acts.clear();
-                    }, this::notifyUser);
-                    //TODO: initializeWinnerConnection();
+                    roundRepo.listenOnRoundUpdate(roomId).subscribe(this::updateRound, this::notifyUser);
+                    roomRepo.listenForWinner(roomId).subscribe(resp -> acts.clear(), this::notifyUser);
                     roomRepo.joinRoom(roomId).subscribe(value -> {
                         loading.set(false);
                         player.postValue(value);
@@ -80,23 +71,34 @@ public class RoomViewModel extends ViewModel {
                 }, this::notifyUser));
     }
 
+    private void updateRound(Round newRound) {
+        Round oldRound = round.getValue();
+        round.postValue(newRound);
+        updateRoomPlayers(oldRound == null ? null : oldRound.getPlayersInRound(), newRound.getPlayersInRound());
+        checkTurns(newRound);
+    }
+
     /**
      * Updates all players in the room with the new round.
      * The new round may contain new players.
      */
-    private synchronized void updateRoomPlayers(List<Player> players) {
+    private synchronized void updateRoomPlayers(List<Player> oldPlayers, List<Player> newPlayers) {
         Room tempRoom = room.getValue();
-        tempRoom.setPlayersInRoom(players);
+        tempRoom.setPlayersInRoom(newPlayers);
         for (Player roomPlayer : tempRoom.getPlayersInRoom()) {
-            if (roomPlayer.getUserId().equals(player.getValue().getUserId())) {
+            if (roomPlayer.equals(player.getValue())) {
                 player.postValue(roomPlayer); // update self
             }
-            if (roomPlayer.getUsername() == null) {
+            if (oldPlayers == null) {
                 compositeDisposable.add(userRepo.getUser(roomPlayer.getUserId()).subscribe(nextUser -> {
                     roomPlayer.setUsername(nextUser.getUsername());
-                    room.postValue(tempRoom); // update room
+                    room.postValue(tempRoom);
                 }, this::notifyUser));
             } else {
+                oldPlayers.stream()
+                        .filter(roomPlayer::equals)
+                        .findFirst()
+                        .ifPresent(oldPlayer -> roomPlayer.setUsername(oldPlayer.getUsername()));
                 room.postValue(tempRoom);
             }
         }
@@ -105,12 +107,6 @@ public class RoomViewModel extends ViewModel {
     private void onNewAct(Act act) {
         lastAct = act;
         acts.add(act);
-    }
-
-    public String getBetByPhase(int index) {
-        if (round.getValue() == null || room.getValue() == null || room.getValue().getPlayersInRoom().size() < index+1) return "0";
-        Player roomPlayer = room.getValue().getPlayersInRoom().get(index);
-        return String.valueOf(getPlayerBet(roomPlayer));
     }
 
     private void updatePossibleActs(int roundId) {
@@ -132,9 +128,8 @@ public class RoomViewModel extends ViewModel {
         Room tempRoom = room.getValue();
         tempRoom.getPlayersInRoom().forEach(roomPlayer -> {
             roomPlayer.setMyTurn(roomPlayer.getUserId().equals(userIdTurn));
-            if (player.getValue().getUserId().equals(roomPlayer.getUserId())) {
+            if (roomPlayer.equals(player.getValue())) {
                 player.postValue(roomPlayer);
-                myTurn.postValue(roomPlayer.isMyTurn());
                 if (roomPlayer.isMyTurn()) updatePossibleActs(newRound.getId());
             }
         });
@@ -155,9 +150,10 @@ public class RoomViewModel extends ViewModel {
      * This method is called when the user clicks on an act
      */
     public synchronized void onAct(ActType actType) {
-        if (!myTurn.getValue()) return;
-        myTurn.setValue(false);
+        if (!player.getValue().isMyTurn()) return;
         Player me = player.getValue();
+        me.setMyTurn(false);
+        player.setValue(me);
         Round rnd = round.getValue();
         int roomId = room.getValue().getId();
         Act act = new Act(rnd.getId(), me.getUserId(), me.getId(), roomId, actType,
@@ -172,12 +168,20 @@ public class RoomViewModel extends ViewModel {
         compositeDisposable.add(roundRepo.addAct(act).subscribe(e -> seekBarValue.setValue(0), this::notifyUser));
     }
 
+    public String getBetByPhase(int index) {
+        if (round.getValue() == null || room.getValue() == null) return "0";
+        Player roomPlayer = getPlayerBySeat(index);
+        if (roomPlayer == null) return "";
+        return String.valueOf(getPlayerBet(roomPlayer));
+    }
+
     private int getPlayerBet(Player player) {
         return acts.getValue()
-            .stream()
-            .filter(a -> a.getPhase() == round.getValue().getCurrentPhase() && a.getUserId().equals(player.getUserId()))
-            .mapToInt(Act::getBet)
-            .sum();
+                .stream()
+                .filter(act -> act.getPhase() == round.getValue().getCurrentPhase())
+                .filter(act -> act.getUserId().equals(player.getUserId()))
+                .mapToInt(Act::getBet)
+                .sum();
     }
 
     public int getLastHighestBet() {
@@ -188,11 +192,20 @@ public class RoomViewModel extends ViewModel {
                 .orElse(0);
     }
 
+    public Player getPlayerBySeat(int seatNr) {
+        final int nr = seatNr + 1;
+        return room.getValue().getPlayersInRoom()
+                .stream()
+                .filter(play -> play.getSeatNumber() == nr)
+                .findFirst()
+                .orElse(null);
+    }
+
     /**
      * Called when turn timer is finished
      */
     public void onTimerFinished(Player finishedPlayer) {
-        if (finishedPlayer.getUserId().equals(player.getValue().getUserId())) {
+        if (player.getValue() != null && finishedPlayer.equals(player.getValue())) {
             onAct(ActType.FOLD);
         }
     }

@@ -46,7 +46,7 @@ public class CircularProgressBar extends ProgressBar {
     private final Paint mTitlePaint = new Paint();
     private final Paint mSubtitlePaint = new Paint();
 
-    private boolean mHasShadow = true;
+    private boolean mHasShadow = false;
     private int mShadowColor = Color.BLACK;
     private ObjectAnimator progressBarAnimator = ObjectAnimator.ofFloat(this, "animateProgress", start, end);
     private int duration = 5000;

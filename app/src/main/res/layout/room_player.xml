@@ -24,30 +24,50 @@
         android:visibility="@{isVisible}">
 
         <TextView
-            android:id="@+id/tvStatusPlayerPrimary"
+            android:id="@+id/tvPlayerStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
+            android:visibility="@{!player.myTurn}"
             android:text="@{player.lastAct.toString()}"
             android:textAlignment="center"
             android:textColor="@color/colorTransparent"
-            app:player_status_color="@{player.lastAct.toString()}"
-            app:layout_constraintBottom_toTopOf="@+id/btnPlayerPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/loadingRing"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:player_status_color="@{player.lastAct.toString()}" />
+
+        <TextView
+            android:id="@+id/tvButtonPlayerPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="9dp"
+            android:background="@drawable/dealer_button"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:text="D"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            android:translationZ="999dp"
+            android:visibility="@{viewmodel.round.button == player.seatNumber}"
+            app:layout_constraintEnd_toEndOf="@+id/loadingRing"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlayerStatus" />
 
         <be.kdg.mobile_client.shared.CircularProgressBar
-            android:id="@+id/btnPlayerPrimary"
+            android:id="@+id/loadingRing"
             style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
             android:layout_width="@dimen/player_button"
             android:layout_height="@dimen/player_button"
+            android:tooltipText="@{player.username}"
             app:cpb_progressColor="@color/colorLighterBackground"
             app:cpb_titleColor="@color/colorWhite"
             app:duration="@{viewmodel.room.gameRules.playDelay}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:onFinished="@{() -> viewmodel.onTimerFinished(player)}"
@@ -56,16 +76,14 @@
             app:title="@{String.valueOf(player.username.charAt(0)).toUpperCase()}" />
 
         <TextView
-            android:id="@+id/tvCashPlayerPrimary"
+            android:id="@+id/tvPlayerCash"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:text="@{player.chipCount}"
             android:textAlignment="center"
             android:textColor="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnPlayerPrimary" />
+            app:layout_constraintTop_toBottomOf="@+id/loadingRing" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

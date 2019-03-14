@@ -21,6 +21,7 @@ import be.kdg.mobile_client.BaseActivity;
 import be.kdg.mobile_client.R;
 import be.kdg.mobile_client.friends.Friend;
 import be.kdg.mobile_client.friends.FriendsActivity;
+import be.kdg.mobile_client.notification.NotificationViewModel;
 import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.user.UserViewModel;
 import be.kdg.mobile_client.user.model.User;
@@ -34,18 +35,19 @@ public class UserSearchActivity extends BaseActivity {
     @BindView(R.id.progressBar) ProgressBar progressBar;
     @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
     @Inject SharedPrefService sharedPrefService;
-    private UserViewModel viewModel;
+    @Inject NotificationViewModel notificationViewModel;
+    private UserViewModel userViewModel;
     private User myself;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         getControllerComponent().inject(this);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usersearch);
         ButterKnife.bind(this);
-        viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
+        userViewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
         addEventHandlers();
-        viewModel.getUser("").observe(this, me -> myself = me);
+        userViewModel.getUser("").observe(this, me -> myself = me);
     }
 
     /**
@@ -75,7 +77,7 @@ public class UserSearchActivity extends BaseActivity {
      */
     private void getUsersByName(String name) {
         progressBar.setVisibility(View.VISIBLE);
-        viewModel.getUsers(name).observe(this, this::initializeAdapter);
+        userViewModel.getUsers(name).observe(this, this::initializeAdapter);
     }
 
     /**
@@ -86,7 +88,7 @@ public class UserSearchActivity extends BaseActivity {
      */
     private void initializeAdapter(List<User> users) {
         progressBar.setVisibility(View.GONE);
-        UserRecyclerAdapter userAdapter = new UserRecyclerAdapter(this, users, myself);
+        UserRecyclerAdapter userAdapter = new UserRecyclerAdapter(this, users, myself, notificationViewModel);
         lvUser.setAdapter(userAdapter);
         lvUser.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -98,6 +100,6 @@ public class UserSearchActivity extends BaseActivity {
      */
     public void addFriend(User friend) {
         myself.addFriend(new Friend(friend.getId()));
-        viewModel.changeUser(myself);
+        userViewModel.changeUser(myself);
     }
 }

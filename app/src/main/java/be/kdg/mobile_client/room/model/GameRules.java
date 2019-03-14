@@ -12,4 +12,6 @@ public class GameRules {
     private int playDelay;
     private int startingChips;
     private int maxPlayerCount;
+    private int minLevel;
+    private int maxLevel;
 }

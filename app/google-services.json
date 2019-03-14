@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "395918979374",
+    "firebase_url": "https://bro-poker.firebaseio.com",
+    "project_id": "bro-poker",
+    "storage_bucket": "bro-poker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395918979374:android:5419296452d092e3",
+        "android_client_info": {
+          "package_name": "be.kdg.mobile_client"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395918979374-hl5v9lmfd9fite583ev5vm5jbvukamqt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "be.kdg.mobile_client",
+            "certificate_hash": "70b3d20898a51acec232bb13daa83377d78754dd"
+          }
+        },
+        {
+          "client_id": "395918979374-ns58djrcjhq7o0m70socrlviohnhv8ho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyxEJYuuFs8P-Gen3VTIUnihZZu68Re0M"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395918979374-ns58djrcjhq7o0m70socrlviohnhv8ho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

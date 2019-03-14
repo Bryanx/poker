@@ -18,7 +18,6 @@ import retrofit2.http.Path;
  * An authentication token is send on each call.
  */
 public interface UserService {
-
     @GET("/api/user/{id}")
     Observable<User> getUser(@Path("id") String id);
 
@@ -33,4 +32,9 @@ public interface UserService {
             "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
     @PATCH("/api/user")
     Observable<Token> changePassword(@Body Credential authDTO);
+
+    @Headers({"Content-Type: application/json;charset=UTF-8",
+            "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
+    @PATCH("/user/level/{xp}")
+    Observable<Token> addXp(@Path("xp") int xp);
 }

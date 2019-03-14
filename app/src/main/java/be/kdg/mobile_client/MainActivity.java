@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.google.firebase.FirebaseApp;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -15,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
-
     @BindView(R.id.ivLogo) ImageView ivLogo;
     @BindView(R.id.btnLogin) Button btnLogin;
     @BindView(R.id.btnSignUp) Button btnSignUp;

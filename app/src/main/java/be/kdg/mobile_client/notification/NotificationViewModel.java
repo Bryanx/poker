@@ -39,6 +39,17 @@ public class NotificationViewModel {
     }
 
     /**
+     * Sends a notification to a specific user.
+     *
+     * @param receiveId The user that needs to receive the notification.
+     * @param notification The notification that needs to be send.
+     */
+    public void sendNotification(String receiveId, Notification notification) {
+        compositeDisposable.add(notificationService.sendNotification(receiveId, notification).subscribe(res -> {},
+                throwable -> handleError(throwable, app.getString(R.string.load_notifications_tag), app.getString(R.string.error_loading_nots))));
+    }
+
+    /**
      * Deletes all the notifications of a specific user.
      */
     void deleteAllNotifications() {
@@ -49,8 +60,8 @@ public class NotificationViewModel {
      * Handles any errors that might occur during the fetching of the data.
      *
      * @param throwable The exception that was thrown.
-     * @param tag The tag of the string.
-     * @param msg The message that we want to see.
+     * @param tag       The tag of the string.
+     * @param msg       The message that we want to see.
      */
     private void handleError(Throwable throwable, String tag, String msg) {
         if (throwable != null) Log.e(tag, throwable.getMessage());

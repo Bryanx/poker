@@ -116,10 +116,9 @@ public class UserSettingsActivity extends BaseActivity {
      */
     public void onUpdateUserSuccess() {
         runOnUiThread(() -> {
-            Toast.makeText(getBaseContext(), getString(R.string.update), Toast.LENGTH_LONG).show();
             btnUpdate.setEnabled(true);
-        });
-
+        }); 
+        
         setResult(RESULT_OK);
         finish();
         Intent intent = new Intent(this, MenuActivity.class);

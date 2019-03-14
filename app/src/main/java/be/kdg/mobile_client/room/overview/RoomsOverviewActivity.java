@@ -54,8 +54,8 @@ public class RoomsOverviewActivity extends BaseActivity {
      */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         getControllerComponent().inject(this);
+        super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this,factory).get(OverviewViewModel.class);
 
         publicRooms = getIntent().getStringExtra("type").equalsIgnoreCase("PUBLIC");
@@ -121,7 +121,7 @@ public class RoomsOverviewActivity extends BaseActivity {
                 .subscribe(myself -> {
                     progressBar.setVisibility(View.GONE);
                     if (rooms.size() == 0) tvNoRooms.setVisibility(View.VISIBLE);
-                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself, roomService, editMode);
+                    roomAdapter = new RoomRecyclerAdapter(this, rooms, myself, roomService, editMode, publicRooms);
                     lvRoom.setAdapter(roomAdapter);
                     lvRoom.setLayoutManager(new LinearLayoutManager(this));
                 }));

@@ -49,7 +49,7 @@ public class RoomServiceImpl implements RoomService {
      * @throws RoomException Thrown if there are less than 2 players in the round.
      */
     @Override
-    public Round startNewRoundForRoom(int roomId) throws RoomException {
+    public Round startNewRoundForRoom(int roomId) throws RoomException, RoundException {
         //Get room
         Room room = getRoom(roomId);
 
@@ -67,11 +67,7 @@ public class RoomServiceImpl implements RoomService {
         saveRoom(room);
 
         Round roundFromDB = getCurrentRound(roomId);
-        try {
-            roundService.playBlinds(roundFromDB, room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind());
-        } catch (RoundException e) {
-            throw new RoomException(RoomServiceImpl.class, "Unable to play Small and big Blinds");
-        }
+        roundService.playBlinds(roundFromDB, room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind());
         return roundFromDB;
     }
 
@@ -94,7 +90,7 @@ public class RoomServiceImpl implements RoomService {
      * @return The current round of the room.
      */
     @Override
-    public Round getCurrentRound(int roomId) throws RoomException {
+    public Round getCurrentRound(int roomId) throws RoomException, RoundException {
         //Get data
         Room room = getRoom(roomId);
 

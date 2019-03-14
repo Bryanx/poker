@@ -96,7 +96,6 @@ public class RoundServiceImpl implements RoundService {
      * @param round round where small and big blind should be played
      */
     public void playBlinds(Round round, int smallBlind, int bigBlind) throws RoundException {
-        System.out.println("PLAYING BLINDS NOW!");
         Player player = this.firstPlayer(round);
         this.saveAct(round.getId(), player.getUserId(), ActType.BET, Phase.PRE_FLOP, smallBlind, false);
         this.saveAct(round.getId(), this.determineNextUserId(round.getId(), player.getUserId()), ActType.RAISE, Phase.PRE_FLOP, bigBlind, false);
@@ -121,11 +120,8 @@ public class RoundServiceImpl implements RoundService {
         }
 
         Optional<Player> optionalPlayer = round.getActivePlayers().stream().min(Comparator.comparing(Player::getSeatNumber));
-        if (optionalPlayer.isPresent()) {
-            return optionalPlayer.get();
-        } else {
-            throw new RoundException(RoundServiceImpl.class, "No suitable players found.");
-        }
+        optionalPlayer.orElseThrow(() -> new RoundException(RoundServiceImpl.class, "No suitable players found"));
+        return optionalPlayer.get();
     }
 
     /**

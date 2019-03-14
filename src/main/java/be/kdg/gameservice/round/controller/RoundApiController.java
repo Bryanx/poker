@@ -71,7 +71,7 @@ public class RoundApiController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rounds/act")
-    public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO, OAuth2Authentication authentication) throws RoundException, RoomException {
+    public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO, OAuth2Authentication authentication) throws RoundException, RoomException, InterruptedException {
         this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet(), actDTO.isAllIn());
 
@@ -84,6 +84,10 @@ public class RoundApiController {
             userApiGateway.addWin(winner.getUserId());
             sendWinMessages(authentication, winner, actDTO);
             this.template.convertAndSend("/room/receive-winner/" + actDTO.getRoomId(), modelMapper.map(winner, PlayerDTO.class));
+            round = roomService.getCurrentRound(actDTO.getRoomId());
+            roundOut = modelMapper.map(round, RoundDTO.class);
+            this.template.convertAndSend("/room/receive-round/" + actDTO.getRoomId(), roundOut);
+            Thread.sleep(3000);
             round = roomService.startNewRoundForRoom(actDTO.getRoomId());
             roundOut = modelMapper.map(round, RoundDTO.class);
 

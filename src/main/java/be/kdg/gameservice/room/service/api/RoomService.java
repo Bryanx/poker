@@ -9,9 +9,9 @@ import be.kdg.gameservice.round.model.Round;
 import java.util.List;
 
 public interface RoomService {
-    Round startNewRoundForRoom(int roomId) throws RoomException;
+    Round startNewRoundForRoom(int roomId) throws RoomException, RoundException;
 
-    Round getCurrentRound(int roomId) throws RoomException;
+    Round getCurrentRound(int roomId) throws RoomException, RoundException;
 
     <T extends Room> List<Room> getRooms(Class<T> aClass);
 

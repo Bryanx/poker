@@ -161,7 +161,7 @@ public class RoomApiController {
      */
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rooms/{roomId}/current-round")
-    public void getCurrentRound(@PathVariable int roomId) throws RoomException {
+    public void getCurrentRound(@PathVariable int roomId) throws RoomException, RoundException {
         Round round = roomService.getCurrentRound(roomId);
 
         if (round.getCurrentPhase() == Phase.PRE_FLOP) {

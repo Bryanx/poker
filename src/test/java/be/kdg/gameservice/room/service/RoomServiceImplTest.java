@@ -39,7 +39,7 @@ public class RoomServiceImplTest extends UtilTesting {
     }
 
     @Test(expected = RoomException.class)
-    public void startNewRoundFail() throws RoomException {
+    public void startNewRoundFail() throws RoomException, RoundException {
         roomService.getCurrentRound(testableRoomIdWithoutPlayers);
         fail("A round should not be started with less than 2 players inside one room.");
     }

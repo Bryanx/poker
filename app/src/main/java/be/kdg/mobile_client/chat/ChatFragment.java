@@ -9,13 +9,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.room.RoomViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Fragment in which a chat conversation is shown
@@ -30,6 +37,7 @@ public class ChatFragment extends Fragment {
     private ChatMessageAdapter chatMessageAdapter;
     private String username;
     private final String ERROR_TAG = "ChatFragment";
+    @Setter private ChatViewModel viewModel;
 
     @Nullable
     @Override
@@ -58,8 +66,12 @@ public class ChatFragment extends Fragment {
      * Handle incoming and outgoing messages
      */
     private void addEventHandlers() {
-        chatService.setOnIncomingMessage(
-                msg -> chatMessageAdapter.add(msg),
+        chatService.setOnIncomingMessage(msg -> {
+                    chatMessageAdapter.add(msg);
+                    if (!msg.getName().equals(username)) {
+                        viewModel.unreadMessages.setValue(viewModel.getUnreadMessages().getValue() + 1);
+                    }
+                },
                 error -> Log.e(ERROR_TAG, error.getMessage()));
         btnSend.setOnClickListener(e -> {
             if (etMessage.getText().length() > 0) {

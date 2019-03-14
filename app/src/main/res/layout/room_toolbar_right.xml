@@ -11,12 +11,37 @@
         <variable
             name="viewmodel"
             type="be.kdg.mobile_client.room.RoomViewModel" />
+
+        <variable
+            name="chatViewModel"
+            type="be.kdg.mobile_client.chat.ChatViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorDarkerBackground">
+
+        <TextView
+            android:id="@+id/tvUnreadMessagesCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:visibility="@{chatViewModel.unreadMessages > 0}"
+            android:layout_marginEnd="2dp"
+            android:background="@drawable/circle_filled_red"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:text="@{chatViewModel.unreadMessages}"
+            android:textAlignment="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            android:translationZ="999dp"
+            app:layout_constraintEnd_toEndOf="@+id/btnShowChat"
+            app:layout_constraintTop_toTopOf="@+id/btnShowChat" />
 
         <Button
             android:id="@+id/btnShowChat"

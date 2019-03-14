@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import be.kdg.mobile_client.chat.ChatService;
+import be.kdg.mobile_client.chat.ChatViewModel;
 import be.kdg.mobile_client.room.RoomRepository;
 import be.kdg.mobile_client.room.RoomService;
 import be.kdg.mobile_client.room.RoomViewModel;
@@ -50,9 +51,9 @@ public class ControllerModule {
     private static final String API_BASE_URL_USER = "https://poker-user-service.herokuapp.com";
     private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
     public static final String WEBSOCKET_URL = "wss://poker-game-service.herokuapp.com/connect/websocket";
-    //private static final String API_BASE_URL_USER = "http://10.0.2.2:5000";
+//    private static final String API_BASE_URL_USER = "http://10.0.2.2:5000";
 //    private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
-//    private static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
+//    public static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 
@@ -209,6 +210,12 @@ public class ControllerModule {
     }
 
     @Provides
+    @Singleton
+    ChatViewModel chatViewModel(){
+        return new ChatViewModel();
+    }
+
+    @Provides
     OverviewViewModel overViewViewModel(RoomService roomService){
         return new OverviewViewModel(roomService);
     }
@@ -224,9 +231,16 @@ public class ControllerModule {
     ViewModelProvider.Factory roomViewModelFactory(RoomViewModel viewModel){
         return new ViewModelProviderFactory<>(viewModel);
     }
+
     @Provides
     @Named("OverviewViewModel")
     ViewModelProvider.Factory overviewViewModelFactory(OverviewViewModel viewModel){
+        return new ViewModelProviderFactory<>(viewModel);
+    }
+
+    @Provides
+    @Named("ChatViewModel")
+    ViewModelProvider.Factory chatViewModelFactory(ChatViewModel viewModel){
         return new ViewModelProviderFactory<>(viewModel);
     }
 }

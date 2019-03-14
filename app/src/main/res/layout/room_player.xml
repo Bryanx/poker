@@ -27,6 +27,7 @@
             android:id="@+id/tvPlayerStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{!player.myTurn}"
             android:text="@{player.lastAct.toString()}"
             android:textAlignment="center"
             android:textColor="@color/colorTransparent"
@@ -40,6 +41,7 @@
             style="@style/Widget.ProgressBar.Holo.CircularProgressBar"
             android:layout_width="@dimen/player_button"
             android:layout_height="@dimen/player_button"
+            android:tooltipText="@{player.username}"
             app:cpb_progressColor="@color/colorLighterBackground"
             app:cpb_titleColor="@color/colorWhite"
             app:duration="@{viewmodel.room.gameRules.playDelay}"
@@ -50,8 +52,7 @@
             app:onFinished="@{() -> viewmodel.onTimerFinished(player)}"
             app:setBackground="@{player.myTurn ? @color/colorGreen : @color/colorWhite}"
             app:start="@{player.myTurn}"
-            app:title="@{String.valueOf(player.username.charAt(0)).toUpperCase()}"
-            android:tooltipText="@{player.username}"/>
+            app:title="@{String.valueOf(player.username.charAt(0)).toUpperCase()}" />
 
         <TextView
             android:id="@+id/tvPlayerCash"

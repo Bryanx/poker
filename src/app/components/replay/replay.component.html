@@ -1,3 +1,10 @@
-<p>
-  replay works!
-</p>
+<h1>REPLAYS</h1>
+
+<h2>{{replays[0].roomName}} (round {{replays[0].roundNumber}})</h2>
+<section class="message-section">
+  <div class="message-row" *ngFor="let replayLine of replays[0].lines" [@simpleFadeAnimation]="'in'">
+    {{replayLine.line}}
+  </div>
+</section>
+
+<button routerLink="/">{{'BACK' | translate | uppercase}}</button>

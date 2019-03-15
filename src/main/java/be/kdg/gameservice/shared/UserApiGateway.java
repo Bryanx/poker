@@ -2,6 +2,7 @@ package be.kdg.gameservice.shared;
 
 import be.kdg.gameservice.room.controller.dto.UserDTO;
 import be.kdg.gameservice.shared.config.WebConfig;
+import be.kdg.gameservice.shared.dto.AuthDTO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -19,11 +20,13 @@ import java.util.List;
  */
 @Component
 public class UserApiGateway {
+    private final String TOKEN_URL;
     private final String USER_SERVICE_URL;
     private final RestTemplate restTemplate;
 
     public UserApiGateway(WebConfig webConfig, RestTemplate restTemplate) {
         this.USER_SERVICE_URL = webConfig.getUserServiceUrl();
+        this.TOKEN_URL = webConfig.getTOKEN_URL();
         this.restTemplate = restTemplate;
     }
 
@@ -72,8 +75,33 @@ public class UserApiGateway {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setBearerAuth(token);
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-
         return restTemplate.exchange(USER_SERVICE_URL + "/" + id, HttpMethod.GET, entity, UserDTO.class).getBody();
+    }
+
+    /**
+     * Sends a rest template request to the user-service.
+     *
+     * @return The requested user based on the token.
+     */
+    public UserDTO getUser(String id) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBearerAuth(getMockToken().getAccess_token());
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return restTemplate.exchange(USER_SERVICE_URL + "/" + id, HttpMethod.GET, entity, UserDTO.class).getBody();
+    }
+
+    /**
+     * @return A mock token from the user service.
+     */
+    public AuthDTO getMockToken() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBasicAuth("my-trusted-client", "secret");
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 
     /**

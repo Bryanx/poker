@@ -21,6 +21,11 @@ public class ReplayLine {
     private int id;
 
     /**
+     * The phase that the act was played in.
+     */
+    private final String phase;
+
+    /**
      * The line of the replay. A line can resemble something like:
      * "Player x played act x with x chips"
      */

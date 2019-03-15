@@ -37,6 +37,7 @@ import {RoomCardComponent} from './components/room-card/room-card.component';
 import {NgCircleProgressModule} from 'ng-circle-progress';
 import {GlobalMessageComponent} from './components/global-message/global-message.component';
 import { PlayerCardComponent } from './components/player-card/player-card.component';
+import { ReplayComponent } from './components/replay/replay.component';
 
 const config = new AuthServiceConfig([
   {
@@ -85,7 +86,8 @@ export function setupTranslateFactory(
     NotificationComponent,
     RoomCardComponent,
     GlobalMessageComponent,
-    PlayerCardComponent
+    PlayerCardComponent,
+    ReplayComponent
   ],
   imports: [
     BrowserModule,

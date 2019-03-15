@@ -8,28 +8,23 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Gateway for communicating with the user service.
  */
 @Component
 public class UserApiGateway {
-    private static final String ID_KEY = "uuid";
     private final String USER_SERVICE_URL;
     private final RestTemplate restTemplate;
-    private final ResourceServerTokenServices resourceTokenServices;
 
-    public UserApiGateway(WebConfig webConfig, RestTemplate restTemplate, ResourceServerTokenServices resourceTokenServices) {
+    public UserApiGateway(WebConfig webConfig, RestTemplate restTemplate) {
         this.USER_SERVICE_URL = webConfig.getUserServiceUrl();
         this.restTemplate = restTemplate;
-        this.resourceTokenServices = resourceTokenServices;
     }
 
     /**
@@ -51,7 +46,6 @@ public class UserApiGateway {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<List<String>> entity = new HttpEntity<>(userIds, headers);
-
         restTemplate.exchange(USER_SERVICE_URL + "/gamesplayed", HttpMethod.POST, entity, void.class);
     }
 

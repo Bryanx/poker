@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,25 +43,37 @@ public class ReplayServiceImpl implements ReplayService {
     /**
      * Creates a single replay for player.
      *
-     * @param ownerId The owner id of the replay
-     * @param roomName The name of the room.
+     * @param ownerId     The owner id of the replay
+     * @param roomName    The name of the room.
      * @param roundNumber The round number of the current round.
-     * @param acts All the acts that were played in that round.
+     * @param acts        All the acts that were played in that round.
      */
     private void createReplay(String ownerId, String roomName, int roundNumber, List<Act> acts) {
         //Make replay
         Replay replay = new Replay(roomName, ownerId, roundNumber);
 
         //Construct replay
-        acts.forEach(act -> {
-            String nameOfPlayer = userApiGateway.getUser(act.getPlayer().getUserId()).getUsername();
-            String line = String.format("%s played act %s for %d chips",
-                    nameOfPlayer, act.getType(), act.getBet());
-            replay.addLine(line, act.getPhase().toString());
-        });
+        String userName =  userApiGateway.getUser(acts.get(0).getPlayer().getUserId()).getUsername();
+        acts.stream().sorted(Act::compareTo)
+                .forEach(act -> {
+                    String line = String.format("%s played act %s for %d chips",
+                            userName, act.getType(), act.getBet());
+                    replay.addLine(line, act.getPhase().toString());
+                });
 
         //Save replay
         LOGGER.info("Generate replay for " + ownerId + " that is based on round " + roundNumber);
         replayRepository.save(replay);
+    }
+
+    /**
+     * Gives back all the replays from a specific user.
+     *
+     * @param ownerId The id of the owner of the replays.
+     * @return All the replays that are from the owner.
+     */
+    @Override
+    public List<Replay> getReplays(String ownerId) {
+        return Collections.unmodifiableList(replayRepository.getAllByOwnerId(ownerId));
     }
 }

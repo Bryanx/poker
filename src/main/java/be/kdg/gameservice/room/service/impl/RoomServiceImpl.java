@@ -1,5 +1,7 @@
 package be.kdg.gameservice.room.service.impl;
 
+import be.kdg.gameservice.replay.service.api.ReplayService;
+import be.kdg.gameservice.replay.service.impl.ReplayServiceImpl;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.GameRules;
 import be.kdg.gameservice.room.model.Player;
@@ -32,6 +34,7 @@ public class RoomServiceImpl implements RoomService {
     private static final Logger LOGGER = LoggerFactory.getLogger(RoomServiceImpl.class);
     private final RoomRepository roomRepository;
     private final RoundService roundService;
+    private final ReplayServiceImpl replayService;
 
     /**
      * @param roomId The room the new round needs to be created for.
@@ -42,6 +45,9 @@ public class RoomServiceImpl implements RoomService {
     public Round startNewRoundForRoom(int roomId) throws RoomException, RoundException {
         //Get room
         Room room = getRoom(roomId);
+
+        //Generate replays
+        if (room.getRounds().size() != 0) replayService.createReplays(room);
 
         //Determine if round can be created
         List<Player> players = room.getPlayersInRoom();
@@ -57,6 +63,7 @@ public class RoomServiceImpl implements RoomService {
         room.addRound(round);
         saveRoom(room);
 
+        //Generate blinds
         Round roundFromDB = getCurrentRound(roomId);
         roundService.playBlinds(roundFromDB, room.getGameRules().getSmallBlind(), room.getGameRules().getBigBlind());
         return roundFromDB;

@@ -69,6 +69,6 @@ public class Replay {
      * @param line The line that needs to be added.
      */
     public void addLine(String line, String phase) {
-        lines.add(new ReplayLine(line, phase));
+        lines.add(new ReplayLine(phase, line));
     }
 }

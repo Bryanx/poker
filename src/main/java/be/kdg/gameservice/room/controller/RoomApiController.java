@@ -1,5 +1,8 @@
 package be.kdg.gameservice.room.controller;
 
+import be.kdg.gameservice.replay.dto.ReplayDTO;
+import be.kdg.gameservice.replay.model.Replay;
+import be.kdg.gameservice.replay.service.api.ReplayService;
 import be.kdg.gameservice.room.controller.dto.PlayerDTO;
 import be.kdg.gameservice.room.controller.dto.PrivateRoomDTO;
 import be.kdg.gameservice.room.controller.dto.RoomDTO;
@@ -44,6 +47,7 @@ public class RoomApiController extends BaseController {
     private final ModelMapper modelMapper;
     private final RoomService roomService;
     private final PlayerService playerService;
+    private final ReplayService replayService;
     private final PrivateRoomService privateRoomService;
     private final SimpMessagingTemplate template;
 
@@ -71,6 +75,21 @@ public class RoomApiController extends BaseController {
         Room roomIn = roomService.getRoom(roomId);
         RoomDTO roomOut = modelMapper.map(roomIn, RoomDTO.class);
         return new ResponseEntity<>(roomOut, HttpStatus.OK);
+    }
+
+    /**
+     * Gives back all the replays of a specific user.
+     *
+     * @param authentication The token used for retrieving the userId.
+     * @return Status code 200 with the correct replays.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/rooms/replays")
+    public ResponseEntity<ReplayDTO[]> getReplays(OAuth2Authentication authentication) {
+        logIncomingCall("getReplays");
+        List<Replay> replays = replayService.getReplays(getUserId(authentication));
+        ReplayDTO[] replaysOut = modelMapper.map(replays, ReplayDTO[].class);
+        return new ResponseEntity<>(replaysOut, HttpStatus.OK);
     }
 
     /**

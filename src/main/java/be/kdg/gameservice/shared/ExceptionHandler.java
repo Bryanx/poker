@@ -3,6 +3,7 @@ package be.kdg.gameservice.shared;
 
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.round.exception.RoundException;
+import be.kdg.gameservice.shared.dto.ErrorDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

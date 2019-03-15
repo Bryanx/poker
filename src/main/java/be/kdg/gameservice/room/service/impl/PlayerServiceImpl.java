@@ -2,15 +2,15 @@ package be.kdg.gameservice.room.service.impl;
 
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.Player;
-import be.kdg.gameservice.room.model.PrivateRoom;
 import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.PlayerRepository;
 import be.kdg.gameservice.room.service.api.PlayerService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,6 +20,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class PlayerServiceImpl implements PlayerService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PlayerServiceImpl.class);
     private final PlayerRepository playerRepository;
     private final RoomServiceImpl roomService;
 
@@ -48,6 +49,7 @@ public class PlayerServiceImpl implements PlayerService {
             throw new RoomException(PlayerServiceImpl.class, "Player is already in room.");
 
         //Add player to room
+        LOGGER.info("user " + userId + " joining room with id " + roomId);
         Player player = new Player(room.getGameRules().getStartingChips(), userId, room.getFirstEmptySeat());
         player = playerRepository.save(player);
         room.addPlayer(player);
@@ -65,7 +67,6 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player leaveRoom(int roomId, String userId) throws RoomException {
         //Get data
-        List<Room> all = roomService.getRooms(PrivateRoom.class);
         Room room = roomService.getRoom(roomId);
         Optional<Player> playerOpt = room.getPlayersInRoom().stream()
                 .filter(player -> player.getUserId().equals(userId))
@@ -83,6 +84,7 @@ public class PlayerServiceImpl implements PlayerService {
         }
 
         //Remove player from the room
+        LOGGER.info("user " + userId + " leaving room with id " + roomId);
         room.removePlayer(playerOpt.get());
         roomService.saveRoom(room);
         playerRepository.delete(playerOpt.get());

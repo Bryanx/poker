@@ -33,15 +33,6 @@ public class UserApiGateway {
     }
 
     /**
-     * @param authentication Needed as authentication.
-     * @return Gives back the details of a specific user.
-     */
-    public Map<String, Object> getUserInfo(OAuth2Authentication authentication) {
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
-    }
-
-    /**
      * Sends a rest template request to the user-service to increase the user his wins.
      */
     public void addWin(String userId) {
@@ -73,15 +64,6 @@ public class UserApiGateway {
     public String getTokenFromAuthentication(OAuth2Authentication authentication) {
         OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
         return oAuth2AuthenticationDetails.getTokenValue();
-    }
-
-    /**
-     * @param authentication Needed as authentication.
-     * @return Gives back the details of a specific user.
-     */
-    public String getUserId(OAuth2Authentication authentication) {
-        String token = getTokenFromAuthentication(authentication);
-        return resourceTokenServices.readAccessToken(token).getAdditionalInformation().get(ID_KEY).toString();
     }
 
     /**

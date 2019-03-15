@@ -10,6 +10,8 @@ import be.kdg.gameservice.round.exception.RoundException;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.service.api.RoundService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -27,21 +29,9 @@ import static java.util.stream.Collectors.toList;
 @Transactional
 @Service
 public class RoomServiceImpl implements RoomService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RoomServiceImpl.class);
     private final RoomRepository roomRepository;
     private final RoundService roundService;
-
-    //TODO: maarten, remove this method if only used in tests.
-    /**
-     * Returns room based on roomName
-     * Carefull, roomname should be unique.
-     *
-     * @param roomName The name of the room we need to search for.
-     * @return The room
-     */
-    @Override
-    public Room getRoomByName(String roomName) {
-        return roomRepository.getRoomByName(roomName);
-    }
 
     /**
      * @param roomId The room the new round needs to be created for.
@@ -62,6 +52,7 @@ public class RoomServiceImpl implements RoomService {
 
         //Create new round
         Round round = roundService.startNewRound(room.getPlayersInRoom(), button);
+        LOGGER.info("Starting new round for room " + roomId);
         if (room.getRounds().size() > 0) room.getCurrentRound().setFinished(true);
         room.addRound(round);
         saveRoom(room);
@@ -139,6 +130,7 @@ public class RoomServiceImpl implements RoomService {
         //Update room
         roomToUpdate.setName(room.getName());
         roomToUpdate.setGameRules(room.getGameRules());
+        LOGGER.info("Updating room with id " + roomId);
         return saveRoom(roomToUpdate);
     }
 
@@ -184,6 +176,7 @@ public class RoomServiceImpl implements RoomService {
 
         if (room.getRounds().size() > 0) {
             if (!room.getCurrentRound().isFinished() && room.getCurrentRound().getPlayersInRound().size() < 2) {
+                LOGGER.info("Finishing round in room " + roomId +  " because of a lack of players.");
                 room.getCurrentRound().setFinished(true);
                 roundService.distributeCoins(room.getCurrentRound().getId(), room.getCurrentRound().getPlayersInRound().get(0));
             }

@@ -1,6 +1,6 @@
 package be.kdg.gameservice.round.controller;
 
-import be.kdg.gameservice.chat.MessageDTO;
+import be.kdg.gameservice.shared.dto.MessageDTO;
 import be.kdg.gameservice.room.controller.dto.PlayerDTO;
 import be.kdg.gameservice.room.controller.dto.UserDTO;
 import be.kdg.gameservice.room.exception.RoomException;

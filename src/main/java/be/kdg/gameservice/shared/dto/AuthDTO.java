@@ -1,4 +1,4 @@
-package be.kdg.gameservice.shared;
+package be.kdg.gameservice.shared.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

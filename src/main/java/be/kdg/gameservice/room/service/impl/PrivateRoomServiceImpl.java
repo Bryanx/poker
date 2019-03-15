@@ -7,6 +7,8 @@ import be.kdg.gameservice.room.model.WhiteListedUser;
 import be.kdg.gameservice.room.persistence.WhiteListedPlayerRepository;
 import be.kdg.gameservice.room.service.api.PrivateRoomService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 @Transactional
 @Service
 public class PrivateRoomServiceImpl implements PrivateRoomService{
+    private static final Logger LOGGER = LoggerFactory.getLogger(PrivateRoomServiceImpl.class);
     private final WhiteListedPlayerRepository whiteListedPlayerRepository;
     private final RoomServiceImpl roomService;
 
@@ -47,8 +50,10 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
                 .findAny()
                 .orElseThrow(() -> new RoomException(PrivateRoomServiceImpl.class, "user with userId " + userId + " was not found on the whitelist"));
 
+        LOGGER.info("getting private room " + roomId + " for user " + userId);
         return room;
     }
+
 
     /**
      * Adds a private room to the database.
@@ -64,6 +69,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
 
         //update database
         roomService.saveRoom(room);
+        LOGGER.info("Adding new private room for user " + userId);
         return room;
     }
 
@@ -89,6 +95,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
 
         //update database
         room.addWhiteListedPlayer(new WhiteListedUser(userId));
+        LOGGER.info("Adding user" + userId + " to the whitelist of room " + roomId);
         return (PrivateRoom) roomService.saveRoom(room);
     }
 
@@ -112,6 +119,7 @@ public class PrivateRoomServiceImpl implements PrivateRoomService{
             whiteListedPlayerRepository.delete(entity);
             room.deleteWhiteListedPlayer(userOpt.get());
         });
+        LOGGER.info("Removing user" + userId + " to the whitelist of room " + roomId);
         return room;
     }
 

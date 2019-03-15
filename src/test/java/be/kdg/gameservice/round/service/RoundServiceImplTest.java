@@ -8,13 +8,11 @@ import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.service.api.PlayerService;
 import be.kdg.gameservice.room.service.api.RoomService;
 import be.kdg.gameservice.round.exception.RoundException;
-import be.kdg.gameservice.round.model.Act;
 import be.kdg.gameservice.round.model.ActType;
 import be.kdg.gameservice.round.model.Phase;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.persistence.RoundRepository;
 import be.kdg.gameservice.round.service.api.RoundService;
-import be.kdg.gameservice.round.service.impl.RoundServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +23,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.Assert.*;
 
@@ -73,20 +70,17 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithCheck() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules());
+        Room room = roomService.addRoom("Test room", new GameRules());
 
         Player player1 = new Player(2500, "Maarten", 0);
         Player player2 = new Player(2500, "Remi", 1);
         Player player3 = new Player(2500, "Dirk", 2);
 
-        Room room = roomService.getRoomByName("Test room");
-
         playerService.joinRoom(room.getId(), player1.getUserId());
         playerService.joinRoom(room.getId(), player2.getUserId());
         playerService.joinRoom(room.getId(), player3.getUserId());
 
-        roomService.startNewRoundForRoom(room.getId());
-        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+        Round round = roomService.startNewRoundForRoom(room.getId());
 
         assertEquals(30, round.getPot());
         assertEquals(2, round.getActs().size());
@@ -130,23 +124,19 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithFold() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules());
+        Room room = roomService.addRoom("Test room", new GameRules());
 
         Player player1 = new Player(2500, "Maarten", 0);
         Player player2 = new Player(2500, "Remi", 1);
         Player player3 = new Player(2500, "Dirk", 2);
 
-        Room room = roomService.getRoomByName("Test room");
-
         playerService.joinRoom(room.getId(), player1.getUserId());
         playerService.joinRoom(room.getId(), player2.getUserId());
         playerService.joinRoom(room.getId(), player3.getUserId());
 
-        roomService.startNewRoundForRoom(room.getId());
+        Round round = roomService.startNewRoundForRoom(room.getId());
 
-        Round round = roomService.getRoomByName("Test room").getCurrentRound();
         assertEquals(30, round.getPot());
-
         assertEquals(2, round.getActs().size());
         assertEquals(5, round.getCards().size());
         assertEquals(3, round.getActivePlayers().size());
@@ -188,22 +178,17 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithBet() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules(10, 20, 10, 1000, 6, 0, 100));
+        Room room = roomService.addRoom("Test room", new GameRules(10, 20, 10, 1000, 6, 0, 100));
 
         Player player1 = new Player(2500, "Maarten", 0);
         Player player2 = new Player(2500, "Remi", 1);
         Player player3 = new Player(2500, "Dirk", 2);
 
-
-        Room room = roomService.getRoomByName("Test room");
-
         playerService.joinRoom(room.getId(), player1.getUserId());
         playerService.joinRoom(room.getId(), player2.getUserId());
         playerService.joinRoom(room.getId(), player3.getUserId());
 
-        roomService.startNewRoundForRoom(room.getId());
-
-        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+        Round round = roomService.startNewRoundForRoom(room.getId());
 
         assertEquals(2, round.getActs().size());
         assertEquals(5, round.getCards().size());
@@ -251,22 +236,17 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithDetermineWinner() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules());
+        Room room = roomService.addRoom("Test room", new GameRules());
 
         Player player1 = new Player(2500, "Maarten", 0);
         Player player2 = new Player(2500, "Remi", 1);
         Player player3 = new Player(2500, "Dirk", 2);
 
-
-        Room room = roomService.getRoomByName("Test room");
-
         playerService.joinRoom(room.getId(), player1.getUserId());
         playerService.joinRoom(room.getId(), player2.getUserId());
         playerService.joinRoom(room.getId(), player3.getUserId());
 
-        roomService.startNewRoundForRoom(room.getId());
-
-        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+        Round round = roomService.startNewRoundForRoom(room.getId());
 
         assertEquals(2, round.getActs().size());
         assertEquals(5, round.getCards().size());
@@ -324,22 +304,17 @@ public class RoundServiceImplTest extends UtilTesting {
 
     @Test
     public void playRoundWithDetermineWinner2() throws RoomException, RoundException {
-        roomService.addRoom("Test room", new GameRules());
+        Room room = roomService.addRoom("Test room", new GameRules());
 
         Player player1 = new Player(2500, "Maarten", 0);
         Player player2 = new Player(2500, "Remi", 1);
         Player player3 = new Player(2500, "Dirk", 2);
 
-
-        Room room = roomService.getRoomByName("Test room");
-
         playerService.joinRoom(room.getId(), player1.getUserId());
         playerService.joinRoom(room.getId(), player2.getUserId());
         playerService.joinRoom(room.getId(), player3.getUserId());
 
-        roomService.startNewRoundForRoom(room.getId());
-
-        Round round = roomService.getRoomByName("Test room").getCurrentRound();
+        Round round = roomService.startNewRoundForRoom(room.getId());
 
         assertEquals(2, round.getActs().size());
         assertEquals(5, round.getCards().size());

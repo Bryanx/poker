@@ -1,5 +1,6 @@
 package be.kdg.gameservice.round.controller;
 
+import be.kdg.gameservice.shared.BaseController;
 import be.kdg.gameservice.shared.dto.MessageDTO;
 import be.kdg.gameservice.room.controller.dto.PlayerDTO;
 import be.kdg.gameservice.room.controller.dto.UserDTO;
@@ -37,8 +38,7 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
-public class RoundApiController {
-    private static final String ID_KEY = "uuid";
+public class RoundApiController extends BaseController {
     private final ModelMapper modelMapper;
     private final RoundService roundService;
     private final RoomService roomService;
@@ -56,6 +56,7 @@ public class RoundApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/rounds/{roundId}/possible-acts")
     public ResponseEntity<ActType[]> getPossibleActs(@PathVariable int roundId) throws RoundException {
+        logIncomingCall("getPossibleActs");
         List<ActType> actTypes = roundService.getPossibleActs(roundId);
         return new ResponseEntity<>(modelMapper.map(actTypes, ActType[].class), HttpStatus.OK);
     }
@@ -71,6 +72,7 @@ public class RoundApiController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/rounds/act")
     public ResponseEntity<ActDTO> addAct(@RequestBody @Valid ActDTO actDTO, OAuth2Authentication authentication) throws RoundException, RoomException, InterruptedException {
+        logIncomingCall("addAct");
         this.roundService.saveAct(actDTO.getRoundId(), actDTO.getUserId(),
                 actDTO.getType(), actDTO.getPhase(), actDTO.getBet(), actDTO.isAllIn());
 
@@ -100,10 +102,16 @@ public class RoundApiController {
         }
 
         this.template.convertAndSend("/room/receive-round/" + actDTO.getRoomId(), roundOut);
-
         return new ResponseEntity<>(actDTO, HttpStatus.CREATED);
     }
 
+    /**
+     * Sends a message to the user that he has won the round.
+     *
+     * @param authentication The authentication of the user.
+     * @param winner The player who has won the round
+     * @param actDTO The act that was played.
+     */
     private void sendWinMessages(OAuth2Authentication authentication, Player winner, ActDTO actDTO) {
         String token = userApiGateway.getTokenFromAuthentication(authentication);
         UserDTO user = userApiGateway.getUser(token, winner.getUserId());
@@ -112,5 +120,4 @@ public class RoundApiController {
         MessageDTO winnerMsg = new MessageDTO("system", winnerString);
         this.template.convertAndSend("/chatroom/receive/" + actDTO.getRoomId(), winnerMsg);
     }
-
 }

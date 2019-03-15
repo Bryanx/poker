@@ -121,7 +121,6 @@ public final class HandServiceImpl implements HandService {
 
     /**
      * Creates all subsets of size k based on superSet
-     *
      */
     private void getSubsets(List<Card> superSet, int k, int idx, Set<Card> current, List<Set<Card>> solution) {
         //successful stop clause
@@ -129,13 +128,17 @@ public final class HandServiceImpl implements HandService {
             solution.add(new HashSet<>(current));
             return;
         }
+
         //unsuccessful stop clause
         if (idx == superSet.size()) return;
+
         Card x = superSet.get(idx);
         current.add(x);
+
         //"guess" x is in the subset
         getSubsets(superSet, k, idx+1, current, solution);
         current.remove(x);
+
         //"guess" x is not in the subset
         getSubsets(superSet, k, idx+1, current, solution);
     }

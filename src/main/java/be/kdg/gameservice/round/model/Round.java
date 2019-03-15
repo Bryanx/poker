@@ -25,18 +25,18 @@ import static java.util.stream.Collectors.toList;
 @Table(name = "round")
 public final class Round {
     /**
+     * The maximum number of cards that are permitted to be on the board
+     * at any given time.
+     */
+    private static final int NUMBER_OF_CARDS_ON_BOARD = 5;
+
+    /**
      * The id of the round. Used for persistence.
      */
     @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    /**
-     * The maximum number of cards that are permitted to be on the board
-     * at any given time.
-     */
-    private static final int NUMBER_OF_CARDS_ON_BOARD = 5;
 
     /**
      * Current cards that are on the board.
@@ -137,16 +137,6 @@ public final class Round {
      */
     public List<Player> getPlayersInRound() {
         return Collections.unmodifiableList(playersInRound);
-    }
-
-    /**
-     * @param player A player for this round0
-     * @return All the other players, except the one from the argument.
-     */
-    public List<Player> getOtherPlayers(Player player) {
-        return getPlayersInRound().stream()
-                .filter(p -> p.getId() != player.getId())
-                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     /**

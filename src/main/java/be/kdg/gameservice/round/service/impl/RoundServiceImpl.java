@@ -146,6 +146,7 @@ public class RoundServiceImpl implements RoundService {
         if (lastAct != -1) {
             List<Act> lastActs = round.getActs().subList(lastAct, round.getActs().size());
             if (lastActs.stream().filter(a -> a.getType() == ActType.CALL).count() == round.getActivePlayers().size() - 1) {
+                LOGGER.info("Going to the next phase in round " + round.getId());
                 round.nextPhase();
             }
         }
@@ -160,6 +161,7 @@ public class RoundServiceImpl implements RoundService {
         Phase currentPhase = round.getCurrentPhase();
 
         if (currentPhase == Phase.SHOWDOWN) {
+            LOGGER.info("Round " + roundId + " is finished.");
             Player winningPlayer = determineWinner(roundId);
             return Optional.of(distributeCoins(roundId, winningPlayer));
         }
@@ -229,6 +231,7 @@ public class RoundServiceImpl implements RoundService {
         if (checkCheck(round)) types.add(ActType.CHECK);
         if (checkRaise(round)) types.add(ActType.RAISE);
 
+        LOGGER.info("Returning " + types.size() + " possible acts");
         return Collections.unmodifiableList(types);
     }
 
@@ -358,15 +361,15 @@ public class RoundServiceImpl implements RoundService {
         return winningPlayer;
     }
 
+
     @Override
     public Optional<Player> checkFolds(int roundId) throws RoundException {
         Round round = getRound(roundId);
 
-        if (round.getActivePlayers().size() == 1) {
+        if (round.getActivePlayers().size() == 1)
             return Optional.of(round.getActivePlayers().get(0));
-        }
-
-        return Optional.empty();
+        else
+            return Optional.empty();
     }
 
     /**
@@ -409,7 +412,6 @@ public class RoundServiceImpl implements RoundService {
         // Array of 7  cards -> 5 (boardCards) + 1 (player FirstCard) + 1 (player SecondCard)
         List<Card> playerCards = new ArrayList<>(round.getCards());
         playerCards.addAll(Arrays.asList(player.getFirstCard(), player.getSecondCard()));
-
         return handService.determineBestPossibleHand(playerCards);
     }
 

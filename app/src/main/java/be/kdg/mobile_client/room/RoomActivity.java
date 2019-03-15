@@ -6,7 +6,9 @@ import android.widget.Toast;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -60,31 +62,18 @@ public class RoomActivity extends BaseActivity {
         chatFragment = (ChatFragment) fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
         chatFragment.setViewModel(chatViewModel);
         chatFragment.connectChat(roomId, chatService, sharedPrefService.getToken(this).getUsername());
-        newTransaction().hide(chatFragment).commit(); // initially hide the chatfragment
     }
 
     private void addEventHandlers() {
         binding.toolBarRight.btnShowChat.setOnClickListener(e -> {
-            if (chatFragment != null && chatFragment.isHidden()) {
-                newTransaction().show(chatFragment).commit();
-                chatViewModel.getUnreadMessages().setValue(0);
-            } else {
-                newTransaction().hide(chatFragment).commit();
-            }
+            binding.drawerLayout.openDrawer(GravityCompat.START);
+            chatViewModel.getUnreadMessages().setValue(0);
         });
         binding.toolBarLeft.btnLeave.setOnClickListener(e -> {
             exit();
             navigateTo(RoomsOverviewActivity.class,"type", "PUBLIC");
         });
         viewModel.getToast().observe(this, message -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());
-    }
-
-    /**
-     * Create a fragment transaction with sliding animation
-     */
-    private FragmentTransaction newTransaction() {
-        return fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left);
     }
 
     @Override

@@ -9,16 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.R;
-import be.kdg.mobile_client.room.RoomViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import lombok.NoArgsConstructor;
@@ -32,6 +27,7 @@ public class ChatFragment extends Fragment {
     @BindView(R.id.btnSend) Button btnSend;
     @BindView(R.id.etMessage) EditText etMessage;
     @BindView(R.id.lvChat) ListView lvChat;
+    @BindView(R.id.clChat) ConstraintLayout clChat;
     private ChatService chatService;
 
     private ChatMessageAdapter chatMessageAdapter;
@@ -47,6 +43,8 @@ public class ChatFragment extends Fragment {
         ButterKnife.bind(this, view);
         chatMessageAdapter = new ChatMessageAdapter(getActivity());
         lvChat.setAdapter(chatMessageAdapter);
+        view.setMinimumWidth(getResources().getDisplayMetrics().widthPixels/2);
+        clChat.setMinWidth(getResources().getDisplayMetrics().widthPixels/2);
         return view;
     }
 

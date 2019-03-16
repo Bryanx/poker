@@ -1,6 +1,5 @@
 package be.kdg.gameservice.room.service.impl;
 
-import be.kdg.gameservice.replay.service.api.ReplayService;
 import be.kdg.gameservice.replay.service.impl.ReplayServiceImpl;
 import be.kdg.gameservice.room.exception.RoomException;
 import be.kdg.gameservice.room.model.GameRules;
@@ -16,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +35,13 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final RoundService roundService;
     private final ReplayServiceImpl replayService;
+
+    @PostConstruct
+    public void defaultRoom() {
+        roomRepository.save(new Room(new GameRules(), "test room1"));
+        roomRepository.save(new Room(new GameRules(), "test room2"));
+        roomRepository.save(new Room(new GameRules(), "test room3"));
+    }
 
     /**
      * @param roomId The room the new round needs to be created for.

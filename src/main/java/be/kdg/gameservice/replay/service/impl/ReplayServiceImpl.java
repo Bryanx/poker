@@ -53,9 +53,9 @@ public class ReplayServiceImpl implements ReplayService {
         Replay replay = new Replay(roomName, ownerId, roundNumber);
 
         //Construct replay
-        String userName =  userApiGateway.getUser(acts.get(0).getPlayer().getUserId()).getUsername();
         acts.stream().sorted(Act::compareTo)
                 .forEach(act -> {
+                    String userName = userApiGateway.getUser(act.getPlayer().getUserId()).getUsername();
                     String line = String.format("%s played act %s for %d chips",
                             userName, act.getType(), act.getBet());
                     replay.addLine(line, act.getPhase().toString());

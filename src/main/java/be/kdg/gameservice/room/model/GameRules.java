@@ -73,5 +73,7 @@ public final class GameRules {
         this.playDelay = 30;
         this.startingChips = 2000;
         this.maxPlayerCount = 6;
+        this.minLevel = 1;
+        this.maxLevel = 50;
     }
 }

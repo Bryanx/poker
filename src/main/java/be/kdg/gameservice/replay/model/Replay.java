@@ -1,6 +1,7 @@
 package be.kdg.gameservice.replay.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Simple class that holds a replay with all the acts that were played.
  */
+@NoArgsConstructor
 @Entity
 @Table(name = "replay")
 public class Replay {
@@ -26,18 +28,20 @@ public class Replay {
     /**
      * The name of the room that the replay was played in.
      */
-    private final String roomName;
+    @Getter
+    private String roomName;
 
     /**
      * The owner of this replay.
      */
     @Getter
-    private final String ownerId;
+    private String ownerId;
 
     /**
      * The number of the round that the replay was played in.
      */
-    private final int roundNumber;
+    @Getter
+    private int roundNumber;
 
     /**
      * All the replay lines that are present in this replay.
@@ -47,7 +51,7 @@ public class Replay {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "replay_id")
     @Fetch(value = FetchMode.SUBSELECT)
-    private final List<ReplayLine> lines;
+    private List<ReplayLine> lines;
 
     public Replay(String roomName, String ownerId, int roundNumber) {
         this.roomName = roomName;

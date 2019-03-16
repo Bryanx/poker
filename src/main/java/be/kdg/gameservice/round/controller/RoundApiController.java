@@ -1,5 +1,6 @@
 package be.kdg.gameservice.round.controller;
 
+import be.kdg.gameservice.replay.service.api.ReplayService;
 import be.kdg.gameservice.shared.BaseController;
 import be.kdg.gameservice.shared.dto.MessageDTO;
 import be.kdg.gameservice.room.controller.dto.PlayerDTO;
@@ -81,6 +82,7 @@ public class RoundApiController extends BaseController {
         Round round;
         RoundDTO roundOut;
         if (winnerOptional.isPresent() || playerOptional.isPresent()) {
+
             Player winner = winnerOptional.orElseGet(playerOptional::get);
             userApiGateway.addWin(winner.getUserId());
             sendWinMessages(authentication, winner, actDTO);

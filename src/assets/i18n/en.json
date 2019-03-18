@@ -71,5 +71,6 @@
   "SEND": "Send",
   "OLDER MESSAGES": "Older messages",
   "NO OLDER MESSAGES": "No older messages",
-  "PROFILE": "profile"
+  "PROFILE": "profile",
+  "WAITINGFORNEWROUND": "Waiting for new round to start..."
 }

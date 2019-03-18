@@ -36,12 +36,12 @@ public class RoomServiceImpl implements RoomService {
     private final RoundService roundService;
     private final ReplayServiceImpl replayService;
 
-    @PostConstruct
-    public void defaultRoom() {
-        roomRepository.save(new Room(new GameRules(), "test room1"));
-        roomRepository.save(new Room(new GameRules(), "test room2"));
-        roomRepository.save(new Room(new GameRules(), "test room3"));
-    }
+//    @PostConstruct
+//    public void defaultRoom() {
+//        roomRepository.save(new Room(new GameRules(), "test room1"));
+//        roomRepository.save(new Room(new GameRules(), "test room2"));
+//        roomRepository.save(new Room(new GameRules(), "test room3"));
+//    }
 
     /**
      * @param roomId The room the new round needs to be created for.

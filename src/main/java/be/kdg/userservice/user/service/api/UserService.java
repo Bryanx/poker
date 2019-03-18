@@ -19,6 +19,8 @@ public interface UserService {
 
     User changeUser(User user) throws UserException;
 
+    User changeFriends(User user) throws UserException;
+
     User changePassword(User user) throws UserException;
 
     User checkSocialUser(User user) throws UserException;

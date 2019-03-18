@@ -8,6 +8,7 @@ import be.kdg.userservice.notification.service.api.NotificationService;
 import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.service.api.UserService;
+import be.kdg.userservice.user.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
     private static final Logger LOGGER = LoggerFactory.getLogger(NotificationServiceImpl.class);
-    private final UserService userService;
+    private final UserServiceImpl userService;
     private final NotificationRepository notificationRepository;
 
     /**
@@ -53,7 +54,7 @@ public class NotificationServiceImpl implements NotificationService {
         receiver.addNotification(notification);
 
         //Save data
-        userService.changeUser(receiver);
+        userService.saveUser(receiver);
         notification = notificationRepository.save(notification);
         LOGGER.info("Adding notification with id " + notification.getId() +  " to the system.");
         return notification;

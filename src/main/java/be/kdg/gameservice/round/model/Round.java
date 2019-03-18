@@ -2,6 +2,8 @@ package be.kdg.gameservice.round.model;
 
 import be.kdg.gameservice.card.Card;
 import be.kdg.gameservice.room.model.Player;
+import be.kdg.gameservice.round.exception.RoundException;
+import be.kdg.gameservice.round.service.impl.RoundServiceImpl;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,9 +11,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -189,5 +189,46 @@ public final class Round {
      */
     public void nextPhase() {
         this.currentPhase = this.currentPhase.next();
+    }
+
+    /**
+     * Return the seat number of the player that should post the smallBlind
+     * @return seat number of small blind player
+     */
+    public int getSmallBlindPosition() throws RoundException {
+        List<Player> sortedActivePlayers = this.getActivePlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getSeatNumber))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+
+        for (Player activePlayer : sortedActivePlayers) {
+            if (activePlayer.getSeatNumber() > this.getButton()) {
+                return activePlayer.getSeatNumber();
+            }
+        }
+
+        Optional<Player> optionalPlayer = this.getActivePlayers().stream().min(Comparator.comparing(Player::getSeatNumber));
+        optionalPlayer.orElseThrow(() -> new RoundException(Round.class, "No suitable players found"));
+        return optionalPlayer.get().getSeatNumber();
+    }
+
+    /**
+     * Return the seat number of the player that should post the big blind
+     * @return seat number of big blind player
+     */
+    public int getBigBlindPosition() throws RoundException {
+        List<Player> sortedActivePlayers = this.getActivePlayers().stream()
+                .sorted(Comparator.comparingInt(Player::getSeatNumber))
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
+
+
+        for (Player activePlayer : sortedActivePlayers) {
+            if (activePlayer.getSeatNumber() > this.getSmallBlindPosition()) {
+                return activePlayer.getSeatNumber();
+            }
+        }
+
+        Optional<Player> optionalPlayer = this.getActivePlayers().stream().min(Comparator.comparing(Player::getSeatNumber));
+        optionalPlayer.orElseThrow(() -> new RoundException(Round.class, "No suitable players found"));
+        return optionalPlayer.get().getSeatNumber();
     }
 }

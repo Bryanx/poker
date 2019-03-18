@@ -22,6 +22,8 @@ public class RoundDTO {
     @NotNull
     private Phase currentPhase;
     private int button;
+    private int smallBlind;
+    private int bigBlind;
     private boolean isFinished;
     private int pot;
 }

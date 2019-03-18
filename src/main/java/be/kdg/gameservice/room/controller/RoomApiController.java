@@ -189,6 +189,8 @@ public class RoomApiController {
         }
 
         RoundDTO roundOut = modelMapper.map(round, RoundDTO.class);
+        roundOut.setSmallBlind(round.getSmallBlindPosition());
+        roundOut.setBigBlind(round.getBigBlindPosition());
         this.template.convertAndSend("/room/receive-round/" + roomId, roundOut);
     }
 

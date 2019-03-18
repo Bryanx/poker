@@ -1,0 +1,8 @@
+<section [@simpleFadeAnimation]="'in'" class="friend-modal">
+  <h2>{{'INVITE FRIENDS' | translate | uppercase}}</h2>
+  <section class="friend-list">
+    <div class="friend-row" *ngFor="let user of friends">
+      {{user.username}}
+    </div>
+  </section>
+</section>

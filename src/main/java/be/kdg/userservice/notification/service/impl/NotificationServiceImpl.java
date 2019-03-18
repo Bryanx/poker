@@ -9,6 +9,8 @@ import be.kdg.userservice.user.exception.UserException;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.service.api.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 @Transactional
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotificationServiceImpl.class);
     private final UserService userService;
     private final NotificationRepository notificationRepository;
 
@@ -52,6 +55,7 @@ public class NotificationServiceImpl implements NotificationService {
         //Save data
         userService.changeUser(receiver);
         notification = notificationRepository.save(notification);
+        LOGGER.info("Adding notification with id " + notification.getId() +  " to the system.");
         return notification;
     }
 
@@ -66,6 +70,7 @@ public class NotificationServiceImpl implements NotificationService {
     public Notification readNotification(int id) throws NotificationException {
         Notification notification = getNotification(id);
         notification.setRead(true);
+        LOGGER.info("Setting notification with id " + notification.getId() +  " to read.");
         return notificationRepository.save(notification);
     }
 
@@ -78,6 +83,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<Notification> getNotificationsForUser(String userId) {
         List<Notification> notifications = userService.findUserById(userId).getNotifications();
+        LOGGER.info("Getting " + notifications.size() + " notifications from user " + userId);
         return Collections.unmodifiableList(notifications);
     }
 
@@ -108,6 +114,7 @@ public class NotificationServiceImpl implements NotificationService {
         //Update data
         user.deleteAllNotifications();
         userService.changeUser(user);
+        LOGGER.info("Deleting all notification for user " + userId);
     }
 
     /**
@@ -127,6 +134,7 @@ public class NotificationServiceImpl implements NotificationService {
         //Update data
         user.deleteNotification(notification);
         userService.changeUser(user);
+        LOGGER.info("Deleting notification with id " + notification.getId() + " from user " + userId);
     }
 
     /**

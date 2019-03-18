@@ -6,7 +6,10 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-
+/**
+ * This pojo class holds information about a specific user role.
+ * Every user role is coupled to a user via its ID.
+ */
 @NoArgsConstructor
 @Data
 @Entity

@@ -10,6 +10,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main class of the micro service.
+ * This class holds information about things like its credentials and many other things like:
+ * - Notifications
+ * - Friends
+ * - Social provider
+ *
+ * @see Friend
+ * @see Notification
+ */
 @Data
 @Entity
 @Table(name = "tb_user")

@@ -5,6 +5,7 @@ import be.kdg.userservice.user.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -87,6 +88,7 @@ public class JWTConfig {
      * DefaultTokenService for authorization that we customize with our own tokenStore, clientDetailsService,
      * tokenEnhancerChain and support for refreshToken.
      */
+    @Primary
     @Bean
     public AuthorizationServerTokenServices authorizationServerTokenServices() {
         DefaultTokenServices defaultTokenServices = new DefaultTokenServices();

@@ -8,7 +8,7 @@ import {RoomService} from '../../services/room.service';
   styleUrls: ['./replay.component.scss']
 })
 export class ReplayComponent implements OnInit {
-  replays: Replay[] = [];
+  replays: Replay[] = [Replay.create()];
   curReplay: number;
 
   constructor(private roomService: RoomService) { }

@@ -5,4 +5,13 @@ export class Replay {
   roomName: string;
   roundNumber: number;
   lines: ReplayLine[];
+
+  static create(): Replay {
+    return {
+      id: 0,
+      roomName: '',
+      roundNumber: 0,
+      lines: []
+    };
+  }
 }

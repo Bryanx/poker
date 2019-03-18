@@ -1,6 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { ReplayComponent } from './replay.component';
+import {ReplayComponent} from './replay.component';
+import {TranslatePipe} from '../../translate.pipe';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('ReplayComponent', () => {
   let component: ReplayComponent;
@@ -8,9 +10,10 @@ describe('ReplayComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReplayComponent ]
+      declarations: [ReplayComponent, TranslatePipe],
+      imports: [HttpClientTestingModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

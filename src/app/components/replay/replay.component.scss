@@ -38,23 +38,34 @@
   margin-bottom: 2rem;
 
   h2 {
-    margin-top: 1.6rem;
+    margin-top: 1.7rem;
     margin-bottom: 2rem;
     color: white;
   }
 
   button {
-    width: 150px;
+    width: 50px;
     height: 50px;
     margin-left: 1rem;
     margin-right: 1rem;
     border: none;
-    border-radius: 1rem;
+    border-radius: 50%;
     font-size: 1.5rem;
     font-weight: bold;
     color: white;
     background-color: $green;
     cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
 
     &:hover {
       background: darken($green, 15%)
@@ -65,8 +76,6 @@
     }
   }
 }
-
-
 
 .message-section {
   width: 70%;

@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Round} from '../../model/round';
 import {Phase} from '../../model/phase';
+import {Player} from '../../model/player';
+import {Room} from '../../model/room';
 
 @Component({
   selector: 'app-game-table',

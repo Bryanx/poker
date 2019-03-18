@@ -10,6 +10,7 @@
 <div class="grid-container" *ngIf="done">
   <button (click)="goBack()" class="leave-button"><img src="../../../assets/img/icons/leave1.svg"></button>
   <button (click)="showInviteModal = !showInviteModal" class="invite-button"><img src="../../../assets/img/icons/invite.svg"></button>
+  <div *ngIf="room" class="room-name"><p class="room-room">ROOM</p><p>{{room.name.toUpperCase()}}</p></div>
   <app-player *ngFor="let player of room.playersInRoom; index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"
               [player]="player"
               [currentAct]="lastAct"
@@ -25,7 +26,9 @@
   [round]="round"
   (actEvent)="onActEvent($event)"
   (currentPhaseBetEvent)="onCurrentPhaseBetEvent($event)"></app-actionbar>
-  <app-game-table class="grid-item-table" [round]="round"></app-game-table>
+  <app-game-table class="grid-item-table"
+                  [round]="round"
+  ></app-game-table>
   <section class="grid-player-bet">
     <div *ngFor="let currentPhaseBet of currentPhaseBets; index as i" [class]="'player-bet bet-' + (currentPhaseBet.seatNumber - 1)">
       {{(currentPhaseBet.bet)}}

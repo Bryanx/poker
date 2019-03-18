@@ -6,6 +6,7 @@ import {Observable, Subject} from 'rxjs';
 })
 export class HomeVisibleService {
   state: Subject<Boolean> = new Subject();
+  onlyHome: Subject<Boolean> = new Subject();
 
   getState(): Observable<Boolean> {
     return this.state;
@@ -13,5 +14,13 @@ export class HomeVisibleService {
 
   emitNewState(state: boolean) {
     this.state.next(state);
+  }
+
+  getHome(): Observable<Boolean> {
+    return this.onlyHome;
+  }
+
+  emitHome(state: boolean) {
+    this.onlyHome.next(state);
   }
 }

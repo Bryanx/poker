@@ -74,5 +74,6 @@
   "PROFILE": "profile",
   "INVITE FRIENDS": "Invite friends",
   "INVITE": "Invite",
-  "NO FRIENDS": "No friends :("
+  "NO FRIENDS": "No friends :(",
+  "WAITINGFORNEWROUND": "Waiting for new round to start..."
 }

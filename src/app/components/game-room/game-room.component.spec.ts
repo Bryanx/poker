@@ -15,6 +15,7 @@ import {customNotifierOptions} from '../../notifierOptions';
 import {TranslatePipe} from '../../translate.pipe';
 import {NgCircleProgressModule} from 'ng-circle-progress';
 import {PlayerCardComponent} from '../player-card/player-card.component';
+import {GameInvitationComponent} from '../game-invitation/game-invitation.component';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -32,7 +33,8 @@ describe('GameRoomComponent', () => {
         MatSlider,
         MatProgressBar,
         TranslatePipe,
-        PlayerCardComponent
+        PlayerCardComponent,
+        GameInvitationComponent
       ],
       imports: [
         FormsModule,

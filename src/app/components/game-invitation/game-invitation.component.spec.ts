@@ -1,6 +1,9 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { GameInvitationComponent } from './game-invitation.component';
+import {GameInvitationComponent} from './game-invitation.component';
+import {TranslatePipe} from '../../translate.pipe';
+import {HttpClientModule} from '@angular/common/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('GameInvitationComponent', () => {
   let component: GameInvitationComponent;
@@ -8,9 +11,10 @@ describe('GameInvitationComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameInvitationComponent ]
+      declarations: [GameInvitationComponent, TranslatePipe],
+      imports: [HttpClientModule, BrowserAnimationsModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,197 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    tools:context=".MenuActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="300dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:contentDescription="@string/logo"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.805" />
+    <data>
 
-    <GridLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="369dp"
-        android:layout_height="198dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="40dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    </data>
 
-        <Button
-            android:id="@+id/btnPublicGame"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="0"
-            android:layout_margin="7dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/public_game" />
+    <androidx.drawerlayout.widget.DrawerLayout
+        tools:context=".MenuActivity"
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/btnPrivateGame"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_row="0"
-            android:layout_column="1"
-            android:layout_margin="7dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/private_game" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground">
 
-        <Button
-            android:id="@+id/btnFriends"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_margin="7dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/friends" />
+            <ImageView
+                android:id="@+id/ivLogo"
+                android:layout_width="300dp"
+                android:layout_height="90dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/logo"
+                app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.805" />
 
-        <Button
-            android:id="@+id/btnAccount"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:layout_margin="7dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/account" />
+            <GridLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="369dp"
+                android:layout_height="198dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="40dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-        <Button
-            android:id="@+id/btnRankings"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_margin="7dp"
-            android:layout_marginBottom="12dp"
-            android:text="@string/rankings" />
+                <Button
+                    android:id="@+id/btnPublicGame"
+                    style="@style/greenButton"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_margin="7dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/public_game" />
 
-        <Button
-            android:id="@+id/btnLogout"
-            style="@style/greenButton"
-            android:layout_width="175dp"
-            android:layout_height="wrap_content"
-            android:layout_row="2"
-            android:layout_column="1"
-            android:layout_margin="7dp"
-            android:text="@string/logout" />
-    </GridLayout>
+                <Button
+                    android:id="@+id/btnPrivateGame"
+                    style="@style/greenButton"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:layout_margin="7dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/private_game" />
 
-    <ImageView
-        android:id="@+id/ivBell"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="12dp"
-        android:contentDescription="@string/default_desc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <Button
+                    android:id="@+id/btnFriends"
+                    style="@style/greenButton"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:layout_margin="7dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/friends" />
 
-    <View
-        android:id="@+id/ivSettings"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:background="@drawable/settings"
-        android:layout_marginEnd="12dp"
-        android:contentDescription="@string/default_desc"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                <Button
+                    android:id="@+id/btnAccount"
+                    style="@style/greenButton"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:layout_margin="7dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/account" />
 
-    <LinearLayout
-        android:layout_width="560dp"
-        android:translationZ="999dp"
-        android:layout_height="match_parent"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:baselineAligned="false">
+                <Button
+                    android:id="@+id/btnRankings"
+                    style="@style/greenButton"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:layout_margin="7dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="@string/rankings" />
+
+                <Button
+                    android:id="@+id/btnLogout"
+                    style="@style/greenButton"
+                    android:layout_width="175dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:layout_margin="7dp"
+                    android:text="@string/logout" />
+            </GridLayout>
+
+            <ImageView
+                android:id="@+id/ivBell"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="12dp"
+                android:contentDescription="@string/default_desc"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/ivSettings"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/settings"
+                android:contentDescription="@string/default_desc"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/tvUserLevel"
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/ivBell"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/progressBarLevel"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="12dp"
+                android:max="100"
+                android:scaleY="3"
+                app:layout_constraintEnd_toStartOf="@+id/tvUserLevel"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvCoins"
+                android:layout_width="128dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/ivCoins"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivCoins"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:contentDescription="@string/default_desc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <fragment
             android:id="@+id/fragmentNot"
             android:name="be.kdg.mobile_client.notification.NotificationFragment"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight=".5"
-            android:tag="@string/not_fragment_tag"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </LinearLayout>
+            android:layout_gravity="start"
+            android:tag="@string/not_fragment_tag" />
 
-
-    <TextView
-        android:id="@+id/tvUserLevel"
-        android:layout_width="35dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/ivBell"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/progressBarLevel"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="12dp"
-        android:max="100"
-        android:scaleY="3"
-        app:layout_constraintEnd_toStartOf="@+id/tvUserLevel"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvCoins"
-        android:layout_width="128dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/ivCoins"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/ivCoins"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
-        android:contentDescription="@string/default_desc"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>

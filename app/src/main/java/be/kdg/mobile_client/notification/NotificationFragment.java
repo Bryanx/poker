@@ -50,6 +50,7 @@ public class NotificationFragment extends Fragment {
         placeImages();
         addEventListeners();
         getNotifications();
+        view.setMinimumWidth(getResources().getDisplayMetrics().widthPixels/2);
         return view;
     }
 

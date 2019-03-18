@@ -12,16 +12,14 @@ public class SortComparator implements Comparator<Integer> {
     private final Map<Integer, Integer> freqMap;
 
     // Assign the specified map
-    public SortComparator(Map<Integer, Integer> tFreqMap)
-    {
+    public SortComparator(Map<Integer, Integer> tFreqMap) {
         this.freqMap = tFreqMap;
     }
 
     //TODO: maarten, move documentation to javaDOC.
     // Compare the values
     @Override
-    public int compare(Integer k1, Integer k2)
-    {
+    public int compare(Integer k1, Integer k2) {
         // Compare value by frequency
         int freqCompare = freqMap.get(k2).compareTo(freqMap.get(k1));
 
@@ -30,9 +28,7 @@ public class SortComparator implements Comparator<Integer> {
 
         // If frequency is equal, then just compare by value, otherwise -
         // compare by the frequency.
-        if (freqCompare == 0)
-            return valueCompare;
-        else
-            return freqCompare;
+        if (freqCompare == 0) return valueCompare;
+        else return freqCompare;
     }
 }

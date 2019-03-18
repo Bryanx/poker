@@ -3,8 +3,13 @@
   <img src="../../../assets/img/icons/loading.gif"/>
 </div>
 
+<app-game-invitation *ngIf="showInviteModal"
+                     [room]="room"
+></app-game-invitation>
+
 <div class="grid-container" *ngIf="done">
   <button (click)="goBack()" class="leave-button"><img src="../../../assets/img/icons/leave1.svg"></button>
+  <button (click)="showInviteModal = !showInviteModal" class="invite-button"><img src="../../../assets/img/icons/invite.svg"></button>
   <app-player *ngFor="let player of room.playersInRoom; index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"
               [player]="player"
               [currentAct]="lastAct"
@@ -25,6 +30,5 @@
     <div *ngFor="let currentPhaseBet of currentPhaseBets; index as i" [class]="'player-bet bet-' + (currentPhaseBet.seatNumber - 1)">
       {{(currentPhaseBet.bet)}}
     </div>
-
   </section>
 </div>

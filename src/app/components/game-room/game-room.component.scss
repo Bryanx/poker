@@ -28,6 +28,39 @@
   }
 }
 
+.invite-button {
+  position: absolute;
+  top: 30px;
+  left: 120px;
+  margin-top: 0;
+  width: 75px;
+  height: 75px;
+  border: solid 3px lighten($background-color, 20%);
+  background-color: #383a4f;
+  border-radius: 50%;
+  min-width: auto;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: lighten($background-color, 30%);
+  }
+
+  &:active {
+    top: 30px;
+  }
+
+  img {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .grid-container {
   display: grid;
   height: 100vh;

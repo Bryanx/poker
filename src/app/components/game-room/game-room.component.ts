@@ -1,10 +1,7 @@
-import {Component, HostListener, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
 import {Player} from '../../model/player';
-
-import {Notification} from '../../model/notification';
-import {NotificationType} from '../../model/notificationType';
 import {AuthorizationService} from '../../services/authorization.service';
 import {Round} from '../../model/round';
 import {RoomService} from '../../services/room.service';
@@ -18,7 +15,6 @@ import {HomeVisibleService} from '../../services/home-visible.service';
 import {forkJoin} from 'rxjs';
 import {User} from '../../model/user';
 import {Phase} from '../../model/phase';
-import {PlayerComponent} from '../player/player.component';
 
 @Component({
   selector: 'app-room',
@@ -37,6 +33,7 @@ export class GameRoomComponent implements OnInit, OnDestroy {
   ws: any;
   currentPhaseBets: CurrentPhaseBet[] = CurrentPhaseBet.createArrayOfSix();
   isJoined: boolean;
+  showInviteModal: Boolean = false;
 
   constructor(private curRouter: ActivatedRoute, private router: Router, private websocketService: WebSocketService,
               private authorizationService: AuthorizationService, private roomService: RoomService, private userService: UserService,
@@ -130,21 +127,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
 
   goBack() {
     return this.location.back();
-  }
-
-  /**
-   * Sent a notification to someone for joining a game of poker.
-   *
-   * @param someoneId The person that needs to receive the request.
-   */
-  sendGameRequest(someoneId: string) {
-    this.userService.getUser(someoneId).subscribe(user => {
-      const notification = new Notification();
-      notification.message = user.username + ' has sent you a request to join ' + this.room.name + ' room';
-      notification.type = NotificationType.GAME_REQUEST;
-
-      this.userService.sendNotification(user.id, notification).subscribe();
-    });
   }
 
   getData(id: number): void {

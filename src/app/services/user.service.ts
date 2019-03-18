@@ -23,6 +23,12 @@ export class UserService {
   /**
    * Gives back your own credentials.
    */
+  changeFriends(user: User): Observable<User> {
+    return this.http.put<User>(this.url + '/friends', user);
+  }
+  /**
+   * Gives back your own credentials.
+   */
   getMyself(): Observable<User> {
     return this.http.get<User>(this.url);
   }

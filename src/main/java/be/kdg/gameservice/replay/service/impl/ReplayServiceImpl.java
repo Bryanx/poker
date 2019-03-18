@@ -14,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This service will be used to generate replays for the played rounds.
@@ -53,11 +55,18 @@ public class ReplayServiceImpl implements ReplayService {
         Replay replay = new Replay(roomName, ownerId, roundNumber);
 
         //Construct replay
+        Map<String, String> usernames = new HashMap<>();
         acts.stream().sorted(Act::compareTo)
                 .forEach(act -> {
-                    String userName = userApiGateway.getUser(act.getPlayer().getUserId()).getUsername();
+                    //Get usernames
+                    String id = act.getPlayer().getUserId();
+                    if (!usernames.containsKey(id)) {
+                        String username = userApiGateway.getUser(id).getUsername();
+                        usernames.put(id, username);
+                    }
+
                     String line = String.format("%s played act %s for %d chips",
-                            userName, act.getType(), act.getBet());
+                            usernames.get(id), act.getType(), act.getBet());
                     replay.addLine(line, act.getPhase().toString());
                 });
 

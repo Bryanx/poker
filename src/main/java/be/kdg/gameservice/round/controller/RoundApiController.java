@@ -82,7 +82,6 @@ public class RoundApiController extends BaseController {
         Round round;
         RoundDTO roundOut;
         if (winnerOptional.isPresent() || playerOptional.isPresent()) {
-
             Player winner = winnerOptional.orElseGet(playerOptional::get);
             userApiGateway.addWin(winner.getUserId());
             sendWinMessages(authentication, winner, actDTO);
@@ -90,7 +89,6 @@ public class RoundApiController extends BaseController {
             round = roomService.getCurrentRound(actDTO.getRoomId());
             roundOut = modelMapper.map(round, RoundDTO.class);
             this.template.convertAndSend("/room/receive-round/" + actDTO.getRoomId(), roundOut);
-            Thread.sleep(3000);
             round = roomService.startNewRoundForRoom(actDTO.getRoomId());
             roundOut = modelMapper.map(round, RoundDTO.class);
 

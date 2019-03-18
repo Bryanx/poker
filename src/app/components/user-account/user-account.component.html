@@ -34,5 +34,8 @@
   <span>{{user.thresholdTillNextLevel}}</span>
 </section>
 
-<button class="settings-button" *ngIf="user && myself && myAccount()" (click)="settings()">{{'SETTINGS' | translate | titlecase}}</button>
-<button class="back-button" (click)="goBack()">{{'BACK' | translate | titlecase}}</button>
+<section class="nav">
+  <button class="back-button" (click)="goBack()">{{'BACK' | translate | titlecase}}</button>
+  <button *ngIf="user && myself && myAccount()" (click)="settings()">{{'SETTINGS' | translate | titlecase}}</button>
+</section>
+

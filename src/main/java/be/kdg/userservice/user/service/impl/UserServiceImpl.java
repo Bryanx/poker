@@ -156,7 +156,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return saveUser(userToUpdate);
     }
 
-
+    /**
+     * Adds a friend to a user.
+     *
+     * @param userId The id of the user that gets a new friend.
+     * @param friend The friend that is going to be added.
+     * @return The updated user.
+     * @throws UserException Thrown if the user was not found.
+     */
     @Override
     public synchronized User addFriend(String userId, Friend friend) throws UserException {
         //Get data
@@ -167,6 +174,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return saveUser(userToUpdate);
     }
 
+    /**
+     * Deletes a friend from a user.
+     *
+     * @param userId The id of the user that gets a new friend.
+     * @param userIdOfFriend The id of the friend that is going to be deleted.
+     * @return The updated user.
+     * @throws UserException Thrown if the user was not found.
+     */
     @Override
     public synchronized User deleteFriend(String userId, String userIdOfFriend) throws UserException {
         //Get data
@@ -174,7 +189,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         Friend friendToDelete = userToUpdate.getFriends().stream()
                 .filter(friend -> friend.getUserId().equals(userIdOfFriend))
                 .findFirst()
-                .orElseThrow(() -> new UserException(UserServiceImpl.class, "Use was not found"));
+                .orElseThrow(() -> new UserException(UserServiceImpl.class, "Friend was not found"));
 
         //Update data
         userToUpdate.removeFriend(friendToDelete);

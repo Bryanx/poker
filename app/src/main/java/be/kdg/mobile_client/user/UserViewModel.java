@@ -58,6 +58,12 @@ public class UserViewModel extends ViewModel {
         }, throwable -> handleError(throwable, app.getString(R.string.change_user_tag), app.getString(R.string.error_updating_user))));
     }
 
+    public void changeFriends(User user) {
+        compositeDisposable.add(userService.changeFriends(user).subscribe(response -> {
+            message.postValue(app.getString(R.string.user_was_updated));
+        }, throwable -> handleError(throwable, app.getString(R.string.change_user_tag), app.getString(R.string.error_updating_user))));
+    }
+
     private void loadUser(String id) {
         compositeDisposable.add(userService.getUser(id).subscribe(value -> user.postValue(value),
                 throwable -> handleError(throwable, app.getString(R.string.load_user_tag), app.getString(R.string.error_loading_user))));

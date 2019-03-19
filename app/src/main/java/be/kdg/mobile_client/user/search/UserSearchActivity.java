@@ -100,6 +100,6 @@ public class UserSearchActivity extends BaseActivity {
      */
     public void addFriend(User friend) {
         myself.addFriend(new Friend(friend.getId()));
-        userViewModel.changeUser(myself);
+        userViewModel.changeFriends(myself);
     }
 }

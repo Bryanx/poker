@@ -28,6 +28,10 @@ public interface UserService {
     @PUT("/api/user")
     Observable<Token> changeUser(@Body User user);
 
+    @Headers({"Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
+    @PUT("/api/user/friends")
+    Observable<Token> changeFriends(@Body User user);
+
     @Headers({"Content-Type: application/json;charset=UTF-8",
             "Authorization: Basic bXktdHJ1c3RlZC1jbGllbnQ6c2VjcmV0"})
     @PATCH("/api/user")

@@ -16,6 +16,7 @@ import {GameRoomEditComponent} from './components/game-room-edit/game-room-edit.
 import {RankingsComponent} from './components/rankings/rankings.component';
 import {AdminGuardService} from './services/admin-guard.service';
 import {GlobalMessageComponent} from './components/global-message/global-message.component';
+import {ReplayComponent} from './components/replay/replay.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: 'friends', component: FriendsComponent, canActivate: [AuthGuardService]},
   {path: 'rankings', component: RankingsComponent, canActivate: [AuthGuardService]},
   {path: 'search', component: SearchComponent, canActivate: [AuthGuardService]},
+  {path: 'replays', component: ReplayComponent, canActivate: [AuthGuardService]},
   {path: 'global-message', component: GlobalMessageComponent, canActivate: [AuthGuardService]},
   {path: 'rooms/private/add', component: GameRoomEditComponent, canActivate: [AuthGuardService]},
   {path: 'rooms/private/edit/:id', component: GameRoomEditComponent, canActivate: [AuthGuardService]},

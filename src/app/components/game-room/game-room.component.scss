@@ -4,7 +4,7 @@
 
 .leave-button {
   position: absolute;
-  top: 1rem;
+  top: 30px;
   left: 30px;
   margin-top: 0;
   width: 75px;
@@ -25,6 +25,39 @@
     height: 40px;
     top: 17px;
     right: 18px;
+  }
+}
+
+.invite-button {
+  position: absolute;
+  top: 30px;
+  left: 120px;
+  margin-top: 0;
+  width: 75px;
+  height: 75px;
+  border: solid 3px lighten($background-color, 20%);
+  background-color: #383a4f;
+  border-radius: 50%;
+  min-width: auto;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: lighten($background-color, 30%);
+  }
+
+  &:active {
+    top: 30px;
+  }
+
+  img {
+    position: absolute;
+    width: 40px;
+    height: 40px;
   }
 }
 
@@ -159,13 +192,13 @@
 
 .room-name {
   position: absolute;
-  top: 1.6rem;
+  top: 36px;
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
   letter-spacing: 1px;
   display: block;
-  left: 10rem;
+  left: 220px;
   line-height: 1.8rem;
 
   .room-room {

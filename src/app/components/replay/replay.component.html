@@ -1,0 +1,18 @@
+<h1>REPLAYS</h1>
+
+<section class="nav">
+  <button (click)="switchPage(-1)"><img src="../../../assets/img/icons/arrow-left.svg"></button>
+  <h2>{{replays[curReplay].roomName}} (round {{replays[curReplay].roundNumber}})</h2>
+  <button (click)="switchPage(1)"><img src="../../../assets/img/icons/arrow-right.svg"></button>
+</section>
+
+<section class="message-section">
+  <div class="message-row" *ngFor="let replayLine of replays[curReplay].lines">
+    {{replayLine.line}}
+    <div class="phase">
+      {{replayLine.phase}}
+    </div>
+  </div>
+</section>
+
+<button class="back" routerLink="/">{{'BACK' | translate | uppercase}}</button>

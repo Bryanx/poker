@@ -1,5 +1,4 @@
 @import "../../../styles";
-
 @include custom_button
 
 :host {
@@ -12,7 +11,7 @@
 }
 
 .un-vis {
-  margin-left: -125%;
+  margin-left: -180%;
   transition: margin-left .5s;
 }
 
@@ -29,14 +28,16 @@
 }
 
 .chat-content {
+  background-color: darken($background-color, 7%);
+  z-index: 99;
   position: absolute;
   bottom: 3.3rem;
   padding: 1rem;
-  width: 100%;
+  width: 420px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 200%;
+  height: 320%;
   overflow-y: scroll;
   direction: rtl;
 
@@ -71,7 +72,7 @@
   align-items: flex-end;
   position: absolute;
   bottom: 0;
-  width: 100%;
+  width: 420px;
 
   button {
     height: 3rem;
@@ -91,28 +92,6 @@
   }
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: $green;
-  border-radius: 10px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: $green;
-}
-
 //---------------------------------- ARROW ----------------------------------
 
 .arrow-right {
@@ -120,19 +99,19 @@
   height: 3rem;
   background: $background-color-2;
   position: relative;
-  bottom: 6.4rem;
-  left: 100%;
+  bottom: 10rem;
+  left: 0;
   transition: left 0.5s;
   z-index: 100;
 }
 
 .arrow-right.active {
   background: $background-color-2;
-  left: 0;
+  left: 420px;
   transition: left 0.5s;
 }
 
-.arrow-right:before, .arrow-right:after {
+.arrow-right:after, .arrow-right:before {
   content: "";
   display: block;
   width: 20px;
@@ -143,22 +122,22 @@
   transition: transform .5s;
 }
 
-.arrow-right:before {
-  top: 18px;
+.arrow-right:after {
+  top: 29px;
   border-radius: 10px;
   transform: rotate(135deg);
 }
 
-.arrow-right:after {
-  top: 29px;
+.arrow-right:before {
+  top: 18px;
   border-radius: 10px;
   transform: rotate(-135deg);
 }
 
-.arrow-right.active:before {
+.arrow-right.active:after {
   transform: rotate(225deg);
 }
 
-.arrow-right.active:after {
+.arrow-right.active:before {
   transform: rotate(-225deg);
 }

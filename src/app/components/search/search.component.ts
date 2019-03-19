@@ -91,8 +91,7 @@ export class SearchComponent implements OnInit {
     friend.userId = friendId;
     this.myself.friends.push(friend);
 
-    this.userService.changeUser(this.myself).subscribe();
-    this.sendFriendRequest(friendId);
+    this.userService.changeFriends(this.myself).subscribe(() =>  this.sendFriendRequest(friendId));
   }
 
   /**

@@ -82,12 +82,20 @@ export class NotificationComponent implements OnInit {
   }
 
   handleDelete(id: number) {
-    this._notifications = this._notifications.filter(not => not.id !== id); // filter for speed
+    this._notifications = this._notifications.filter(not => not.id !== id);
     this.userService.deleteNotification(id).subscribe();
   }
 
   handleDeleteAll() {
     this._notifications = [];
     this.userService.deleteNotifications().subscribe();
+  }
+
+  detemineLink(not: Notification) {
+    if (not.type === NotificationType.GAME_REQUEST) {
+      return '/rooms/' + not.ref;
+    } else {
+      return '/user/' + not.ref;
+    }
   }
 }

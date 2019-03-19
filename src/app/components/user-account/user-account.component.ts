@@ -54,13 +54,12 @@ export class UserAccountComponent implements OnInit {
     const friend: Friend = new Friend();
     friend.userId = this.user.id;
     this.myself.friends.push(friend);
-    this.userService.changeUser(this.myself).subscribe(() => {
+    this.userService.changeFriends(this.myself).subscribe(() => {
+      this.sendFriendRequest(this.user.id);
       this.snackbar.open(this.user.username + ' was added as a friend.', '', {
         duration: 3000
       });
     });
-
-    this.sendFriendRequest(this.user.id);
   }
 
   /**

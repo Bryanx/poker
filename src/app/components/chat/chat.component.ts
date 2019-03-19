@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit() {
     this.playerName = this.authorizationService.getUsername();
-    this.chatVisible = true;
+    this.chatVisible = false;
     this.initializeChatConnection();
   }
 

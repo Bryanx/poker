@@ -1,19 +1,15 @@
-import { by, browser, element } from 'protractor';
+import {by, browser, element, $, protractor, $$} from 'protractor';
+import {MenuPage} from '../pages/menu.page';
 
-describe('Conduit App E2E Test Suite', () => {
-  let page;
+describe('App E2E Test Suite', () => {
+  const menuPage = new MenuPage();
 
-  describe('home page should work fine', () => {
-    beforeAll(() => {
-      page = browser.get('/');
-    });
+  beforeAll(() => {
+    browser.get('/');
+  });
 
-    it('should have right title', () => {
-      console.log('helloooo' + page.getTitle());
-      page.getTitle()
-        .then((title: string) => {
-          expect(title).toEqual('Conduit');
-        });
-    });
+  it('should navigate to login page', () => {
+    const btnLogin = element(by.css('#login'));
+    btnLogin.click();
   });
 });

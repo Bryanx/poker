@@ -5,7 +5,7 @@
 <img src="../../../assets/img/logos/logo-white.png"/>
 
 <section>
-  <button *ngIf="!isAuthenticated()" routerLink="/login">{{'LOGIN' | translate | uppercase}}</button>
+  <button id="login" *ngIf="!isAuthenticated()" routerLink="/login">{{'LOGIN' | translate | uppercase}}</button>
 
   <button *ngIf="!isAuthenticated()" routerLink="/register">{{'REGISTER' | translate | uppercase}}</button>
 

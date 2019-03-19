@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
      * @throws UserException Thrown if the username if already found or if the user was not found
      */
     @Override
-    public User changeUser(User user) throws UserException {
+    public synchronized User changeUser(User user) throws UserException {
         //Get data
         User userToUpdate = userRepository.findById(user.getId())
                 .orElseThrow(() -> new UserException(UserServiceImpl.class, "User not found"));
@@ -148,11 +148,27 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         userToUpdate.setLastname(user.getLastname());
         userToUpdate.setEmail(user.getEmail());
         userToUpdate.setProfilePictureBinary(user.getProfilePictureBinary());
-        userToUpdate.setFriends(user.getFriends());
         userToUpdate.setChips(user.getChips());
         userToUpdate.setEnabled(user.getEnabled());
 
         LOGGER.info("Updated user with id " + user.getId());
+        return saveUser(userToUpdate);
+    }
+
+    /**
+     * Changes the friends of a specific user.
+     *
+     * @param user The friends of the user that we want to update.
+     * @return The updated user with new friends.
+     * @throws UserException Thrown if the user was not found in the database.
+     */
+    @Override
+    public synchronized User changeFriends(User user) throws UserException {
+        //Get data
+        User userToUpdate = findUserById(user.getId());
+
+        //Update data
+        userToUpdate.setFriends(user.getFriends());
         return saveUser(userToUpdate);
     }
 
@@ -286,7 +302,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
      * @param user The user that needs to be saved.
      * @return The saved user.
      */
-    private User saveUser(User user) {
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 }

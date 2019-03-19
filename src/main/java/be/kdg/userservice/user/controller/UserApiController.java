@@ -38,7 +38,6 @@ public class UserApiController extends BaseController {
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-
     /**
      * Rest endpoint that returns the user based on his JWT.
      */
@@ -145,6 +144,18 @@ public class UserApiController extends BaseController {
         User userOut = userService.changeRole(user, "ROLE_USER");
         UserDto userDto = modelMapper.map(userOut, UserDto.class);
         return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Changes the list of friends from a specific user.
+     */
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PutMapping("/user/friends")
+    public ResponseEntity<UserDto> changeFriends(@Valid @RequestBody UserDto userDto) throws UserException {
+        logIncomingCall("changeFriends");
+        User user = userService.changeFriends(modelMapper.map(userDto, User.class));
+        UserDto userOut = modelMapper.map(user, UserDto.class);
+        return new ResponseEntity<>(userOut, HttpStatus.ACCEPTED);
     }
 
     /**

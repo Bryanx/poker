@@ -104,8 +104,8 @@ public class UserServiceTest extends UtilTesting {
         //Add friend
         test1.setFriends(new ArrayList<>(Collections.singletonList(new Friend(testableUserId2))));
         test2.setFriends(new ArrayList<>(Collections.singletonList(new Friend(testableUserId1))));
-        userService.changeUser(test1);
-        userService.changeUser(test2);
+        userService.changeFriends(test1);
+        userService.changeFriends(test2);
 
         //Test
         test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
@@ -121,7 +121,7 @@ public class UserServiceTest extends UtilTesting {
         //Delete friend
         List<Friend> dummyList = new ArrayList<>(); //empty list (no friends)
         test1.setFriends(dummyList);
-        userService.changeUser(test1);
+        userService.changeFriends(test1);
 
         //Test
         test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);

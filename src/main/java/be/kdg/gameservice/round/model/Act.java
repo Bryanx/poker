@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 
 /**
  * This class represents a single act from a player on a specific round.
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @Table(name = "act")
-public final class Act {
+public final class Act implements Comparable<Act> {
     /**
      * The id of the act. Used for persistence.
      */
@@ -43,6 +44,11 @@ public final class Act {
     private Phase phase;
 
     /**
+     * The time that the act was played.
+     */
+    private LocalTime timestamp;
+
+    /**
      * An optional bet that is officiated
      * This means that the bet can also be 0.
      */
@@ -59,5 +65,13 @@ public final class Act {
         this.type = type;
         this.phase = phase;
         this.bet = bet;
+        this.timestamp = LocalTime.now();
+    }
+
+    @Override
+    public int compareTo(Act other) {
+        boolean before = other.getTimestamp().isBefore(this.getTimestamp());
+        if (before) return 1;
+        else return -1;
     }
 }

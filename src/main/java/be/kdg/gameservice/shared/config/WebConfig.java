@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import javax.validation.Valid;
+
 /**
  * A simple configuration class that is used to create a bean of the modelmapper.
  */
@@ -15,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 public class WebConfig {
     @Value("${userservice.url}")
     private String userServiceUrl;
+    @Value("${token.url}")
+    private String TOKEN_URL;
 
     @Bean
     public ModelMapper modelMapper() {

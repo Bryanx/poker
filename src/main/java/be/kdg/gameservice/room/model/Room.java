@@ -68,7 +68,7 @@ public class Room {
 
     /**
      * @param gameRules The game rules that apply to this room.
-     * @param name The name of this room.
+     * @param name      The name of this room.
      */
     public Room(GameRules gameRules, String name) {
         this.playersInRoom = new ArrayList<>();
@@ -135,6 +135,7 @@ public class Room {
 
     /**
      * Return number between 0 and maxRoomSize.
+     *
      * @return available seatNumber
      */
     public int getFirstEmptySeat() {
@@ -157,7 +158,7 @@ public class Room {
                 if (occupiedSeats[i] <= 0 || occupiedSeats[i] >= size)
                     break;
 
-                if(occupiedSeats[i]==occupiedSeats[occupiedSeats[i]-1])
+                if (occupiedSeats[i] == occupiedSeats[occupiedSeats[i] - 1])
                     break;
 
                 int temp = occupiedSeats[i];
@@ -166,12 +167,12 @@ public class Room {
             }
         }
 
-        for (int i = 0; i < size; i++){
-            if (occupiedSeats[i] != i + 1){
+        for (int i = 0; i < size; i++) {
+            if (occupiedSeats[i] != i + 1) {
                 return i + 1;
             }
         }
 
-        return size+1;
+        return size + 1;
     }
 }

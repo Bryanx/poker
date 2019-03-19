@@ -89,6 +89,7 @@ public final class Player {
 
     /**
      * The Player is created with default values for all parameters.
+     *
      * @param chipCount The default chip count passed by the game rules.
      */
     public Player(int chipCount, String userId, int seatNumber) {

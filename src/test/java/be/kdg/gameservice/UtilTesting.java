@@ -7,22 +7,20 @@ import be.kdg.gameservice.room.model.Room;
 import be.kdg.gameservice.room.persistence.RoomRepository;
 import be.kdg.gameservice.round.model.Round;
 import be.kdg.gameservice.round.persistence.RoundRepository;
-import be.kdg.gameservice.shared.AuthDTO;
+import be.kdg.gameservice.shared.UserApiGateway;
+import be.kdg.gameservice.shared.dto.AuthDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -33,10 +31,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @Transactional
 public abstract class UtilTesting {
-    @Value("${token.url}")
-    private String TOKEN_URL;
     @Autowired
     private ResourceServerTokenServices resourceServerTokenServices;
+    @Autowired
+    private UserApiGateway userApiGateway;
 
     protected int testableRoomIdWithPlayers;
     protected int testablePrivateRoomId;
@@ -52,7 +50,7 @@ public abstract class UtilTesting {
     protected void provideTestDataRooms(RoomRepository roomRepository) {
         roomRepository.deleteAll();
 
-        String userIdMock = resourceServerTokenServices.readAccessToken(getMockToken().getAccess_token())
+        String userIdMock = resourceServerTokenServices.readAccessToken(userApiGateway.getMockToken().getAccess_token())
                 .getAdditionalInformation().get("uuid").toString();
         Room room1 = new Room(new GameRules(4, 8, 30, 500, 6, 1, 50), "test room 1");
         Room room2 = new Room(new GameRules(8, 16, 25, 2500, 5, 1, 50), "test room 2");
@@ -94,7 +92,7 @@ public abstract class UtilTesting {
     protected void provideTestDataRound(RoundRepository roundRepository) {
         roundRepository.deleteAll();
 
-        String userIdMock = resourceServerTokenServices.readAccessToken(getMockToken().getAccess_token())
+        String userIdMock = resourceServerTokenServices.readAccessToken(userApiGateway.getMockToken().getAccess_token())
                 .getAdditionalInformation().get("uuid").toString();
         Round round1 = new Round(new ArrayList<>(), 2);
         Round round2 = new Round(new ArrayList<>(Arrays.asList(
@@ -121,7 +119,7 @@ public abstract class UtilTesting {
      * @throws Exception Thrown if something goes wrong with the integration test.
      */
     protected void testMockMvc(String url, String body, MockMvc mock, RequestType requestType) throws Exception {
-        AuthDTO authDto = getMockToken();
+        AuthDTO authDto = userApiGateway.getMockToken();
 
         MockHttpServletRequestBuilder requestBuilder;
         ResultMatcher resultMatcher;
@@ -157,17 +155,5 @@ public abstract class UtilTesting {
                 .content(body)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(resultMatcher);
-    }
-
-    /**
-     * @return A mock token from the user service.
-     */
-    private AuthDTO getMockToken() {
-        RestTemplate restTemplate = new RestTemplate();
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.setBasicAuth("my-trusted-client", "secret");
-        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 }

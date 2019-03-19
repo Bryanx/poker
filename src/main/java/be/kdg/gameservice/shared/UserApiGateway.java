@@ -2,43 +2,32 @@ package be.kdg.gameservice.shared;
 
 import be.kdg.gameservice.room.controller.dto.UserDTO;
 import be.kdg.gameservice.shared.config.WebConfig;
+import be.kdg.gameservice.shared.dto.AuthDTO;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Gateway for communicating with the user service.
  */
 @Component
 public class UserApiGateway {
-    private static final String ID_KEY = "uuid";
+    private final String TOKEN_URL;
     private final String USER_SERVICE_URL;
     private final RestTemplate restTemplate;
-    private final ResourceServerTokenServices resourceTokenServices;
 
-    public UserApiGateway(WebConfig webConfig, RestTemplate restTemplate, ResourceServerTokenServices resourceTokenServices) {
+    public UserApiGateway(WebConfig webConfig, RestTemplate restTemplate) {
         this.USER_SERVICE_URL = webConfig.getUserServiceUrl();
+        this.TOKEN_URL = webConfig.getTOKEN_URL();
         this.restTemplate = restTemplate;
-        this.resourceTokenServices = resourceTokenServices;
-    }
-
-    /**
-     * @param authentication Needed as authentication.
-     * @return Gives back the details of a specific user.
-     */
-    public Map<String, Object> getUserInfo(OAuth2Authentication authentication) {
-        OAuth2AuthenticationDetails oAuth2AuthenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-        return resourceTokenServices.readAccessToken(oAuth2AuthenticationDetails.getTokenValue()).getAdditionalInformation();
     }
 
     /**
@@ -60,7 +49,6 @@ public class UserApiGateway {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         HttpEntity<List<String>> entity = new HttpEntity<>(userIds, headers);
-
         restTemplate.exchange(USER_SERVICE_URL + "/gamesplayed", HttpMethod.POST, entity, void.class);
     }
 
@@ -76,15 +64,6 @@ public class UserApiGateway {
     }
 
     /**
-     * @param authentication Needed as authentication.
-     * @return Gives back the details of a specific user.
-     */
-    public String getUserId(OAuth2Authentication authentication) {
-        String token = getTokenFromAuthentication(authentication);
-        return resourceTokenServices.readAccessToken(token).getAdditionalInformation().get(ID_KEY).toString();
-    }
-
-    /**
      * Sends a rest template request to the user-service.
      *
      * @param token The token used for making the request. (bearer)
@@ -96,8 +75,33 @@ public class UserApiGateway {
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setBearerAuth(token);
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
-
         return restTemplate.exchange(USER_SERVICE_URL + "/" + id, HttpMethod.GET, entity, UserDTO.class).getBody();
+    }
+
+    /**
+     * Sends a rest template request to the user-service.
+     *
+     * @return The requested user based on the token.
+     */
+    public UserDTO getUser(String id) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBearerAuth(getMockToken().getAccess_token());
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return restTemplate.exchange(USER_SERVICE_URL + "/" + id, HttpMethod.GET, entity, UserDTO.class).getBody();
+    }
+
+    /**
+     * @return A mock token from the user service.
+     */
+    public AuthDTO getMockToken() {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.setBasicAuth("my-trusted-client", "secret");
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
+        return restTemplate.postForObject(TOKEN_URL, entity, AuthDTO.class);
     }
 
     /**

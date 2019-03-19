@@ -2,6 +2,7 @@ package be.kdg.userservice.user.service.impl;
 
 import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.exception.UserException;
+import be.kdg.userservice.user.model.Friend;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.model.UserRole;
 import be.kdg.userservice.user.persistence.UserRepository;
@@ -155,20 +156,28 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return saveUser(userToUpdate);
     }
 
-    /**
-     * Changes the friends of a specific user.
-     *
-     * @param user The friends of the user that we want to update.
-     * @return The updated user with new friends.
-     * @throws UserException Thrown if the user was not found in the database.
-     */
+
     @Override
-    public synchronized User changeFriends(User user) throws UserException {
+    public synchronized User addFriend(String userId, Friend friend) throws UserException {
         //Get data
-        User userToUpdate = findUserById(user.getId());
+        User userToUpdate = findUserById(userId);
 
         //Update data
-        userToUpdate.setFriends(user.getFriends());
+        userToUpdate.addFriend(friend);
+        return saveUser(userToUpdate);
+    }
+
+    @Override
+    public synchronized User deleteFriend(String userId, String userIdOfFriend) throws UserException {
+        //Get data
+        User userToUpdate = findUserById(userId);
+        Friend friendToDelete = userToUpdate.getFriends().stream()
+                .filter(friend -> friend.getUserId().equals(userIdOfFriend))
+                .findFirst()
+                .orElseThrow(() -> new UserException(UserServiceImpl.class, "Use was not found"));
+
+        //Update data
+        userToUpdate.removeFriend(friendToDelete);
         return saveUser(userToUpdate);
     }
 

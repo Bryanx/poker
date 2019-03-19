@@ -95,6 +95,7 @@ public class UserServiceTest extends UtilTesting {
         assertTrue(userService.getUsersByName(TESTABLE_USER_NAME2).get(0).getUsername().contains(TESTABLE_USER_NAME2));
     }
 
+    /*
     @Test
     public void addAndDeleteFriends() throws Exception {
         //Prep
@@ -128,6 +129,7 @@ public class UserServiceTest extends UtilTesting {
         assertNotNull(test1.getFriends());
         assertEquals(0, test1.getFriends().size());
     }
+    */
 
     @Test
     public void addExperience() {

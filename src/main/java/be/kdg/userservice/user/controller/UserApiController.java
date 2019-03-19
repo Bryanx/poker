@@ -5,9 +5,11 @@ import be.kdg.userservice.shared.BaseController;
 import be.kdg.userservice.shared.dto.TokenDto;
 import be.kdg.userservice.shared.security.model.CustomUserDetails;
 import be.kdg.userservice.user.controller.dto.AuthDto;
+import be.kdg.userservice.user.controller.dto.FriendDto;
 import be.kdg.userservice.user.controller.dto.SocialUserDto;
 import be.kdg.userservice.user.controller.dto.UserDto;
 import be.kdg.userservice.user.exception.UserException;
+import be.kdg.userservice.user.model.Friend;
 import be.kdg.userservice.user.model.User;
 import be.kdg.userservice.user.service.api.UserService;
 import lombok.RequiredArgsConstructor;
@@ -146,14 +148,20 @@ public class UserApiController extends BaseController {
         return new ResponseEntity<>(userDto, HttpStatus.ACCEPTED);
     }
 
-    /**
-     * Changes the list of friends from a specific user.
-     */
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PutMapping("/user/friends")
-    public ResponseEntity<UserDto> changeFriends(@Valid @RequestBody UserDto userDto) throws UserException {
-        logIncomingCall("changeFriends");
-        User user = userService.changeFriends(modelMapper.map(userDto, User.class));
+    @PostMapping("/user/friends")
+    public ResponseEntity<UserDto> addFriend(@Valid @RequestBody FriendDto friendDto, OAuth2Authentication authentication) throws UserException {
+        logIncomingCall("addFriend");
+        User user = userService.addFriend(getUserId(authentication), new Friend(friendDto.getUserId()));
+        UserDto userOut = modelMapper.map(user, UserDto.class);
+        return new ResponseEntity<>(userOut, HttpStatus.ACCEPTED);
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PatchMapping("/user/friends/{userIdOfFriend}")
+    public ResponseEntity<UserDto> deleteFriend(@PathVariable String userIdOfFriend , OAuth2Authentication authentication) throws UserException {
+        logIncomingCall("deleteFriend");
+        User user = userService.deleteFriend(getUserId(authentication), userIdOfFriend);
         UserDto userOut = modelMapper.map(user, UserDto.class);
         return new ResponseEntity<>(userOut, HttpStatus.ACCEPTED);
     }

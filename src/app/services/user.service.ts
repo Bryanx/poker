@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {User} from '../model/user';
 import {Notification} from '../model/notification';
 import {Auth} from '../model/auth';
+import {Friend} from '../model/friend';
 
 
 /**
@@ -20,12 +21,14 @@ export class UserService {
     this.url = urlService.userServiceUrl;
   }
 
-  /**
-   * Gives back your own credentials.
-   */
-  changeFriends(user: User): Observable<User> {
-    return this.http.put<User>(this.url + '/friends', user);
+  addFriend(friend: Friend): Observable<User> {
+    return this.http.post<User>(this.url + '/friends', friend);
   }
+
+  deleteFriend(friendId: string): Observable<User> {
+    return this.http.patch<User>(this.url + '/friends/' + friendId, '');
+  }
+
   /**
    * Gives back your own credentials.
    */
@@ -139,15 +142,15 @@ export class UserService {
   }
 
   disableUser(user: User) {
-    return this.http.put(this.url + '/disable', user)
+    return this.http.put(this.url + '/disable', user);
   }
 
   changeToAdmin(user: User) {
-    return this.http.put(this.url + '/' + user.id + '/admin', user)
+    return this.http.put(this.url + '/' + user.id + '/admin', user);
   }
 
   changeToUser(user: User) {
-    return this.http.put(this.url + '/' + user.id + '/user', user)
+    return this.http.put(this.url + '/' + user.id + '/user', user);
   }
 
   deleteNotification(id: number): Observable<Notification> {

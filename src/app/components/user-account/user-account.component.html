@@ -23,8 +23,6 @@
     <span>{{user.chips | number}}</span>
     <h2>{{'TOTAL GAMES PLAYED' | translate | uppercase}}</h2>
     <span>{{user.gamesPlayed | number}}</span>
-    <h2>{{'BEST HAND' | translate | uppercase}}</h2>
-    <span>{{user.bestHand ? user.bestHand :  'UNKNOWN' | translate | titlecase}}</span>
   </div>
 </section>
 
@@ -36,4 +34,5 @@
   <span>{{user.thresholdTillNextLevel}}</span>
 </section>
 
+<button class="settings-button" *ngIf="user && myself && myAccount()" (click)="settings()">{{'SETTINGS' | translate | titlecase}}</button>
 <button class="back-button" (click)="goBack()">{{'BACK' | translate | titlecase}}</button>

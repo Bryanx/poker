@@ -154,4 +154,8 @@ export class SearchComponent implements OnInit {
       this.userService.getUsers().subscribe(users => this.users = users);
     }
   }
+
+  stop(event: Event) {
+    event.stopPropagation();
+  }
 }

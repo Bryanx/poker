@@ -4,7 +4,7 @@
 
 .leave-button {
   position: absolute;
-  top: 30px;
+  top: 1rem;
   left: 30px;
   margin-top: 0;
   width: 75px;
@@ -46,12 +46,10 @@
 
 .grid-person-0 {
   grid-area: zero;
-  align-items: start;
 }
 
 .grid-person-1 {
   grid-area: one;
-  align-items: end;
 }
 
 .grid-person-2 {
@@ -156,5 +154,21 @@
   img {
     width: 100px;
     height: 100px;
+  }
+}
+
+.room-name {
+  position: absolute;
+  top: 1.6rem;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: block;
+  left: 10rem;
+  line-height: 1.8rem;
+
+  .room-room {
+    color: $dark-gray;
   }
 }

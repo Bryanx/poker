@@ -1,4 +1,4 @@
-<div *ngIf="!homeVisible && hasAuthentication()" routerLink="/" class="home-container">
+<div *ngIf="!homeButtonVisible && hasAuthentication()" routerLink="/" class="home-container">
   <img src="../assets/img/icons/home.svg">
 </div>
 <header class="hotbar">
@@ -13,8 +13,8 @@
                     [notifications]="newNotification"
                     (deleteEvent)="getAllNotifications()"
   ></app-notification>
-  <button (click)="setLang('nl')">NL</button>
-  <button (click)="setLang('en')">EN</button>
+  <button *ngIf="onlyHome" (click)="setLang('nl')">NL</button>
+  <button *ngIf="onlyHome" (click)="setLang('en')">EN</button>
 </header>
 
 <notifier-container></notifier-container>

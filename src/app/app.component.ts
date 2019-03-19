@@ -28,7 +28,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 })
 
 export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
-  homeVisible: Boolean;
+  homeButtonVisible: Boolean;
+  onlyHome: Boolean;
   newNotification: Notification;
   myself: User = User.create();
   ws: any;
@@ -49,7 +50,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.homeObservable.getState().subscribe(newState => this.homeVisible = newState);
+    this.homeObservable.getState().subscribe(newState => this.homeButtonVisible = newState);
+    this.homeObservable.getHome().subscribe(newState => this.onlyHome = newState);
     this.checkIfAuthenticated();
   }
 

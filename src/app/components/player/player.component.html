@@ -6,3 +6,7 @@
   </div>
   <div class="money">{{player.chipCount}}</div>
 </div>
+<section class="cards">
+  <app-player-card *ngIf="round && showDown() && !whoAmI()" [card]="player.firstCard" [round]="round"></app-player-card>
+  <app-player-card *ngIf="round && showDown() && !whoAmI()" [card]="player.secondCard" [round]="round"></app-player-card>
+</section>

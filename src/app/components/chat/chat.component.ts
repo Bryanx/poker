@@ -17,12 +17,14 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
   ws: any;
   @ViewChild('chatScroll') private chatScroll: ElementRef;
   systemScroll: boolean;
+  chatVisible: boolean;
 
   constructor(private authorizationService: AuthorizationService, private websocketService: WebSocketService) {
   }
 
   ngOnInit() {
     this.playerName = this.authorizationService.getUsername();
+    this.chatVisible = true;
     this.initializeChatConnection();
   }
 
@@ -84,5 +86,9 @@ export class ChatComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.systemScroll) {
       this.systemScroll = false;
     }
+  }
+
+  toggleVisible() {
+    this.chatVisible = !this.chatVisible;
   }
 }

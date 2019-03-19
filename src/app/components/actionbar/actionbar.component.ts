@@ -1,4 +1,4 @@
-import {AfterViewChecked, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Act} from '../../model/act';
 import {ActType} from '../../model/actType';
 import {RoundService} from '../../services/round.service';
@@ -8,6 +8,7 @@ import {Player} from '../../model/player';
 import {Room} from '../../model/room';
 import {CurrentPhaseBet} from '../../model/currentPhaseBet';
 import {WebSocketService} from '../../services/web-socket.service';
+import {Phase} from '../../model/phase';
 
 @Component({
   selector: 'app-actionbar',
@@ -30,6 +31,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   counter: number;
   progressBarCounter: number;
   timerInterval: any;
+  waiting: boolean;
 
   @Input() room: Room = Room.create();
 
@@ -139,6 +141,7 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   }
 
   @Input() set round(round: Round) {
+    // console.log(round);
     if (round !== undefined) {
       if (this._round === undefined) {
         this.currentPhaseBet.bet = 0;
@@ -169,23 +172,29 @@ export class ActionbarComponent implements OnInit, OnDestroy {
 
   checkTurn() {
     this.myTurn = false;
+    this.waiting = false;
+    this.counter = 0;
 
-    if (this.currentAct === undefined) {
-      const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
-      if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
-        this.myTurn = true;
-      }
-    } else {
-      if (this.currentAct.nextUserId === undefined) {
+    if (this._round.currentPhase !== Phase.Showdown) {
+      if (this.currentAct === undefined) {
         const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
         if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
           this.myTurn = true;
         }
       } else {
-        if (this.currentAct.nextUserId === this.player.userId) {
-          this.myTurn = true;
+        if (this.currentAct.nextUserId === undefined) {
+          const nextPlayerIndex = this._round.button >= this._round.playersInRound.length - 1 ? 0 : this._round.button + 1;
+          if (this._round.playersInRound[nextPlayerIndex].id === this.player.id) {
+            this.myTurn = true;
+          }
+        } else {
+          if (this.currentAct.nextUserId === this.player.userId) {
+            this.myTurn = true;
+          }
         }
       }
+    } else {
+      this.waiting = true;
     }
 
     this.roundService.getPossibleActs(this._round.id).subscribe(actTypes => {
@@ -225,7 +234,10 @@ export class ActionbarComponent implements OnInit, OnDestroy {
   setTimer() {
     if (this.myTurn) {
       this.counter = this.room.gameRules.playDelay;
-       this.timerInterval = setInterval(() => {
+      if (this.timerInterval !== undefined) {
+        clearInterval(this.timerInterval);
+      }
+      this.timerInterval = setInterval(() => {
         if (this.counter > 0) {
           this.counter -= 1;
           this.progressBarCounter = this.counter / this.room.gameRules.playDelay * 100;

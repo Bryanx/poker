@@ -2,6 +2,9 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthorizationService} from '../../services/security/authorization.service';
 import {Router} from '@angular/router';
 import {HomeVisibleService} from '../../services/other/home-visible.service';
+import {User} from '../../model/user';
+import {UserService} from '../../services/user.service';
+
 
 @Component({
   selector: 'app-home',
@@ -9,11 +12,14 @@ import {HomeVisibleService} from '../../services/other/home-visible.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  myself: User = User.create();
 
-  constructor(public authorizationService: AuthorizationService, private router: Router, private homeObservable: HomeVisibleService) { }
+  constructor(public authorizationService: AuthorizationService, private router: Router, private homeObservable: HomeVisibleService, private userService: UserService) { }
 
   ngOnInit() {
    this.homeObservable.emitNewState(true);
+   this.homeObservable.emitHome(true);
+   this.getMyself();
   }
 
   ngOnDestroy(): void {
@@ -31,5 +37,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   logout() {
     this.authorizationService.logout();
     this.router.navigateByUrl('/');
+  }
+
+  getMyself() {
+    this.userService.getMyself().subscribe(user => {
+      this.myself = user;
+      })
   }
 }

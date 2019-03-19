@@ -1,16 +1,16 @@
 package be.kdg.mobile_client.room;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,10 +21,8 @@ import be.kdg.mobile_client.chat.ChatFragment;
 import be.kdg.mobile_client.chat.ChatService;
 import be.kdg.mobile_client.chat.ChatViewModel;
 import be.kdg.mobile_client.databinding.ActivityRoomBinding;
-import be.kdg.mobile_client.room.model.ActType;
+import be.kdg.mobile_client.room.overview.RoomsOverviewActivity;
 import be.kdg.mobile_client.shared.SharedPrefService;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * Main activity of an individual room.
@@ -66,27 +64,24 @@ public class RoomActivity extends BaseActivity {
         chatFragment = (ChatFragment) fragmentManager.findFragmentByTag(getString(R.string.chat_fragment_tag));
         chatFragment.setViewModel(chatViewModel);
         chatFragment.connectChat(roomId, chatService, sharedPrefService.getToken(this).getUsername());
-        newTransaction().hide(chatFragment).commit(); // initially hide the chatfragment
     }
 
     private void addEventHandlers() {
         binding.toolBarRight.btnShowChat.setOnClickListener(e -> {
-            if (chatFragment != null && chatFragment.isHidden()) {
-                newTransaction().show(chatFragment).commit();
-                chatViewModel.getUnreadMessages().setValue(0);
-            } else {
-                newTransaction().hide(chatFragment).commit();
+            binding.drawerLayout.openDrawer(GravityCompat.START);
+            chatViewModel.getUnreadMessages().setValue(0);
+        });
+        binding.toolBarLeft.btnLeave.setOnClickListener(e -> {
+            exit();
+            navigateTo(RoomsOverviewActivity.class,"type", "PUBLIC");
+        });
+        binding.drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if (slideOffset != 0) chatViewModel.getUnreadMessages().setValue(0);
             }
         });
         viewModel.getToast().observe(this, message -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());
-    }
-
-    /**
-     * Create a fragment transaction with sliding animation
-     */
-    private FragmentTransaction newTransaction() {
-        return fragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_left);
     }
 
     @Override
@@ -97,15 +92,18 @@ public class RoomActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        chatFragment.leaveChat();
-        viewModel.leaveRoom();
+        exit();
         super.onDestroy();
     }
 
     @Override
     protected void onStop() {
+        exit();
+        super.onStop();
+    }
+
+    private void exit() {
         chatFragment.leaveChat();
         viewModel.leaveRoom();
-        super.onStop();
     }
 }

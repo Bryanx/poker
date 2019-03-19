@@ -19,37 +19,24 @@
         android:layout_height="match_parent"
         android:background="@color/colorDarkerBackground">
 
-        <TextView
-            android:id="@+id/tvRoom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/btnLeave"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="16dp"
-            android:text="@string/room"
+            android:background="@drawable/circle_background"
+            android:drawableBottom="@drawable/chevron_left"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/smallest_text"
-            android:textStyle="bold"
+            android:paddingBottom="6dp"
+            android:paddingEnd="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:text="@{viewmodel.room.name}"
-            android:textAlignment="center"
-            android:textColor="@color/colorWhite"
-            android:textSize="@dimen/smallest_text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvRoom" />
-
-        <TextView
             android:id="@+id/vSliderValue"
             android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginBottom="8dp"
-            android:background="@{viewmodel.player.myTurn ? @drawable/circle_white : @drawable/circle_grey}"
+            android:layout_height="30dp"
             android:gravity="center"
             android:text="@{viewmodel.seekBarValue}"
             android:textAlignment="center"
@@ -62,7 +49,7 @@
             android:id="@+id/frameLayout2"
             android:layout_width="32dp"
             android:layout_height="180dp"
-            android:layout_marginBottom="84dp"
+            android:layout_marginBottom="80dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

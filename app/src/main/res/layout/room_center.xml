@@ -27,6 +27,32 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.5" />
 
+        <!-- ROOM INFO -->
+        <TextView
+            android:id="@+id/tvRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/room"
+            android:textColor="@color/colorLighterBackground"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginStart="16dp"
+            android:text="@{viewmodel.room.name}"
+            android:textAlignment="center"
+            android:textColor="@color/colorLighterBackground"
+            android:textSize="@dimen/smallest_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRoom" />
+
         <!-- POKER TABLE -->
         <View
             android:id="@+id/vTable"

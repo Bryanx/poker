@@ -1,6 +1,8 @@
 package be.kdg.mobile_client.room;
 
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
 
 import javax.inject.Inject;
@@ -72,6 +74,12 @@ public class RoomActivity extends BaseActivity {
         binding.toolBarLeft.btnLeave.setOnClickListener(e -> {
             exit();
             navigateTo(RoomsOverviewActivity.class,"type", "PUBLIC");
+        });
+        binding.drawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                if (slideOffset != 0) chatViewModel.getUnreadMessages().setValue(0);
+            }
         });
         viewModel.getToast().observe(this, message -> Toast.makeText(this, message, Toast.LENGTH_LONG).show());
     }

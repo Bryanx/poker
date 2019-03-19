@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +41,7 @@ public class NotificationFragment extends Fragment {
     @BindView(R.id.lvNots) RecyclerView lvNots;
     @BindView(R.id.ivRefresh) ImageView ivRefresh;
     @BindView(R.id.btnDeleteAll) Button btnDeleteAll;
+    @BindView(R.id.llNotification) ConstraintLayout llNotification;
     @Inject NotificationViewModel viewModel;
 
     @Nullable
@@ -51,6 +54,7 @@ public class NotificationFragment extends Fragment {
         addEventListeners();
         getNotifications();
         view.setMinimumWidth(getResources().getDisplayMetrics().widthPixels/2);
+        llNotification.setMinWidth(getResources().getDisplayMetrics().widthPixels/2);
         return view;
     }
 

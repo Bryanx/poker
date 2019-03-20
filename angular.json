@@ -110,7 +110,7 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
+            "protractorConfig": "./protractor.conf.js",
             "devServerTarget": "web-client:serve"
           },
           "configurations": {
@@ -131,6 +131,7 @@
       }
     }
   },
+
   "defaultProject": "web-client",
   "schematics": {
     "@schematics/angular:component": {

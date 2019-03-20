@@ -61,6 +61,14 @@ public class User {
         this.notifications = new ArrayList<>();
     }
 
+    public void addFriend(Friend friend) {
+        friends.add(friend);
+    }
+
+    public void removeFriend(Friend friend) {
+        friends.remove(friend);
+    }
+
     public void addNotification(Notification notification) {
         notifications.add(notification);
     }

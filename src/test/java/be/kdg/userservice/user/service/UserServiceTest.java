@@ -95,21 +95,14 @@ public class UserServiceTest extends UtilTesting {
         assertTrue(userService.getUsersByName(TESTABLE_USER_NAME2).get(0).getUsername().contains(TESTABLE_USER_NAME2));
     }
 
+
     @Test
-    public void addAndDeleteFriends() throws Exception {
-        //Prep
-        User test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
-        User test2 = userRepository.findById(testableUserId2).orElseThrow(Exception::new);
-
+    public void addAndDeleteFriends() {
         //Add friend
-        test1.setFriends(new ArrayList<>(Collections.singletonList(new Friend(testableUserId2))));
-        test2.setFriends(new ArrayList<>(Collections.singletonList(new Friend(testableUserId1))));
-        userService.changeFriends(test1);
-        userService.changeFriends(test2);
-
-        //Test
-        test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
-        test2 = userRepository.findById(testableUserId2).orElseThrow(Exception::new);
+        Friend friend1 = new Friend(testableUserId2);
+        Friend friend2 = new Friend(testableUserId1);
+        User test1 = userService.addFriend(testableUserId1, friend1);
+        User test2 = userService.addFriend(testableUserId2, friend2);
 
         assertNotNull(test1.getFriends());
         assertNotNull(test2.getFriends());
@@ -118,16 +111,13 @@ public class UserServiceTest extends UtilTesting {
         assertEquals(testableUserId2, test1.getFriends().get(0).getUserId());
         assertEquals(testableUserId1, test2.getFriends().get(0).getUserId());
 
-        //Delete friend
-        List<Friend> dummyList = new ArrayList<>(); //empty list (no friends)
-        test1.setFriends(dummyList);
-        userService.changeFriends(test1);
 
-        //Test
-        test1 = userRepository.findById(testableUserId1).orElseThrow(Exception::new);
+        //Delete friend
+        test1 = userService.deleteFriend(testableUserId1, testableUserId2);
         assertNotNull(test1.getFriends());
         assertEquals(0, test1.getFriends().size());
     }
+
 
     @Test
     public void addExperience() {

@@ -9,7 +9,6 @@ describe('App E2E Test Suite', () => {
   });
 
   it('should navigate to login page', () => {
-    const btnLogin = element(by.css('#login'));
-    btnLogin.click();
+    browser.get('/login');
   });
 });

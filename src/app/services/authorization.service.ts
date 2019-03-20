@@ -20,13 +20,10 @@ export class AuthorizationService {
   helper: JwtHelperService = new JwtHelperService();
 
   constructor(private http: HttpClient,
-              private urlService: UrlService,
-              private userService: UserService,
-              private notifier: NotifierService) {
+              private urlService: UrlService) {
     this.tokenUrl = urlService.authUrl;
     this.socialUrl = urlService.socialUrl;
   }
-
 
   login(loginPayload): Observable<Auth> {
     const headers = {
@@ -41,7 +38,6 @@ export class AuthorizationService {
 
     localStorage.setItem('jwt_token', authResult.access_token);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
-    this.getUnreadNotifications();
   }
 
   logout() {
@@ -85,36 +81,6 @@ export class AuthorizationService {
       userId = this.helper.decodeToken(localStorage.getItem('jwt_token')).uuid;
     }
     return userId;
-  }
-
-  /**
-   * Shows all the unread _notifications of a specific user with al little welcome message.
-   */
-  private getUnreadNotifications() {
-    this.userService.getUnReadNotifications().subscribe(nots => {
-      this.notifier.notify('success', 'Welcome back bro! you received ' + nots.length + ' notification while you were away');
-      nots.forEach(not => {
-        this.showNotification(not);
-        this.userService.readNotification(not.id).subscribe();
-      });
-    });
-  }
-
-  private showNotification(not: Notification) {
-    let type;
-
-    switch (not.type) {
-      case NotificationType.DELETE_PRIVATE_ROOM:
-        type = 'error';
-        break;
-      case NotificationType.ADD_PRIVATE_ROOM:
-        type = 'success';
-        break;
-      default:
-        type = 'default';
-    }
-
-    this.notifier.notify(type, not.message);
   }
 
   getJwtToken() {

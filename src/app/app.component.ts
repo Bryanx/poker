@@ -9,6 +9,7 @@ import {HomeVisibleService} from './services/home-visible.service';
 import {NotificationType} from './model/notificationType';
 import {WebSocketService} from './services/web-socket.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import {NotifyMessageService} from './services/notify-message.service';
 
 @Component({
   selector: 'app-root',
@@ -46,10 +47,16 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
               private notifier: NotifierService,
               private homeObservable: HomeVisibleService,
               private auth: AuthorizationService,
-              private cdRef: ChangeDetectorRef) {
+              private cdRef: ChangeDetectorRef,
+              private notifyMessageService: NotifyMessageService) {
   }
 
   ngOnInit(): void {
+    this.notifyMessageService.getState().subscribe(newState => {
+      if (newState) {
+        this.getUnreadNotifications();
+      }
+    });
     this.homeObservable.getState().subscribe(newState => this.homeButtonVisible = newState);
     this.homeObservable.getHome().subscribe(newState => this.onlyHome = newState);
     this.checkIfAuthenticated();
@@ -155,7 +162,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private showNotification(not: Notification) {
-
     let type;
     if (not.type === NotificationType.DELETE_PRIVATE_ROOM) {
       type = 'error';
@@ -166,6 +172,19 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     this.notifier.notify(type, not.message);
+  }
+
+  /**
+   * Shows all the unread _notifications of a specific user with al little welcome message.
+   */
+  private getUnreadNotifications() {
+    this.userService.getUnReadNotifications().subscribe(nots => {
+      this.notifier.notify('success', 'Welcome back bro! you received ' + nots.length + ' notification while you were away');
+      nots.forEach(not => {
+        this.showNotification(not);
+        this.userService.readNotification(not.id).subscribe();
+      });
+    });
   }
 
   hasAuthentication(): boolean {

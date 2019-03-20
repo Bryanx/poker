@@ -6,6 +6,7 @@ import {AuthorizationService} from '../../services/authorization.service';
 import {HttpParams} from '@angular/common/http';
 import {UserService} from '../../services/user.service';
 import {AuthService, FacebookLoginProvider} from 'angularx-social-login';
+import {NotifyMessageService} from '../../services/notify-message.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
   socialLogin = false;
 
   constructor(private formBuilder: FormBuilder, private authorizationService: AuthorizationService, private userService: UserService,
-              private route: ActivatedRoute, private router: Router, private authService: AuthService) {
+              private route: ActivatedRoute, private router: Router, private authService: AuthService,
+              private notityMessageService: NotifyMessageService) {
   }
 
   ngOnInit() {
@@ -67,6 +69,7 @@ export class LoginComponent implements OnInit {
 
     this.authorizationService.login(body.toString()).subscribe(authResult => {
       this.authorizationService.setSession(authResult);
+      this.notityMessageService.emitNewState(true);
       this.router.navigateByUrl(this.returnUrl);
     }, error => {
       this.error = error.error.error_description;

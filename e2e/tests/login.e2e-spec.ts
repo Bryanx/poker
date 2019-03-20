@@ -1,6 +1,6 @@
 import {by, browser, element, $, protractor, $$} from 'protractor';
 
-describe('App E2E Test Suite', () => {
+describe('Login screen tests', () => {
 
   beforeAll(() => {
     browser.waitForAngularEnabled(false);

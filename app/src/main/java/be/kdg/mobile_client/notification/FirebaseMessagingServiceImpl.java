@@ -1,6 +1,5 @@
 package be.kdg.mobile_client.notification;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -23,6 +22,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FirebaseMessagingServiceImpl extends FirebaseMessagingService {
     private static final String TAG = "FirebaseMessagingService";
+    private static final String MESSAGE_NOTIFICATION_TITLE = "Message notification title: ";
+    private static final String MESSAGE_NOTIFICATION_BODY = "Message notification body: ";
 
     /**
      * Will be called when a notification is received.
@@ -35,8 +36,8 @@ public class FirebaseMessagingServiceImpl extends FirebaseMessagingService {
             String title = remoteMessage.getNotification().getTitle();
             String message = remoteMessage.getNotification().getBody();
 
-            Log.d(TAG, "Message notification title: " + title);
-            Log.d(TAG, "Message notification body: " + message);
+            Log.d(TAG, MESSAGE_NOTIFICATION_TITLE + title);
+            Log.d(TAG, MESSAGE_NOTIFICATION_BODY + message);
 
             sendNotification(title, message);
         }

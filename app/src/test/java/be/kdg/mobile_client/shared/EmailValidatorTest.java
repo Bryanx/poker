@@ -7,6 +7,7 @@ import be.kdg.mobile_client.shared.validators.EmailValidator;
 import static org.junit.Assert.*;
 
 public class EmailValidatorTest {
+
     @Test
     public void isValidEmail() {
         assertTrue(EmailValidator.isValidEmail("name@email.com"));

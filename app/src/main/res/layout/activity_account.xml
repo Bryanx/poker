@@ -39,7 +39,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/standard_margin"
                 android:text="@{viewmodel.user.username}"
                 android:textColor="@color/colorWhite"
                 android:textSize="36sp"

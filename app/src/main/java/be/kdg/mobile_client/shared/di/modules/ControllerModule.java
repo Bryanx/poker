@@ -3,7 +3,6 @@ package be.kdg.mobile_client.shared.di.modules;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -13,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import be.kdg.mobile_client.chat.ChatService;
 import be.kdg.mobile_client.chat.ChatViewModel;
+import be.kdg.mobile_client.notification.NotificationService;
 import be.kdg.mobile_client.room.RoomRepository;
 import be.kdg.mobile_client.room.RoomService;
 import be.kdg.mobile_client.room.RoomViewModel;
@@ -20,11 +20,11 @@ import be.kdg.mobile_client.room.viewmodel.OverviewViewModel;
 import be.kdg.mobile_client.round.RoundRepository;
 import be.kdg.mobile_client.round.RoundService;
 import be.kdg.mobile_client.shared.SharedPrefService;
+import be.kdg.mobile_client.shared.UrlService;
 import be.kdg.mobile_client.shared.ViewModelProviderFactory;
 import be.kdg.mobile_client.shared.WebSocketService;
 import be.kdg.mobile_client.shared.validators.EmailValidator;
 import be.kdg.mobile_client.shared.validators.UsernameValidator;
-import be.kdg.mobile_client.notification.NotificationService;
 import be.kdg.mobile_client.user.UserRepository;
 import be.kdg.mobile_client.user.UserService;
 import be.kdg.mobile_client.user.UserViewModel;
@@ -38,8 +38,6 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import ua.naiksoftware.stomp.Stomp;
-import ua.naiksoftware.stomp.StompClient;
 
 /**
  * Comparable to @Configuration class in Spring.
@@ -48,12 +46,6 @@ import ua.naiksoftware.stomp.StompClient;
  */
 @Module
 public class ControllerModule {
-    private static final String API_BASE_URL_USER = "https://poker-user-service.herokuapp.com";
-    private static final String API_BASE_URL_GAME = "https://poker-game-service.herokuapp.com";
-    public static final String WEBSOCKET_URL = "wss://poker-game-service.herokuapp.com/connect/websocket";
-    //private static final String API_BASE_URL_USER = "http://10.0.2.2:5000";
-//    private static final String API_BASE_URL_GAME = "http://10.0.2.2:5001";
-//    public static final String WEBSOCKET_URL = "ws://10.0.2.2:5001/connect/websocket";
     private final FragmentActivity mActivity;
     private final SharedPrefService sharedPrefService;
 
@@ -119,7 +111,7 @@ public class ControllerModule {
                 .client(okHttpClient())
                 .addConverterFactory(gsonConverter())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .baseUrl(API_BASE_URL_USER)
+                .baseUrl(UrlService.API_BASE_URL_USER)
                 .build()
                 .create(UserService.class);
     }
@@ -131,7 +123,7 @@ public class ControllerModule {
                 .client(okHttpClient())
                 .addConverterFactory(gsonConverter())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .baseUrl(API_BASE_URL_GAME)
+                .baseUrl(UrlService.API_BASE_URL_GAME)
                 .build()
                 .create(RoomService.class);
     }
@@ -143,7 +135,7 @@ public class ControllerModule {
                 .client(okHttpClient())
                 .addConverterFactory(gsonConverter())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .baseUrl(API_BASE_URL_GAME)
+                .baseUrl(UrlService.API_BASE_URL_GAME)
                 .build()
                 .create(RoundService.class);
     }
@@ -155,7 +147,7 @@ public class ControllerModule {
                 .client(okHttpClient())
                 .addConverterFactory(gsonConverter())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .baseUrl(API_BASE_URL_USER)
+                .baseUrl(UrlService.API_BASE_URL_USER)
                 .build()
                 .create(NotificationService.class);
     }
@@ -167,7 +159,7 @@ public class ControllerModule {
                 .client(okHttpClient())
                 .addConverterFactory(gsonConverter())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-                .baseUrl(API_BASE_URL_USER)
+                .baseUrl(UrlService.API_BASE_URL_USER)
                 .build()
                 .create(AuthorizationService.class);
     }

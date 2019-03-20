@@ -5,16 +5,13 @@ import javax.inject.Singleton;
 import be.kdg.mobile_client.MainActivity;
 import be.kdg.mobile_client.MenuActivity;
 import be.kdg.mobile_client.chat.ChatFragment;
-import be.kdg.mobile_client.chat.ChatService;
 import be.kdg.mobile_client.friends.FriendsActivity;
 import be.kdg.mobile_client.notification.NotificationFragment;
 import be.kdg.mobile_client.notification.NotificationViewModel;
 import be.kdg.mobile_client.room.RoomActivity;
 import be.kdg.mobile_client.room.RoomService;
-import be.kdg.mobile_client.room.RoomViewModel;
 import be.kdg.mobile_client.room.overview.RoomsOverviewActivity;
 import be.kdg.mobile_client.room.viewmodel.OverviewViewModel;
-import be.kdg.mobile_client.shared.WebSocketService;
 import be.kdg.mobile_client.shared.di.modules.ControllerModule;
 import be.kdg.mobile_client.notification.NotificationService;
 import be.kdg.mobile_client.user.UserActivity;
@@ -52,7 +49,4 @@ public interface ControllerComponent {
     void inject(UserSettingsActivity userSettingsActivity);
     void inject(RoomService roomService);
     void inject(NotificationService notificationService);
-    WebSocketService websocketService();
-    ChatService chatService();
-    RoomViewModel roomViewModel();
 }

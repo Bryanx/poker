@@ -87,7 +87,7 @@ public class MenuActivity extends BaseActivity {
         binding.btnFriends.setOnClickListener(e -> navigateTo(FriendsActivity.class));
         binding.btnRankings.setOnClickListener(e -> navigateTo(RankingsActivity.class));
         binding.ivSettings.setOnClickListener(e -> navigateTo(UserSettingsActivity.class));
-        binding.btnAccount.setOnClickListener(e -> navigateTo(UserActivity.class, "USER_ID", ""));
+        binding.btnAccount.setOnClickListener(e -> navigateTo(UserActivity.class, getString(R.string.userid), ""));
         binding.btnLogout.setOnClickListener(e -> {
             if (myself != null ) {
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(myself.getId());

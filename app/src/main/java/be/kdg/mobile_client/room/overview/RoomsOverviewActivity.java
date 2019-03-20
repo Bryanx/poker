@@ -89,7 +89,7 @@ public class RoomsOverviewActivity extends BaseActivity {
      * <p>
      * If the rooms are loaded, that the progress bar will disappear
      */
-    public void getRooms() {
+    private void getRooms() {
         progressBar.setVisibility(View.VISIBLE);
         String header;
 

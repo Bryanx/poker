@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">BroPoker</string>
-    <string name="placeholder">…</string>
 
     <!-- Login & register -->
     <string name="login">LOGIN</string>
@@ -11,16 +10,17 @@
     <string name="preference_file_key">preferenceFileKey</string>
     <string name="token">token</string>
     <string name="logging_in">Logged in</string>
-    <string name="error_login_message">Login failed</string>
     <string name="error_register_message">Register failed.</string>
     <string name="error_invalid_mail">Email is not valid.</string>
     <string name="error_invalid_username">Username is not valid.</string>
     <string name="error_invalid_password">Has to be longer than 4 characters.</string>
     <string name="no_account_message">I don\'t have an account bro :-(</string>
+    <string name="incorrect_username_or_password">Incorrect username or password</string>
+    <string name="service_unavailable">Service is currently unavailable</string>
+    <string name="internal_server_error">Internal server error</string>
 
     <!-- Main menu -->
     <string name="public_game">PUBLIC GAME</string>
-    <string name="settings">SETTINGS</string>
     <string name="friends">FRIENDS</string>
     <string name="private_game">PRIVATE GAME</string>
     <string name="rankings">RANKINGS</string>
@@ -29,22 +29,18 @@
     <!-- chat -->
     <string name="send">Send</string>
     <string name="placeholder_message">Message your bros</string>
-    <string name="room_join_message"> joined the room.</string>
-    <string name="room_leave_message"> has left the room.</string>
     <string name="chat_fragment_tag">CHAT_FRAGMENT_TAG</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="back">BACK</string>
     <string name="choose_a_room">CHOOSE A ROOM</string>
     <string name="room_name">Room name</string>
     <string name="buy_in">Buy-in: 1000</string>
-    <string name="_1000">1000</string>
     <string name="coin">coin</string>
     <string name="timer">timer</string>
     <string name="cap">cap</string>
     <string name="_4_8">4/8</string>
     <string name="_30s">30s</string>
     <string name="_0_6">0/6</string>
-    <string name="error_message">Something went wrong :-(</string>
     <string name="remove">REMOVE</string>
     <string name="has_an_account">I do have an account bro :)</string>
     <string name="chat">CHAT</string>
@@ -70,14 +66,12 @@
     <string name="search_placeholder">Search for users</string>
     <string name="search_bros">Search bros</string>
     <string name="add">add</string>
-    <string name="error_getting_users">Error getting users</string>
-    <string name="error_updating_friends">Error updating friends</string>
-    <string name="was_added_as_a_friend">was added as a friend</string>
-    <string name="was_removed_as_a_friend">was removed from friends</string>
     <string name="no_bros">You have no bros :-(</string>
+    <string name="has_sent_you_a_friend_request">%1$s has sent you a friend request</string>
+    <string name="befriended_user">Befriended %1$s</string>
+    <string name="unfriended_user">Unfriended %1$s</string>
 
     <!-- rooms -->
-    <string name="error_getting_rooms">Error getting rooms</string>
     <string name="publicRooms">Public rooms</string>
     <string name="privateRooms">Private rooms</string>
     <string name="room_id">ROOM_ID</string>
@@ -87,41 +81,48 @@
     <string name="act_check">CHECK</string>
     <string name="act_bet">BET</string>
     <string name="_0">0</string>
+    <string name="dealer">D</string>
+    <string name="small_blind">SB</string>
+    <string name="big_blind">BB</string>
+    <string name="this_room_is_locked">This room is locked!</string>
+    <string name="you_dont_have_enough_chips">You don\'t have enough chips.</string>
+    <string name="room_is_full">Room is full.</string>
+    <string name="deleted_roomname">Deleted %1$s</string>
+    <string name="room_full">Room is full.</string>
+    <string name="editRooms">Edit your rooms</string>
+    <string name="load_room_tag">load rooms</string>
+    <string name="error_loading_rooms">Error loading rooms</string>
+    <string name="room">ROOM</string>
+    <string name="no_rooms">No rooms :(</string>
 
     <!-- user settings -->
     <string name="firstname">First name</string>
     <string name="lastname">Last name</string>
     <string name="update">Update</string>
     <string name="update_account_settings">Update account settings</string>
-    <string name="login_activity">LoginActivity</string>
-    <string name="register_activity">RegisterActivity</string>
     <string name="user_settings_activity">UserSettingsActivity</string>
     <string name="error_loading_user">Error loading user</string>
     <string name="error_updating_password">Error updating password for user</string>
-    <string name="failed_to_connect">Failed to connect</string>
-    <string name="room">ROOM</string>
     <string name="load_user_tag">loadUser</string>
     <string name="change_user_tag">changeUser</string>
     <string name="error_updating_user">Error updating user</string>
     <string name="user_was_updated">User was updated</string>
     <string name="edit">edit</string>
     <string name="done">Done</string>
-    <string name="editRooms">Edit your rooms</string>
-    <string name="load_room_tag">load rooms</string>
-    <string name="error_loading_rooms">Error loading rooms</string>
-    <string name="no_rooms">No rooms :(</string>
     <string name="message">message</string>
     <string name="date">date</string>
     <string name="default_desc">default_desc</string>
+    <string name="levels">10 – 50</string>
+    <string name="level">level</string>
+    <string name="account">ACCOUNT</string>
+
+    <!-- notifications -->
+    <string name="deleted_all_notifications">Deleted all notifications</string>
+    <string name="refreshed_data">Refreshed data</string>
+    <string name="removed_notification">Removed notification</string>
     <string name="not_fragment_tag">not_fragment_tag</string>
     <string name="error_loading_nots">Error loading notifications</string>
     <string name="load_notifications_tag">Load notifications</string>
     <string name="delete_all">Delete all</string>
     <string name="no_notifications">no notifications</string>
-    <string name="levels">10 - 50</string>
-    <string name="level">level</string>
-    <string name="account">ACCOUNT</string>
-    <string name="started_listening_on">Started listening on %1$s</string>
-    <string name="update_received">Update %1$s received: %2$s</string>
-    <string name="websocket_service">WebSocketService</string>
 </resources>

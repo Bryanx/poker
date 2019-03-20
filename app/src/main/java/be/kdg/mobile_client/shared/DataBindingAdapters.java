@@ -6,17 +6,41 @@ import android.util.Base64;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.Arrays;
+
 import androidx.databinding.BindingAdapter;
-import androidx.databinding.adapters.SeekBarBindingAdapter;
 import be.kdg.mobile_client.R;
 
 /**
  * Extends several databinding keywords in layout files.
  */
 public class DataBindingAdapters {
+    private static final String FOLD = "FOLD";
+    private static final String CALL = "CALL";
+    private static final String CHECK = "CHECK";
+    private static final String RAISE = "RAISE";
+    private static final String BET = "BET";
+    private static final String UNDECIDED = "UNDECIDED";
+    private static final String SPADES = "SPADES";
+    private static final String CLUBS = "CLUBS";
+    private static final String TWO = "two";
+    private static final String THREE = "three";
+    private static final String FOUR = "four";
+    private static final String FIVE = "five";
+    private static final String SIX = "six";
+    private static final String SEVEN = "seven";
+    private static final String EIGHT = "eight";
+    private static final String NINE = "nine";
+    private static final String TEN = "ten";
+    private static final String JACK = "jack";
+    private static final String QUEEN = "queen";
+    private static final String KING = "king";
+    private static final String ACE = "ace";
+    private static final String CARD_SYMBOL_ = "card_symbol_";
+    private static final String SMALL = "_small";
+    private static final String DRAWABLE = "drawable";
 
     @BindingAdapter("android:src")
     public static void setImageUri(ImageView view, String base64image) {
@@ -34,19 +58,19 @@ public class DataBindingAdapters {
         if (cardType == null) return;
         String rank = "";
         switch (cardType.split("_")[0].toLowerCase()) {
-            case "two": rank = "2"; break;
-            case "three": rank = "3"; break;
-            case "four": rank = "4"; break;
-            case "five": rank = "5"; break;
-            case "six": rank = "6"; break;
-            case "seven": rank = "7"; break;
-            case "eight": rank = "8"; break;
-            case "nine": rank = "9"; break;
-            case "ten": rank = "10"; break;
-            case "jack": rank = "J"; break;
-            case "queen": rank = "Q"; break;
-            case "king": rank = "K"; break;
-            case "ace": rank = "A"; break;
+            case TWO: rank = "2"; break;
+            case THREE: rank = "3"; break;
+            case FOUR: rank = "4"; break;
+            case FIVE: rank = "5"; break;
+            case SIX: rank = "6"; break;
+            case SEVEN: rank = "7"; break;
+            case EIGHT: rank = "8"; break;
+            case NINE: rank = "9"; break;
+            case TEN: rank = "10"; break;
+            case JACK: rank = "J"; break;
+            case QUEEN: rank = "Q"; break;
+            case KING: rank = "K"; break;
+            case ACE: rank = "A"; break;
         }
         view.setText(rank);
     }
@@ -54,16 +78,16 @@ public class DataBindingAdapters {
     @BindingAdapter("app:card_suit")
     public static void setCardSuit(ImageView view, String cardType) {
         if (cardType == null) return;
-        StringBuilder type = new StringBuilder("card_symbol_");
+        StringBuilder type = new StringBuilder(CARD_SYMBOL_);
         type.append(cardType.split("_")[2].toLowerCase());
-        int resourceId = view.getResources().getIdentifier(type.append("_small").toString(), "drawable",
+        int resourceId = view.getResources().getIdentifier(type.append(SMALL).toString(), DRAWABLE,
                 view.getContext().getPackageName());
         view.setImageResource(resourceId);
     }
 
     @BindingAdapter("app:card_text_color")
     public static void setCardColor(TextView view, String cardType) {
-        if (cardType == null || cardType.contains("SPADES") || cardType.contains("CLUBS")) {
+        if (cardType == null || cardType.contains(SPADES) || cardType.contains(CLUBS)) {
             view.setTextColor(view.getContext().getColor(R.color.colorBlack));
         } else {
             view.setTextColor(view.getContext().getColor(R.color.colorRed));
@@ -78,12 +102,12 @@ public class DataBindingAdapters {
         }
         int resourceId = R.color.colorTransparent;
         switch (cardType) {
-            case "FOLD": resourceId = R.color.colorRed;break;
-            case "CALL": resourceId = R.color.colorGreen;break;
-            case "CHECK": resourceId = R.color.colorGreen;break;
-            case "RAISE": resourceId = R.color.colorYellow;break;
-            case "BET": resourceId = R.color.colorYellow;break;
-            case "UNDECIDED": resourceId = R.color.colorTransparent;
+            case FOLD: resourceId = R.color.colorRed;break;
+            case CALL: resourceId = R.color.colorGreen;break;
+            case CHECK: resourceId = R.color.colorGreen;break;
+            case RAISE: resourceId = R.color.colorYellow;break;
+            case BET: resourceId = R.color.colorYellow;break;
+            case UNDECIDED: resourceId = R.color.colorTransparent;
         }
         view.setTextColor(view.getContext().getColor(resourceId));
     }
@@ -128,7 +152,7 @@ public class DataBindingAdapters {
     }
 
     @BindingAdapter("app:start")
-    public static void start(CircularProgressBar view, boolean start) {
+    public static void startCircularProgressBar(CircularProgressBar view, boolean start) {
         if (start) view.start();
         else view.cancel();
     }

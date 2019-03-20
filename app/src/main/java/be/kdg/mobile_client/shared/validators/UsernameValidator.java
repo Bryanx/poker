@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class UsernameValidator implements TextWatcher {
 
     private static final Pattern USERNAME_PATTERN = Pattern.compile("^([a-z]|[A-Z]|[0-9]){4,255}$");
+    private static final String SYSTEM = "system";
 
     private boolean isValid = false;
 
@@ -23,7 +24,7 @@ public class UsernameValidator implements TextWatcher {
      * System username is not allowed.
      */
     public static boolean isValidUsername(CharSequence username) {
-        return username != null && USERNAME_PATTERN.matcher(username).matches() && username != "system";
+        return username != null && USERNAME_PATTERN.matcher(username).matches() && username != SYSTEM;
     }
 
     @Override

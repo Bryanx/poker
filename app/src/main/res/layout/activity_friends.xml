@@ -10,9 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="@dimen/header_top_margin"
         android:gravity="center"
         android:text="@string/friends"
         android:textColor="@color/colorWhite"
@@ -50,17 +48,15 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lvFriends"
-        android:layout_width="match_parent"
-        android:layout_height="577dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:divider="@null"
         android:dividerHeight="5dp"
         app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvFriends" />
 
     <Button
         android:id="@+id/btnSearch"
@@ -68,15 +64,11 @@
         android:layout_width="124dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_margin="@dimen/standard_margin"
+        android:layout_marginStart="@dimen/standard_margin"
         android:text="@string/search_bros"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/lvFriends" />
 
     <Button
@@ -85,9 +77,16 @@
         android:layout_width="124dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="56dp"
+        android:layout_marginEnd="@dimen/standard_margin"
         android:text="@string/back"
         app:layout_constraintBaseline_toBaselineOf="@+id/btnSearch"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

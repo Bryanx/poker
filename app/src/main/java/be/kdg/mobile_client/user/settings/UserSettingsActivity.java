@@ -114,7 +114,7 @@ public class UserSettingsActivity extends BaseActivity {
     /**
      * Gets called when user updates successfully and closes update activity.
      */
-    public void onUpdateUserSuccess() {
+    private void onUpdateUserSuccess() {
         runOnUiThread(() -> {
             btnUpdate.setEnabled(true);
         }); 
@@ -128,7 +128,7 @@ public class UserSettingsActivity extends BaseActivity {
     /**
      * Convenient method for handling errors
      */
-    public void handleError(Throwable error, String tag, String message) {
+    private void handleError(Throwable error, String tag, String message) {
         Log.e(tag, message);
         if (error != null) {
             runOnUiThread(() -> {

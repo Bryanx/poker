@@ -13,4 +13,7 @@
     <dimen name="card_height_small">10dp</dimen>
     <dimen name="card_width_small">8dp</dimen>
     <dimen name="player_button">60dp</dimen>
+    <dimen name="header_top_margin">24dp</dimen>
+    <dimen name="standard_margin">8dp</dimen>
+    <dimen name="user_card_height">80dp</dimen>
 </resources>

@@ -1,17 +1,13 @@
 package be.kdg.mobile_client.room;
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestRule;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import be.kdg.mobile_client.room.model.Act;
 import be.kdg.mobile_client.room.model.Phase;
@@ -19,21 +15,14 @@ import be.kdg.mobile_client.room.model.Player;
 import be.kdg.mobile_client.room.model.Room;
 import be.kdg.mobile_client.round.Round;
 import be.kdg.mobile_client.shared.ViewModelProviderFactory;
-import be.kdg.mobile_client.shared.di.modules.ControllerModule;
-import io.reactivex.Scheduler;
-import io.reactivex.android.plugins.RxAndroidPlugins;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.schedulers.ExecutorScheduler;
-import io.reactivex.plugins.RxJavaPlugins;
-import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.*;
 
 public class RoomViewModelTest {
-    RoomViewModel viewModel;
-    private int bet1 = 100;
-    private int bet2 = 150;
-    private int bet3 = 2000;
+    private RoomViewModel viewModel;
+    private final int bet1 = 100;
+    private final int bet2 = 150;
+    private final int bet3 = 2000;
     private ArrayList<Act> acts;
     @Rule public TestRule rule = new InstantTaskExecutorRule();
 

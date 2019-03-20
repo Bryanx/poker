@@ -20,11 +20,13 @@ import be.kdg.mobile_client.R;
 /**
  * Adapter for chat messages.
  */
-public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
+class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
+    private static final String SYSTEM = "system";
+    private static final String ERROR = "error";
     private final LayoutInflater inflater;
     private String name;
 
-    public ChatMessageAdapter(Context ctx) {
+    ChatMessageAdapter(Context ctx) {
         super(ctx, -1, new ArrayList<>());
         this.inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -44,12 +46,12 @@ public class ChatMessageAdapter extends ArrayAdapter<ChatMessage> {
             llMessage.setGravity(Gravity.END);
             tvMessage.setBackground(res.getDrawable(R.drawable.rounded_corners));
             tvMessage.setText(message.getContent());
-        } else if (message.getName().equals("system")) { // system message
+        } else if (message.getName().equals(SYSTEM)) { // system message
             llMessage.setGravity(Gravity.CENTER);
             tvMessage.setTextColor(res.getColor(R.color.colorWhite));
             tvMessage.setText(message.getContent());
             tvMessage.setBackgroundColor(Color.TRANSPARENT);
-        } else if (message.getName().equals("error")) { // error message
+        } else if (message.getName().equals(ERROR)) { // error message
             llMessage.setGravity(Gravity.CENTER);
             tvMessage.setTextColor(res.getColor(R.color.colorRed));
             tvMessage.setText(message.getContent());

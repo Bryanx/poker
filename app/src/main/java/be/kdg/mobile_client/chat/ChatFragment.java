@@ -24,6 +24,7 @@ import lombok.Setter;
  */
 @NoArgsConstructor
 public class ChatFragment extends Fragment {
+    private static final String ERROR_TAG = "ChatFragment";
     @BindView(R.id.btnSend) Button btnSend;
     @BindView(R.id.etMessage) EditText etMessage;
     @BindView(R.id.lvChat) ListView lvChat;
@@ -32,7 +33,6 @@ public class ChatFragment extends Fragment {
 
     private ChatMessageAdapter chatMessageAdapter;
     private String username;
-    private final String ERROR_TAG = "ChatFragment";
     @Setter private ChatViewModel viewModel;
 
     @Nullable

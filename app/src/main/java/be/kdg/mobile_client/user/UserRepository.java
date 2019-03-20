@@ -11,8 +11,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 @Singleton
 public class UserRepository {
+    private static final String COULD_NOT_FETCH_USER = "Could not fetch user: ";
     private final String TAG = "UserRepository";
-    private UserService userService;
+    private final UserService userService;
     private String onErrorMsg;
 
     @Inject
@@ -21,7 +22,7 @@ public class UserRepository {
     }
 
     public Observable<User> getUser(String userId) {
-        onErrorMsg = "Could not fetch user: " + userId;
+        onErrorMsg = COULD_NOT_FETCH_USER + userId;
         return userService.getUser(userId)
                 .doOnError(this::logError)
                 .observeOn(AndroidSchedulers.mainThread());

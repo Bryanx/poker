@@ -21,8 +21,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:gravity="center"
                 android:text="@string/login"
@@ -34,8 +32,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginBottom="@dimen/standard_margin">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etSearch"
@@ -53,8 +51,8 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginTop="@dimen/standard_margin"
+                android:layout_marginBottom="@dimen/standard_margin">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etPassword"
@@ -72,9 +70,9 @@
                 android:id="@+id/btnLogin"
                 style="@style/greenButton"
                 android:layout_gravity="center"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/standard_margin"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/standard_margin"
                 android:text="@string/login" />
 
             <TextView
@@ -82,9 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginTop="@dimen/header_top_margin"
                 android:gravity="center"
                 android:text="@string/no_account_message"
                 android:textColor="#fff"

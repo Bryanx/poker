@@ -9,7 +9,8 @@ import androidx.lifecycle.ViewModelProvider;
  * @param <V> ViewModel class
  */
 public class ViewModelProviderFactory<V> implements ViewModelProvider.Factory {
-    private V viewModel;
+    private static final String UNKNOWN_CLASS_NAME = "Unknown class name";
+    private final V viewModel;
 
     public ViewModelProviderFactory(V viewModel) {
         this.viewModel = viewModel;
@@ -21,6 +22,6 @@ public class ViewModelProviderFactory<V> implements ViewModelProvider.Factory {
         if (modelClass.isAssignableFrom(viewModel.getClass())) {
             return (T) viewModel;
         }
-        throw new IllegalArgumentException("Unknown class name");
+        throw new IllegalArgumentException(UNKNOWN_CLASS_NAME);
     }
 }

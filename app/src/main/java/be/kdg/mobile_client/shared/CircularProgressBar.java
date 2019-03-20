@@ -3,7 +3,6 @@ package be.kdg.mobile_client.shared;
 import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -16,7 +15,6 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
@@ -24,16 +22,15 @@ import android.widget.ProgressBar;
 import be.kdg.mobile_client.R;
 
 /**
- * Custom view for circular timers.
+ * Custom view for circular timer.
  */
 @SuppressLint("ObjectAnimatorBinding")
 public class CircularProgressBar extends ProgressBar {
-    private static final String TAG = "CircularProgressBar";
 
     private static final int STROKE_WIDTH = 20;
 
-    private int start = 0;
-    private int end = 100;
+    private final int start = 0;
+    private final int end = 100;
     private String mTitle = "";
     private String mSubTitle = "";
 
@@ -42,17 +39,17 @@ public class CircularProgressBar extends ProgressBar {
     private final RectF mCircleBounds = new RectF();
 
     private final Paint mProgressColorPaint = new Paint();
-    private Paint mBackgroundColorPaint = new Paint();
+    private final Paint mBackgroundColorPaint = new Paint();
     private final Paint mTitlePaint = new Paint();
     private final Paint mSubtitlePaint = new Paint();
 
     private boolean mHasShadow = false;
     private int mShadowColor = Color.BLACK;
-    private ObjectAnimator progressBarAnimator = ObjectAnimator.ofFloat(this, "animateProgress", start, end);
+    private final ObjectAnimator progressBarAnimator = ObjectAnimator.ofFloat(this, "animateProgress", start, end);
     private int duration = 5000;
 
     public interface OnFinishedListener {
-        public void onFinish();
+        void onFinish();
     }
 
     public CircularProgressBar(Context context) {
@@ -70,7 +67,7 @@ public class CircularProgressBar extends ProgressBar {
         init(attrs, defStyle);
     }
 
-    public void init(AttributeSet attrs, int style) {
+    private void init(AttributeSet attrs, int style) {
         //so that shadow shows up properly for lines and arcs
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
@@ -130,7 +127,6 @@ public class CircularProgressBar extends ProgressBar {
         mSubtitlePaint.setStyle(Style.FILL);
         mSubtitlePaint.setAntiAlias(true);
         mSubtitlePaint.setTypeface(Typeface.create("Roboto-Thin", Typeface.BOLD));
-        //		mSubtitlePaint.setShadowLayer(0.1f, 0, 1, Color.GRAY);
     }
 
     @Override
@@ -185,14 +181,11 @@ public class CircularProgressBar extends ProgressBar {
 
     public void start() {
         progressBarAnimator.setDuration(duration);
-        //		progressBarAnimator.setInterpolator(new AnticipateOvershootInterpolator(2f, 1.5f));
         progressBarAnimator.setInterpolator(new LinearInterpolator());
         progressBarAnimator.addUpdateListener(animation -> {
             int progress = ((Float) animation.getAnimatedValue()).intValue();
             if (progress != CircularProgressBar.this.getProgress()) {
                 CircularProgressBar.this.setProgress(progress);
-//                if (listener != null)
-//                    listener.onProgress(progress);
             }
         });
         progressBarAnimator.start();
@@ -217,8 +210,6 @@ public class CircularProgressBar extends ProgressBar {
 
             @Override
             public void onAnimationStart(final Animator animation) {
-//                if (listener != null)
-//                    listener.onStart();
             }
         });
     }
@@ -266,6 +257,9 @@ public class CircularProgressBar extends ProgressBar {
     }
 
 
+    /**
+     * Set the duration in seconds
+     */
     public synchronized void setDuration(int duration) {
         this.duration = duration*1000;
         invalidate();

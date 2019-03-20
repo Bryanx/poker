@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
  * @param <T> datatype
  */
 public class LiveDataList<T> {
-    private MutableLiveData<List<T>> data;
+    private final MutableLiveData<List<T>> data;
 
     public LiveDataList() {
         data = new MutableLiveData<>();

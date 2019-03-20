@@ -19,6 +19,7 @@ export class UserAccountComponent implements OnInit {
   myself: User = User.create();
   user: User = User.create();
   picture: String = './assets/img/icons/user.png';
+  pending: Boolean = false;
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
@@ -51,10 +52,12 @@ export class UserAccountComponent implements OnInit {
   }
 
   addFriend() {
+    this.pending = true;
     const friend: Friend = new Friend();
     friend.userId = this.user.id;
     this.myself.friends.push(friend);
-    this.userService.changeFriends(this.myself).subscribe(() => {
+    this.userService.addFriend(friend).subscribe(() => {
+      this.pending = false;
       this.sendFriendRequest(this.user.id);
       this.snackbar.open(this.user.username + ' was added as a friend.', '', {
         duration: 3000
@@ -77,8 +80,10 @@ export class UserAccountComponent implements OnInit {
   }
 
   removeFriend() {
+    this.pending = true;
     this.myself.friends = this.myself.friends.filter(friend => friend.userId !== this.user.id);
-    this.userService.changeUser(this.myself).subscribe(() => {
+    this.userService.deleteFriend(this.user.id).subscribe(() => {
+      this.pending = false;
       this.snackbar.open(this.user.username + ' was removed as a friend.', '', {
         duration: 3000
       });
@@ -94,10 +99,10 @@ export class UserAccountComponent implements OnInit {
   }
 
   settings() {
-    return this.router.navigateByUrl("/settings");
+    return this.router.navigateByUrl('/settings');
   }
 
   myAccount() {
-    return this.user.id == this.myself.id;
+    return this.user.id === this.myself.id;
   }
 }

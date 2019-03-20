@@ -92,8 +92,7 @@ export class SearchComponent implements OnInit {
     const friend: Friend = new Friend();
     friend.userId = friendId;
     this.myself.friends.push(friend);
-
-    this.userService.changeFriends(this.myself).subscribe(() =>  this.sendFriendRequest(friendId));
+    this.userService.addFriend(friend).subscribe(() =>  this.sendFriendRequest(friendId));
   }
 
   /**
@@ -137,17 +136,14 @@ export class SearchComponent implements OnInit {
   }
 
   makeAdmin(user: User) {
-    this.userService.changeToAdmin(user).subscribe();
-    this.ngOnInit();
+    this.userService.changeToAdmin(user).subscribe(x => this.updateUsers());
   }
 
   makeUser(user: User) {
-    this.userService.changeToUser(user).subscribe();
-    this.updateUsers();
+    this.userService.changeToUser(user).subscribe(x => this.updateUsers());
   }
 
   private updateUsers() {
-    this.userService.getMyself().subscribe(user => this.myself = user);
     if (this.isAdmin()) {
       this.userService.getUsers().subscribe(users => this.users = users);
       this.userService.getAdmins().subscribe(admins => this.admins = admins);

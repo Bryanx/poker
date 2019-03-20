@@ -3,8 +3,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ReplayComponent} from './replay.component';
 import {TranslatePipe} from '../../translate.pipe';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {Replay} from '../../model/replay';
 import {ReplayLine} from '../../model/replayLine';
+import {Replay} from '../../model/replay';
 import {By} from '@angular/platform-browser';
 
 describe('ReplayComponent', () => {

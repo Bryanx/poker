@@ -2,7 +2,6 @@ import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/co
 import {ActivatedRoute, Router} from '@angular/router';
 import {Room} from '../../model/room';
 import {Player} from '../../model/player';
-import {AuthorizationService} from '../../services/security/authorization.service';
 import {Round} from '../../model/round';
 import {RoomService} from '../../services/room.service';
 import {ChatComponent} from '../chat/chat.component';
@@ -15,6 +14,7 @@ import {HomeVisibleService} from '../../services/other/home-visible.service';
 import {forkJoin} from 'rxjs';
 import {User} from '../../model/user';
 import {Phase} from '../../model/phase';
+import {AuthorizationService} from '../../services/security/authorization.service';
 
 @Component({
   selector: 'app-room',
@@ -81,7 +81,6 @@ export class GameRoomComponent implements OnInit, OnDestroy {
       this.ws.subscribe('/room/receive-room/' + this.room.id, (message) => {
         if (message) {
           this.room = JSON.parse(message.body) as Room;
-          // console.log(this.room);
         }
       });
 

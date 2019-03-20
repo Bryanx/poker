@@ -1,0 +1,105 @@
+@import "../../../styles";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.back {
+  margin-bottom: 1.5rem;
+  height: 4rem;
+  border-radius: 0.15em;
+  text-decoration: none;
+  font-weight: 400;
+  color: #FFFFFF;
+  background-color: $green;
+  text-align: center;
+  border: none;
+  font-size: 1.5rem;
+  min-width: 10rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  width: 250px;
+
+  &:hover {
+    background: darken($green, 15%)
+  }
+}
+
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2rem;
+
+  h2 {
+    margin-top: 1.7rem;
+    margin-bottom: 2rem;
+    color: white;
+  }
+
+  button {
+    width: 50px;
+    height: 50px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    background-color: $green;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    img {
+      width: 40px;
+      height: 40px;
+    }
+
+    &:hover {
+      background: darken($green, 15%)
+    }
+
+    &:active {
+      background: darken($green, 25%)
+    }
+  }
+}
+
+.message-section {
+  width: 70%;
+
+  .message-row {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    color: white;
+    background: darken($background-color, 2%);
+    font-size: 1rem;
+    border-radius: .5rem;
+    margin-bottom: .5rem;
+    cursor: pointer;
+
+    .phase {
+      display: flex;
+      font-weight: bold;
+    }
+
+    &:hover {
+      background: darken($background-color, 3%);
+    }
+  }
+}

@@ -35,8 +35,10 @@ import {NotificationComponent} from './components/notification/notification.comp
 import {RoomCardComponent} from './components/room-card/room-card.component';
 import {NgCircleProgressModule} from 'ng-circle-progress';
 import {GlobalMessageComponent} from './components/global-message/global-message.component';
-import { PlayerCardComponent } from './components/player-card/player-card.component';
+import {PlayerCardComponent} from './components/player-card/player-card.component';
 import {TranslateService} from './services/other/translate.service';
+import {ReplayComponent} from './components/replay/replay.component';
+import {GameInvitationComponent} from './components/game-invitation/game-invitation.component';
 
 const config = new AuthServiceConfig([
   {
@@ -85,7 +87,9 @@ export function setupTranslateFactory(
     NotificationComponent,
     RoomCardComponent,
     GlobalMessageComponent,
-    PlayerCardComponent
+    PlayerCardComponent,
+    ReplayComponent,
+    GameInvitationComponent
   ],
   imports: [
     BrowserModule,

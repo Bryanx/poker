@@ -7,6 +7,7 @@ import {Auth} from '../model/auth';
 import {UrlService} from './other/url.service';
 import {Room} from '../model/room';
 import {PrivateRoom} from '../model/privateRoom';
+import {Replay} from '../model/replay';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,10 @@ export class RoomService {
 
   getRoom(id: number): Observable<Room> {
     return this.http.get<Room>(this.url + '/' + id);
+  }
+
+  getReplays(): Observable<Replay[]> {
+    return this.http.get<Replay[]>(this.url + '/replays');
   }
 
   getPrivateRooms(): Observable<PrivateRoom[]> {

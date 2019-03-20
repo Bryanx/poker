@@ -1,0 +1,15 @@
+<section [@simpleFadeAnimation]="'in'" class="friend-modal">
+  <h2>{{'INVITE FRIENDS' | translate | uppercase}}</h2>
+  <h2 class="no-friends" *ngIf="friends.length <= 0 && loaded">{{'NO FRIENDS' | translate | uppercase}}</h2>
+
+  <div class="loading" *ngIf="!loaded">
+    <img src="../../../assets/img/icons/loading.gif"/>
+  </div>
+
+  <section class="friend-list">
+    <div class="friend-row" *ngFor="let user of friends">
+      {{user.username}}
+      <button (click)="sendGameRequest(user.id)" class="invite-button">{{'INVITE' | translate | uppercase}}</button>
+    </div>
+  </section>
+</section>

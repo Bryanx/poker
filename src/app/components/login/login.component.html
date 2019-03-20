@@ -20,7 +20,7 @@
     <div class="error" *ngIf="error">{{error}}</div>
   </section>
 
-  <button [disabled]="loginForm.invalid">
+  <button class="login-button" [disabled]="loginForm.invalid">
     {{'LOGIN' | translate | titlecase}}
   </button>
 

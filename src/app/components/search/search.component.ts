@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Notification} from '../../model/notification';
 import {NotificationType} from '../../model/notificationType';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {Router} from '@angular/router';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Friend} from '../../model/friend';
@@ -49,7 +49,11 @@ export class SearchComponent implements OnInit {
    * that the stream will only accept strings as input.
    */
   ngOnInit(): void {
-    this.updateUsers();
+    if (this.isAdmin()) {
+      this.updateUsers();
+    } else {
+      this.userService.getMyself().subscribe(myself => this.myself = myself);
+    }
 
     this.subject.pipe(
       debounceTime(this.debounceTime as number),
@@ -90,7 +94,6 @@ export class SearchComponent implements OnInit {
     const friend: Friend = new Friend();
     friend.userId = friendId;
     this.myself.friends.push(friend);
-
     this.userService.addFriend(friend).subscribe(() =>  this.sendFriendRequest(friendId));
   }
 

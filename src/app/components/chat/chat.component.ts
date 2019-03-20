@@ -1,6 +1,6 @@
-import {AfterViewChecked, Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ChatMessage} from '../../model/chat-message';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {WebSocketService} from '../../services/web-socket.service';
 
 @Component({

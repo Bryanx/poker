@@ -25,4 +25,16 @@ describe('RoomCardComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should give back the right router link', () => {
+    component.isAdmin = true;
+    expect(component.determineRouterLink()).toBe('/game-rooms/');
+
+    component.isAdmin = false;
+    component.inSettingMode = true;
+    expect(component.determineRouterLink()).toBe('/rooms/private/edit/');
+
+    component.inSettingMode = false;
+    expect(component.determineRouterLink()).toBe('/rooms/');
+  });
 });

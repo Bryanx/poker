@@ -1,0 +1,4 @@
+[0319/205635.501:ERROR:process_reader_win.cc(123)] NtOpenThread: {Toegang geweigerd} Een proces heeft toegang tot een object aangevraagd, maar heeft deze toegangsrechten niet gekregen. (0xc0000022)
+[0319/205635.502:ERROR:exception_snapshot_win.cc(88)] thread ID 15648 not found in process
+[0320/224114.094:ERROR:process_reader_win.cc(123)] NtOpenThread: {Toegang geweigerd} Een proces heeft toegang tot een object aangevraagd, maar heeft deze toegangsrechten niet gekregen. (0xc0000022)
+[0320/224114.155:ERROR:exception_snapshot_win.cc(88)] thread ID 5980 not found in process

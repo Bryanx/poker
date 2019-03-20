@@ -7,6 +7,6 @@ export class Notification {
   message: string;
   type: NotificationType;
   read: boolean;
-  timestamp: Date;
+  timestamp: string;
   ref: string;
 }

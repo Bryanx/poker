@@ -4,7 +4,7 @@ import {AdminGuardService} from './admin-guard.service';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {NotifierModule} from 'angular-notifier';
-import {customNotifierOptions} from '../notifierOptions';
+import {customNotifierOptions} from '../../notifierOptions';
 
 describe('AdminGuardService', () => {
   beforeEach(() => TestBed.configureTestingModule({

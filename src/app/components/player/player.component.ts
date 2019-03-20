@@ -7,8 +7,8 @@ import {ActType} from '../../model/actType';
 import {Act} from '../../model/act';
 import {Phase} from '../../model/phase';
 import {GameRules} from '../../model/gamerules';
-import {AuthorizationService} from '../../services/authorization.service';
 import {Round} from '../../model/round';
+import {AuthorizationService} from '../../services/security/authorization.service';
 
 @Component({
   selector: 'app-player',

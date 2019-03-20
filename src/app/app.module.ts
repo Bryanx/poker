@@ -21,7 +21,6 @@ import {ChatComponent} from './components/chat/chat.component';
 import {RoomsOverviewComponent} from './components/rooms-overview/rooms-overview.component';
 import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angularx-social-login';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {TranslateService} from './services/translate.service';
 import {TranslatePipe} from './translate.pipe';
 import {FriendsComponent} from './components/friends/friends.component';
 import {SearchComponent} from './components/search/search.component';
@@ -36,9 +35,10 @@ import {NotificationComponent} from './components/notification/notification.comp
 import {RoomCardComponent} from './components/room-card/room-card.component';
 import {NgCircleProgressModule} from 'ng-circle-progress';
 import {GlobalMessageComponent} from './components/global-message/global-message.component';
-import { PlayerCardComponent } from './components/player-card/player-card.component';
-import { ReplayComponent } from './components/replay/replay.component';
-import { GameInvitationComponent } from './components/game-invitation/game-invitation.component';
+import {PlayerCardComponent} from './components/player-card/player-card.component';
+import {GameInvitationComponent} from './components/game-invitation/game-invitation.component';
+import {ReplayComponent} from './components/replay/replay.component';
+import {TranslateService} from './services/other/translate.service';
 
 const config = new AuthServiceConfig([
   {

@@ -4,7 +4,7 @@ import {Round} from '../model/round';
 import {HttpClient} from '@angular/common/http';
 import {Player} from '../model/player';
 import {Auth} from '../model/auth';
-import {UrlService} from './url.service';
+import {UrlService} from './other/url.service';
 import {Room} from '../model/room';
 import {PrivateRoom} from '../model/privateRoom';
 import {Replay} from '../model/replay';

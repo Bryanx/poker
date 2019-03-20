@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {Router} from '@angular/router';
 import {UserService} from '../../services/user.service';
 import {PrivateRoom} from '../../model/privateRoom';
@@ -99,6 +99,15 @@ export class RoomsOverviewComponent implements OnInit {
     this.notifyUser(user, false);
   }
 
+  isInWhiteList(userId: string, whiteListedUsers: WhiteListedUser[]) {
+    for (let i = 0; i < whiteListedUsers.length; i++) {
+      if (whiteListedUsers[i].userId === userId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   private refreshData() {
     this.roomService.getPrivateRoomsFromOwner().subscribe(rooms => this.rooms = rooms);
   }
@@ -112,15 +121,6 @@ export class RoomsOverviewComponent implements OnInit {
 
   private getMyself() {
     this.userService.getMyself().subscribe(me => this.myself = me);
-  }
-
-  private isInWhiteList(userId: string, whiteListedUsers: WhiteListedUser[]) {
-    for (let i = 0; i < whiteListedUsers.length; i++) {
-      if (whiteListedUsers[i].userId === userId) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private toggleWhiteListedUser(user: User, add: boolean) {

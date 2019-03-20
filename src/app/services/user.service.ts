@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {UrlService} from './url.service';
+import {UrlService} from './other/url.service';
 import {Observable} from 'rxjs';
 import {User} from '../model/user';
 import {Notification} from '../model/notification';

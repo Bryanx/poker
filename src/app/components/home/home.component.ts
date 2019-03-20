@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {Router} from '@angular/router';
-import {HomeVisibleService} from '../../services/home-visible.service';
+import {HomeVisibleService} from '../../services/other/home-visible.service';
 import {User} from '../../model/user';
 import {UserService} from '../../services/user.service';
+
 
 @Component({
   selector: 'app-home',

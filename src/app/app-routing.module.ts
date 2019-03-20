@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AuthGuardService} from './services/auth-guard.service';
+import {AuthGuardService} from './services/security/auth-guard.service';
 import {UserSettingsComponent} from './components/user-settings/user-settings.component';
 import {LoginComponent} from './components/login/login.component';
 import {HomeComponent} from './components/home/home.component';
@@ -14,7 +14,7 @@ import {UserAccountComponent} from './components/user-account/user-account.compo
 import {SearchComponent} from './components/search/search.component';
 import {GameRoomEditComponent} from './components/game-room-edit/game-room-edit.component';
 import {RankingsComponent} from './components/rankings/rankings.component';
-import {AdminGuardService} from './services/admin-guard.service';
+import {AdminGuardService} from './services/security/admin-guard.service';
 import {GlobalMessageComponent} from './components/global-message/global-message.component';
 import {ReplayComponent} from './components/replay/replay.component';
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {UserService} from '../../services/user.service';
 import {User} from '../../model/user';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthorizationService} from '../../services/authorization.service';
+import {AuthorizationService} from '../../services/security/authorization.service';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Router} from '@angular/router';
 

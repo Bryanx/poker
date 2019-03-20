@@ -19,7 +19,7 @@ public class NotificationViewModel {
     @Getter MutableLiveData<String> message = new MutableLiveData<>();
     private final MutableLiveData<List<Notification>> notifications = new MutableLiveData<>();
     private final Context app;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
     NotificationViewModel(NotificationService notificationService) {

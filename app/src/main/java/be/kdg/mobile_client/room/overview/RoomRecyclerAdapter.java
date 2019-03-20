@@ -106,7 +106,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
      */
     private void addDisableEventListeners(ViewHolder holder) {
         holder.roomCard.setOnClickListener(e ->
-                Toast.makeText(ctx, "This room is locked!", Toast.LENGTH_LONG).show()
+                Toast.makeText(ctx, ctx.getString(R.string.this_room_is_locked), Toast.LENGTH_LONG).show()
         );
     }
 
@@ -120,9 +120,9 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
         holder.roomCard.setOnClickListener(e -> {
             holder.roomCard.setEnabled(false);
             if (room.getGameRules().getStartingChips() > myself.getChips()) {
-                Toast.makeText(ctx, "You don't have enough chips.", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, ctx.getString(R.string.you_dont_have_enough_chips), Toast.LENGTH_LONG).show();
             } else if (room.getPlayersInRoom().size() >= room.getGameRules().getMaxPlayerCount()) {
-                Toast.makeText(ctx, "Room is full.", Toast.LENGTH_LONG).show();
+                Toast.makeText(ctx, ctx.getString(R.string.room_is_full), Toast.LENGTH_LONG).show();
             } else {
                 Intent intent = new Intent(ctx, RoomActivity.class);
                 intent.putExtra(ctx.getString(R.string.room_id), room.getId());
@@ -134,7 +134,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
             roomService.deleteRoom(room.getId()).subscribe();
             rooms.remove(room);
             notifyDataSetChanged();
-            Toast.makeText(ctx, "Deleted " + room.getName(), Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, ctx.getString(R.string.deleted_roomname, room.getName()), Toast.LENGTH_LONG).show();
         });
     }
 
@@ -168,18 +168,18 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomRecyclerAdapte
      * they can be recycled.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-        CardView roomCard;
-        TextView tvRoomName;
-        TextView tvBuyIn;
-        TextView tvBlinds;
-        TextView tvTimer;
-        TextView tvCap;
-        TextView tvLevels;
-        ImageView ivCoin;
-        ImageView ivTimer;
-        ImageView ivCap;
-        ImageView ivDelete;
-        View ivLock;
+        final CardView roomCard;
+        final TextView tvRoomName;
+        final TextView tvBuyIn;
+        final TextView tvBlinds;
+        final TextView tvTimer;
+        final TextView tvCap;
+        final TextView tvLevels;
+        final ImageView ivCoin;
+        final ImageView ivTimer;
+        final ImageView ivCap;
+        final ImageView ivDelete;
+        final View ivLock;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

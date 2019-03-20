@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,12 +76,12 @@ public class NotificationFragment extends Fragment {
             progressBar.setVisibility(View.VISIBLE);
             viewModel.deleteAllNotifications();
             initializeAdapter(new ArrayList<>());
-            Toast.makeText(getContext(), "Deleted all notifications", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.deleted_all_notifications), Toast.LENGTH_LONG).show();
         });
 
         ivRefresh.setOnClickListener(e -> {
             getNotifications();
-            Toast.makeText(getContext(), "Refreshed data", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.refreshed_data), Toast.LENGTH_LONG).show();
         });
     }
 
@@ -90,7 +89,7 @@ public class NotificationFragment extends Fragment {
      * Retrieve ControllerComponent so services become injectable.
      */
     @UiThread
-    protected ControllerComponent getControllerComponent() {
+    private ControllerComponent getControllerComponent() {
         return ((App) Objects.requireNonNull(getActivity()).getApplication())
                 .getAppComponent()
                 .newControllerComponent(new ControllerModule(getActivity()));

@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RegisterActivity extends BaseActivity {
+    private static final String CAN_T_REGISTER = "Can't register";
     @BindView(R.id.etEmail) EditText etEmail;
     @BindView(R.id.etSearch) EditText etUsername;
     @BindView(R.id.etPassword) EditText etPassword;
@@ -35,10 +36,10 @@ public class RegisterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         ButterKnife.bind(this);
-        addEventListners();
+        addEventListeners();
     }
 
-    private void addEventListners() {
+    private void addEventListeners() {
         etEmail.addTextChangedListener(emailValidator);
         etUsername.addTextChangedListener(usernameValidator);
         btnRegister.setOnClickListener(v -> register());
@@ -67,7 +68,7 @@ public class RegisterActivity extends BaseActivity {
     /**
      * Gets called when user logs in successfully and closes register activity.
      */
-    public void onRegisterSuccess(Token token) {
+    private void onRegisterSuccess(Token token) {
         token.setSignedIn(true);
         token.setUsername(etUsername.getText().toString());
         sharedPrefService.saveToken(this, token);
@@ -76,11 +77,11 @@ public class RegisterActivity extends BaseActivity {
     }
 
     /**
-     * Gets called when user fails to regsiter and shows toast.
+     * Gets called when user fails to register and shows toast.
      */
-    public void onRegisterFailed(Throwable throwable) {
+    private void onRegisterFailed(Throwable throwable) {
         runOnUiThread(() -> Toast.makeText(this, getString(R.string.error_register_message), Toast.LENGTH_LONG).show());
-        Log.e("Can't register", throwable.getMessage());
+        Log.e(CAN_T_REGISTER, throwable.getMessage());
         btnRegister.setEnabled(true);
     }
 
@@ -88,7 +89,7 @@ public class RegisterActivity extends BaseActivity {
     /**
      * Validates if given credentials are correct.
      */
-    public boolean validateRegister(String password) {
+    private boolean validateRegister(String password) {
         if (!emailValidator.isValid()) {
             etEmail.setError(getString(R.string.error_invalid_mail));
             return false;

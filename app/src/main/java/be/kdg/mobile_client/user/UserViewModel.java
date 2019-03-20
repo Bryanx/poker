@@ -8,9 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.App;
 import be.kdg.mobile_client.R;
@@ -23,14 +21,12 @@ import lombok.Getter;
  * This class is used so fetched data is preserved on screen rotate.
  */
 public class UserViewModel extends ViewModel {
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final UserService userService;
     private final Context app;
-    @Getter
-    private MutableLiveData<User> user;
+    @Getter private MutableLiveData<User> user;
     private MutableLiveData<List<User>> users;
-    @Getter
-    MutableLiveData<String> message = new MutableLiveData<>();
+    @Getter MutableLiveData<String> message = new MutableLiveData<>();
 
     @Inject
     public UserViewModel(UserService userService) {

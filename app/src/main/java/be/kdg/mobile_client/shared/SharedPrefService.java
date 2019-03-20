@@ -15,6 +15,9 @@ import be.kdg.mobile_client.user.authorization.Token;
  * Service for shared preferences (local storage)
  */
 public class SharedPrefService {
+    private static final String CAN_T_DECODE_JWTBODY = "Can't decode JWTBody";
+    private static final String UNABLE_TO_DECODE_JWT = "Unable to decode body of JWTBody used for user";
+    private static final String NULL = "null";
 
     /**
      * Writes token to shared preferences for later use.
@@ -32,8 +35,8 @@ public class SharedPrefService {
      */
     public boolean hasToken(Context ctx) {
         SharedPreferences sharedPref = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String json = sharedPref.getString("token", "");
-        if (json == null || json.equals("null") || json.isEmpty()) {
+        String json = sharedPref.getString(ctx.getString(R.string.token), "");
+        if (json == null || json.equals(NULL) || json.isEmpty()) {
             return false;
         }
         Token token = new Gson().fromJson(json, Token.class);
@@ -45,8 +48,8 @@ public class SharedPrefService {
      */
     public Token getToken(Context ctx) {
         SharedPreferences sharedPref = ctx.getSharedPreferences(ctx.getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String json = sharedPref.getString("token", "");
-        if (json == null || json.equals("null") || json.isEmpty()) {
+        String json = sharedPref.getString(ctx.getString(R.string.token), "");
+        if (json == null || json.equals(NULL) || json.isEmpty()) {
             return null;
         }
         return new Gson().fromJson(json, Token.class);
@@ -58,7 +61,7 @@ public class SharedPrefService {
         try {
             tokenBody = JWTUtils.decodeJWTBody(token.getAccessToken());
         } catch (Exception e) {
-            Log.e("Can't decode JWTBody", "Unable to decode body of JWTBody used for user");
+            Log.e(CAN_T_DECODE_JWTBODY, UNABLE_TO_DECODE_JWT);
         }
 
         Gson gson = new GsonBuilder().create();

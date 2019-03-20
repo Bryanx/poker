@@ -2,8 +2,6 @@ package be.kdg.mobile_client.notification;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.media.Image;
-import android.media.VolumeShaper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +71,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
     }
 
     /**
-     * Handles when a notification needs to be delted.
+     * Handles when a notification needs to be deleted.
      *
      * @param holder The holder that "holds" the views that are created so they can be recycled.
      * @param not    The notification that needs to be tracked.
@@ -82,7 +80,7 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
         holder.ivDelete.setOnClickListener(e -> {
             notificationService.deleteNotification(not.getId()).subscribe();
             notifications.remove(not);
-            Toast.makeText(ctx, "Notification removed", Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, ctx.getString(R.string.removed_notification), Toast.LENGTH_LONG).show();
             notifyDataSetChanged();
         });
     }
@@ -147,10 +145,10 @@ public class NotificationRecyclerAdapter extends RecyclerView.Adapter<Notificati
      * they can be recycled.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvMessage;
-        TextView tvDate;
-        ImageView ivDelete;
-        ImageView ivType;
+        final TextView tvMessage;
+        final TextView tvDate;
+        final ImageView ivDelete;
+        final ImageView ivType;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

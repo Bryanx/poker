@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 
-import com.google.firebase.FirebaseApp;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;

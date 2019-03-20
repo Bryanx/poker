@@ -14,6 +14,8 @@ public class Round {
     private List<Player> playersInRound;
     private Phase currentPhase;
     private int button;
-    private boolean isFinished;
+    private boolean finished;
     private int pot;
+    private int bigBlind;
+    private int smallBlind;
 }

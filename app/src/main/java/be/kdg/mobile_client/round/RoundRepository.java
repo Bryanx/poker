@@ -10,6 +10,7 @@ import javax.inject.Singleton;
 
 import be.kdg.mobile_client.room.model.Act;
 import be.kdg.mobile_client.room.model.ActType;
+import be.kdg.mobile_client.shared.UrlService;
 import be.kdg.mobile_client.shared.WebSocketService;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -24,6 +25,9 @@ import retrofit2.Response;
 @SuppressLint("CheckResult")
 public class RoundRepository {
     private static final String TAG = "RoundRepository";
+    private static final String FAILED_TO_PLAY_ACT = "Failed to play act";
+    private static final String FAILED_TO_GET_POSSIBLE_ACTS = "Failed to get possible acts";
+    private static final String COULD_NOT_RECEIVE_ROUND_UPDATE = "Could not receive round update, room: ";
     private String onErrorMsg;
     private final WebSocketService webSocketService;
     private final RoundService roundService;
@@ -36,22 +40,22 @@ public class RoundRepository {
     }
 
     public synchronized Observable<Response<Void>> addAct(Act act) {
-        onErrorMsg = "Failed to play act";
+        onErrorMsg = FAILED_TO_PLAY_ACT;
         return roundService.addAct(act)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::logError);
     }
 
     public synchronized Observable<List<ActType>> getPossibleActs(int roundId) {
-        onErrorMsg = "Failed to get possible acts";
+        onErrorMsg = FAILED_TO_GET_POSSIBLE_ACTS;
         return roundService.getPossibleActs(String.valueOf(roundId))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::logError);
     }
 
     public synchronized Flowable<Round> listenOnRoundUpdate(int roomId) {
-        onErrorMsg = "Could not receive round update, room: " + roomId;
-        return webSocketService.watch("/room/receive-round/" + roomId, Round.class)
+        onErrorMsg = COULD_NOT_RECEIVE_ROUND_UPDATE + roomId;
+        return webSocketService.watch(UrlService.RECEIVE_ROUND_URL + roomId, Round.class)
                 .doOnError(this::logError);
     }
 

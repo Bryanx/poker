@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,14 +49,14 @@ public class FriendsActivity extends BaseActivity {
         setContentView(R.layout.activity_friends);
         ButterKnife.bind(this);
         viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
-        addEventListners();
+        addEventListeners();
         getFriends();
     }
 
     /**
-     * Adss event handlers to this activity.
+     * Adds event handlers to this activity.
      */
-    private void addEventListners() {
+    private void addEventListeners() {
         btnSearch.setOnClickListener(e -> navigateTo(UserSearchActivity.class));
         btnBack.setOnClickListener(e -> navigateTo(MenuActivity.class));
     }

@@ -83,11 +83,11 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
             }
             holder.btnAdd.setVisibility(View.GONE);
             Notification not = new Notification();
-            not.setMessage(myself.getUsername() + " has sent you a friend request");
+            not.setMessage(ctx.getString(R.string.has_sent_you_a_friend_request, myself.getUsername()));
             not.setRef(myself.getId());
             not.setType(NotificationType.FRIEND_REQUEST);
             viewModel.sendNotification(user.getId(), not);
-            Toast.makeText(ctx, "Befriended " + user.getUsername(), Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, ctx.getString(R.string.befriended_user, user.getUsername()), Toast.LENGTH_LONG).show();
         });
     }
 
@@ -106,9 +106,9 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
      * they can be recycled.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName;
-        Button btnAdd;
-        CardView userCard;
+        final TextView tvName;
+        final Button btnAdd;
+        final CardView userCard;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

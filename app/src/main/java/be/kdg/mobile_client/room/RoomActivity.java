@@ -1,7 +1,6 @@
 package be.kdg.mobile_client.room;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,7 +11,6 @@ import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 import be.kdg.mobile_client.BaseActivity;

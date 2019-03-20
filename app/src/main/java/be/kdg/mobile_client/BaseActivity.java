@@ -3,7 +3,6 @@ package be.kdg.mobile_client;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -20,7 +19,6 @@ import be.kdg.mobile_client.shared.SharedPrefService;
 import be.kdg.mobile_client.shared.di.components.ControllerComponent;
 import be.kdg.mobile_client.shared.di.modules.ControllerModule;
 import be.kdg.mobile_client.user.UserViewModel;
-import be.kdg.mobile_client.user.model.User;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -29,13 +27,13 @@ import io.reactivex.disposables.CompositeDisposable;
  * @see be.kdg.mobile_client.App
  */
 public abstract class BaseActivity extends AppCompatActivity {
-    @Inject
-    @Named("UserViewModel")
-    ViewModelProvider.Factory factory;
-    protected CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private static final String TAG = "BaseActivity";
+    private static final String ON_CREATE_OBSERVING_USER = "onCreate: observing user ";
+    @Inject @Named("UserViewModel") ViewModelProvider.Factory factory;
+    protected final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     /**
-     * Initializes the fire base app and subscribes to the richt
+     * Initializes the fire base app
      */
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
         UserViewModel viewModel = ViewModelProviders.of(this, factory).get(UserViewModel.class);
         viewModel.getUser("").observe(this, user -> {
-            Log.d("BaseActivity", "onCreate: observing user " + user.getUsername());
+            Log.d(TAG, ON_CREATE_OBSERVING_USER + user.getUsername());
             FirebaseMessaging.getInstance().subscribeToTopic(user.getId());
         });
     }
@@ -72,7 +70,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * All activities that require login should call this method
      *
-     * @param sharedPrefService injeted sharedprefservice fo the activity
+     * @param sharedPrefService injected sharedpreferenceservice fo the activity
      */
     @UiThread
     protected void checkIfAuthorized(SharedPrefService sharedPrefService) {

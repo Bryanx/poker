@@ -10,9 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="@dimen/header_top_margin"
         android:gravity="center"
         android:text="@string/friends"
         android:textColor="@color/colorWhite"
@@ -50,14 +48,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lvFriends"
-        android:layout_width="399dp"
-        android:layout_height="213dp"
-        android:layout_margin="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/standard_margin"
         android:divider="@null"
         android:dividerHeight="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFriends" />
@@ -69,12 +65,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/standard_margin"
         android:text="@string/search_bros"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/lvFriends" />
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
 
     <Button
         android:id="@+id/btnBack"

@@ -78,7 +78,7 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
 
             myself.setFriends(newFriends);
             viewModel.changeUser(myself);
-            Toast.makeText(ctx, "Defriended " + friend.getUsername(), Toast.LENGTH_LONG).show();
+            Toast.makeText(ctx, ctx.getString(R.string.unfriended_user, friend.getUsername()), Toast.LENGTH_LONG).show();
             users.remove(friend);
             notifyDataSetChanged();
             ((FriendsActivity) ctx).showNoBros();
@@ -100,9 +100,9 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
      * they can be recycled.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName;
-        Button btnRemoveFriend;
-        CardView friendCard;
+        final TextView tvName;
+        final Button btnRemoveFriend;
+        final CardView friendCard;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);

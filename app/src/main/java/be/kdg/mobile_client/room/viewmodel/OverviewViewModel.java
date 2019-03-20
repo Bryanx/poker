@@ -24,7 +24,7 @@ import lombok.Getter;
 public class OverviewViewModel extends ViewModel {
     private final RoomService roomService;
     private final Context app;
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     @Getter MutableLiveData<List<Room>> rooms = new MutableLiveData<>();
     @Getter MutableLiveData<String> message = new MutableLiveData<>();
 

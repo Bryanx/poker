@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".user.UserActivity"></activity>
+        <activity android:name=".user.UserActivity" />
         <activity android:name=".user.rankings.RankingsActivity" />
         <activity android:name=".friends.FriendsActivity" />
         <activity

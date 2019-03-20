@@ -135,13 +135,11 @@ export class SearchComponent implements OnInit {
   }
 
   makeAdmin(user: User) {
-    this.userService.changeToAdmin(user).subscribe();
-    this.updateUsers();
+    this.userService.changeToAdmin(user).subscribe(x => this.updateUsers());
   }
 
   makeUser(user: User) {
-    this.userService.changeToUser(user).subscribe();
-    this.updateUsers();
+    this.userService.changeToUser(user).subscribe(x => this.updateUsers());
   }
 
   private updateUsers() {

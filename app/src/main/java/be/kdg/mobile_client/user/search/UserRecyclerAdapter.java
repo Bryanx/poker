@@ -79,7 +79,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
 
         holder.btnAdd.setOnClickListener(e -> {
             if (ctx instanceof UserSearchActivity) {
-                ((UserSearchActivity) ctx).addFriend(user);
+                ((UserSearchActivity) ctx).addFriend(user.getId());
             }
             holder.btnAdd.setVisibility(View.GONE);
             Notification not = new Notification();

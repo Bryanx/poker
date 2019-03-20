@@ -99,10 +99,11 @@ public class UserSearchActivity extends BaseActivity {
     /**
      * Adds a friend to the current user
      *
-     * @param friend friend to be added
+     * @param friendId The id of the friend to be added.
      */
-    public void addFriend(User friend) {
-        myself.addFriend(new Friend(friend.getId()));
-        userViewModel.changeFriends(myself);
+    public void addFriend(String friendId) {
+        Friend friend  = new Friend(friendId);
+        myself.addFriend(friend);
+        userViewModel.addFriend(friend);
     }
 }

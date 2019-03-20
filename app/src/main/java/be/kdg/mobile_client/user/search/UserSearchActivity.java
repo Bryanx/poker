@@ -55,6 +55,9 @@ public class UserSearchActivity extends BaseActivity {
      */
     private void addEventHandlers() {
         btnBack.setOnClickListener(e -> navigateTo(FriendsActivity.class));
+        etSearch.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) getUsersByName(etSearch.getText().toString());
+        });
         etSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH ||
                     actionId == EditorInfo.IME_ACTION_DONE ||

@@ -126,7 +126,7 @@ export class SearchComponent implements OnInit {
   }
 
   adminDisable(user: User) {
-    if (user.enabled == 1) {
+    if (user.enabled === 1) {
       user.enabled = 0;
     } else {
       user.enabled = 1;

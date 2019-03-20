@@ -7,6 +7,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {TranslatePipe} from '../../translate.pipe';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
 import {MatProgressBarModule, MatSnackBarModule} from '@angular/material';
+import {Friend} from '../../model/friend';
 
 describe('UserAccountComponent', () => {
   let component: UserAccountComponent;
@@ -28,5 +29,16 @@ describe('UserAccountComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('isFriends should work', () => {
+    component.user.id = '123';
+    const friend: Friend = new Friend();
+    friend.userId = '123';
+    component.myself.friends.push(friend);
+
+    expect(component.isFriends()).toBeTruthy();
+    component.myself.friends.pop();
+    expect(component.isFriends()).toBeFalsy();
   });
 });

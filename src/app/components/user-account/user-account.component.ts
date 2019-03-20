@@ -16,7 +16,7 @@ import {Location} from '@angular/common';
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent implements OnInit {
-  myself: User;
+  myself: User = User.create();
   user: User = User.create();
   picture: String = './assets/img/icons/user.png';
 

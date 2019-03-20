@@ -8,7 +8,7 @@ import {NotifierModule} from 'angular-notifier';
 import {customNotifierOptions} from '../../notifierOptions';
 import {RoomCardComponent} from '../room-card/room-card.component';
 import {AngularFontAwesomeModule} from 'angular-font-awesome';
-import {RouterLink} from '@angular/router';
+import {WhiteListedUser} from '../../model/whiteListedUser';
 
 describe('RoomsOverviewComponent', () => {
   let component: RoomsOverviewComponent;
@@ -29,5 +29,16 @@ describe('RoomsOverviewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('isInWhiteList should work', () => {
+    const user1: WhiteListedUser = new WhiteListedUser();
+    user1.userId = '123';
+    const user2: WhiteListedUser = new WhiteListedUser();
+    user2.userId = '456';
+    const userArray = [user1, user2];
+
+    expect(component.isInWhiteList('123', userArray)).toBeTruthy();
+    expect(component.isInWhiteList('124', userArray)).toBeFalsy();
   });
 });

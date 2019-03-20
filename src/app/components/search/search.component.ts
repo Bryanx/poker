@@ -51,6 +51,8 @@ export class SearchComponent implements OnInit {
   ngOnInit(): void {
     if (this.isAdmin()) {
       this.updateUsers();
+    } else {
+      this.userService.getMyself().subscribe(myself => this.myself = myself);
     }
 
     this.subject.pipe(

@@ -28,5 +28,4 @@ export class RankingsComponent implements OnInit {
       this.users = users.sort((o1, o2) => o2.chips - o1.chips);
     });
   }
-
 }

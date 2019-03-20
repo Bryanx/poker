@@ -25,4 +25,19 @@ describe('ReplayComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('Should switch the pages correctly', () => {
+    component.replays.push(null);
+    component.replays.push(null);
+    component.replays.push(null);
+
+    component.switchPage(1);
+    component.switchPage(1);
+    expect(component.curReplay).toBe(2);
+    component.switchPage(1);
+    component.switchPage(1);
+    expect(component.curReplay).toBe(0);
+    component.switchPage(-1);
+    expect(component.curReplay).toBe(3);
+  });
 });

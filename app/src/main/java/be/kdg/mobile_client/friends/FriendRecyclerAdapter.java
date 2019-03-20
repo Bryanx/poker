@@ -71,17 +71,21 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
         });
 
         holder.btnRemoveFriend.setOnClickListener(e -> {
-            List<Friend> newFriends = myself.getFriends().stream()
-                    .filter(f -> f.getUserId() != null)
-                    .filter(f -> !f.getUserId().equals(friend.getId()))
-                    .collect(Collectors.toList());
-
-            myself.setFriends(newFriends);
-            viewModel.changeUser(myself);
+            viewModel.deleteFriend(friend.getId());
             Toast.makeText(ctx, ctx.getString(R.string.unfriended_user, friend.getUsername()), Toast.LENGTH_LONG).show();
             users.remove(friend);
             notifyDataSetChanged();
-            ((FriendsActivity) ctx).showNoBros();
+            if (users.size() <= 0) ((FriendsActivity) ctx).showNoBros();
+
+            /*
+           myself.getFriends().stream()
+                    .filter(f -> f.getUserId() != null)
+                    .filter(f -> f.getUserId().equals(friend.getId()))
+                    .findAny()
+                    .ifPresent(friendToDelete -> {
+
+                    });
+                    */
         });
     }
 

@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import be.kdg.mobile_client.App;
 import be.kdg.mobile_client.R;
+import be.kdg.mobile_client.friends.Friend;
 import be.kdg.mobile_client.user.model.User;
 import io.reactivex.disposables.CompositeDisposable;
 import lombok.Getter;
@@ -54,10 +55,17 @@ public class UserViewModel extends ViewModel {
         }, throwable -> handleError(throwable, app.getString(R.string.change_user_tag), app.getString(R.string.error_updating_user))));
     }
 
-    public void changeFriends(User user) {
-        compositeDisposable.add(userService.changeFriends(user).subscribe(response -> {
-            message.postValue(app.getString(R.string.user_was_updated));
-        }, throwable -> handleError(throwable, app.getString(R.string.change_user_tag), app.getString(R.string.error_updating_user))));
+    public void addFriend(Friend friend) {
+        compositeDisposable.add(userService.addFriend(friend).subscribe(response ->
+            message.postValue(app.getString(R.string.user_was_updated))
+        ,throwable -> handleError(throwable, app.getString(R.string.change_user_tag), app.getString(R.string.error_updating_user))));
+    }
+
+    public void deleteFriend(String friendId) {
+        compositeDisposable.add(userService.deleteFriend(friendId).subscribe(response ->
+                message.postValue(app.getString(R.string.user_was_updated)),
+                throwable -> handleError(throwable, app.getString(R.string.change_user_tag),
+                        app.getString(R.string.error_updating_user))));
     }
 
     private void loadUser(String id) {

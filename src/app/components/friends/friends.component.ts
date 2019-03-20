@@ -46,6 +46,6 @@ export class FriendsComponent implements OnInit {
   removeFriend(userId: string) {
     this.myself.friends = this.myself.friends.filter(friend => friend.userId !== userId);
     this.friends = this.friends.filter(user => user.id !== userId);
-    this.userService.changeUser(this.myself).subscribe();
+    this.userService.deleteFriend(userId).subscribe();
   }
 }

@@ -19,6 +19,7 @@ h2 {
 
 section {
   width: 70%;
+
   .friend-row {
     width: 100%;
     display: flex;
@@ -45,9 +46,11 @@ section {
       width: 2rem;
       height: 2rem;
       border-radius: 50%;
+
       &:hover {
         background-color: darken($red, 10%);
       }
+
       fa {
         display: block;
         transform: rotate(45deg);

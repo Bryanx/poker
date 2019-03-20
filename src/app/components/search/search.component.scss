@@ -91,13 +91,6 @@ h2 {
       color: white;
       font-weight: bold;
       display: inline-block;
-      cursor: pointer;
-      transition: 0.2s;
-
-      &:hover {
-        color: $background-color;
-        transform: scale(1.05);
-      }
     }
 
     .image-wrapper {

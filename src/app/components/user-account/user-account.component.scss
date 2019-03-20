@@ -75,6 +75,12 @@ h1 {
   }
 }
 
+.disabled {
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.5;
+}
+
 .level-header {
   color: white;
   margin-top: 70px;

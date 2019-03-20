@@ -49,7 +49,7 @@ export class SearchComponent implements OnInit {
    * that the stream will only accept strings as input.
    */
   ngOnInit(): void {
-    this.updateUsers();
+    this.userService.getMyself().subscribe(user => this.myself = user);
 
     this.subject.pipe(
       debounceTime(this.debounceTime as number),
@@ -91,7 +91,7 @@ export class SearchComponent implements OnInit {
     friend.userId = friendId;
     this.myself.friends.push(friend);
 
-    this.userService.changeFriends(this.myself).subscribe(() =>  this.sendFriendRequest(friendId));
+    this.userService.addFriend(friend).subscribe(() =>  this.sendFriendRequest(friendId));
   }
 
   /**
@@ -126,7 +126,7 @@ export class SearchComponent implements OnInit {
   }
 
   adminDisable(user: User) {
-    if (user.enabled == 1) {
+    if (user.enabled === 1) {
       user.enabled = 0;
     } else {
       user.enabled = 1;
@@ -136,7 +136,7 @@ export class SearchComponent implements OnInit {
 
   makeAdmin(user: User) {
     this.userService.changeToAdmin(user).subscribe();
-    this.ngOnInit();
+    this.updateUsers();
   }
 
   makeUser(user: User) {
@@ -145,7 +145,6 @@ export class SearchComponent implements OnInit {
   }
 
   private updateUsers() {
-    this.userService.getMyself().subscribe(user => this.myself = user);
     if (this.isAdmin()) {
       this.userService.getUsers().subscribe(users => this.users = users);
       this.userService.getAdmins().subscribe(admins => this.admins = admins);

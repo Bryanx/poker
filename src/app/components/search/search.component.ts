@@ -49,7 +49,7 @@ export class SearchComponent implements OnInit {
    * that the stream will only accept strings as input.
    */
   ngOnInit(): void {
-    this.userService.getMyself().subscribe(user => this.myself = user);
+    this.updateUsers();
 
     this.subject.pipe(
       debounceTime(this.debounceTime as number),

@@ -8,7 +8,7 @@
 
 <h2 class="welcome-message" *ngIf="!typed">Type something to get started</h2>
 
-<h2 *ngIf="isAdmin() && users.length > 0">USERS</h2>
+<h2 *ngIf="typed && isAdmin() && users.length > 0">USERS</h2>
 <section [@simpleFadeAnimation]="'in'" *ngIf="typed && users.length > 0" class="results">
   <div *ngFor="let user of users; index as i" [@simpleFadeAnimation]="'in'" routerLink="/user/{{user.id}}">
       <div class="image-wrapper">

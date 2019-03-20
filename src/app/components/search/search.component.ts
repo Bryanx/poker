@@ -49,7 +49,9 @@ export class SearchComponent implements OnInit {
    * that the stream will only accept strings as input.
    */
   ngOnInit(): void {
-    this.updateUsers();
+    if (this.isAdmin()) {
+      this.updateUsers();
+    }
 
     this.subject.pipe(
       debounceTime(this.debounceTime as number),

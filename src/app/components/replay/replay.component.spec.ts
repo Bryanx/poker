@@ -3,6 +3,9 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {ReplayComponent} from './replay.component';
 import {TranslatePipe} from '../../translate.pipe';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {Replay} from '../../model/replay';
+import {ReplayLine} from '../../model/replayLine';
+import {By} from '@angular/platform-browser';
 
 describe('ReplayComponent', () => {
   let component: ReplayComponent;
@@ -39,5 +42,28 @@ describe('ReplayComponent', () => {
     expect(component.curReplay).toBe(0);
     component.switchPage(-1);
     expect(component.curReplay).toBe(3);
+  });
+
+  it('Should display replay', () => {
+    const line: ReplayLine = new ReplayLine();
+    line.phase = 'TURN';
+    line.line = 'a message';
+    const replay: Replay = new Replay();
+    replay.roundNumber = 12345;
+    replay.roomName = 'test';
+    replay.lines = [line];
+    component.replays.pop(); // pop default replay
+    component.replays.push(replay);
+    component.curReplay = 0;
+    fixture.detectChanges();
+
+    const roomNameAndRoundNumberTag = fixture.debugElement.query(By.css('h2'));
+    expect(roomNameAndRoundNumberTag.nativeElement.innerHTML).toContain('test');
+    expect(roomNameAndRoundNumberTag.nativeElement.innerHTML).toContain('12345');
+
+    const lineTags = fixture.debugElement.queryAll(By.css('.message-row'));
+    const phaseTags = fixture.debugElement.queryAll(By.css('.phase'));
+    expect(lineTags[0].nativeElement.innerHTML).toContain('a message');
+    expect(phaseTags[0].nativeElement.innerHTML).toContain('TURN');
   });
 });

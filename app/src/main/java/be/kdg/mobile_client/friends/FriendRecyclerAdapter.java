@@ -76,16 +76,6 @@ public class FriendRecyclerAdapter extends RecyclerView.Adapter<FriendRecyclerAd
             users.remove(friend);
             notifyDataSetChanged();
             if (users.size() <= 0) ((FriendsActivity) ctx).showNoBros();
-
-            /*
-           myself.getFriends().stream()
-                    .filter(f -> f.getUserId() != null)
-                    .filter(f -> f.getUserId().equals(friend.getId()))
-                    .findAny()
-                    .ifPresent(friendToDelete -> {
-
-                    });
-                    */
         });
     }
 

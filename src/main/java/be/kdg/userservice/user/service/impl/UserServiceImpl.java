@@ -223,14 +223,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         Optional<User> dbUser = userRepository.findBySocialId(user.getSocialId());
 
         if (!dbUser.isPresent()) {
+            user.setChips(20000);
             user.setEnabled(1);
+            user.setLevel(1);
+            user.setThresholdTillNextLevel(100);
             user = saveUser(user);
             UserRole role = new UserRole(user.getId(), "ROLE_USER");
             userRoleRepository.save(role);
             return user;
         }
 
-        LOGGER.info("Checing social user with id " + user.getId());
+        LOGGER.info("Checking social user with id " + user.getId());
         return dbUser.get();
     }
 

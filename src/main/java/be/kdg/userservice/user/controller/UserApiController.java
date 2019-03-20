@@ -282,7 +282,7 @@ public class UserApiController extends BaseController {
      * Rest endpoint that creates a user and returns a CREATED status code.
      */
     @PostMapping("/sociallogin")
-    public ResponseEntity<TokenDto> socialLogin(@Valid @RequestBody SocialUserDto socialUserDto) throws UserException {
+    public synchronized ResponseEntity<TokenDto> socialLogin(@Valid @RequestBody SocialUserDto socialUserDto) throws UserException {
         logIncomingCall("socialLogin");
         User userIn = modelMapper.map(socialUserDto, User.class);
         User userOut = userService.checkSocialUser(userIn);

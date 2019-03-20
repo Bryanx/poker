@@ -1,14 +1,19 @@
 import {by, browser, element, $, protractor, $$} from 'protractor';
-import {MenuPage} from '../pages/menu.page';
 
 describe('App E2E Test Suite', () => {
-  const menuPage = new MenuPage();
-
   beforeAll(() => {
     browser.get('/');
   });
 
   it('should navigate to login page', () => {
-    browser.get('/login');
+    // Testen of hij in de test methode komt.
+    console.log('YAY');
+
+    // Dit werkt niet
+    const btnLogin = $('#login');
+    btnLogin.click();
+
+    // Dit werkt wel
+    // browser.get('/login');
   });
 });

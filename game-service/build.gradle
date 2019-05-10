@@ -1,0 +1,48 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.2.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'be.kdg'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    compileOnly 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+    compile ('org.modelmapper.extensions:modelmapper-spring:2.3.0')
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
+    compile("org.springframework.boot:spring-boot-starter-websocket")
+    compile ('org.webjars:sockjs-client:1.0.2')
+    compile ('org.webjars:stomp-websocket:2.3.3')
+    compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.3.4.RELEASE'
+    compile group: 'org.springframework.security', name: 'spring-security-jwt', version: '1.0.10.RELEASE'
+    compile('javax.xml.bind:jaxb-api:2.3.0')
+    compile('javax.activation:activation:1.1')
+    compile('org.glassfish.jaxb:jaxb-runtime:2.3.0')
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.1'
+
+
+}

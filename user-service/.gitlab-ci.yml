@@ -1,0 +1,33 @@
+image: docker:dind
+services:
+  - docker:dind
+
+variables:
+  SPRING_PROFILES_ACTIVE: gitlab-ci
+  DOCKER_DRIVER: overlay2
+
+stages:
+  - build
+  - deploy
+
+gradle-build:
+  image: java:8-jdk
+  stage: build
+  script: "chmod +x gradlew && ./gradlew build"
+  artifacts:
+    paths:
+      - build/libs/*.jar
+
+heroku-push:
+  stage: deploy
+  image: docker:latest
+  only:
+    - master
+  script:
+    - docker build -f Dockerfile --iidfile imageid.txt -t registry.heroku.com/poker-user-service .
+    - docker login -u _ -p $HEROKU_API_KEY registry.heroku.com
+    - docker push registry.heroku.com/poker-user-service
+    - apk add --no-cache curl
+    - echo "Docker Image ID is $(cat imageid.txt)"
+    - |-
+      curl -X PATCH https://api.heroku.com/apps/poker-user-service/formation --header "Content-Type: application/json" --header "Accept: application/vnd.heroku+json; version=3.docker-releases" --header "Authorization: Bearer ${HEROKU_API_KEY}" --data '{ "updates": [ { "type": "web", "docker_image": "'$(cat imageid.txt)'" } ] }'

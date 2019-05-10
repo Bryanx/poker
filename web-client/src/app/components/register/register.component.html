@@ -1,0 +1,40 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1>{{'REGISTER' | translate | uppercase}}</h1>
+
+  <section class="email">
+    <label>{{'EMAIL' | translate | titlecase}}</label>
+    <input type="text" name="email" formControlName="email" id="email" autocomplete="off">
+    <div class="error"
+         *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">
+      {{'USERNAMEREQUIRED' | translate}}
+    </div>
+  </section>
+
+  <section class="username">
+    <label>{{'USERNAME' | translate | titlecase}}</label>
+    <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
+    <div class="error"
+         *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">
+      {{'PASSWORDREQUIRED' | translate}}
+    </div>
+    <div class="error" *ngIf="error">{{error}}</div>
+  </section>
+
+  <section class="password">
+    <label>{{'PASSWORD' | translate | titlecase}}</label>
+    <input type="password" name="password" formControlName="password" id="password" autocomplete="off">
+    <div class="error"
+         *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+      {{'EMAILREQUIRED' | translate}}
+    </div>
+  </section>
+
+  <button [disabled]="loginForm.invalid">
+    {{'REGISTER' | translate | titlecase}}
+  </button>
+
+
+  <a class="no-account" routerLink="/login">
+    {{'GOTOLOGIN' | translate}}
+  </a>
+</form>

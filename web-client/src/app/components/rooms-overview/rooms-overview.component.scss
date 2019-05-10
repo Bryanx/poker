@@ -1,0 +1,194 @@
+@import "../../../styles";
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  max-width: 1200px;
+}
+
+h2 {
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.nav {
+  @include custom_button;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+
+  button {
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
+}
+
+.friend-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+  z-index: 2;
+  position: absolute;
+  background-color: lighten($background-color, 10%);
+  top: 25px;
+  width: 95vw;
+  height: 95vh;
+  border-radius: 1.5rem;
+
+  h1 {
+    margin-top: 20px;
+    position: absolute;
+    top: 0;
+  }
+
+  .user-list {
+    width: 70%;
+    max-height: 270px;
+    overflow: auto;
+    margin-bottom: 30px;
+    height: 100%;
+
+    .user-row {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem;
+      color: white;
+      background: darken($background-color, 2%);
+      font-size: 1.5rem;
+      border-radius: .5rem;
+      margin-bottom: .5rem;
+      cursor: pointer;
+
+      .add-user {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $green;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:hover {
+          background-color: darken($green, 20%);
+        }
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          display: block;
+        }
+      }
+
+      .row {
+        opacity: 1;
+      }
+
+      .delete-user {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $red;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:hover {
+          background-color: darken($red, 20%);
+        }
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          display: block;
+          transform: rotate(45deg);
+        }
+      }
+
+      .owner-user {
+        @extend button;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin: 0;
+        min-width: 0;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+
+        &:active {
+          top: 0;
+        }
+
+        fa {
+          color: #efc75e;
+          display: block;
+        }
+      }
+
+      &:hover {
+        background: darken($background-color, 3%);
+      }
+    }
+  }
+
+  .done {
+    height: 4rem;
+    border-radius: 0.15em;
+    text-decoration: none;
+    font-weight: 400;
+    color: #FFFFFF;
+    background-color: $green;
+    text-align: center;
+    border: none;
+    font-size: 1.5rem;
+    min-width: 10rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    width: 250px;
+
+    position: absolute;
+    bottom: 20px;
+    &:hover {
+      background: darken($green, 15%)
+    }
+  }
+}
+
+@media(max-width: 800px) {
+  h1 {
+    font-size: 2rem;
+  }
+}
+

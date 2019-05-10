@@ -1,0 +1,21 @@
+<div *ngIf="!homeButtonVisible && hasAuthentication()" routerLink="/" class="home-container">
+  <img src="../assets/img/icons/home.svg">
+</div>
+<header class="hotbar">
+  <h2 *ngIf="showXp" [@simpleFadeAnimation]="'in'" class="xpLabel">{{xpLabel}}</h2>
+  <mat-progress-bar *ngIf="hasAuthentication() && isNormalUser()" class="progress" mode="determinate"
+                    [value]="(myself.xpTillNext / myself.thresholdTillNextLevel) * 100"></mat-progress-bar>
+  <h2 *ngIf="hasAuthentication() && isNormalUser()" class="level-header">{{myself.level}}</h2>
+  <h2 *ngIf="hasAuthentication() && isNormalUser()" class="chips">{{myself.chips}}</h2>
+  <img *ngIf="hasAuthentication() && isNormalUser()" class="chips-img" src="../assets/img/icons/coins.svg">
+
+  <app-notification *ngIf="hasAuthentication() && isNormalUser()"
+                    [notifications]="newNotification"
+                    (deleteEvent)="getAllNotifications()"
+  ></app-notification>
+  <button *ngIf="onlyHome" (click)="setLang('nl')">NL</button>
+  <button *ngIf="onlyHome" (click)="setLang('en')">EN</button>
+</header>
+
+<notifier-container></notifier-container>
+<router-outlet></router-outlet>

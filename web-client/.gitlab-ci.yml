@@ -1,0 +1,41 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  stage: build
+  cache:
+    paths:
+      - node_modules/
+  script:
+    - npm install --quiet
+    - npm run build
+  artifacts:
+    paths:
+      - dist/
+
+test:
+  image: juristr/angular-ci-build:1.0.0
+  stage: test
+  script:
+    - npm rebuild node-sass
+    - npm run test-ci
+
+production:
+  stage: deploy
+  image: ruby:latest
+  only:
+    - master
+  dependencies:
+    - build
+  cache:
+    policy: pull
+    paths:
+      - node_modules/
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=poker-web-client --api-key=$HEROKU_PRODUCTION_API_KEY

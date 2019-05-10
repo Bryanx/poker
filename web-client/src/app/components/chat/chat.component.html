@@ -1,0 +1,17 @@
+<section [class]="chatVisible ? 'vis chat-content' : 'un-vis chat-content'" #chatScroll (scroll)="onScroll()">
+  <div *ngIf="error" class="error">Something wen't wrong.</div>
+  <div class="message" *ngFor="let message of messages"
+       [class.my-message]="myMessage(message)"
+       [class.system-message]="systemMessage(message)">
+    {{myMessage(message) || systemMessage(message) ? '' : message.name + ': '}}{{message.content}}
+  </div>
+</section>
+
+<section [class]="chatVisible ? 'vis chat-bottom' : 'un-vis chat-bottom'">
+  <input type="text" [placeholder]="'Message your bros'" (keydown.enter)="sendMessage()" [(ngModel)]="inputMessage">
+  <button (click)="sendMessage()">Send</button>
+</section>
+
+<section class="chat-visible-button">
+  <div class="arrow-right" onclick="this.classList.toggle('active')" (click)="toggleVisible()"></div>
+</section>

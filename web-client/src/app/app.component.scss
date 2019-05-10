@@ -1,0 +1,93 @@
+@import "../styles";
+@include custom_button
+
+.home-container {
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  top: 1rem;
+  left: 1rem;
+
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  user-select: none;
+
+  &:hover {
+    background-color: darken($background-color, 10%);
+  }
+
+  &:active {
+    background-color: darken($background-color, 20%);
+  }
+
+  img {
+    margin-top: 6px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.hotbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  vertical-align: center;
+
+  .xpLabel {
+    color: white;
+    margin-right: 10px;
+    font-size: .9rem;
+  }
+
+  .progress {
+    margin-right: 10px;
+    width: 150px;
+    height: 10px;
+    border-radius: 1rem;
+  }
+
+  .level-header {
+    margin-right: 15px;
+    color: white;
+  }
+
+  .chips {
+    margin-left: 5px;
+    margin-right: 7px;
+    color: white;
+    font-size: 1.2rem;
+  }
+
+  .chips-img {
+    margin-right: 15px;
+    width: 25px;
+    height: 25px;
+  }
+
+  button {
+    background: none;
+    color: white;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 0 0 0 .3rem;
+    margin: 1rem 0.35rem 1rem 1rem;
+
+    &:hover {
+      color: darken(#fff, 30%);
+    }
+
+    &:active {
+      color: darken(#fff, 40%);
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<div *ngIf="me.level <= room.gameRules.maxLevel" [@simpleFadeAnimation]="'in'" class="main-container">
+  <img [class]="'add-friend ' + (dataLoaded ? '' : 'disabled')" *ngIf="inSettingMode" src="../../../assets/img/icons/add_friend.svg" (click)="showFriendModal()">
+  <img *ngIf=" me.level < room.gameRules.minLevel && !isAdmin" class="lock" src="../../../assets/img/icons/lock.svg">
+  <div [routerLink]="determineRouterLink() + room.id" [class]="'room ' + determineSecondClass()">
+    <span class="name" [style.top.px]="isPrivate ? 25 : 20">{{room.name | uppercase}}</span>
+    <span class="price" [style.top.px]="isPrivate ? 60 : 50">Buy-in: {{room.gameRules.startingChips}}</span>
+    <span *ngIf="!isPrivate" class="levels">{{room.gameRules.minLevel}} - {{room.gameRules.maxLevel}}</span>
+
+    <span class="blinds">{{room.gameRules.smallBlind}}/{{room.gameRules.bigBlind}}</span>
+    <img class="blind-img" src="../../../assets/img/icons/coins.svg" rel="coin">
+
+    <span class="timer">{{room.gameRules.playDelay}}s</span>
+    <img class="timer-img" src="../../../assets/img/icons/timer.svg" rel="timer">
+
+    <span class="capacity">{{room.playersInRoom.length}}/{{room.gameRules.maxPlayerCount}}</span>
+    <img class="cap-img" [src]="determineCapacityIcon()" rel="capacity">
+  </div>
+</div>
+

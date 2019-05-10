@@ -1,0 +1,37 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1>{{'LOGIN' | translate | uppercase}}</h1>
+
+  <section class="username">
+    <label for="username">{{'USERNAME' | translate | titlecase}}</label>
+    <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
+    <div class="error"
+         *ngIf="loginForm.controls['username'].hasError('required') && loginForm.controls['username'].touched">
+      {{'USERNAMEREQUIRED' | translate}}
+    </div>
+  </section>
+
+  <section class="password">
+    <label for="password">{{'PASSWORD' | translate | titlecase}}</label>
+    <input type="password" name="password" formControlName="password" id="password" autocomplete="off">
+    <div class="error"
+         *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+      {{'PASSWORDREQUIRED' | translate}}
+    </div>
+    <div class="error" *ngIf="error">{{error}}</div>
+  </section>
+
+  <button class="login-button" [disabled]="loginForm.invalid">
+    {{'LOGIN' | translate | titlecase}}
+  </button>
+
+  <section class="social-media">
+    <a (click)="signInWithFB()">
+      <img src="assets/img/icons/icon-facebook.png" alt="FACEBOOK">
+      Facebook
+    </a>
+  </section>
+
+  <a class="no-account" routerLink="/register">
+    {{'GOTOREGISTER' | translate}}
+  </a>
+</form>

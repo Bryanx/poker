@@ -1,0 +1,138 @@
+@import "../../../styles";
+@include custom_button
+
+.grid {
+  display: grid;
+  width: 100vw;
+  grid-template-columns: auto 20% 5% 20% auto;
+  grid-template-areas: ". delete delete delete ." ". name name name ." ". one . two ." ". save save save .";
+}
+
+section {
+  margin-top: 1rem;
+}
+
+.grid-name {
+  grid-area: name;
+  display: block;
+  width: 100%;
+}
+
+.grid-delete {
+  grid-area: delete;
+  display: block;
+  width: 100%;
+}
+
+.grid-one {
+  grid-area: one;
+  display: block;
+  width: 100%;
+}
+
+.grid-two {
+  grid-area: two;
+  display: block;
+  width: 100%;
+}
+
+.grid-save {
+  grid-area: save;
+  display: block;
+}
+
+button {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.disabled {
+  background: #DDDDDD;
+  cursor: not-allowed;
+  &:hover {
+    background: #DDDDDD;
+  }
+}
+
+h2 {
+  color: white;
+  padding-top: 1rem;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form {
+  flex-direction: column;
+  color: white;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  h1 {
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+  }
+
+  input {
+    display: block;
+    padding: $inputPaddingV $inputPaddingH;
+    margin: .2rem 0;
+    color: $dark-gray;
+    width: 100%;
+    font-family: inherit;
+    font-size: $inputFontSize;
+    font-weight: inherit;
+    line-height: $inputLineHeight;
+    border-radius: 0.4rem;
+
+    outline: none;
+    border: 2px solid transparent;
+    &:focus {
+      border: 2px solid $green;
+    }
+  }
+
+  select {
+    display: block;
+    padding: 1.05rem $inputPaddingH;
+    margin: .2rem 0;
+    color: $dark-gray;
+    width: 100%;
+    font-family: inherit;
+    font-size: $inputFontSize;
+    font-weight: inherit;
+    line-height: $inputLineHeight;
+    border-radius: 0.4rem;
+
+    outline: none;
+    border: 2px solid transparent;
+    &:focus {
+      border: 2px solid $green;
+    }
+  }
+
+  .error {
+    color: $red;
+    position: absolute;
+  }
+}
+
+.buttons {
+  display: flex;
+
+  .save {
+    margin-right: 1rem;
+  }
+
+  .delete {
+    margin-left: 1rem;
+    background-color: $red;
+    &:hover{
+      background-color: darken($red, 15%);
+    }
+  }
+}

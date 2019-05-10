@@ -1,0 +1,151 @@
+@import "../../../styles";
+@include custom_button
+
+:host {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.welcome-message {
+  color: white;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+h2 {
+  color: white;
+}
+
+.search-bar {
+  display: flex;
+  align-items: flex-end;
+  width: 70%;
+  margin: 0 20px 20px;
+
+  .search-button {
+    width: 50px;
+    height: 50px;
+    margin-left: 15px;
+
+    background-color: #44e2a8;
+    border-radius: 50%;
+    min-width: auto;
+    position: relative;
+
+    &:hover {
+      background-color: #40c690;
+    }
+
+    &:active {
+      background-color: #3fb47f;
+      top: 0;
+    }
+
+    img {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+
+      top: 10px;
+      left: 10px;
+    }
+  }
+
+  input {
+    height: 50px;
+    display: block;
+    width: 100%;
+    font-size: large;
+    padding: 15px;
+    border-radius: 1rem;
+    border: none;
+  }
+}
+
+.results {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  width: 70%;
+
+  background-color: #505271;
+  border: 10px solid #3e405e;
+  border-radius: 1.5rem;
+
+  div {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 1rem;
+    user-select: none;
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #464867;
+    }
+
+    .username-span {
+      font-size: 2rem;
+      color: white;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .image-wrapper {
+      margin-right: 20px;
+      border-radius: 50%;
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      border: 2px solid white;
+      text-align: center;
+    }
+
+    button {
+      float: right;
+      margin: 1rem;
+      width: 6.25rem;
+      height: 2.5rem;
+      font-size: 1.5rem;
+      user-select: none;
+
+      &:hover {
+        background-color: darken($green, 15%);
+      }
+
+      &:active {
+        background-color: darken($green, 25%);
+        top: 10px;
+      }
+    }
+
+    .admin-button-red {
+     background-color: $red;
+
+      &:hover {
+        background-color: darken($red, 15%);
+      }
+
+      &:active {
+        background-color: darken($red, 25%);
+        top: 10px;
+      }
+    }
+  }
+}
+
+.nothing-found {
+  color: white;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.back-button {
+  margin-bottom: 2rem;
+}

@@ -1,0 +1,46 @@
+<div [className]="!myTurn || room.playersInRoom.length < 2 || player.allIn ? 'actionbar-disabled' : 'actionbar'" *ngIf="room || room.playersInRoom.length < 2">
+  <p *ngIf="room.playersInRoom.length < 2">
+     {{'WAITINGFORPLAYERS' | translate | uppercase}}
+  </p>
+  <p *ngIf="!myTurn && room.playersInRoom.length >= 2 && !waiting">
+    {{'BROTURN' | translate | uppercase}}
+  </p>
+  <p *ngIf="player && player.allIn">
+    All-in
+  </p>
+  <p *ngIf="!myTurn && room.playersInRoom.length >= 2 && waiting">
+    {{'WAITINGFORNEWROUND' | translate | uppercase}}
+  </p>
+  <div class="cards" *ngIf="player">
+    <app-card class="player-card" [card]="player.firstCard"></app-card>
+    <app-card class="player-card" [card]="player.secondCard"></app-card>
+  </div>
+  <div class="button-actions">
+    <button *ngIf="isActPossible(actTypes.Call)" (click)="playAct(actTypes.Call)" class="call" [disabled]="!myTurn">CALL</button>
+    <button *ngIf="isActPossible(actTypes.Check)" (click)="playAct(actTypes.Check)" class="call" [disabled]="!myTurn">CHECK</button>
+    <button (click)="playAct(actTypes.Fold)" class="fold" [disabled]="!myTurn">FOLD</button>
+    <div class="timer">
+      <circle-progress
+        [percent]="progressBarCounter"
+        [title]="counter"
+      ></circle-progress>
+    </div>
+  </div>
+  <div class="raise">
+    <button *ngIf="isActPossible(actTypes.Raise) && !allIn" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn || !betraise" [class]="betraise ? '' : 'disabled'">RAISE</button>
+    <button *ngIf="isActPossible(actTypes.Bet) && !allIn" (click)="playAct(actTypes.Bet)" [disabled]="!myTurn || !betraise" [class]="betraise ? '' : 'disabled'">BET</button>
+    <button *ngIf="isActPossible(actTypes.Bet) && allIn" (click)="playAct(actTypes.Bet)" [disabled]="!myTurn || betraise" [class]="allIn ? '' : 'disabled'">ALL-IN</button>
+    <button *ngIf="isActPossible(actTypes.Raise) && allIn" (click)="playAct(actTypes.Raise)" [disabled]="!myTurn || betraise" [class]="allIn ? '' : 'disabled'">ALL-IN</button>
+    <mat-slider *ngIf="player"
+      thumbLabel
+      [displayWith]="formatLabel"
+      [value]="sliderValue"
+      (input)="sliderValue = $event.value"
+      tickInterval="1000"
+      [min]="getMimimumRaise()"
+      [max]="player.chipCount"
+      step="10"
+                (change)="onChange($event.value)"></mat-slider>
+    <div class="slider-amount">{{sliderValue}}</div>
+  </div>
+</div>

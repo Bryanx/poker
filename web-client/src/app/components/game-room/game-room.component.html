@@ -1,0 +1,37 @@
+<div class="joining" *ngIf="!done">
+  <h1>{{'JOINING' | translate | uppercase}}</h1>
+  <img src="../../../assets/img/icons/loading.gif"/>
+</div>
+
+<app-game-invitation *ngIf="showInviteModal"
+                     [room]="room"
+></app-game-invitation>
+
+<div class="grid-container" *ngIf="done">
+  <button (click)="goBack()" class="leave-button"><img src="../../../assets/img/icons/leave1.svg"></button>
+  <button (click)="showInviteModal = !showInviteModal" class="invite-button"><img src="../../../assets/img/icons/invite.svg"></button>
+  <div *ngIf="room" class="room-name"><p class="room-room">ROOM</p><p>{{room.name.toUpperCase()}}</p></div>
+  <app-player *ngFor="let player of room.playersInRoom; index as i" [class]="'grid-person grid-person-' + (player.seatNumber - 1)"
+              [player]="player"
+              [currentAct]="lastAct"
+              [gameRules]="room.gameRules"
+              [round]="round"
+  ></app-player>
+  <div class="grid-tmiddle"></div>
+  <app-chat class="grid-chat" *ngIf="room"
+  [roomId]="room.id"></app-chat>
+  <app-actionbar class="grid-actionbar"
+                 *ngIf="room"
+                 [room]="room"
+  [round]="round"
+  (actEvent)="onActEvent($event)"
+  (currentPhaseBetEvent)="onCurrentPhaseBetEvent($event)"></app-actionbar>
+  <app-game-table class="grid-item-table"
+                  [round]="round"
+  ></app-game-table>
+  <section class="grid-player-bet">
+    <div *ngFor="let currentPhaseBet of currentPhaseBets; index as i" [class]="'player-bet bet-' + (currentPhaseBet.seatNumber - 1)">
+      {{(currentPhaseBet.bet)}}
+    </div>
+  </section>
+</div>

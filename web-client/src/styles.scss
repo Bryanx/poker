@@ -1,0 +1,90 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~angular-notifier/styles";
+
+/* Colors: */
+$background-color: #383A4F;
+$background-color-2: #24263B;
+$white-antique: #FAEBD7;
+$green: #44E2A8;
+$blue: #66D9EF;
+$red: #F92672;
+$yellow: #efc75e;
+$facebook-blue: #4267b2;
+$dark-gray: #727272;
+$darker-gray: #2A2A2E;
+
+$inputFontSize: 1.3rem;
+$inputPaddingV: .3rem;
+$inputPaddingH: .7rem;
+$inputLineHeight: 3rem;
+
+@mixin custom_button {
+  button, input {
+    outline: none !important;
+  }
+
+  button {
+    height: 4rem;
+    border-radius: 0.15em;
+    text-decoration: none;
+    font-weight: 400;
+    color: #FFFFFF;
+    background-color: $green;
+    text-align: center;
+    border: none;
+    font-size: 1.5rem;
+    min-width: 10rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    width: 250px;
+    &:hover {
+      background: darken($green, 15%)
+    }
+  }
+
+  button:active {
+    top: 0.1em;
+  }
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: $background-color;
+  font-family: 'Open Sans', sans-serif;
+  min-height:100%;
+}
+
+h1 {
+  font-size: 4rem;
+  color: white;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+}
+
+/* ==================== CUSTOM SCROLLBAR ==================== */
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: $green;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $green;
+}

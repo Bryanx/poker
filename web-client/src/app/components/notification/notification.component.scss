@@ -1,0 +1,156 @@
+@import "../../../styles";
+
+.bell-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  user-select: none;
+
+  &:hover {
+    background-color: darken($background-color, 10%);
+  }
+
+  &:active {
+    background-color: darken($background-color, 20%);
+  }
+
+  img {
+    margin-top: 5px;
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.not-panel {
+  display: flex;
+  flex-direction: column;
+  width: 680px;
+  background-color: white;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  z-index: 5000;
+  box-shadow: 5px 5px 5px #222;
+  border-radius: 1rem;
+  user-select: none;
+
+  .not {
+    display: flex;
+    flex-direction: row;
+
+    margin: 5px 10px;
+
+    padding: 15px;
+    border-radius: 1rem;
+    cursor: pointer;
+    user-select: none;
+
+    .not-icon {
+      width: 50px;
+      height: 50px;
+      margin-right: 20px;
+    }
+
+    .info {
+      display: flex;
+      flex-direction: column;
+
+      .message {
+        margin-top: 3px;
+        font-size: 1rem;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: bold;
+        vertical-align: center;
+      }
+
+      .time {
+        font-size: 0.8rem;
+        margin-top: 10px;
+        font-weight: bold;
+        color: #969696
+      }
+    }
+
+    .del-icon {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      margin-top: 10px;
+      right: 25px;
+    }
+
+    &:hover {
+      background-color: darken(#fff, 15%);
+    }
+
+    &:active {
+      background-color: darken(#fff, 25%);
+    }
+  }
+
+  .delete-all {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #969696;
+    justify-self: center;
+    margin-left: 275px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      text-decoration: underline;
+      text-underline: darken(#969696, 15%);
+      color: darken(#969696, 15%);
+    }
+
+    &:active {
+      text-underline: darken(#969696, 25%);
+      color: darken(#969696, 25%);
+    }
+  }
+
+  .splash-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin: 25px;
+    user-select: none;
+
+    img {
+      width: 150px;
+      height: 150px;
+      margin-bottom: 25px;
+    }
+
+    .main-message {
+      font-size: 1.5rem;
+      font-family: 'Open Sans', sans-serif;
+      font-weight: bold;
+    }
+
+    .second-message {
+      font-size: 0.8rem;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #969696;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+        text-underline: darken(#969696, 15%);
+        color: darken(#969696, 15%);
+      }
+
+      &:active {
+        text-underline: darken(#969696, 25%);
+        color: darken(#969696, 25%);
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+@import "../../../styles";
+@include custom_button
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.back-button {
+  margin: 3rem 0;
+}
+
+.list-container {
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 210px;
+  overflow: auto;
+  width: 95%;
+
+  @media only screen and (min-width: 800px) {
+    width: 60%;
+  }
+  table {
+    background: $background-color;
+    width: 100%;
+    th {
+      color: lighten($background-color, 30%);
+      font-size: .8rem;
+    }
+    td {
+      flex: 0 0 100px !important;
+      white-space: unset !important;
+      color: lighten($background-color, 60%);
+      font-size: 1.2rem;
+    }
+    tr {
+      cursor: pointer;
+      &:hover {
+        background: lighten($background-color, 5%);
+
+      }
+    }
+    .mat-header-row:hover {
+      background: $background-color;
+      cursor: default;
+    }
+  }
+}

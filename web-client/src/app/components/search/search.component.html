@@ -1,0 +1,43 @@
+<h1>{{'SEARCH_USERS' | translate | uppercase}}</h1>
+
+<section class="search-bar">
+  <input type="text" placeholder="Search users" (keyup)="addToSubject()" [(ngModel)]="inputString">
+  <button (click)="addToSubject()" class="search-button"><img src="../../../assets/img/icons/search.svg" alt="SEARCH">
+  </button>
+</section>
+
+<h2 class="welcome-message" *ngIf="!typed && !isAdmin()">Type something to get started</h2>
+
+<h2 *ngIf="isAdmin() && users.length > 0 && typed">USERS</h2>
+<section [@simpleFadeAnimation]="'in'" *ngIf="typed && users.length > 0" class="results">
+  <div *ngFor="let user of users; index as i" [@simpleFadeAnimation]="'in'" routerLink="/user/{{user.id}}">
+      <div class="image-wrapper">
+        {{getInitials(user)}}
+      </div>
+      <span class="username-span" routerLink="/user/{{user.id}}">{{user.username}}</span>
+    <button *ngIf="checkShowButton(user) && !isAdmin()" (click)="addFriend(user.id); stop($event)">Befriend bro</button>
+    <button [class]="user.enabled == 1 ? 'admin-button-red' : ''" *ngIf="isAdmin()" (click)="adminDisable(user); stop($event)">
+      {{user.enabled == 1 ? 'Disable' : 'Enable'}}
+    </button>
+    <button *ngIf="isAdmin()" (click)="makeAdmin(user); stop($event)">Admin</button>
+  </div>
+</section>
+<h2 class="nothing-found" *ngIf="inputString && users.length <= 0">No bros :(</h2>
+
+
+<h2 *ngIf="isAdmin() && admins.length > 0">ADMINS</h2>
+<section *ngIf="admins.length > 0" class="results">
+  <div *ngFor="let admin of admins; index as i">
+    <div class="image-wrapper">
+      {{getInitials(admin)}}
+    </div>
+    <span class="username-span">{{admin.username}}</span>
+    <button [class]="admin.enabled == 1 ? 'admin-button-red' : ''" (click)="adminDisable(admin)">
+      {{admin.enabled == 1 ? 'Disable' : 'Enable'}}
+    </button>
+    <button (click)="makeUser(admin)">User</button>
+  </div>
+</section>
+
+<button *ngIf="!isAdmin()" class="back-button" routerLink="/friends">{{'BACK' | translate | titlecase}}</button>
+<button *ngIf="isAdmin()" class="back-button" routerLink="/">{{'BACK' | translate | titlecase}}</button>

@@ -1,0 +1,131 @@
+@import "../../../styles";
+
+.main-container {
+  position: relative;
+
+  .add-friend {
+    z-index: 1;
+    position: absolute;
+    height: 45px;
+    width: 45px;
+    right: 35px;
+    top: 10px;
+    transition: .2s;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.25);
+    }
+  }
+
+  .lock {
+    z-index: 1;
+    position: absolute;
+    height: 75px;
+    width: 75px;
+    top: 60px;
+    left: 158px;
+  }
+}
+
+.room {
+  display: flex;
+  flex-direction: column;
+
+  width: 350px;
+  height: 200px;
+  margin-bottom: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
+
+  border-radius: 8rem;
+  background-color: #505271;
+  position: relative;
+  border: 10px solid #3e405e;
+  transition: .1s;
+  cursor: pointer;
+  user-select: none;
+
+  span {
+    position: absolute;
+    color: white;
+  }
+
+  .name {
+    align-self: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+
+  .price {
+    align-self: center;
+  }
+
+  .levels {
+    top: 75px;
+    align-self: center;
+    font-size: 0.8rem;
+  }
+
+  img {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+  }
+
+  .blinds {
+    top: 100px;
+    left: 70px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .blind-img {
+    top: 130px;
+    left: 70px;
+  }
+
+  .timer {
+    top: 100px;
+    left: 150px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .timer-img {
+    top: 130px;
+    left: 150px;
+  }
+
+  .capacity {
+    top: 100px;
+    right: 70px;
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .cap-img {
+    top: 130px;
+    right: 70px;
+  }
+}
+
+.enabled {
+  &:hover {
+    transform: scale(1.05);
+    border: 10px solid $green;
+    background-color: darken($green, 15%);
+  }
+}
+
+.enabled-settings {
+  &:hover {
+    border: 10px solid $green;
+    background-color: darken($green, 15%);
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}

@@ -1,0 +1,41 @@
+<h1>{{user.username}}
+  <ng-container *ngIf="user && myself">
+    <button *ngIf="user.id !== myself.id && isFriends()" (click)="removeFriend()"
+            [class]="'remove-friend'  + (pending ? ' disabled' : '')">{{'REMOVE FRIEND' | translate | titlecase}}
+    </button>
+    <button *ngIf="user.id !== myself.id && !isFriends()" (click)="addFriend()"
+            [class]="'add-friend' + (pending ? ' disabled' : '')">{{'ADD FRIEND' | translate | titlecase}}
+    </button>
+  </ng-container>
+</h1>
+
+<section>
+  <div class="half-width">
+    <div class="overflow-img">
+      <img [src]="picture" (error)="setDefaultPicture()"
+           alt="Profile picture" class="profile-picture">
+    </div>
+  </div>
+  <div class="half-width">
+    <h2>{{'AMOUNT OF GAMES WON' | translate | uppercase}}</h2>
+    <span>{{user.wins | number}}</span>
+    <h2>{{'CURRENT AMOUNT OF CHIPS' | translate | uppercase}}</h2>
+    <span>{{user.chips | number}}</span>
+    <h2>{{'TOTAL GAMES PLAYED' | translate | uppercase}}</h2>
+    <span>{{user.gamesPlayed | number}}</span>
+  </div>
+</section>
+
+<h2 class="level-header">Level {{user.level}}</h2>
+<section class="progress-section">
+  <span>{{user.xpTillNext}}</span>
+  <mat-progress-bar class="progress" mode="determinate"
+                    [value]="(user.xpTillNext / user.thresholdTillNextLevel) * 100"></mat-progress-bar>
+  <span>{{user.thresholdTillNextLevel}}</span>
+</section>
+
+<section class="nav">
+  <button class="back-button" (click)="goBack()">{{'BACK' | translate | titlecase}}</button>
+  <button *ngIf="user && myself && myAccount()" (click)="settings()">{{'SETTINGS' | translate | titlecase}}</button>
+</section>
+

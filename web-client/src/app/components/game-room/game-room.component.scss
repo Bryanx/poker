@@ -1,0 +1,207 @@
+@import "../../../styles";
+
+@include custom_button
+
+.leave-button {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  margin-top: 0;
+  width: 75px;
+  height: 75px;
+  border: solid 3px #44e2a8;
+  background-color: #383a4f;
+
+  border-radius: 50%;
+  min-width: auto;
+
+  &:active {
+    top: 30px;
+  }
+
+  img {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 17px;
+    right: 18px;
+  }
+}
+
+.invite-button {
+  position: absolute;
+  top: 30px;
+  left: 120px;
+  margin-top: 0;
+  width: 75px;
+  height: 75px;
+  border: solid 3px lighten($background-color, 20%);
+  background-color: #383a4f;
+  border-radius: 50%;
+  min-width: auto;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+
+  &:hover {
+    background-color: lighten($background-color, 30%);
+  }
+
+  &:active {
+    top: 30px;
+  }
+
+  img {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.grid-container {
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-columns: 25% 15% auto 15% 25%;
+  grid-template-rows: 20% 20% 6% 20% 20% auto;
+  grid-template-areas: ". . one . ." "two table table table three" "tmiddle table table table ." "four table table table five" "chat . zero . ." "actionbar actionbar actionbar actionbar actionbar";
+}
+
+.grid-person {
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-person-0 {
+  grid-area: zero;
+}
+
+.grid-person-1 {
+  grid-area: one;
+}
+
+.grid-person-2 {
+  grid-area: two;
+  justify-content: flex-end;
+}
+
+.grid-person-3 {
+  grid-area: three;
+  justify-content: flex-start;
+}
+
+.grid-person-4 {
+  grid-area: four;
+  justify-content: flex-end;
+}
+
+.grid-person-5 {
+  grid-area: five;
+  justify-content: flex-start;
+}
+
+.grid-tmiddle {
+  grid-area: tmiddle;
+}
+
+.grid-actionbar {
+  grid-area: actionbar;
+  background-color: $background-color-2;
+}
+
+.grid-item-table {
+  grid-area: table;
+  padding: 8vh 5vw 0;
+}
+
+.grid-chat {
+  grid-area: chat;
+  position: relative;
+}
+
+.grid-player-bet {
+  grid-area: table;
+  position: relative;
+
+  .player-bet {
+    text-align: center;
+    width: auto;
+    padding: 0 0.5rem;
+    height: 1.5rem;
+    border-radius: 25%;
+    background-color: white;
+    line-height: 1.8rem;
+  }
+
+  .bet-0 {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    margin-left: -1rem;
+  }
+
+  .bet-1 {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    margin-left: -1rem;
+  }
+
+  .bet-2 {
+    position: absolute;
+    top: 29%;
+    left: 10%;
+  }
+
+  .bet-3 {
+    position: absolute;
+    top: 29%;
+    right: 10%;
+  }
+
+  .bet-4 {
+    position: absolute;
+    bottom: 29%;
+    left: 10%;
+  }
+
+  .bet-5 {
+    position: absolute;
+    bottom: 29%;
+    right: 10%;
+  }
+}
+
+.joining {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 300px;
+
+  img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.room-name {
+  position: absolute;
+  top: 36px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  display: block;
+  left: 220px;
+  line-height: 1.8rem;
+
+  .room-room {
+    color: $dark-gray;
+  }
+}

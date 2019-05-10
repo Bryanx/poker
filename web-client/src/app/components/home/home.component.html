@@ -1,0 +1,29 @@
+<header class="logout" *ngIf="isAuthenticated()">
+  <i class="fas fa-sign-out-alt fa-2x" (click)="logout()"></i>
+</header>
+
+<img src="../../../assets/img/logos/logo-white.png"/>
+
+<section>
+  <button id="login" *ngIf="!isAuthenticated()" routerLink="/login">{{'LOGIN' | translate | uppercase}}</button>
+
+  <button *ngIf="!isAuthenticated()" routerLink="/register">{{'REGISTER' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rooms">{{'JOIN ROOM' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rooms/private">{{'JOIN ROOM PRIVATE' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/friends">{{'FRIENDS' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/replays">{{'REPLAYS' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/rankings">{{'RANKINGS' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && !isAdmin()" routerLink="/user/{{myself.id}}">{{'PROFILE' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/game-rooms">{{'ADMINROOM' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/users">{{'ADMINUSER' | translate | uppercase}}</button>
+
+  <button *ngIf="isAuthenticated() && isAdmin()" routerLink="/global-message">{{'GLOBAL MESSAGES' | translate | uppercase}}</button>
+</section>

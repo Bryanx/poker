@@ -1,0 +1,12 @@
+<div class="wrapper">
+  <div class="action">{{_currentAct}}</div>
+  <div [class]="'avatar ' + (usePicture ? 'image-use' : 'init-use')">
+    <p *ngIf="!usePicture">{{getInitials()}}</p>
+    <img *ngIf="usePicture" [src]="getProfilePicture()" alt="Profile picture">
+  </div>
+  <div class="money">{{player.chipCount}}</div>
+</div>
+<section class="cards">
+  <app-player-card *ngIf="round && showDown() && !whoAmI()" [card]="player.firstCard" [round]="round"></app-player-card>
+  <app-player-card *ngIf="round && showDown() && !whoAmI()" [card]="player.secondCard" [round]="round"></app-player-card>
+</section>

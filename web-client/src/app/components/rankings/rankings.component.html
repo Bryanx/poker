@@ -1,0 +1,39 @@
+<h1>{{'RANKINGS' | translate | uppercase}}</h1>
+
+<div class="list-container mat-elevation-z8">
+  <table mat-table [dataSource]="users" class="mat-elevation-z8">
+    <ng-container matColumnDef="rank">
+      <th mat-header-cell *matHeaderCellDef> {{'RANK' | translate | uppercase}}</th>
+      <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element; let i = index;">{{i + 1}}.</td>
+    </ng-container>
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> {{'USERNAME' | translate | uppercase}}</th>
+      <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element">{{element.username}}</td>
+    </ng-container>
+    <ng-container matColumnDef="chips">
+      <th mat-header-cell *matHeaderCellDef> {{'CHIPS' | translate | uppercase}}</th>
+      <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element">{{element.chips}}</td>
+    </ng-container>
+    <ng-container matColumnDef="level">
+      <th mat-header-cell *matHeaderCellDef> {{'LEVEL' | translate | uppercase}}</th>
+      <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element">{{element.level}}</td>
+    </ng-container>
+    <ng-container matColumnDef="wins">
+      <th mat-header-cell *matHeaderCellDef> {{'WON' | translate | uppercase}}</th>
+      <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element">{{element.wins}}</td>
+    </ng-container>
+    <ng-container matColumnDef="lost">
+      <th mat-header-cell *matHeaderCellDef> {{'LOST' | translate | uppercase}}</th>
+      <td [@simpleFadeAnimation]="'in'"mat-cell *matCellDef="let element">{{element.gamesPlayed - element.wins}}</td>
+    </ng-container>
+    <ng-container matColumnDef="gamesPlayed">
+      <th mat-header-cell *matHeaderCellDef> {{'GAMES' | translate | uppercase}}</th>
+      <td [@simpleFadeAnimation]="'in'" mat-cell *matCellDef="let element">{{element.gamesPlayed}}</td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+        [routerLink]="['/user/', row.id]"></tr>
+  </table>
+</div>
+
+<button class="back-button" routerLink="/">{{'BACK' | translate | titlecase}}</button>

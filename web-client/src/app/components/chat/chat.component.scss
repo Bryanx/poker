@@ -1,0 +1,143 @@
+@import "../../../styles";
+@include custom_button
+
+:host {
+  min-height: 100%;
+}
+
+.vis {
+  margin-left: 0;
+  transition: margin-left .5s;
+}
+
+.un-vis {
+  margin-left: -180%;
+  transition: margin-left .5s;
+}
+
+.hide-button {
+  position: absolute;
+  bottom: 3rem;
+  left: 10rem;
+}
+
+.show-button {
+  position: absolute;
+  bottom: 3rem;
+  left: 0;
+}
+
+.chat-content {
+  background-color: darken($background-color, 7%);
+  z-index: 99;
+  position: absolute;
+  bottom: 3.3rem;
+  padding: 1rem;
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 320%;
+  overflow-y: scroll;
+  direction: rtl;
+
+  .error {
+    color: $red;
+  }
+
+  .message {
+    color: $dark-gray;
+    line-height: 2;
+    background: $blue;
+    padding: 0.1rem .7rem;
+    border-radius: 1rem;
+    margin: .3rem 0;
+    direction: ltr;
+  }
+
+  .my-message {
+    background: $green;
+  }
+
+  .system-message {
+    align-self: center;
+    background: none;
+    color: white;
+    font-size: .8rem;
+  }
+}
+
+.chat-bottom {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 0;
+  width: 420px;
+
+  button {
+    height: 3rem;
+    border-radius: 0;
+    font-size: 1rem;
+    padding: 0;
+    width: 9rem;
+    min-width: 4rem;
+  }
+
+  input {
+    height: 3rem;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    padding: 1rem;
+  }
+}
+
+//---------------------------------- ARROW ----------------------------------
+
+.arrow-right {
+  width: 3rem;
+  height: 3rem;
+  background: $background-color-2;
+  position: relative;
+  bottom: 10rem;
+  left: 0;
+  transition: left 0.5s;
+  z-index: 100;
+}
+
+.arrow-right.active {
+  background: $background-color-2;
+  left: 420px;
+  transition: left 0.5s;
+}
+
+.arrow-right:after, .arrow-right:before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 5px;
+  background: white;
+  position: absolute;
+  right: 15px;
+  transition: transform .5s;
+}
+
+.arrow-right:after {
+  top: 29px;
+  border-radius: 10px;
+  transform: rotate(135deg);
+}
+
+.arrow-right:before {
+  top: 18px;
+  border-radius: 10px;
+  transform: rotate(-135deg);
+}
+
+.arrow-right.active:after {
+  transform: rotate(225deg);
+}
+
+.arrow-right.active:before {
+  transform: rotate(-225deg);
+}

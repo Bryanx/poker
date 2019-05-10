@@ -1,0 +1,84 @@
+<h1>{{'SETTINGS' | translate | uppercase}}</h1>
+
+<br>
+
+<section *ngIf="user" class="grid-container">
+
+  <section class="first-element">
+
+    <form *ngIf="updateUserForm" [formGroup]="updateUserForm" (ngSubmit)="onSubmit()">
+
+      <section class="inputfield">
+        <label for="username">{{'USERNAME' | translate | titlecase}}</label>
+        <input type="text" name="username" formControlName="username" id="username" autocomplete="off">
+        <div class="error"
+             *ngIf="updateUserForm.controls['username'].hasError('required') && updateUserForm.controls['username'].touched">
+          {{'USERNAMEREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="email">{{'EMAIL' | translate | titlecase}}</label>
+        <input type="email" email name="email" formControlName="email" id="email" autocomplete="off">
+        <div class="error"
+             *ngIf="updateUserForm.controls['email'].hasError('required') && updateUserForm.controls['email'].touched">
+          {{'EMAILREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="firstname">{{'FIRSTNAME' | translate | titlecase}}</label>
+        <input type="text" name="firstname" formControlName="firstname" id="firstname" autocomplete="off">
+        <div class="error"
+             *ngIf="updateUserForm.controls['firstname'].hasError('required') && updateUserForm.controls['firstname'].touched">
+          {{'FIRSTNAMEREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <section class="inputfield">
+        <label for="lastname">{{'LASTNAME' | translate | titlecase}}</label>
+        <input type="text" name="lastname" formControlName="lastname" id="lastname" autocomplete="off">
+        <div class="error"
+             *ngIf="updateUserForm.controls['lastname'].hasError('required') && updateUserForm.controls['lastname'].touched">
+          {{'LASTNAMEREQUIRED' | translate}}
+        </div>
+      </section>
+
+
+      <button [disabled]="updateUserForm.invalid" [class.disabled]="!updateUserForm.valid">
+        {{'SAVE' | translate | titlecase}}
+      </button>
+    </form>
+  </section>
+
+  <section class="second-element">
+    <section class="profile-picture">
+      <label for="file-input">
+      <img [src]="getProfilePicture()" alt="Profile picture">
+      </label>
+      <input id="file-input" type="file" accept="image/*" (change)="changeProfilePicture($event)">
+    </section>
+
+    <form id='updatePasswordForm' [formGroup]="updatePasswordForm" (ngSubmit)="onSubmitPasswordChange()">
+      <section class="inputfield">
+        <label for="password">{{'PASSWORD' | translate | titlecase}}</label>
+        <input type="password" name="password" formControlName="password" id="password" autocomplete="off">
+        <div class="error"
+             *ngIf="updatePasswordForm.controls['password'].hasError('required') && updatePasswordForm.controls['password'].touched">
+          {{'PASSWORDREQUIRED' | translate}}
+        </div>
+      </section>
+
+      <button [disabled]="updatePasswordForm.invalid" [class.disabled]="updatePasswordForm.invalid">
+        {{'SAVE' | translate | titlecase}}
+      </button>
+    </form>
+
+  </section>
+
+  <section class="grid-save">
+    <button class="btn" (click)="goBack()">{{'BACK' | translate | titlecase}}</button>
+  </section>
+</section>
+
+<div class="toast" [class.show]="toast">{{toastText}}</div>

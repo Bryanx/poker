@@ -1,0 +1,18 @@
+@import "../../../styles";
+
+@include custom_button
+
+.card {
+  height: 12vh;
+  width: 8vh;
+  position: relative;
+  margin: 0.5vh;
+
+  img {
+    height: 100%;
+  }
+}
+
+.empty {
+  background-color: mix($darker-gray, transparent, 60%);
+}

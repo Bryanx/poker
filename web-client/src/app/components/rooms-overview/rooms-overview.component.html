@@ -1,0 +1,55 @@
+<h1 *ngIf="public">{{'ROOMSOVERVIEWTITLE PUBLIC' | translate | uppercase}}</h1>
+<h1 *ngIf="!public && !inSettingMode">{{'ROOMSOVERVIEWTITLE PRIVATE' | translate | uppercase}}</h1>
+<h1 *ngIf="inSettingMode">{{'EDITROOMS' | translate | uppercase}}</h1>
+<section class="rooms">
+  <app-room-card *ngFor="let room of rooms; index as i"
+                 [room]="room"
+                 [inSettingMode]="inSettingMode"
+                 [isAdmin]="isAdmin()"
+                 [dataLoaded]="dataLoaded"
+                 [isPrivate]="isPrivate"
+                 [me]="myself"
+                 (modalEvent)="showFriendModal = $event"
+                 (roomEvent)="loadCorrespondingData($event)"
+  ></app-room-card>
+</section>
+<h2 *ngIf="rooms.length <= 0 && !public" class="no-rooms">{{'NO ROOMS' | translate | titlecase}}</h2>
+
+<section class="nav">
+  <button *ngIf="!inSettingMode" routerLink="/" class="nav-button">{{'BACK' | translate | titlecase}}</button>
+  <button *ngIf="inSettingMode" routerLink="/rooms/private" class="nav-button">{{'BACK' | translate | titlecase}}
+  </button>
+  <button class="nav-button" *ngIf="isAdmin()" routerLink="/game-rooms/add">{{'ADDROOM' | translate | titlecase}}
+  </button>
+  <button class="nav-button" *ngIf="!isAdmin() && inSettingMode" routerLink="/rooms/private/add">{{'ADDROOM' | translate
+    | titlecase}}
+  </button>
+  <button class="nav-button" *ngIf="!isAdmin() && !inSettingMode && !public" routerLink="/rooms/private/settings">
+    {{'SETTINGS' | translate | titlecase}}
+  </button>
+</section>
+
+<section [@simpleFadeAnimation]="'in'" class="friend-modal" *ngIf="showFriendModal">
+  <h1>{{'ADD FRIENDS' | translate | uppercase}}</h1>
+
+  <h2>{{'WHITE FRIENDS' | translate | titlecase}}</h2>
+  <section class="user-list">
+    <div class="user-row" *ngFor="let user of whiteListedUsers">
+      {{user.username}}
+      <div (click)="deleteFromWhiteList(user)" *ngIf="user.id !== myself.id" class="delete-user"><fa name="plus"></fa></div>
+      <div *ngIf="user.id === myself.id" class="owner-user"><fa name="crown"></fa></div>
+    </div>
+  </section>
+
+  <h2 *ngIf="nonWhiteListedUsers.length > 0">{{'NON WHITE FRIENDS' | translate | titlecase}}</h2>
+  <section class="user-list">
+    <div class="user-row" *ngFor="let user of nonWhiteListedUsers">
+      {{user.username}}
+      <div (click)="addToWhiteList(user)" class="add-user"><fa name="plus"></fa></div>
+    </div>
+  </section>
+  <button (click)="showFriendModal = false" class="done">{{'DONE' | translate | titlecase}}</button>
+</section>
+
+
+

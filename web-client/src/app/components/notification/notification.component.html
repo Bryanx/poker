@@ -1,0 +1,25 @@
+<div (click)="showPanel = !showPanel" class="bell-container">
+  <img src="../../../assets/img/icons/bell.svg">
+</div>
+
+<section *ngIf="showPanel" [@simpleFadeAnimation]="'in'" class="not-panel">
+  <div class="not" *ngFor="let not of _notifications; index as i" (click)="showPanel = false" [routerLink]="detemineLink(not)">
+    <img class="not-icon" [src]="determineIcon(not.type)">
+    <div class="info">
+      <span class="message">{{not.message}}</span>
+      <span class="time">{{formatTime(not.timestamp.toString())}}</span>
+    </div>
+    <img (click)="handleDelete(not.id)" class="del-icon" src="../../../assets/img/icons/delete.svg">
+  </div>
+  <span *ngIf="_notifications.length > 0" (click)="handleDeleteAll()" class="delete-all">Delete all notifications</span>
+
+  <div *ngIf="_notifications.length <= 0" class="splash-screen">
+    <img src="../../../assets/img/icons/splash.svg">
+    <span class="main-message">YOU ARE UP TO DATE BRO!</span>
+    <span (click)="showPanel = false" routerLink="/search" class="second-message">Befriend bros to receive more notifications</span>
+  </div>
+</section>
+
+
+
+

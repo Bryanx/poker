@@ -1,0 +1,15 @@
+@import "../../../styles";
+
+@include custom_button
+
+.card {
+  height: 9vh;
+  width: 6vh;
+  position: relative;
+  margin: 0.5vh;
+
+  img {
+    height: 100%;
+  }
+}
+

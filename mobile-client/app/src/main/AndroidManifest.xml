@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="be.kdg.mobile_client">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".user.UserActivity" />
+        <activity android:name=".user.rankings.RankingsActivity" />
+        <activity android:name=".friends.FriendsActivity" />
+        <activity
+            android:name=".user.authorization.RegisterActivity"
+            android:label="@string/title_activity_register" />
+        <activity android:name=".room.overview.RoomsOverviewActivity" />
+        <activity android:name=".user.search.UserSearchActivity" />
+        <activity
+            android:name=".room.RoomActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".user.authorization.LoginActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".user.settings.UserSettingsActivity" />
+
+        <service android:name=".notification.FirebaseMessagingServiceImpl">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorRoomCard"
+            />
+    </application>
+</manifest>

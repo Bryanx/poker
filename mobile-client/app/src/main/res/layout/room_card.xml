@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".room.RoomActivity">
+
+    <data>
+        <variable
+            name="onPokerTable"
+            type="Boolean" />
+
+        <variable
+            name="isHidden"
+            type="Boolean" />
+
+        <variable
+            name="card"
+            type="be.kdg.mobile_client.room.model.Card" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@{isHidden ? @drawable/rounded_corners_dark : @drawable/rounded_corners_white}">
+
+        <ImageView
+            android:id="@+id/icon1"
+            android:visibility="@{!isHidden}"
+            android:layout_width="@dimen/card_height_small"
+            android:layout_height="@dimen/card_width_small"
+            android:layout_marginBottom="2dp"
+            android:contentDescription="@{card.type}"
+            app:card_suit="@{card.type}"
+            app:card_suit_dimen="@{onPokerTable}"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:visibility="@{!isHidden}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#000"
+            android:textSize="@{onPokerTable ? @dimen/small_text : @dimen/large_text}"
+            android:textStyle="bold"
+            app:card_text="@{card.type}"
+            app:card_text_color="@{card.type}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/icon2"
+            android:visibility="@{!isHidden}"
+            android:layout_width="@dimen/card_height_small"
+            android:layout_height="@dimen/card_width_small"
+            android:layout_marginTop="2dp"
+            android:contentDescription="@{card.type}"
+            app:card_suit="@{card.type}"
+            app:card_suit_dimen="@{onPokerTable}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

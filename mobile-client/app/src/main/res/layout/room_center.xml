@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".room.RoomActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+        <import type="be.kdg.mobile_client.room.model.Phase" />
+
+        <variable
+            name="viewmodel"
+            type="be.kdg.mobile_client.room.RoomViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:visibility="@{!viewmodel.loading}">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <!-- ROOM INFO -->
+        <TextView
+            android:id="@+id/tvRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/room"
+            android:textColor="@color/colorLighterBackground"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="2dp"
+            android:text="@{viewmodel.room.name}"
+            android:textAlignment="center"
+            android:textColor="@color/colorLighterBackground"
+            android:textSize="@dimen/smallest_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvRoom" />
+
+        <!-- POKER TABLE -->
+        <View
+            android:id="@+id/vTable"
+            android:layout_width="280dp"
+            android:layout_height="150dp"
+            android:background="@drawable/poker_table"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvPot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/circle_filled_white"
+            android:paddingStart="10dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="0dp"
+            android:text="@{viewmodel.round.pot}"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkerBackground"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/vTable"
+            app:layout_constraintEnd_toEndOf="@+id/vTable"
+            app:layout_constraintStart_toStartOf="@+id/vTable"
+            app:layout_constraintTop_toBottomOf="@+id/vCard3" />
+
+
+        <!-- CARDS -->
+
+        <include
+            android:id="@+id/vCard1"
+            layout="@layout/room_card"
+            android:layout_width="@dimen/table_card_dimen_width"
+            android:layout_height="@dimen/table_card_dimen_height"
+            android:layout_marginEnd="61dp"
+            app:card="@{viewmodel.cardExists(0) ? viewmodel.round.cards.get(0) : null}"
+            app:isHidden="@{viewmodel.round == null || viewmodel.round.currentPhase == Phase.PRE_FLOP}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onPokerTable="@{true}" />
+
+        <include
+            android:id="@+id/vCard2"
+            layout="@layout/room_card"
+            android:layout_width="@dimen/table_card_dimen_width"
+            android:layout_height="@dimen/table_card_dimen_height"
+            android:layout_marginEnd="23dp"
+            android:background="@drawable/rounded_corners_dark"
+            app:card="@{viewmodel.cardExists(1) ? viewmodel.round.cards.get(1) : null}"
+            app:isHidden="@{viewmodel.round == null || viewmodel.round.currentPhase == Phase.PRE_FLOP}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onPokerTable="@{true}" />
+
+        <include
+            android:id="@+id/vCard3"
+            layout="@layout/room_card"
+            android:layout_width="@dimen/table_card_dimen_width"
+            android:layout_height="@dimen/table_card_dimen_height"
+            android:background="@drawable/rounded_corners_dark"
+            app:card="@{viewmodel.cardExists(2) ? viewmodel.round.cards.get(2) : null}"
+            app:isHidden="@{viewmodel.round == null || viewmodel.round.currentPhase == Phase.PRE_FLOP}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onPokerTable="@{true}" />
+
+        <include
+            android:id="@+id/vCard4"
+            layout="@layout/room_card"
+            android:layout_width="@dimen/table_card_dimen_width"
+            android:layout_height="@dimen/table_card_dimen_height"
+            android:layout_marginStart="23dp"
+            android:background="@drawable/rounded_corners_dark"
+            app:card="@{viewmodel.cardExists(3) ? viewmodel.round.cards.get(3) : null}"
+            app:isHidden="@{viewmodel.round == null || viewmodel.round.currentPhase == Phase.PRE_FLOP || viewmodel.round.currentPhase == Phase.FLOP}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onPokerTable="@{true}" />
+
+        <include
+            android:id="@+id/vCard5"
+            layout="@layout/room_card"
+            android:layout_width="@dimen/table_card_dimen_width"
+            android:layout_height="@dimen/table_card_dimen_height"
+            android:layout_marginStart="61dp"
+            android:background="@drawable/rounded_corners_dark"
+            app:card="@{viewmodel.cardExists(4) ? viewmodel.round.cards.get(4) : null}"
+            app:isHidden="@{viewmodel.round == null || viewmodel.round.currentPhase == Phase.PRE_FLOP || viewmodel.round.currentPhase == Phase.FLOP || viewmodel.round.currentPhase == Phase.TURN}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:onPokerTable="@{true}" />
+
+
+        <!-- PLAYERS -->
+        <TextView
+            android:id="@+id/tvBetPlayerTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_filled_white"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:text="@{viewmodel.room.playersInRoom.size > 1 ? viewmodel.getBetByPhase(1) : @string/_0}"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkerBackground"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            android:visibility="@{viewmodel.room.playersInRoom.size > 1}"
+            app:layout_constraintBottom_toTopOf="@+id/vTable"
+            app:layout_constraintEnd_toEndOf="@+id/vTable"
+            app:layout_constraintStart_toStartOf="@+id/vTable"
+            app:layout_constraintTop_toTopOf="@+id/vTable" />
+
+        <include
+            android:id="@+id/playerTop"
+            layout="@layout/room_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 1}"
+            app:layout_constraintBottom_toTopOf="@+id/vTable"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:player="@{viewmodel.room.playersInRoom.size > 1 ? viewmodel.getPlayerBySeat(1) : null}"
+            app:viewmodel="@{viewmodel}" />
+
+        <TextView
+            android:id="@+id/tvBetPlayerTopRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_filled_white"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:text="@{viewmodel.room.playersInRoom.size > 4 ? viewmodel.getBetByPhase(4) : @string/_0}"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkerBackground"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            android:visibility="@{viewmodel.room.playersInRoom.size > 4}"
+            app:layout_constraintBottom_toTopOf="@+id/vTable"
+            app:layout_constraintEnd_toEndOf="@+id/vTable"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="@+id/vTable" />
+
+        <include
+            android:id="@+id/playerTopRight"
+            layout="@layout/room_player"
+            android:layout_width="75dp"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 4}"
+            app:layout_constraintBottom_toTopOf="@+id/vTable"
+            app:layout_constraintEnd_toEndOf="@+id/vTable"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent"
+            app:player="@{viewmodel.room.playersInRoom.size > 4 ? viewmodel.getPlayerBySeat(4) : null}"
+            app:viewmodel="@{viewmodel}" />
+
+        <TextView
+            android:id="@+id/tvBetPlayerTopLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_filled_white"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:text="@{viewmodel.room.playersInRoom.size > 3 ? viewmodel.getBetByPhase(3) : @string/_0}"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkerBackground"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            android:visibility="@{viewmodel.room.playersInRoom.size > 3}"
+            app:layout_constraintBottom_toTopOf="@+id/vTable"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/vTable"
+            app:layout_constraintTop_toTopOf="@+id/vTable" />
+
+        <include
+            android:id="@+id/playerTopLeft"
+            layout="@layout/room_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 3}"
+            app:layout_constraintBottom_toTopOf="@+id/vTable"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toStartOf="@+id/vTable"
+            app:layout_constraintTop_toTopOf="parent"
+            app:player="@{viewmodel.room.playersInRoom.size > 3 ? viewmodel.getPlayerBySeat(3) : null}"
+            app:viewmodel="@{viewmodel}" />
+
+        <TextView
+            android:id="@+id/tvBetPlayerRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_filled_white"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:text="@{viewmodel.room.playersInRoom.size > 2 ? viewmodel.getBetByPhase(2) : @string/_0}"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkerBackground"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            android:visibility="@{viewmodel.room.playersInRoom.size > 2}"
+            app:layout_constraintBottom_toBottomOf="@+id/vTable"
+            app:layout_constraintEnd_toEndOf="@+id/vTable"
+            app:layout_constraintStart_toEndOf="@+id/vTable"
+            app:layout_constraintTop_toTopOf="@+id/vTable" />
+
+        <include
+            android:id="@+id/playerRight"
+            layout="@layout/room_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 2}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/vTable"
+            app:layout_constraintTop_toTopOf="parent"
+            app:player="@{viewmodel.room.playersInRoom.size > 2 ? viewmodel.getPlayerBySeat(2) : null}"
+            app:viewmodel="@{viewmodel}" />
+
+
+        <TextView
+            android:id="@+id/tvBetPlayerLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_filled_white"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:text="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.getBetByPhase(5) : @string/_0}"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkerBackground"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            android:visibility="@{viewmodel.room.playersInRoom.size > 5}"
+            app:layout_constraintBottom_toBottomOf="@+id/vTable"
+            app:layout_constraintEnd_toStartOf="@+id/vTable"
+            app:layout_constraintStart_toStartOf="@+id/vTable"
+            app:layout_constraintTop_toTopOf="@+id/vTable" />
+
+        <include
+            android:id="@+id/playerLeft"
+            layout="@layout/room_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 5}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/vTable"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:player="@{viewmodel.room.playersInRoom.size > 5 ? viewmodel.getPlayerBySeat(5) : null}"
+            app:viewmodel="@{viewmodel}" />
+
+        <TextView
+            android:id="@+id/tvBetPlayerPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_filled_white"
+            android:paddingStart="5dp"
+            android:paddingTop="1dp"
+            android:paddingEnd="5dp"
+            android:paddingBottom="1dp"
+            android:text="@{viewmodel.room.playersInRoom.size > 0 ? viewmodel.getBetByPhase(0) : @string/_0}"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkerBackground"
+            android:textSize="@dimen/smallest_text"
+            android:textStyle="bold"
+            android:visibility="@{viewmodel.room.playersInRoom.size > 0}"
+            app:layout_constraintBottom_toBottomOf="@+id/vTable"
+            app:layout_constraintEnd_toEndOf="@+id/vTable"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="@+id/vTable"
+            app:layout_constraintTop_toBottomOf="@+id/vTable" />
+
+        <include
+            android:id="@+id/playerPrimary"
+            layout="@layout/room_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:isVisible="@{viewmodel.room.playersInRoom.size > 0}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/vTable"
+            app:layout_constraintStart_toStartOf="@+id/vTable"
+            app:layout_constraintTop_toBottomOf="@+id/vTable"
+            app:player="@{viewmodel.room.playersInRoom.size > 0 ? viewmodel.getPlayerBySeat(0) : null}"
+            app:viewmodel="@{viewmodel}" />
+
+        <include
+            android:id="@+id/vOwnCard1"
+            layout="@layout/room_card"
+            android:layout_width="@dimen/large_card_dimen_width"
+            android:layout_height="@dimen/large_card_dimen_height"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:background="@drawable/rounded_corners_dark"
+            app:card="@{viewmodel.player.firstCard}"
+            app:isHidden="@{viewmodel.player.firstCard == null ? true : false}"
+            app:layout_constraintBottom_toBottomOf="@+id/vOwnCard2"
+            app:layout_constraintEnd_toStartOf="@+id/vOwnCard2"
+            app:onPokerTable="@{false}" />
+
+        <include
+            android:id="@+id/vOwnCard2"
+            layout="@layout/room_card"
+            android:layout_width="@dimen/large_card_dimen_width"
+            android:layout_height="@dimen/large_card_dimen_height"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/rounded_corners_dark"
+            app:card="@{viewmodel.player.secondCard}"
+            app:isHidden="@{viewmodel.player.secondCard == null ? true : false}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/vTable"
+            app:onPokerTable="@{false}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

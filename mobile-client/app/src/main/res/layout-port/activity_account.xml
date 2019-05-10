@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".user.UserActivity">
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="be.kdg.mobile_client.user.UserViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground">
+
+        <ImageView
+            android:id="@+id/ivPicture"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/user_profile_picture"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toTopOf="@+id/llContent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@{viewmodel.user.profilePicture, default=@drawable/user}"/>
+
+        <LinearLayout
+            android:id="@+id/llContent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="32dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivPicture">
+
+            <TextView
+                android:id="@+id/tvHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@{viewmodel.user.username}"
+                android:textColor="@color/colorWhite"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/accountContentHeader"
+                android:text="@string/amount_of_games_won" />
+
+            <TextView
+                android:id="@+id/tvWins"
+                style="@style/accountContentData"
+                android:text="@{viewmodel.user.wins}" />
+
+            <TextView
+                style="@style/accountContentHeader"
+                android:text="@string/current_amount_of_chips" />
+
+            <TextView
+                android:id="@+id/tvChips"
+                style="@style/accountContentData"
+                android:text="@{viewmodel.user.chips}" />
+
+            <TextView
+                style="@style/accountContentHeader"
+                android:text="@string/total_games_played" />
+
+            <TextView
+                android:id="@+id/tvGames"
+                style="@style/accountContentData"
+                android:text="@{viewmodel.user.gamesPlayed}" />
+
+            <TextView
+                style="@style/accountContentHeader"
+                android:text="@string/best_hand" />
+
+            <TextView
+                android:id="@+id/tvBestHand"
+                style="@style/accountContentData"
+                android:text="@{viewmodel.user.bestHand}" />
+
+            <TextView
+                style="@style/accountContentHeader"
+                android:text="@string/level" />
+
+            <TextView
+                style="@style/accountContentData"
+                android:text="@{viewmodel.user.level}" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

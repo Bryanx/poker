@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".room.RoomActivity">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="be.kdg.mobile_client.room.RoomViewModel" />
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBackground">
+
+                <include
+                    android:id="@+id/toolBarLeft"
+                    layout="@layout/room_toolbar_left"
+                    android:layout_width="@dimen/toolbar_width"
+                    android:layout_height="match_parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:viewmodel="@{viewmodel}" />
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{viewmodel.loading}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <include
+                    android:id="@+id/centerLayout"
+                    layout="@layout/room_center"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toStartOf="@+id/toolBarRight"
+                    app:layout_constraintStart_toEndOf="@+id/toolBarLeft"
+                    app:viewmodel="@{viewmodel}" />
+
+                <include
+                    android:id="@+id/toolBarRight"
+                    layout="@layout/room_toolbar_right"
+                    android:layout_width="@dimen/toolbar_width"
+                    android:layout_height="match_parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:viewmodel="@{viewmodel}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+        <fragment
+            android:id="@+id/fragmentChat"
+            android:name="be.kdg.mobile_client.chat.ChatFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:tag="@string/chat_fragment_tag" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</layout>
